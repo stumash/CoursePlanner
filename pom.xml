@@ -6,7 +6,7 @@
     <packaging>war</packaging>
 
     <build>
-        <finalName>mycourseplanner</finalName>
+        <finalName>courseplanner</finalName>
         <plugins>
 
             <!-- Java compiler -->
