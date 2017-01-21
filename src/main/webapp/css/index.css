@@ -1,0 +1,97 @@
+body {
+
+    font-family: "Roboto", sans-serif;
+
+}
+
+#response-container {
+
+}
+
+#page-content {
+
+    position: absolute;
+    left: 250px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    overflow: hidden;
+
+    z-index: 1;
+
+}
+
+.page-title {
+
+    background-color: #0058b2;
+    color: #FFFFFF;
+
+    letter-spacing: 0.8px;
+
+    height: 24px;
+    padding: 12px;
+    text-align: center;
+
+}
+
+.page-body {
+
+    border-left: 3px solid #333333;
+    border-top: 3px solid #333333;
+    height: calc(100% - 48px);
+    /* text-align: center; */
+    font-weight: normal;
+	overflow-y: auto;
+
+}
+
+.home-page-body {
+
+	padding: 0px 24px;
+	font-size: 32px;
+	color: rgb(0, 64, 128);
+	text-align: inherit;
+
+}
+
+.page-body h2 {
+
+	font-weight: bold;
+	color: #004080;
+
+}
+
+.separator {
+
+	/* height: 16px;
+	width: 500px;
+	margin: auto;
+	border-bottom: 1px solid #0058b2; */
+
+}
+
+.pdfobject-container {
+
+    height: 100%;
+
+}
+
+#content-loading {
+
+    width: 60px;
+    margin: auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+
+}
+
+#content-loading > i {
+
+    font-size: 60px;
+
+}
