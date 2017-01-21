@@ -8,6 +8,6 @@ $( document ).ready(function() {
 
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", reqListener);
-    oReq.open("GET", "http://davidhuculak.me/courseplanner/api");
+    oReq.open("GET", "http://138.197.6.26/courseplanner/api");
     oReq.send();
 });
