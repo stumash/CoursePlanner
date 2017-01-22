@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
+
+body {
+	background-image: url("../images/Concordia-Background.jpg");
+}
+div.scheduleContainer {
+	background-color: white;
+	position: absolute;
+	left: 400px;
+	margin-top: 25px;
+	margin-bottom: 25px;
+	right: 80px;
+	border: 3px solid black;
+	float: left;
+	border-radius: 5px;
+}
+
+div.term {
+	width: calc(100% - 26px);
+	display: flex;
+	flex-direction: column;
+	background-color: none;
+	border-radius: 5px;
+	margin: 5px;
+	padding: 5px;
+	border: 3px solid #900C3F;
+}
+
+div.semesterHeading {
+	top: -5px;
+	position: relative;
+	margin-bottom: 0;
+	margin-top: 5px;
+	font: italic small-caps normal 20px Orbitron, Arial, Helvetica, sans-serif;
+	border: 2px solid black;
+	border-radius: 5px;
+	text-align: center;
+	padding-top: 5px;
+}
+
+div.courseContainer {
+	margin-bottom: 0;
+	display: flex;
+	flex-direction: column;
+	min-height: 5px;
+	/*border: 1px solid black;*/ /*border should not be visible*/
+	border-radius: 5px;
+}
+
+div.course {
+	height: 35px;
+	border: 2px solid black;
+	border-radius: 5px;
+	margin: -1px;
+	cursor: pointer;
+}
+
+div.course div {
+	display: inline-block;
+	font: italic small-caps normal 15px Arial, Helvetica, sans-serif;
+	height: 100%;
+}
+
+div.left {
+	width: 25%;
+	text-align: center;
+	padding: 8px 0px; /*to center the text vertically*/
+}
+
+div.center {
+	width: 50%;
+	text-align: center;
+	padding: 8px 0px; /*to center the text vertically*/
+}
+
+div.right {
+	width: 25%;
+	text-align: center;
+	padding: 8px 0px; /*to center the text vertically*/
+}
+
+div.infoBox {
+	background-color: white;
+	position: fixed;
+	float: left;
+	margin-top: 25px;
+	margin-left: 30px;
+	min-height: 150px;
+	width: 320px;
+	border: 3px solid black;
+	border-radius: 5px;
+	display: inline-block;
+}
+div.infoBox p {
+
+	font: italic small-caps normal 15px Arial, Helvetica, sans-serif;
+
+}
+
+div.classSearch {
+	width: calc(100%-2px);
+	min-height: 150px;
+	border: 3px solid black;
+}
+
+div.errorBox {
+	width: calc(100%-2px);
+	min-height: 150px;
+	margin-left: -0.45%;
+	border: 3.5px solid black;
+	border-radius: 1px;
+}
+
+p.errorBoxHeader {
+	font: small-caps normal 20px Orbitron, Arial, Helvetica, sans-serif;
+}
+
+p.info {
+	font: small-caps normal 15px Orbitron, Arial, Helvetica, sans-serif;
+}
+
+p.error {
+	font: small-caps normal 15px Orbitron, Arial, Helvetica, sans-serif;
+}
+
+div.export {
+	width: calc(100%-3px);
+	height: 50px;
+	border: 3px solid #900C3F;
+	background-color: #900C3F;
+
+}
+
+button.exportButton {
+	cursor: pointer;
+	width: 100%;
+	height: 50px;
+	background-color: #900C3F;
+	border: 3px solid orange;
+	border-radius: 5px;
+	color: white;
+	font: small-caps normal 20px Orbitron, Arial, Helvetica, sans-serif;
+	opacity: 0.5;
+	transition: opacity 1s;
+	-webkit-transition: opacity 1s; /*Safari*/
+}
+
+button.exportButton:hover{
+	opacity: 1;
+}
+
+button.toggle {
+	cursor: pointer;
+	width: 25px;
+	height: 25px;
+	border-radius: 100%;
+	float: right;
+	margin-right: 3px;
+	font: bold 15px Arial;
+	padding-right: 20px;
+	background-color: #900C3F;
+	color: white;
+}
+
+button.search {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #900C3F;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-family: Orbitron, Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  padding: 5px;
+  width: 100px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-left: 0px;
+  margin: 5px;
+}
+
+button.search span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+button.search span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+button.search:hover span {
+  padding-right: 25px;
+}
+
+button.search:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+p.mainHeader {
+	font: italic small-caps bold 30px Orbitron, Arial, Helvetica, sans-serif;
+	text-decoration: underline;
+	text-align: center;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-family: Orbitron, Arial, Helvetica, sans-serif;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  font-family: Orbitron, Arial, Helvetica, sans-serif;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  font-family: Orbitron, Arial, Helvetica, sans-serif;
+}
+:-moz-placeholder { /* Firefox 18- */
+  font-family: Orbitron, Arial, Helvetica, sans-serif;
+}
+
+input[type="text"]{
+	margin-left: 6px;
+    padding-left: 4px;
+    position: relative;
+    top: 2px;
+    border-radius: 1px;
+    font-family: Orbitron, Arial, Helvetica, sans-serif;
+    height: 23px;
+    font-size: 15px;
+    width: calc(100% - 128px);
+}
