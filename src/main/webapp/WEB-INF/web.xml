@@ -7,13 +7,23 @@
     <display-name>My Website</display-name>
 
     <servlet>
-        <servlet-name>PrettyGoodServlet</servlet-name>
-        <servlet-class>PrettyGoodServlet</servlet-class>
+        <servlet-name>SequenceValidator</servlet-name>
+        <servlet-class>SequenceValidator</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>PrettyGoodServlet</servlet-name>
-        <url-pattern>/api</url-pattern>
+        <servlet-name>SequenceValidator</servlet-name>
+        <url-pattern>/validate</url-pattern>
     </servlet-mapping>
-    
+
+    <servlet>
+        <servlet-name>CourseInfoProvider</servlet-name>
+        <servlet-class>CourseInfoProvider</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CourseInfoProvider</servlet-name>
+        <url-pattern>/courseinfo</url-pattern>
+    </servlet-mapping>
+
 </web-app>

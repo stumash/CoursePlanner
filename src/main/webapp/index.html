@@ -1,17 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <!-- TODO think of better title -->
-    <title>Concordia Course Planner</title>
+<html>
+	<head>
+		<title> Concordia Engineering Schedule Builder </title>
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="js/main.js"></script>
+	</head>
+	<body> 
 
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="js/main.js"></script>
-</head>
-<body>
-    Hello World!
-</body>
+		<div class="header">
+    		<div id="header-text">
+      			<h1 id="Main">Welcome to your custom Schedule builder</h1>
+      				<div id = "box">
+						<div>
+						  <div id="inputGroup">
+						    <select id="Semester">
+						    	<option selected="true" value="Select an entry Semester" disabled="disabled">Select an entry Semester</option>
+								<option value="Fall">Fall</option>
+								<option value="Winter">Winter</option>
+							</select>
+							<select id="Program">
+						    	<option selected="true" value="Select a Program" disabled="disabled">Select a Program</option>
+								<option value="Software Engineering">Software Engineering</option>
+								<option value="Computer science">Computer science</option>
+							</select>
+								<div id="checkbox">
+  									<input type="checkbox" name="Co-op">Co-op Program?</input>
+  								</div>
+						  </div>
+						</div>
+					  <button onclick="myFunction()" class="btn">Continue</button>
+					</div>
+    		</div>
+  		</div>
+	</body>
 </html>

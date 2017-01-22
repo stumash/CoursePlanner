@@ -1,97 +1,111 @@
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
+.header {
+  background-image: url("../images/Concordia-Background.jpg");
+  background-position: center center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
 body {
-
-    font-family: "Roboto", sans-serif;
-
+	color: #000033;
+	margin: 0px;
 }
 
-#response-container {
-
+#Main {
+	/*background-color: rgba(175,175,175,0.1);*/
+	padding: 4px 0px;
 }
 
-#page-content {
-
-    position: absolute;
-    left: 250px;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-
-    font-size: 20px;
-    font-weight: bold;
-
-    overflow: hidden;
-
-    z-index: 1;
-
+#header-text {
+  font-family: orbitron;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  top: 0%;
+  width: 60%;
 }
 
-.page-title {
-
-    background-color: #0058b2;
-    color: #FFFFFF;
-
-    letter-spacing: 0.8px;
-
-    height: 24px;
-    padding: 12px;
-    text-align: center;
-
+#box {
+  font-family: orbitron;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  top: 200px;
+  width: 100%;
 }
 
-.page-body {
-
-    border-left: 3px solid #333333;
-    border-top: 3px solid #333333;
-    height: calc(100% - 48px);
-    /* text-align: center; */
-    font-weight: normal;
-	overflow-y: auto;
-
-}
-
-.home-page-body {
-
-	padding: 0px 24px;
-	font-size: 32px;
-	color: rgb(0, 64, 128);
-	text-align: inherit;
-
-}
-
-.page-body h2 {
-
+#inputGroup select {
+	color: #000033;
+	letter-spacing: 0.8px;
+	border-radius: 4px;
 	font-weight: bold;
-	color: #004080;
+	height: 40px;
+    width: 250px;
+    text-align: center;
+    font-family: orbitron;
+    font-size: 13px;
+    display: block;
+    border: 2px solid #444444;
+    background-color: rgba(175,175,175,0.8);
+    margin: 12px auto;
+}
+
+#inputGroup select:hover {
+
+	background-color: rgba(175,175,175, 1);
+
+} 
+
+#inputGroup select:active {
+
+	border: 2px solid #000000;
+}
+
+#checkbox {
+	color: #000033;
+	letter-spacing: 0.8px;
+	border-radius: 4px;
+	padding-top: 8px;
+	font-weight: bold;
+	height: 28px;
+    width: 244px;
+    font-family: orbitron;
+    display: block;
+    border: 2px solid #444444;
+    background-color: rgba(175,175,175,0.8);
+    margin: 12px auto;
+}
+
+#checkbox:hover {
+
+	background-color: rgba(175,175,175, 1);
+	cursor: pointer;
+
+} 
+
+#checkbox:active {
+
+	border: 2px solid #000000;
+}
+
+.btn {
+
+	color: #000033;
+	/*background color: rgba(175,175,175,0.8);*/
+	letter-spacing: 0.8px;
+	border-radius: 4px;
+	font-size: 15px;
+	font-family: orbitron;
+	font-weight: bold;
+	margin-top: 97px;
+	height: 40px;
+	width: 100px;
 
 }
 
-.separator {
+.btn:hover {
 
-	/* height: 16px;
-	width: 500px;
-	margin: auto;
-	border-bottom: 1px solid #0058b2; */
-
-}
-
-.pdfobject-container {
-
-    height: 100%;
-
-}
-
-#content-loading {
-
-    width: 60px;
-    margin: auto;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-
-}
-
-#content-loading > i {
-
-    font-size: 60px;
+	cursor: pointer;
 
 }
