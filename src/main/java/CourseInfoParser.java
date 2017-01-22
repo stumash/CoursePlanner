@@ -37,6 +37,7 @@ public class CourseInfoParser {
             while (currLine != null) {
                 st = new StringTokenizer(currLine,"#",true);
                 CourseInfo currCourseInfo = new CourseInfo();
+                logString = "";
 
                 for (int i = 0; i < NUMCOLUMNS; i++) {
                     if (st.hasMoreTokens())
@@ -85,7 +86,7 @@ public class CourseInfoParser {
                             break;
                     }
 
-                    logString = i + ": " + currToken + ", ";
+                    logString += i + ": " + currToken + ", ";
                     if (st.hasMoreTokens())
                         st.nextToken(); //consume trailing comma
                     else
