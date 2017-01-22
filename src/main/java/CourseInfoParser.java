@@ -1,3 +1,5 @@
+import org.apache.log4j.Logger;
+
 import javax.servlet.ServletContext;
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -8,11 +10,13 @@ import java.util.StringTokenizer;
 import java.util.HashMap;
 
 public class CourseInfoParser {
-    public static HashMap<String,CourseInfo> courseMap;
 
+    public static HashMap<String,CourseInfo> courseMap;
+    private static Logger logger = Logger.getLogger("PrettyGoodServlet");
     private static final int NUMCOLUMNS = 7;
 
     public static void init(ServletContext cntxt) {
+
 
         courseMap = new HashMap<String,CourseInfo>();
         try {
@@ -20,6 +24,8 @@ public class CourseInfoParser {
             StringTokenizer st;
             String currLine;
             String currToken;
+
+            String logString = null;
 
             String fName = "/soendf2.csv";
             InputStream ins = cntxt.getResourceAsStream(fName);
@@ -79,14 +85,14 @@ public class CourseInfoParser {
                             break;
                     }
 
-                    System.out.print(i + ": " + currToken + ", ");
+                    logString = i + ": " + currToken + ", ";
                     if (st.hasMoreTokens())
                         st.nextToken(); //consume trailing comma
                     else
                         break;
                 }
 
-                System.out.println();
+                logger.info(logString);
                 currLine = br.readLine();
                 courseMap.put(currCourseInfo.code,currCourseInfo);
             } 
