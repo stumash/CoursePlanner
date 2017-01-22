@@ -60,7 +60,7 @@ public class SequenceValidator extends HttpServlet {
             }
         }
 
-        CourseInfoParser.init();
+        CourseInfoParser.init(this.getServletContext());
         courseInfoMap = CourseInfoParser.courseMap;
         String responseString = validateSequence(semesters).toString();
 
