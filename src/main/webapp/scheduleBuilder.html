@@ -1,8 +1,360 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<title> Concordia Engineering Schedule Builder </title>
-	</head>
-	<body> 
-	  Peter's page
-	</body>
+<head>
+	<meta charset="utf-8">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<script type="text/javascript" src="js/script.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+	<title>Concordia Schedule Schedule Builder</title>
+</head>
+<body>
+	<div class="infoBox">
+		<div class="classSearch">
+			<input id="classSearch" type="text" name="searchQueue" maxlength="8" placeholder="Class Search">
+			<button class="search" style="vertical-align:middle"><span>Search </span></button>
+			<p class="info">Search for or click on a class to view additional info.</p>
+		</div>
+		<div class="errorBox">
+			<p class="error">No errors (yet).</p>
+		</div>		
+		<div class="export">
+			<button class="exportButton">EXPORT</button>
+		</div>
+	</div>	
+	<div class="scheduleContainer">
+		<p class="mainHeader">Concordia Engineering Schedule Builder</p>
+		<div class="term">
+			<div class="semesterHeading">
+				FALL 1<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+		<div class="term">
+			<div class="semesterHeading">
+				WINTER 1<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+		<div class="term">
+			<div class="semesterHeading">
+				SUMMER 1<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+		<div class="term">
+			<div class="semesterHeading">
+				FALL 2<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+		<div class="term">
+			<div class="semesterHeading">
+				WINTER 2<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+		<div class="term">
+			<div class="semesterHeading">
+				SUMMER 2<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+			<div class="term">
+			<div class="semesterHeading">
+				FALL 3<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+		<div class="term">
+			<div class="semesterHeading">
+				WINTER 3<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+		<div class="term">
+			<div class="semesterHeading">
+				SUMMER 3<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+			<div class="term">
+			<div class="semesterHeading">
+				FALL 4<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+		<div class="term">
+			<div class="semesterHeading">
+				WINTER 4<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+		<div class="term">
+			<div class="semesterHeading">
+				SUMMER 4<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+		<div class="term">
+			<div class="semesterHeading">
+				FALL 5<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+		<div class="term">
+			<div class="semesterHeading">
+				WINTER 5<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+		<div class="term">
+			<div class="semesterHeading">
+				SUMMER 5<button class="toggle"></button>
+			</div>
+			<div class="courseContainer">
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+				<div class="course">
+					<div class="left"></div><div class="center"></div><div class="right"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 </html>

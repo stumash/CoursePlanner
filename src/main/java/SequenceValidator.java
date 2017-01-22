@@ -55,7 +55,7 @@ public class SequenceValidator extends HttpServlet {
                 if(c.isElective()){
                     logger.info(c.getElectiveType() + " elective");
                 } else {
-                    logger.info(c.getCode());
+                    logger.info(c.getCode() + ", " + c.getName() + ", " + c.getCredits());
                 }
             }
         }

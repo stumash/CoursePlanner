@@ -1,4 +1,5 @@
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,8 +45,28 @@ public class CourseInfoProvider extends HttpServlet {
             String courseCode = requestJson.getString("code");
             CourseInfo ci = codeCourseMap.get(courseCode);
 
-            //TODO: you're a loser David
-            // David make your JSON from the CourseInfo object HERE
+            // David make your JSON from the CourseInfo object
+            JSONArray prereqs = new JSONArray();
+            JSONArray coreqs = new JSONArray();
+
+            for(String prereq:ci.prereqs){
+                prereqs.put(prereq);
+            }
+
+            for(String coreq:ci.coreqs) {
+                coreqs.put(coreq);
+            }
+
+            JSONObject responseJson = new JSONObject();
+            responseJson.put("code", ci.code);
+            responseJson.put("name", ci.name);
+            responseJson.put("credits", ci.credits);
+            responseJson.put("notes", ci.notes);
+            responseJson.put("termsOffered", ci.isOfferedIn.toString());
+            responseJson.put("prereqs", prereqs);
+            responseJson.put("coreqs", coreqs);
+
+            out.println(responseJson.toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
