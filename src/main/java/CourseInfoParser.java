@@ -71,15 +71,15 @@ public class CourseInfoParser {
                         case 5: //semesters offered
                             String[] sos = currToken.split(";");
                             for (String so : sos) {
-                                if (so == "1") {
+                                if (so.equals("1")) {
                                     currCourseInfo.isOfferedIn.fall = true;
                                     logger.info("k");
                                 }
-                                if (so == "2") {
+                                if (so.equals("2")) {
                                     currCourseInfo.isOfferedIn.winter = true;
                                     logger.info("k");
                                 }
-                                if (so == "3") {
+                                if (so.equals("3")) {
                                     currCourseInfo.isOfferedIn.summer = true;
                                     logger.info("k");
                                 }
