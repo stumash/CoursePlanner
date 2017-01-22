@@ -12,7 +12,6 @@ import java.util.HashMap;
 public class CourseInfoParser {
 
     public static HashMap<String,CourseInfo> courseMap;
-    private static Logger logger = Logger.getLogger("PrettyGoodServlet");
     private static final int NUMCOLUMNS = 7;
 
     public static void init(ServletContext cntxt) {
@@ -37,7 +36,6 @@ public class CourseInfoParser {
             while (currLine != null) {
                 st = new StringTokenizer(currLine,"#",true);
                 CourseInfo currCourseInfo = new CourseInfo();
-                logString = "";
 
                 for (int i = 0; i < NUMCOLUMNS; i++) {
                     if (st.hasMoreTokens())
@@ -73,15 +71,12 @@ public class CourseInfoParser {
                             for (String so : sos) {
                                 if (so.equals("1")) {
                                     currCourseInfo.isOfferedIn.fall = true;
-                                    logger.info("k");
                                 }
                                 if (so.equals("2")) {
                                     currCourseInfo.isOfferedIn.winter = true;
-                                    logger.info("k");
                                 }
                                 if (so.equals("3")) {
                                     currCourseInfo.isOfferedIn.summer = true;
-                                    logger.info("k");
                                 }
                             }
                             break;
@@ -92,14 +87,12 @@ public class CourseInfoParser {
                             break;
                     }
 
-                    logString += i + ": " + currToken + ", ";
                     if (st.hasMoreTokens())
                         st.nextToken(); //consume trailing comma
                     else
                         break;
                 }
 
-                logger.info(logString);
                 currLine = br.readLine();
                 courseMap.put(currCourseInfo.code,currCourseInfo);
             } 
