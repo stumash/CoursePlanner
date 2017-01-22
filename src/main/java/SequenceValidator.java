@@ -11,10 +11,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SequenceValidator extends HttpServlet {
 
     private static Logger logger = Logger.getLogger("SequenceValidator");
+    private static HashMap<String,CourseInfo> courseInfoMap;
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -58,6 +60,8 @@ public class SequenceValidator extends HttpServlet {
             }
         }
 
+        CourseInfoParser.init();
+        courseInfoMap = CourseInfoParser.courseMap;
         String responseString = validateSequence(semesters).toString();
 
         PrintWriter out = response.getWriter();
@@ -76,11 +80,30 @@ public class SequenceValidator extends HttpServlet {
 
         // start at the last semester and check that for each of itc classes c, 
         // all that courses prereqs appear somewhere in an earlier semester
-        Semester semester;
         for (int i = semesters.size()-1; i > -1; i--) {
-            semester = semesters.get(i);
-            for (Course course : semester.getCourses()) {
+            Semester semester = semesters.get(i);
+            for (Course course : semester.getCourses()) { // for each course starting at the back
 
+                CourseInfo courseInfo = courseInfoMap.get(course.getCode());
+                ArrayList<String> prereqs = courseInfo.prereqs;
+                boolean[] prereqsFound = new boolean[prereqs.size()];
+                ArrayList<String> coreqs = courseInfo.coreqs;
+                boolean[] coreqsFound = new boolean[coreqs.size()];
+
+                for (int j = 0; j < i; j++) {
+                    Semester semester2 = semesters.get(j);
+
+                    for (Course course2 : semester2.getCourses()) { // go through each course in the previous semesters
+                        if (prereqs.contains(course2.getCode()))
+                            prereqsFound[prereqs.indexOf(course2.getCode())] = true;
+                        if (coreqs.contains(course2.getCode()))
+                            coreqsFound[coreqs.indexOf(course2.getCode())] = true;
+                    }
+                }
+                for (Course course2 : semester.getCourses()) { //check coreq in current semester
+                    if (coreqs.contains(course2.getCode()))
+                        coreqsFound[coreqs.indexOf(course2.getCode())] = true;
+                }
             }
         }
 

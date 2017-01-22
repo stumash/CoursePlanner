@@ -44,7 +44,8 @@ public class CourseInfoProvider extends HttpServlet {
             String courseCode = requestJson.getString("code");
             CourseInfo ci = codeCourseMap.get(courseCode);
 
-            // David make your JSON from the CourseInfo object
+            //TODO: you're a loser David
+            // David make your JSON from the CourseInfo object HERE
 
         } catch (JSONException e) {
             e.printStackTrace();
