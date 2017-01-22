@@ -11,33 +11,37 @@ public class CourseParser {
 
         HashMap<String,CourseInfo> courseMap = new HashMap<String,CourseInfo>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("courseSheet.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("soendf.csv"))) {
 
             StringTokenizer st;
             String currLine;
             String currToken;
-            int j = 0;
 
+            currLine = br.readLine(); //ignore column names
             currLine = br.readLine();
+
             while (currLine != null) {
-                st = new StringTokenizer(currLine,",",true);
+                st = new StringTokenizer(currLine,"#",true);
                 CourseInfo currCourseInfo = new CourseInfo();
 
                 for (int i = 0; i < NUMCOLUMNS; i++) {
-                    currToken = st.nextToken();
+                    if (st.hasMoreTokens())
+                        currToken = st.nextToken();
+                    else
+                        break;
 
-                    if (currToken.equals(",")) //if empty token
+                    if (currToken.equals("#")) //if empty token
                         continue; 
 
                     switch(i) {
-                        case 0:
+                        case 0: //course name
                             currCourseInfo.name = currToken;
                             break;
-                        case 1:
+                        case 1: //course code
                             currCourseInfo.code = currToken;
                             break;
-                        case 2:
-                            currCourseInfo.credits = Integer.parseInt(currToken);
+                        case 2: //credits
+                            currCourseInfo.credits = Double.parseDouble(currToken);
                             break;
                         case 3: //prereqs
                             String[] prs = currToken.split(";");
@@ -49,22 +53,33 @@ public class CourseParser {
                             for (String cr : crs)
                                 currCourseInfo.coreqs.add(cr);
                             break;
-                        case 5:
+                        case 5: //semesters offered
+                            String[] sos = currToken.split(";");
+                            for (String so : sos) {
+                                if (so == "1")
+                                    currCourseInfo.isOfferedIn.fall = true;
+                                if (so == "2")
+                                    currCourseInfo.isOfferedIn.winter = true;
+                                if (so == "3")
+                                    currCourseInfo.isOfferedIn.summer = true;
+                            }
                             break;
-                        case 6:
-                            break;
-                        case 7:
+                        case 6: //notes
+                            currCourseInfo.notes = currToken;
                             break;
                         default:
                             break;
                     }
 
                     System.out.print(i + ": " + currToken + ", ");
-                    st.nextToken(); //consume trailing comma
+                    if (st.hasMoreTokens())
+                        st.nextToken(); //consume trailing comma
+                    else
+                        break;
                 }
+
                 System.out.println();
                 currLine = br.readLine();
-                if (j++ > 4) {break;}
             } 
 
         } catch (Exception e) {
@@ -76,10 +91,11 @@ public class CourseParser {
 class CourseInfo {
     public String name;
     public String code;
-    public int credits;
-    public ArrayList<String> prereqs;
-    public ArrayList<String> coreqs;
-    public TermsOffered isOfferedIn;
+    public double credits;
+    public ArrayList<String> prereqs = new ArrayList<String>();
+    public ArrayList<String> coreqs = new ArrayList<String>();
+    public TermsOffered isOfferedIn = new TermsOffered();
+    public String notes;
     
     @Override
     public String toString() {
