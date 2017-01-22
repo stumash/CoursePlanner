@@ -46,6 +46,7 @@ public class SequenceValidator extends HttpServlet {
             throw new IOException("Error parsing JSON request string");
         }
 
+        // just a simple log to make sure the json is getting parsed right
         for(Semester s:semesters){
             logger.info("------------------------------");
             logger.info(s.getSeason() + " of " + s.getYear() + ":");
@@ -58,15 +59,26 @@ public class SequenceValidator extends HttpServlet {
             }
         }
 
-        String responseMessage = "You tried to post me";
+        String responseString = validateSequence(semesters).toString();
 
         PrintWriter out = response.getWriter();
-        out.println(responseMessage);
+        out.println(responseString);
 
     }
 
+    // in this method we want to loop through the list of semesters, checking that each class in
+    // in a valid position in terms of its prerequisites and semesters it's offered in. If there
+    // are any issues with the list, make sure responseMessage indicates that it is invalid and append
+    // the related message to the variable called errorMessages.
     private JSONObject validateSequence(ArrayList<Semester> semesters){
-        return null;
+
+        JSONObject responseMessage = new JSONObject();
+        ArrayList<String> errorMessages = new ArrayList<String>();
+
+        for(Semester semester:semesters){
+            //for each semester, find out each class' prerequisites and offered semesters and validate dat shit
+        }
+        return responseMessage;
     }
 
 }
