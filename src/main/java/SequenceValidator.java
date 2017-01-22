@@ -80,6 +80,7 @@ public class SequenceValidator extends HttpServlet {
 
         // start at the last semester and check that for each of itc classes c, 
         // all that courses prereqs appear somewhere in an earlier semester
+        ArrayList<String> errors = new ArrayList<>();
         for (int i = semesters.size()-1; i > -1; i--) {
             Semester semester = semesters.get(i);
             for (Course course : semester.getCourses()) { // for each course starting at the back
@@ -89,6 +90,17 @@ public class SequenceValidator extends HttpServlet {
                 boolean[] prereqsFound = new boolean[prereqs.size()];
                 ArrayList<String> coreqs = courseInfo.coreqs;
                 boolean[] coreqsFound = new boolean[coreqs.size()];
+                boolean semesterValid = false;
+                if (semester.getSeason().ordinal() > 1) {
+                    if (courseInfo.isOfferedIn.summer)
+                        semesterValid = true;
+                } else if (semester.getSeason().ordinal() > 0) {
+                    if (courseInfo.isOfferedIn.winter)
+                        semesterValid = true;
+                } else {
+                    if (courseInfo.isOfferedIn.fall)
+                        semesterValid = true;
+                }
 
                 for (int j = 0; j < i; j++) {
                     Semester semester2 = semesters.get(j);
@@ -104,8 +116,22 @@ public class SequenceValidator extends HttpServlet {
                     if (coreqs.contains(course2.getCode()))
                         coreqsFound[coreqs.indexOf(course2.getCode())] = true;
                 }
+
+                for (int x = 0; x < prereqsFound.length; x++) {
+                    if (!prereqsFound[x])
+                        errors.add(courseInfo.prereqs.get(x) + " must be taken before " + course.getCode());
+                }
+                for (int x = 0; x < coreqsFound.length; x++) {
+                    if (!coreqsFound[x])
+                        errors.add(courseInfo.coreqs.get(x) + " must be taken at least as soon as " + course.getCode());
+                }
+                if (!semesterValid) {
+                    errors.add(course.getCode() + " cannot be taken in the " + semester.getSeason() + ".");
+                }
             }
         }
+
+        // the arraylist of error messages is called errors
 
         return responseMessage;
     }
