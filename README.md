@@ -12,3 +12,5 @@
     * Course in invalid semester (fall/winter)
     * Too many/too few credits in a semester
 
+# Visit the Page
+Visit the page at: http://138.197.6.26/courseplanner
