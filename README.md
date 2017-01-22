@@ -11,3 +11,4 @@
     * Prereq conflicts
     * Course in invalid semester (fall/winter)
     * Too many/too few credits in a semester
+
