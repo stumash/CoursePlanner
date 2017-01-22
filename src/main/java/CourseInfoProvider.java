@@ -1,11 +1,11 @@
 import org.apache.log4j.Logger;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class CourseInfoProvider extends HttpServlet {
 
@@ -20,12 +20,24 @@ public class CourseInfoProvider extends HttpServlet {
 
         response.setContentType("text/html");
 
-        String message = "You tried to get me";
-
-        logger.info("Responding with message: " + message);
-
         PrintWriter out = response.getWriter();
-        out.println(message);
+        ServletContext cntxt = this.getServletContext();
+        String fName = "/input.txt";
+        InputStream ins = cntxt.getResourceAsStream(fName);
+        try {
+            if (ins != null) {
+                InputStreamReader isr = new InputStreamReader(ins);
+                BufferedReader reader = new BufferedReader(isr);
+                int n = 0;
+                String word = "";
+                while ((word = reader.readLine()) != null) {
+                    out.println(word);
+                }
+            }
+        }finally {
+            out.close();
+        }
+
     }
 
 }
