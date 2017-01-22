@@ -5,20 +5,20 @@ import org.json.JSONObject;
  * Created by David on 1/21/2017.
  */
 public class Course {
-    private String name, electiveType;
+    private String code, electiveType;
     private boolean isElective;
     public Course(JSONObject courseAsJson) throws JSONException{
-        name = "";
+        code = "";
         electiveType = "";
         isElective = courseAsJson.getBoolean("isElective");
         if(isElective){
             electiveType = courseAsJson.getString("electiveType");
         } else {
-            name = courseAsJson.getString("name");
+            code = courseAsJson.getString("code");
         }
     }
-    public String getName(){
-        return name;
+    public String getCode(){
+        return code;
     }
     public String getElectiveType(){
         return electiveType;

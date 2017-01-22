@@ -1,4 +1,3 @@
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +53,7 @@ public class SequenceValidator extends HttpServlet {
                 if(c.isElective()){
                     logger.info(c.getElectiveType() + " elective");
                 } else {
-                    logger.info(c.getName());
+                    logger.info(c.getCode());
                 }
             }
         }
