@@ -1,22 +1,29 @@
+import javax.servlet.ServletContext;
 import java.io.FileReader;
 import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.HashMap;
 
-public class CourseParser {
+public class CourseInfoParser {
     public static HashMap<String,CourseInfo> courseMap;
 
     private static final int NUMCOLUMNS = 7;
 
-    public static void init() {
+    public static void init(ServletContext cntxt) {
 
         courseMap = new HashMap<String,CourseInfo>();
-        try (BufferedReader br = new BufferedReader(new FileReader("soendf.csv"))) {
+        try {
 
             StringTokenizer st;
             String currLine;
             String currToken;
+
+            String fName = "/soendf2.csv";
+            InputStream ins = cntxt.getResourceAsStream(fName);
+            BufferedReader br = new BufferedReader(new InputStreamReader(ins));
 
             currLine = br.readLine(); //ignore column names
             currLine = br.readLine();
