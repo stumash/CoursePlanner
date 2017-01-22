@@ -5,9 +5,9 @@ function myFunction() {
    console.log($("#Semester").val());
    console.log($("#Program").val());
    console.log($("#checkbox > input").prop('checked'));
-   localStorage.setItem("Semester", $("#Semester").val());
+   localStorage.setItem("EntrySemester", $("#Semester").val());
    localStorage.setItem("Program", $("#Program").val());
-   localStorage.setItem("checkbox", $("#checkbox > input").prop('checked'));
+   localStorage.setItem("IsInCoop", $("#checkbox > input").prop('checked'));
    window.location.assign("scheduleBuilder.html");
 }
 
