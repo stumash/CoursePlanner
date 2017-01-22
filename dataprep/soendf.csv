@@ -1,0 +1,29 @@
+course,code,credits,prerequisites,corequisites,semestersOffered,note
+Technical Writing and Communication,ENCS 282,3,,,1;2;3,Passing the Engineering Writing Test (EWT) or by passing ENCS 272 with a grade of C- or higher
+Professional Practice and Responsibility,ENGR 201,1.5,,,1;2;3,
+Sustainable Development and Environmental Stewardship,ENGR 202,1.5,,,1;2;3,
+Applied Ordinary Differential Equations,ENGR 213,3,,,1;2;3,
+Applied Advanced Calculus,ENGR 233,3,,,1;2,
+Engineering Management Principles and Economics,ENGR 301,3,,,1;2;3,
+Probability and Statistics in Engineering,ENGR 371,3,ENGR 213;ENGR 233,,1;2,
+Numerical Methods in Engineering,ENGR 391,3,ENGR 213;ENGR 233;COMP 248,,1;2;3,
+Impact of Technology on Society,ENGR 392,3,ENCS 282;ENGR 201;ENGR 202,,1;2;3,
+Principles of Electrical Engineering,ELEC 275,3.5,ENGR 213; PHYS 205,ENGR 213,1;2,
+Mathematics for Computer Science,COMP 232,3,,,1;2;3,Students who have received credit for COMP 238 or COEN 231 may not take this course for credit.
+Object-Oritented Programming I,COMP 248,3.5,,,1;2;3,
+Object-Oritented Programming II,COMP 249,3.5,,,1;2;3,
+Introduction to Theoretical Computer Science,COMP 335,3,COMP 232;COMP 249,,1;2;3,
+Operating Systems,COMP 346,3,SOEN 228;COMP 352,,1;2,Students who have received credit for COEN 346 may not take this course for credit.
+Principles of Programming Languages,COMP 348,3,COMP 249,,1;2;3,
+Data Structures and Algorithms,COMP 352,3,COMP 232;COMP 249,COMP 232,1;2;3,Students who have received credit for COEN 352 may not take this course for credit.
+System Hardware,SOEN 228,4,,,2;3,Students who have received credit for COMP 228 may not take this course for credit.
+Web Programming,SOEN 287,3,COMP 248,,1;2;3,
+Information Systems Security,SOEN 321,3,COMP 346,,1,
+Introduction to Formal Methods for Software Engineering,SOEN 331,3,COMP 232;COMP 249,,2,
+Software Process,SOEN 341,3,COMP 352;ENCS 282,,1;2,Students who have received credit for COMP 354 may not take this course for credit.
+Software Requirements and Specifications,SOEN 342,3,SOEN 341,,1,
+Software Architecture Design II,SOEN 344,3,SOEN 343,,2,
+"Management, Measurement and Quality Control",SOEN 384,3,ENCS 282;SOEN 341,,1,
+Control Systems and Applications,SOEN 385,3,ENGR 213;ENGR 233,,2,
+Software Engineering Team Design Project,SOEN 390,3.5,SOEN 334;SOEN 357,SOEN 334;SOEN 357,2,
+Capstone Software Engineering Design Project,SOEN 490,4,SOEN 390,,1;2,
