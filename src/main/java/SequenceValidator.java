@@ -29,15 +29,13 @@ public class SequenceValidator extends HttpServlet {
         String line;
         JSONObject requestJson;
         ArrayList<Semester> semesters = new ArrayList<Semester>();
-        logger.info("point 1");
         try {
             BufferedReader reader = request.getReader();
-            while ((line = reader.readLine()) != null)
+            while ((line = reader.readLine()) != null) {
                 jb.append(line);
+            }
         } catch (Exception e) { /*report an error*/ }
-        logger.info("point 2");
         try {
-            logger.info(jb.toString());
             requestJson =  new JSONObject(jb.toString());
             JSONArray semestersAsJson = requestJson.getJSONArray("semesterList");
             for(int i = 0; i < semestersAsJson.length(); i++){
@@ -48,12 +46,11 @@ public class SequenceValidator extends HttpServlet {
             // crash and burn
             throw new IOException("Error parsing JSON request string");
         }
-        logger.info("point 3");
 
         // just a simple log to make sure the json is getting parsed right
         for(Semester s:semesters){
             logger.info("------------------------------");
-            logger.info(s.getSeason() + " of " + s.getYear() + ":");
+            logger.info(s.getSeason() + ":");
             for(Course c:s.getCourses()){
                 if(c.isElective()){
                     logger.info(c.getElectiveType() + " elective");
@@ -68,7 +65,8 @@ public class SequenceValidator extends HttpServlet {
         String responseString = "{}";
         try{
             responseString = validateSequence(semesters).toString();
-        } catch(Exception ex){
+        } catch(JSONException ex){
+            ex.printStackTrace();
             logger.info("Error validating sequence");
         }
 
@@ -93,10 +91,18 @@ public class SequenceValidator extends HttpServlet {
             Semester semester = semesters.get(i);
             for (Course course : semester.getCourses()) { // for each course starting at the back
 
+
+
                 CourseInfo courseInfo = courseInfoMap.get(course.getCode());
-                ArrayList<String> prereqs = courseInfo.prereqs;
+
+
+                ArrayList<String> prereqs = (courseInfo.prereqs == null) ? new ArrayList<String>() : courseInfo.prereqs;
+
+
                 boolean[] prereqsFound = new boolean[prereqs.size()];
-                ArrayList<String> coreqs = courseInfo.coreqs;
+
+
+                ArrayList<String> coreqs = (courseInfo.coreqs == null) ? new ArrayList<String>() : courseInfo.coreqs;
                 boolean[] coreqsFound = new boolean[coreqs.size()];
                 boolean semesterValid = false;
                 if (semester.getSeason().ordinal() > 1) {
