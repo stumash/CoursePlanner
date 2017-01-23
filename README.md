@@ -1,5 +1,5 @@
 # Curriculum Schedule Builder
-ConU Hacks Winter 2017
+ConU Hacks Winter 2017 project.  Start to finish in 24 hrs.  Still under construction.
 
 ### Project Goals
 
