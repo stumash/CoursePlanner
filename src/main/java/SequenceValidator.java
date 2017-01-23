@@ -26,16 +26,15 @@ public class SequenceValidator extends HttpServlet {
         response.setContentType("text/html");
 
         StringBuffer jb = new StringBuffer();
-        String line = null;
-        JSONObject requestJson = null;
+        String line;
+        JSONObject requestJson;
         ArrayList<Semester> semesters = new ArrayList<Semester>();
-        Semester semester = null;
         try {
             BufferedReader reader = request.getReader();
-            while ((line = reader.readLine()) != null)
+            while ((line = reader.readLine()) != null) {
                 jb.append(line);
+            }
         } catch (Exception e) { /*report an error*/ }
-
         try {
             requestJson =  new JSONObject(jb.toString());
             JSONArray semestersAsJson = requestJson.getJSONArray("semesterList");
@@ -43,6 +42,7 @@ public class SequenceValidator extends HttpServlet {
                 semesters.add(new Semester(semestersAsJson.getJSONObject(i)));
             }
         } catch (JSONException e) {
+            e.printStackTrace();
             // crash and burn
             throw new IOException("Error parsing JSON request string");
         }
@@ -50,7 +50,7 @@ public class SequenceValidator extends HttpServlet {
         // just a simple log to make sure the json is getting parsed right
         for(Semester s:semesters){
             logger.info("------------------------------");
-            logger.info(s.getSeason() + " of " + s.getYear() + ":");
+            logger.info(s.getSeason() + ":");
             for(Course c:s.getCourses()){
                 if(c.isElective()){
                     logger.info(c.getElectiveType() + " elective");
@@ -62,7 +62,13 @@ public class SequenceValidator extends HttpServlet {
 
         CourseInfoParser.init(this.getServletContext());
         courseInfoMap = CourseInfoParser.courseMap;
-        String responseString = validateSequence(semesters).toString();
+        String responseString = "{}";
+        try{
+            responseString = validateSequence(semesters).toString();
+        } catch(JSONException ex){
+            ex.printStackTrace();
+            logger.info("Error validating sequence");
+        }
 
         PrintWriter out = response.getWriter();
         out.println(responseString);
@@ -73,22 +79,30 @@ public class SequenceValidator extends HttpServlet {
     // in a valid position in terms of its prerequisites and semesters it's offered in. If there
     // are any issues with the list, make sure responseMessage indicates that it is invalid and append
     // the related message to the variable called errorMessages.
-    private JSONObject validateSequence(ArrayList<Semester> semesters){
+    private JSONObject validateSequence(ArrayList<Semester> semesters) throws JSONException{
 
         JSONObject responseMessage = new JSONObject();
         ArrayList<String> errorMessages = new ArrayList<String>();
 
         // start at the last semester and check that for each of itc classes c, 
         // all that courses prereqs appear somewhere in an earlier semester
-        ArrayList<String> errors = new ArrayList<>();
+        ArrayList<String> errors = new ArrayList<String>();
         for (int i = semesters.size()-1; i > -1; i--) {
             Semester semester = semesters.get(i);
             for (Course course : semester.getCourses()) { // for each course starting at the back
 
+
+
                 CourseInfo courseInfo = courseInfoMap.get(course.getCode());
-                ArrayList<String> prereqs = courseInfo.prereqs;
+
+
+                ArrayList<String> prereqs = (courseInfo.prereqs == null) ? new ArrayList<String>() : courseInfo.prereqs;
+
+
                 boolean[] prereqsFound = new boolean[prereqs.size()];
-                ArrayList<String> coreqs = courseInfo.coreqs;
+
+
+                ArrayList<String> coreqs = (courseInfo.coreqs == null) ? new ArrayList<String>() : courseInfo.coreqs;
                 boolean[] coreqsFound = new boolean[coreqs.size()];
                 boolean semesterValid = false;
                 if (semester.getSeason().ordinal() > 1) {
@@ -132,6 +146,18 @@ public class SequenceValidator extends HttpServlet {
         }
 
         // the arraylist of error messages is called errors
+
+        JSONArray errorArray = new JSONArray();
+        responseMessage.put("valid", "true");
+        responseMessage.put("errorMessages", errorArray);
+
+        if(errors.size() > 0){
+            responseMessage.put("valid","false");
+            for(String error:errors){
+                errorArray.put(error);
+            }
+            responseMessage.put("errorMessages", errorArray);
+        }
 
         return responseMessage;
     }

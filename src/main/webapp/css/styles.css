@@ -36,6 +36,7 @@ div.semesterHeading {
 	border-radius: 5px;
 	text-align: center;
 	padding-top: 5px;
+	font-weight: bold;
 }
 
 div.courseContainer {
@@ -85,7 +86,7 @@ div.infoBox {
 	float: left;
 	margin-top: 25px;
 	margin-left: 30px;
-	min-height: 150px;
+	min-height: 250px;
 	width: 320px;
 	border: 3px solid black;
 	border-radius: 5px;
@@ -94,6 +95,7 @@ div.infoBox {
 div.infoBox p {
 
 	font: italic small-caps normal 15px Arial, Helvetica, sans-serif;
+	margin: 15px;
 
 }
 
@@ -150,9 +152,10 @@ button.exportButton:hover{
 }
 
 button.toggle {
+	margin-bottom: 4px;
 	cursor: pointer;
 	width: 25px;
-	height: 25px;
+	height: 28px;
 	border-radius: 100%;
 	float: right;
 	margin-right: 3px;

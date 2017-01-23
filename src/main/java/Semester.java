@@ -14,18 +14,15 @@ public class Semester {
     }
 
     private SemesterSeason season;
-    private int year;
     private ArrayList<Course> courses;
 
     public Semester(JSONObject semesterAsJson) throws JSONException {
         season = parseSeason(semesterAsJson.getString("season"));
-        year = semesterAsJson.getInt("year");
         courses = parseCourses(semesterAsJson.getJSONArray("courseList"));
     }
 
-    public Semester(SemesterSeason season, int year, ArrayList<Course> courses){
+    public Semester(SemesterSeason season, ArrayList<Course> courses){
         this.season = season;
-        this.year = year;
         this.courses = courses;
     }
 
@@ -55,10 +52,6 @@ public class Semester {
         return season;
     }
 
-    public int getYear(){
-        return year;
-    }
-
     public ArrayList<Course> getCourses(){
         return courses;
     }
@@ -66,7 +59,6 @@ public class Semester {
     public JSONObject toJsonObject() throws JSONException{
         JSONObject result = new JSONObject();
         result.put("season", season.toString().toLowerCase());
-        result.put("year", year);
         JSONArray courseList = new JSONArray();
         for(Course course:courses){
             courseList.put(course.toJsonObject());
