@@ -93,10 +93,8 @@ div.infoBox {
 	display: inline-block;
 }
 div.infoBox p {
-
 	font: italic small-caps normal 15px Arial, Helvetica, sans-serif;
 	margin: 15px;
-
 }
 
 div.classSearch {
@@ -112,7 +110,6 @@ div.errorBox {
 	min-height: 150px;
 	margin-left: -0.45%;
 	border: 3.5px solid black;
-	border-radius: 1px;
 }
 
 p.errorBoxHeader {
