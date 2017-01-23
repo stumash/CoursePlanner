@@ -109,3 +109,16 @@ body {
 	cursor: pointer;
 
 }
+
+#credits {
+
+    position: absolute;
+    right: 16px;
+    top: 16px;
+
+    text-align: center;
+    font-family: orbitron;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+}
