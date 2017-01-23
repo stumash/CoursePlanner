@@ -13,6 +13,7 @@ div.scheduleContainer {
 	border: 3px solid black;
 	float: left;
 	border-radius: 5px;
+	opacity: 0.9;
 }
 
 div.term {
