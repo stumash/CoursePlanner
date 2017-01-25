@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-    // TODO: implement this function (load defaultSequence.json via XHR, then fill view)
     loadDefaultSequence();
 
 	$("button.toggle").html("&#x25B2");
@@ -15,6 +14,20 @@ $(document).ready(function(){
 		}
 
         $courses.slideToggle();
+
+    });
+
+    $("div.course").mousedown(function(){
+
+    	var $courseRow = $(this);
+    	$courseRow.addClass("grabbed");
+
+	});
+
+    $("div.course").mouseup(function(){
+
+        var $courseRow = $(this);
+        $courseRow.removeClass("grabbed");
 
     });
 
@@ -84,8 +97,6 @@ $(document).ready(function(){
 
 		sendSequence();
 
-		//$(this).child(".left").html();
-
 	});
 
     $("button.search").click(function(){
@@ -99,9 +110,6 @@ $(document).ready(function(){
 			console.log("Final callback called");
 		});
 
-		// $(".scheduleContainer .term:nth-of-type(2) .courseContainer .course:first-of-type .left").html(code);
-		// $(".scheduleContainer .term:nth-of-type(2) .courseContainer .course:first-of-type .center").html(name);
-		// $(".scheduleContainer .term:nth-of-type(2) .courseContainer .course:first-of-type .right").html(credits);	
 	}); // <-- don't delete me plz
     $(function(){
     	$(".courseContainer, .semesterHeader").sortable({
@@ -110,6 +118,7 @@ $(document).ready(function(){
   	});
 });
 
+//TODO: create function that takes i,j params and name/code/credits and sets the text of that row
 function populatePage(courseSequenceObject){
 	for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
 		if(courseSequenceObject.semesterList[i].courseList.length === 0){

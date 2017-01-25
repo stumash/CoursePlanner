@@ -54,7 +54,16 @@ div.course {
 	border: 2px solid black;
 	border-radius: 5px;
 	margin: -1px;
-	cursor: pointer;
+	cursor: move; /* fallback if grab cursor is unsupported */
+	cursor: grab;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+}
+
+div.course.grabbed {
+	cursor: grabbing;
+	cursor: -moz-grabbing;
+	cursor: -webkit-grabbing;
 }
 
 div.course div {
