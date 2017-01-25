@@ -118,31 +118,31 @@ $(document).ready(function(){
   	});
 });
 
-//TODO: create function that takes i,j params and name/code/credits and sets the text of that row
 function populatePage(courseSequenceObject){
 	for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
 		if(courseSequenceObject.semesterList[i].courseList.length === 0){
-			$(".scheduleContainer .term:nth-of-type(" + (i + 1) + ") .courseContainer .course:nth-of-type(" + 1 + ") .left").html("-");
-			$(".scheduleContainer .term:nth-of-type(" + (i + 1) + ") .courseContainer .course:nth-of-type(" + 1 + ") .center").html("Work Term");
-			$(".scheduleContainer .term:nth-of-type(" + (i + 1) + ") .courseContainer .course:nth-of-type(" + 1 + ") .right").html("-");
+			setCourseRowData(i, 0, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "Work Term", "-");
 		} else {
 			for(var j = 0; j < courseSequenceObject.semesterList[i].courseList.length; j++){
 				if(courseSequenceObject.semesterList[i].courseList[j].isElective === "true"){
 					var electiveType = courseSequenceObject.semesterList[i].courseList[j].electiveType.toString();
-					$(".scheduleContainer .term:nth-of-type(" + (i + 1) + ") .courseContainer .course:nth-of-type(" + (j + 1) + ") .left").html("-");
-					$(".scheduleContainer .term:nth-of-type(" + (i + 1) + ") .courseContainer .course:nth-of-type(" + (j + 1) + ") .center").html(electiveType + " Elective");
-					$(".scheduleContainer .term:nth-of-type(" + (i + 1) + ") .courseContainer .course:nth-of-type(" + (j + 1) + ") .right").html("-");
+                    setCourseRowData(i, j, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", electiveType + " Elective", "-");
 				}else{
 					var code = courseSequenceObject.semesterList[i].courseList[j].code.toString();
 					var name = courseSequenceObject.semesterList[i].courseList[j].name.toString();
 					var credits = courseSequenceObject.semesterList[i].courseList[j].credits.toString();
-					$(".scheduleContainer .term:nth-of-type(" + (i + 1) + ") .courseContainer .course:nth-of-type(" + (j + 1) + ") .left").html(code);
-					$(".scheduleContainer .term:nth-of-type(" + (i + 1) + ") .courseContainer .course:nth-of-type(" + (j + 1) + ") .center").html(name);
-					$(".scheduleContainer .term:nth-of-type(" + (i + 1) + ") .courseContainer .course:nth-of-type(" + (j + 1) + ") .right").html(credits);
+                    setCourseRowData(i, j, code, name, credits);
 				}
 			}
 		}
 	}
+}
+
+function setCourseRowData(termIndex, courseIndex, code, name, credits){
+	var $courseRow = $(".scheduleContainer .term:nth-of-type(" + (termIndex + 1) + ") .courseContainer .course:nth-of-type(" + (courseIndex + 1) + ")");
+	$courseRow.find(".left").html(code);
+    $courseRow.find(".center").html(name);
+    $courseRow.find(".right").html(credits);
 }
 
 function generateSequenceObject(callback){

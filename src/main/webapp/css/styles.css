@@ -17,27 +17,25 @@ div.scheduleContainer {
 }
 
 div.term {
-	width: calc(100% - 26px);
 	display: flex;
 	flex-direction: column;
 	background-color: none;
 	border-radius: 5px;
-	margin: 5px;
-	padding: 5px;
+	margin: 20px;
+	padding: 0px;
 	border: 3px solid #900C3F;
 }
 
 div.semesterHeading {
-	top: -5px;
-	position: relative;
-	margin-bottom: 0;
-	margin-top: 5px;
+	height: 34px;
+	margin-bottom: 0px;
 	font: italic small-caps normal 20px Orbitron, Arial, Helvetica, sans-serif;
-	border: 2px solid black;
-	border-radius: 5px;
+	border: none;
 	text-align: center;
-	padding-top: 5px;
+	padding-top: 6px;
+	padding-left: 25px;
 	font-weight: bold;
+	background-color: #DDDDDD;
 }
 
 div.courseContainer {
@@ -45,22 +43,34 @@ div.courseContainer {
 	display: flex;
 	flex-direction: column;
 	min-height: 5px;
-	/*border: 1px solid black;*/ /*border should not be visible*/
-	border-radius: 5px;
 }
 
 div.course {
 	height: 35px;
 	border: 2px solid black;
-	border-radius: 5px;
-	margin: -1px;
+	border-right: none;
+	border-left: none;
+	margin: -1px 0px;
 	cursor: move; /* fallback if grab cursor is unsupported */
 	cursor: grab;
 	cursor: -moz-grab;
 	cursor: -webkit-grab;
 }
 
+div.course:last-of-type {
+	border-bottom: none;
+}
+
+div.course:hover {
+
+	background-color: #DDDDDD;
+
+}
+
 div.course.grabbed {
+	border-right: 2px solid black;
+	border-left: 2px solid black;
+	border-radius: 5px;
 	cursor: grabbing;
 	cursor: -moz-grabbing;
 	cursor: -webkit-grabbing;
@@ -73,20 +83,20 @@ div.course div {
 }
 
 div.left {
-	width: 25%;
-	text-align: center;
+	width: 15%;
+	text-align: right;
 	padding: 8px 0px; /*to center the text vertically*/
 }
 
 div.center {
-	width: 50%;
+	width: 70%;
 	text-align: center;
 	padding: 8px 0px; /*to center the text vertically*/
 }
 
 div.right {
-	width: 25%;
-	text-align: center;
+	width: 15%;
+	text-align: left;
 	padding: 8px 0px; /*to center the text vertically*/
 }
 
@@ -166,11 +176,15 @@ button.toggle {
 	height: 28px;
 	border-radius: 100%;
 	float: right;
-	margin-right: 3px;
+	margin-right: 8px;
 	font: bold 15px Arial;
 	padding-right: 20px;
 	background-color: #900C3F;
 	color: white;
+}
+
+button.toggle:focus {
+	outline: none;
 }
 
 button.search {
