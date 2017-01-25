@@ -1,8 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Orbitron');
 
 body {
-	background-image: url("../images/Concordia-Background.jpg");
+    background: url("../images/Concordia-Background.jpg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
+
 div.scheduleContainer {
 	background-color: white;
 	position: absolute;
