@@ -57,14 +57,12 @@ div.course {
 	cursor: -webkit-grab;
 }
 
-div.course:last-of-type {
+div.course:last-of-type:not(.grabbed) {
 	border-bottom: none;
 }
 
 div.course:hover {
-
 	background-color: #DDDDDD;
-
 }
 
 div.course.grabbed {
