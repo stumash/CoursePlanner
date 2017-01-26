@@ -1,3 +1,8 @@
+//asks to confirm refresh page click event or when F5 is pressed
+window.onbeforeunload = function(e) {
+	return 'Dialog text here.';
+};
+
 $(document).ready(function(){
 
     loadDefaultSequence();
