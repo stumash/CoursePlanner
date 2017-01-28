@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # get ID of current commit
-# TODO: also include author of the commit, so we know who was the last person to deploy the site :)
 commitHash=$(git rev-parse HEAD) &&
 commitAuthor=$(git --no-pager show -s --format='%an <%ae>' HEAD) &&
 
