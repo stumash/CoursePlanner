@@ -24,7 +24,6 @@ div.scheduleContainer {
 div.term {
 	display: flex;
 	flex-direction: column;
-	background-color: none;
 	border-radius: 5px;
 	margin: 20px;
 	padding: 0px;
@@ -147,7 +146,6 @@ p.error {
 }
 
 div.export {
-	width: calc(100%-3px);
 	height: 50px;
 	border: 3px solid #900C3F;
 	background-color: #900C3F;
