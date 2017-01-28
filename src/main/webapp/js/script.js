@@ -250,7 +250,7 @@ function loadDefaultSequence(){
         populatePage(courseList);
 
     });
-    oReq.open("GET", "http://138.197.6.26/courseplanner/defaultSequence.json");
+    oReq.open("GET", "http://138.197.6.26/courseplanner/js/defaultSequence.json");
     oReq.send();
 
 }
