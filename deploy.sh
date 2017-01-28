@@ -2,10 +2,11 @@
 
 # get ID of current commit
 commitHash=$(git rev-parse HEAD) &&
+commitAuthor=$(git --no-pager show -s --format='%an <%ae>' HEAD) &&
 
-# add a script to html files that logs the current commit
-sed -i "4i\<script> console.log(\"This site was built against the source of the following commit: $commitHash\") </script> " ./src/main/webapp/index.html &&
-sed -i "4i\<script> console.log(\"This site was built against the source of the following commit: $commitHash\") </script> " ./src/main/webapp/scheduleBuilder.html &&
+# add a comment to the html that indicates the current commit
+sed -i "4i\<!--This site was built against the source of the following commit: $commitHash ($commitAuthor) -->" ./src/main/webapp/index.html &&
+sed -i "4i\<!--This site was built against the source of the following commit: $commitHash ($commitAuthor) -->" ./src/main/webapp/scheduleBuilder.html &&
 
 # build project
 mvn clean install &&
