@@ -38,8 +38,6 @@ $(document).ready(function(){
 
     $("div.course").click(function(){
 
-		console.log($(this).find(".left").html());
-
 		var code = $(this).find(".left").html();
 
 		if(code !== "-" && code !== ""){
@@ -51,48 +49,7 @@ $(document).ready(function(){
             oReq.addEventListener("load", function(){
 
             	var response = JSON.parse(this.responseText);
-
-            	var name = response.name;
-            	var credits = response.credits;
-            	var code = response.code;
-            	var notes = response.notes || "";
-
-            	var termsOffered = "";
-            	if(response.termsOffered){
-                    if(response.termsOffered.includes("f"))
-                        termsOffered = termsOffered + "fall ";
-                    if(response.termsOffered.includes("w"))
-                        termsOffered = termsOffered + "winter ";
-                    if(response.termsOffered.includes("s"))
-                        termsOffered = termsOffered + "summer ";
-				}
-
-                var prereqs = "";
-            	if(response.prereqs){
-            		console.log("we have some prereqs");
-                    for(var i = 0; i < response.prereqs.length; i++){
-                        prereqs = prereqs + response.prereqs[i] + ", ";
-                    }
-				}
-
-                var coreqs = "";
-                if(response.coreqs){
-                    for(var j = 0; j < response.coreqs.length; j++){
-                        coreqs = coreqs + response.coreqs[j] + ", ";
-                    }
-				}
-
-				prereqs = prereqs || "None";
-                coreqs = coreqs || "None";
-                termsOffered = termsOffered || "None";
-                notes = notes || "None";
-
-				$("p.info").html("<b>Prerequisites:</b> " + prereqs + "<br>" +
-								"<b>Corequisites:</b> " + coreqs + "<br>" +
-								"<b>Terms offered:</b> " + termsOffered + "<br>" +
-								"<b>Notes:</b> " + notes);
-
-                console.log(this.responseText);
+            	fillCourseInfoBox(response);
 
 			});
             oReq.open("POST", "http://138.197.6.26/courseplanner/courseinfo");
@@ -100,22 +57,18 @@ $(document).ready(function(){
 
 		}
 
-		sendSequence();
+		validateSequence();
 
 	});
 
     $("button.search").click(function(){
-		var code = courseList.semesterList[0].courseList[0].code.toString();
-		var name = courseList.semesterList[0].courseList[0].name.toString();
-		var credits = courseList.semesterList[0].courseList[0].credits.toString();
-		var length = courseList.semesterList.length;
-		var $left = $("button.toggle").parent().parent().children(".left");
+		// var code = courseList.semesterList[0].courseList[0].code.toString();
+		// var name = courseList.semesterList[0].courseList[0].name.toString();
+		// var credits = courseList.semesterList[0].courseList[0].credits.toString();
+		// var length = courseList.semesterList.length;
+		// var $left = $("button.toggle").parent().parent().children(".left");
 
-		generateSequenceObject(function(){
-			console.log("Final callback called");
-		});
-
-	}); // <-- don't delete me plz
+	});
     $(function(){
     	$(".courseContainer, .semesterHeader").sortable({
     		connectWith: ".courseContainer"
@@ -154,14 +107,11 @@ function generateSequenceObject(callback){
 	var semesterList = [];
 	var count = 0;
 	var onFinish = function(semesterObject){
-        console.log("Semester object: " + semesterObject);
         if(semesterObject.courseList) {
             semesterList.push(semesterObject);
         }
         count++;
         if(count === 15){
-            console.log("Semester list:");
-            console.log(semesterList);
             callback(semesterList);
         }
 	};
@@ -172,14 +122,12 @@ function generateSequenceObject(callback){
 
 function getSemesterObject($semesterContainer, callback){
 	var seasonText = $semesterContainer.find(".semesterHeading").text().split(" ")[0].trim().toLowerCase();
-	console.log(seasonText);
 	var courseList = [];
 	var count = $semesterContainer.find(".course").length;
 	$semesterContainer.find(".course").each(function(i, obj){
 		var courseObject = getCourseObject($(this));
 		if(courseObject){
 			courseList.push(courseObject);
-			console.log(courseObject);
 		} else {
             courseList = [];
 		}
@@ -197,7 +145,6 @@ function getCourseObject($courseContainer){
     var name = $courseContainer.find(".center").text();
 
     if(name.includes("Work Term") || name === ""){
-    	console.log("returning undefined");
     	result = undefined;
 	}
 
@@ -225,13 +172,13 @@ function getCourseObject($courseContainer){
 	return result;
 }
 
-function sendSequence(){
+function validateSequence(){
     generateSequenceObject( function(result){
         var oReq = new XMLHttpRequest();
         oReq.addEventListener("load", function(){
 
             var response = JSON.parse(this.responseText);
-            console.log(this.responseText);
+            console.log("Server validation response: " + this.responseText);
 
         });
         oReq.open("POST", "http://138.197.6.26/courseplanner/validate");
@@ -252,6 +199,50 @@ function loadDefaultSequence(){
     });
     oReq.open("GET", "http://138.197.6.26/courseplanner/js/defaultSequence.json");
     oReq.send();
+
+}
+
+function fillCourseInfoBox(courseInfo){
+
+    var name = courseInfo.name;
+    var credits = courseInfo.credits;
+    var code = courseInfo.code;
+    var notes = courseInfo.notes || "";
+
+    var termsOffered = "";
+    if(courseInfo.termsOffered){
+        if(courseInfo.termsOffered.includes("f"))
+            termsOffered = termsOffered + "fall ";
+        if(courseInfo.termsOffered.includes("w"))
+            termsOffered = termsOffered + "winter ";
+        if(courseInfo.termsOffered.includes("s"))
+            termsOffered = termsOffered + "summer ";
+    }
+
+    var prereqs = "";
+    if(courseInfo.prereqs){
+        for(var i = 0; i < courseInfo.prereqs.length; i++){
+            prereqs = prereqs + courseInfo.prereqs[i] + ", ";
+        }
+    }
+
+    var coreqs = "";
+    if(courseInfo.coreqs){
+        for(var j = 0; j < courseInfo.coreqs.length; j++){
+            coreqs = coreqs + courseInfo.coreqs[j] + ", ";
+        }
+    }
+
+    prereqs = prereqs || "None";
+    coreqs = coreqs || "None";
+    termsOffered = termsOffered || "None";
+    notes = notes || "None";
+
+    $("p.info").html("<b>Prerequisites:</b> " + prereqs + "<br>" +
+        "<b>Corequisites:</b> " + coreqs + "<br>" +
+        "<b>Terms offered:</b> " + termsOffered + "<br>" +
+        "<b>Notes:</b> " + notes);
+
 
 }
 
