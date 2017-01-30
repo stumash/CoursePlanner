@@ -19,25 +19,17 @@ $(document).ready(function(){
 		}
 
         $courses.slideToggle();
-
     });
 
     $("div.course").mousedown(function(){
-
-    	var $courseRow = $(this);
-    	$courseRow.addClass("grabbed");
-
+    	$(this).addClass("grabbed");
 	});
 
     $("div.course").mouseup(function(){
-
-        var $courseRow = $(this);
-        $courseRow.removeClass("grabbed");
-
+        $(this).removeClass("grabbed");
     });
 
     $("div.course").click(function(){
-
 		var code = $(this).find(".left").html();
 
 		if(code !== "-" && code !== ""){
@@ -58,7 +50,6 @@ $(document).ready(function(){
 		}
 
 		validateSequence();
-
 	});
 
     $("button.search").click(function(){
@@ -67,8 +58,8 @@ $(document).ready(function(){
 		// var credits = courseList.semesterList[0].courseList[0].credits.toString();
 		// var length = courseList.semesterList.length;
 		// var $left = $("button.toggle").parent().parent().children(".left");
-
 	});
+
     $(function(){
     	$(".courseContainer, .semesterHeader").sortable({
     		connectWith: ".courseContainer"
@@ -138,7 +129,6 @@ function getSemesterObject($semesterContainer, callback){
 }
 
 function getCourseObject($courseContainer){
-
 	var result = "hi";
 
     var code = $courseContainer.find(".left").text();
@@ -189,7 +179,6 @@ function validateSequence(){
 }
 
 function loadDefaultSequence(){
-
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", function(){
 
@@ -199,11 +188,9 @@ function loadDefaultSequence(){
     });
     oReq.open("GET", "http://138.197.6.26/courseplanner/js/defaultSequence.json");
     oReq.send();
-
 }
 
 function fillCourseInfoBox(courseInfo){
-
     var name = courseInfo.name;
     var credits = courseInfo.credits;
     var code = courseInfo.code;
@@ -242,8 +229,6 @@ function fillCourseInfoBox(courseInfo){
         "<b>Corequisites:</b> " + coreqs + "<br>" +
         "<b>Terms offered:</b> " + termsOffered + "<br>" +
         "<b>Notes:</b> " + notes);
-
-
 }
 
 
