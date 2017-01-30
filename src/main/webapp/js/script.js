@@ -60,11 +60,19 @@ $(document).ready(function(){
 		// var $left = $("button.toggle").parent().parent().children(".left");
 	});
 
-    $(function(){
-    	$(".courseContainer, .semesterHeader").sortable({
-    		connectWith: ".courseContainer"
-    	}).disableSelection();
-  	});
+    $(".courseContainer, .semesterHeader").sortable({
+        connectWith: ".courseContainer",
+		//change event gets called when an item is dragged into a new position (including its original position)
+        change: function(event, ui) {
+            var centerText = $(ui.item).find(".center").text();
+            var index = ui.placeholder.index();
+            console.log("Moved an item with center text: " + centerText + " to index: " + index);
+        },
+		//update event gets invoked when an item is dropped into a new position (excluding its original position)
+        update: function(event, ui) {
+            console.log("An item has been dropped into a new spot!");
+        }
+    }).disableSelection();
 });
 
 function populatePage(courseSequenceObject){
