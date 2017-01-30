@@ -48,8 +48,6 @@ $(document).ready(function(){
             oReq.send(JSON.stringify(requestBody));
 
 		}
-
-		validateSequence();
 	});
 
     $("button.search").click(function(){
@@ -71,6 +69,7 @@ $(document).ready(function(){
 		//update event gets invoked when an item is dropped into a new position (excluding its original position)
         update: function(event, ui) {
             console.log("An item has been dropped into a new spot!");
+            validateSequence();
         }
     }).disableSelection();
 });
