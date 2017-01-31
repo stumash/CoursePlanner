@@ -95,7 +95,8 @@ public class SequenceValidator extends HttpServlet {
 
         // start at the last semester and check that for each of itc classes c, 
         // all that courses prereqs appear somewhere in an earlier semester
-        ArrayList<String> errors = new ArrayList<String>();
+//        ArrayList<String> errors = new ArrayList<String>();
+        ArrayList<SequenceIssue> issues = new ArrayList<SequenceIssue>();
         for (int i = semesters.size()-1; i > -1; i--) {
             Semester semester = semesters.get(i);
             if(semester.isWorkTerm()){
@@ -146,15 +147,34 @@ public class SequenceValidator extends HttpServlet {
                     }
 
                     for (int x = 0; x < prereqsFound.length; x++) {
-                        if (!prereqsFound[x])
-                            errors.add(courseInfo.prereqs.get(x) + " must be taken before " + course.getCode());
+                        if (!prereqsFound[x]) {
+                            ArrayList<String> affectedCourses = new ArrayList<String>();
+                            affectedCourses.add(courseInfo.prereqs.get(x));
+                            affectedCourses.add(course.getCode());
+                            String message = courseInfo.prereqs.get(x) + " must be taken before " + course.getCode();
+                            SequenceIssue issue = new SequenceIssue(message, affectedCourses);
+                            issues.add(issue);
+//                            errors.add(courseInfo.prereqs.get(x) + " must be taken before " + course.getCode());
+                        }
                     }
                     for (int x = 0; x < coreqsFound.length; x++) {
-                        if (!coreqsFound[x])
-                            errors.add(courseInfo.coreqs.get(x) + " must be taken at least as soon as " + course.getCode());
+                        if (!coreqsFound[x]) {
+                            ArrayList<String> affectedCourses = new ArrayList<String>();
+                            affectedCourses.add(courseInfo.prereqs.get(x));
+                            affectedCourses.add(course.getCode());
+                            String message = courseInfo.prereqs.get(x) + " must be taken at least as soon as " + course.getCode();
+                            SequenceIssue issue = new SequenceIssue(message, affectedCourses);
+                            issues.add(issue);
+//                            errors.add(courseInfo.coreqs.get(x) + " must be taken at least as soon as " + course.getCode());
+                        }
                     }
                     if (!semesterValid) {
-                        errors.add(course.getCode() + " cannot be taken in the " + semester.getSeason() + ".");
+                        ArrayList<String> affectedCourses = new ArrayList<String>();
+                        affectedCourses.add(course.getCode());
+                        String message = course.getCode() + " cannot be taken in the " + semester.getSeason() + ".";
+                        SequenceIssue issue = new SequenceIssue(message, affectedCourses);
+                        issues.add(issue);
+//                        errors.add(course.getCode() + " cannot be taken in the " + semester.getSeason() + ".");
                     }
                 }
 
@@ -163,16 +183,16 @@ public class SequenceValidator extends HttpServlet {
 
         // the arraylist of error messages is called errors
 
-        JSONArray errorArray = new JSONArray();
+        JSONArray issueArray = new JSONArray();
         responseMessage.put("valid", "true");
-        responseMessage.put("errorMessages", errorArray);
+        responseMessage.put("issues", issueArray);
 
-        if(errors.size() > 0){
+        if(issues.size() > 0){
             responseMessage.put("valid","false");
-            for(String error:errors){
-                errorArray.put(error);
+            for(SequenceIssue issue:issues){
+                issueArray.put(issue.toJSONObject());
             }
-            responseMessage.put("errorMessages", errorArray);
+            responseMessage.put("issues", issueArray);
         }
 
         return responseMessage;

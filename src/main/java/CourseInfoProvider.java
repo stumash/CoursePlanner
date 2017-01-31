@@ -45,26 +45,28 @@ public class CourseInfoProvider extends HttpServlet {
             String courseCode = requestJson.getString("code");
             CourseInfo ci = codeCourseMap.get(courseCode);
 
-            // David make your JSON from the CourseInfo object
-            JSONArray prereqs = new JSONArray();
-            JSONArray coreqs = new JSONArray();
-
-            for(String prereq:ci.prereqs){
-                prereqs.put(prereq);
-            }
-
-            for(String coreq:ci.coreqs) {
-                coreqs.put(coreq);
-            }
-
             JSONObject responseJson = new JSONObject();
-            responseJson.put("code", ci.code);
-            responseJson.put("name", ci.name);
-            responseJson.put("credits", ci.credits);
-            responseJson.put("notes", ci.notes);
-            responseJson.put("termsOffered", ci.isOfferedIn.toString());
-            responseJson.put("prereqs", prereqs);
-            responseJson.put("coreqs", coreqs);
+
+            if(ci != null){
+                JSONArray prereqs = new JSONArray();
+                JSONArray coreqs = new JSONArray();
+
+                for(String prereq:ci.prereqs){
+                    prereqs.put(prereq);
+                }
+
+                for(String coreq:ci.coreqs) {
+                    coreqs.put(coreq);
+                }
+
+                responseJson.put("code", ci.code);
+                responseJson.put("name", ci.name);
+                responseJson.put("credits", ci.credits);
+                responseJson.put("notes", ci.notes);
+                responseJson.put("termsOffered", ci.isOfferedIn.toString());
+                responseJson.put("prereqs", prereqs);
+                responseJson.put("coreqs", coreqs);
+            }
 
             logger.info("Responding with: " + responseJson.toString());
             out.println(responseJson.toString());

@@ -24,12 +24,19 @@ $(document).ready(function(){
         $courses.slideToggle();
     });
 
+    $("#classSearch").bind("enterKey",function(e){
+        requestCourseInfo($("#classSearch").val());
+    });
+
+    $("#classSearch").keyup(function(e){
+        if(e.keyCode == 13)
+        {
+            $(this).trigger("enterKey");
+        }
+    });
+
     $("button.search").click(function(){
-		// var code = courseList.semesterList[0].courseList[0].code.toString();
-		// var name = courseList.semesterList[0].courseList[0].name.toString();
-		// var credits = courseList.semesterList[0].courseList[0].credits.toString();
-		// var length = courseList.semesterList.length;
-		// var $left = $("button.toggle").parent().parent().children(".left");
+        requestCourseInfo($("#classSearch").val());
 	});
 });
 
@@ -79,21 +86,7 @@ function populatePage(courseSequenceObject){
         var code = $(this).find(".left").html();
 
         if(code !== "-" && code !== ""){
-            var requestBody = {
-                "code": code
-            };
-
-            var oReq = new XMLHttpRequest();
-            oReq.addEventListener("load", function(){
-
-                var response = JSON.parse(this.responseText);
-                console.log("Server course-info response: " + this.responseText);
-                fillCourseInfoBox(response);
-
-            });
-            oReq.open("POST", "http://138.197.6.26/courseplanner/courseinfo");
-            oReq.send(JSON.stringify(requestBody));
-
+            requestCourseInfo(code);
         }
     });
 
@@ -104,11 +97,9 @@ function populatePage(courseSequenceObject){
             var centerText = $(ui.item).find(".center").text();
             var index = ui.placeholder.index();
             draggingItem = true;
-            console.log("Moved an item with center text: " + centerText + " to index: " + index);
         },
         //update event gets invoked when an item is dropped into a new position (excluding its original position)
         update: function(event, ui) {
-            console.log("An item has been dropped into a new spot!");
             if(draggingItem){
                 validateSequence();
             }
@@ -117,12 +108,32 @@ function populatePage(courseSequenceObject){
     }).disableSelection();
 }
 
+function requestCourseInfo(code){
+    var requestBody = {
+        "code": code
+    };
+
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", function(){
+
+        var response = JSON.parse(this.responseText);
+        console.log("Server course-info response: " + this.responseText);
+        fillCourseInfoBox(response);
+
+    });
+    oReq.open("POST", "http://138.197.6.26/courseplanner/courseinfo");
+    oReq.send(JSON.stringify(requestBody));
+}
+
 function addCourseRow($courseContainer, code, name, credits){
     var rowHtml = "<div class=\"course\"><div class=\"left\">" + code +"</div><div class=\"center\">" + name +"</div><div class=\"right\">" + credits +"</div></div>";
     $courseContainer.append(rowHtml);
 }
 
 function validateSequence(){
+
+    clearAllHighlights();
+
     generateSequenceObject( function(result){
         var oReq = new XMLHttpRequest();
         oReq.addEventListener("load", function(){
@@ -140,9 +151,10 @@ function validateSequence(){
                 $container.addClass("invalid");
                 $container.removeClass("valid");
                 $errorBox.html("Current sequence is invalid:</br>");
-                for(var i = 0; i < response.errorMessages.length; i++){
-                    var message = response.errorMessages[i];
+                for(var i = 0; i < response.issues.length; i++){
+                    var message = response.issues[i].message;
                     $errorBox.append("</br> - " + message + "</br>");
+                    highlightAffectedCourses(response.issues[i].affectedCourses);
                 }
             }
 
@@ -152,6 +164,18 @@ function validateSequence(){
             "semesterList": result
         }));
     });
+}
+
+function clearAllHighlights(affectedCourses){
+    $(".course.invalid").removeClass("invalid");
+}
+
+function highlightAffectedCourses(affectedCourses){
+    for(var i = 0; i < affectedCourses.length; i++){
+        var course = affectedCourses[i];
+        var $courseRow = $(".course .left:contains('" + course + "')");
+        $courseRow.parent().addClass("invalid");
+    }
 }
 
 function generateSequenceObject(callback){
@@ -225,44 +249,49 @@ function getCourseObject($courseContainer){
 }
 
 function fillCourseInfoBox(courseInfo){
-    var name = courseInfo.name;
-    var credits = courseInfo.credits;
-    var code = courseInfo.code;
-    var notes = courseInfo.notes || "";
 
-    var termsOffered = "";
-    if(courseInfo.termsOffered){
-        if(courseInfo.termsOffered.includes("f"))
-            termsOffered = termsOffered + "fall ";
-        if(courseInfo.termsOffered.includes("w"))
-            termsOffered = termsOffered + "winter ";
-        if(courseInfo.termsOffered.includes("s"))
-            termsOffered = termsOffered + "summer ";
-    }
+    if($.isEmptyObject(courseInfo)){
+        $("p.info").html("Requested information for invalid course code");
+    } else {
+        var name = courseInfo.name;
+        var credits = courseInfo.credits;
+        var code = courseInfo.code;
+        var notes = courseInfo.notes || "";
 
-    var prereqs = "";
-    if(courseInfo.prereqs){
-        for(var i = 0; i < courseInfo.prereqs.length; i++){
-            prereqs = prereqs + courseInfo.prereqs[i] + ", ";
+        var termsOffered = "";
+        if(courseInfo.termsOffered){
+            if(courseInfo.termsOffered.includes("f"))
+                termsOffered = termsOffered + "fall ";
+            if(courseInfo.termsOffered.includes("w"))
+                termsOffered = termsOffered + "winter ";
+            if(courseInfo.termsOffered.includes("s"))
+                termsOffered = termsOffered + "summer ";
         }
-    }
 
-    var coreqs = "";
-    if(courseInfo.coreqs){
-        for(var j = 0; j < courseInfo.coreqs.length; j++){
-            coreqs = coreqs + courseInfo.coreqs[j] + ", ";
+        var prereqs = "";
+        if(courseInfo.prereqs){
+            for(var i = 0; i < courseInfo.prereqs.length; i++){
+                prereqs = prereqs + courseInfo.prereqs[i] + ", ";
+            }
         }
+
+        var coreqs = "";
+        if(courseInfo.coreqs){
+            for(var j = 0; j < courseInfo.coreqs.length; j++){
+                coreqs = coreqs + courseInfo.coreqs[j] + ", ";
+            }
+        }
+
+        prereqs = prereqs || "None";
+        coreqs = coreqs || "None";
+        termsOffered = termsOffered || "None";
+        notes = notes || "None";
+
+        $("p.info").html("<b>Prerequisites:</b> " + prereqs + "<br>" +
+            "<b>Corequisites:</b> " + coreqs + "<br>" +
+            "<b>Terms offered:</b> " + termsOffered + "<br>" +
+            "<b>Notes:</b> " + notes);
     }
-
-    prereqs = prereqs || "None";
-    coreqs = coreqs || "None";
-    termsOffered = termsOffered || "None";
-    notes = notes || "None";
-
-    $("p.info").html("<b>Prerequisites:</b> " + prereqs + "<br>" +
-        "<b>Corequisites:</b> " + coreqs + "<br>" +
-        "<b>Terms offered:</b> " + termsOffered + "<br>" +
-        "<b>Notes:</b> " + notes);
 }
 
 

@@ -141,6 +141,10 @@ body div.invalid {
 	background-color: rgba(251,152,152,0.95);
 }
 
+div.course.invalid:hover {
+	background-color: rgba(250,127,127,0.95);
+}
+
 p.errorBoxHeader {
 	font: small-caps normal 20px Orbitron, Arial, Helvetica, sans-serif;
 }
