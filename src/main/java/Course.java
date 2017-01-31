@@ -53,4 +53,7 @@ public class Course {
         result.put("credits", credits);
         return result;
     }
+    public String toString() {
+        return code + " (" + name + "), " + credits + " credits";
+    }
 }

@@ -15,15 +15,18 @@ public class Semester {
 
     private SemesterSeason season;
     private ArrayList<Course> courses;
+    private boolean isWorkTerm;
 
     public Semester(JSONObject semesterAsJson) throws JSONException {
         season = parseSeason(semesterAsJson.getString("season"));
         courses = parseCourses(semesterAsJson.getJSONArray("courseList"));
+        isWorkTerm = semesterAsJson.getBoolean("isWorkTerm");
     }
 
-    public Semester(SemesterSeason season, ArrayList<Course> courses){
+    public Semester(SemesterSeason season, ArrayList<Course> courses, boolean isWorkTerm){
         this.season = season;
         this.courses = courses;
+        this.isWorkTerm = isWorkTerm;
     }
 
     public SemesterSeason parseSeason(String season){
@@ -56,6 +59,10 @@ public class Semester {
         return courses;
     }
 
+    public boolean isWorkTerm() {
+        return isWorkTerm;
+    }
+
     public JSONObject toJsonObject() throws JSONException{
         JSONObject result = new JSONObject();
         result.put("season", season.toString().toLowerCase());
@@ -64,6 +71,7 @@ public class Semester {
             courseList.put(course.toJsonObject());
         }
         result.put("courseList", courseList);
+        result.put("isWorkTerm", isWorkTerm);
         return result;
     }
 }

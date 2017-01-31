@@ -26,7 +26,7 @@ public class CourseInfoParser {
 
             String logString = null;
 
-            String fName = "/course-data/soendf2.csv";
+            String fName = "/course-data/courseDB.csv";
             InputStream ins = cntxt.getResourceAsStream(fName);
             BufferedReader br = new BufferedReader(new InputStreamReader(ins));
 
