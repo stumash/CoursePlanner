@@ -133,11 +133,11 @@ div.errorBox {
 	border: 3.5px solid black;
 }
 
-.valid {
+body div.valid {
 	background-color: rgba(152,251,152,0.9);
 }
 
-.invalid {
+body div.invalid {
 	background-color: rgba(251,152,152,0.95);
 }
 
