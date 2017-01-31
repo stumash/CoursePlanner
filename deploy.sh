@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# tell the user what's going on
+echo "Building & deploying project..." &&
+
 # get ID of current commit
 commitHash=$(git rev-parse HEAD) &&
 commitAuthor=$(git --no-pager show -s --format='%an <%ae>' HEAD) &&
@@ -9,7 +12,7 @@ sed -i "4i\<!--This site was built against the source of the following commit: $
 sed -i "4i\<!--This site was built against the source of the following commit: $commitHash ($commitAuthor) -->" ./src/main/webapp/scheduleBuilder.html &&
 
 # build project
-mvn clean install &&
+mvn clean install -q &&
 
 # remove commit logging script from html
 # we do not want our deploy script to change our source files
