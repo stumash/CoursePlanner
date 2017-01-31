@@ -87,6 +87,7 @@ function populatePage(courseSequenceObject){
             oReq.addEventListener("load", function(){
 
                 var response = JSON.parse(this.responseText);
+                console.log("Server course-info response: " + this.responseText);
                 fillCourseInfoBox(response);
 
             });
@@ -128,6 +129,22 @@ function validateSequence(){
 
             var response = JSON.parse(this.responseText);
             console.log("Server validation response: " + this.responseText);
+
+            var $errorBox = $(".errorBox .error");
+            var $container = $(".errorBox");
+            if(response.valid === "true"){
+                $container.addClass("valid");
+                $container.removeClass("invalid");
+                $errorBox.text("Current sequence is valid");
+            } else {
+                $container.addClass("invalid");
+                $container.removeClass("valid");
+                $errorBox.html("Current sequence is invalid:</br>");
+                for(var i = 0; i < response.errorMessages.length; i++){
+                    var message = response.errorMessages[i];
+                    $errorBox.append("</br> - " + message + "</br>");
+                }
+            }
 
         });
         oReq.open("POST", "http://138.197.6.26/courseplanner/validate");

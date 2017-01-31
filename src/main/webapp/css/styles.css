@@ -133,6 +133,14 @@ div.errorBox {
 	border: 3.5px solid black;
 }
 
+.valid {
+	background-color: rgba(152,251,152,0.9);
+}
+
+.invalid {
+	background-color: rgba(251,152,152,0.95);
+}
+
 p.errorBoxHeader {
 	font: small-caps normal 20px Orbitron, Arial, Helvetica, sans-serif;
 }
