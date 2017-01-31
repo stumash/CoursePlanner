@@ -109,13 +109,6 @@ function populatePage(courseSequenceObject){
     }).disableSelection();
 }
 
-function setCourseRowData(termIndex, courseIndex, code, name, credits){
-	var $courseRow = $(".scheduleContainer .term:nth-of-type(" + (termIndex + 1) + ") .courseContainer .course:nth-of-type(" + (courseIndex + 1) + ")");
-	$courseRow.find(".left").html(code);
-    $courseRow.find(".center").html(name);
-    $courseRow.find(".right").html(credits);
-}
-
 function addCourseRow($courseContainer, code, name, credits){
     var rowHtml = "<div class=\"course\"><div class=\"left\">" + code +"</div><div class=\"center\">" + name +"</div><div class=\"right\">" + credits +"</div></div>";
     $courseContainer.append(rowHtml);
