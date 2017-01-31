@@ -1,4 +1,3 @@
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,14 +21,14 @@ public class SequenceValidator extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        logger.info("INCOMING POST REQUEST:");
+        logger.info("---------User requested a sequence validation---------");
 
         response.setContentType("text/html");
 
         ArrayList<Semester> semesters = grabSemestersFromRequest(request);
 
         // just a simple log to make sure the json is getting parsed right
-        logSemesterData(semesters);
+        // logSemesterData(semesters);
 
         CourseInfoParser.init(this.getServletContext());
         courseInfoMap = CourseInfoParser.courseMap;
@@ -41,6 +40,7 @@ public class SequenceValidator extends HttpServlet {
             logger.info("Error validating sequence");
         }
 
+        logger.info("Responding with: " + responseString);
         PrintWriter out = response.getWriter();
         out.println(responseString);
 

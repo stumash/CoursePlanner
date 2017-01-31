@@ -20,7 +20,7 @@ public class CourseInfoProvider extends HttpServlet {
             throws ServletException, IOException
     {
 
-        logger.info("INCOMING GET REQUEST:");
+        logger.info("---------User requested info for a course---------");
 
         StringBuffer jb = new StringBuffer();
         String line = null;
@@ -66,6 +66,7 @@ public class CourseInfoProvider extends HttpServlet {
             responseJson.put("prereqs", prereqs);
             responseJson.put("coreqs", coreqs);
 
+            logger.info("Responding with: " + responseJson.toString());
             out.println(responseJson.toString());
 
         } catch (JSONException e) {
