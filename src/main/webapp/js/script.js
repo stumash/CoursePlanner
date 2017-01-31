@@ -1,3 +1,6 @@
+//variable used to ensure the schedule is only validated once per view update
+var draggingItem = false;
+
 //asks to confirm refresh page click event or when F5 is pressed
 window.onbeforeunload = function(e) {
 	return undefined;
@@ -99,12 +102,16 @@ function populatePage(courseSequenceObject){
         change: function(event, ui) {
             var centerText = $(ui.item).find(".center").text();
             var index = ui.placeholder.index();
+            draggingItem = true;
             console.log("Moved an item with center text: " + centerText + " to index: " + index);
         },
         //update event gets invoked when an item is dropped into a new position (excluding its original position)
         update: function(event, ui) {
             console.log("An item has been dropped into a new spot!");
-            validateSequence();
+            if(draggingItem){
+                validateSequence();
+            }
+            draggingItem = false;
         }
     }).disableSelection();
 }
