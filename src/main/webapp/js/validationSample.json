@@ -1,0 +1,353 @@
+{  
+   "semesterList":[  
+      {  
+         "season":"fall",
+         "courseList":[  
+            {  
+               "code":"COMP 232",
+               "name":"Mathematics for Computer Science",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"COMP 248",
+               "name":"Object Oriented Programming I",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"ENGR 201",
+               "name":"Professional Practice and Responsibility",
+               "credits":"1.5",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"ENGR 213",
+               "name":"Applied Ordinary Differential Equations",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"",
+               "name":"",
+               "credits":"",
+               "isElective":true,
+               "electiveType":"Science"
+            }
+         ],
+         "isWorkTerm":false
+      },
+      {  
+         "season":"winter",
+         "courseList":[  
+            {  
+               "code":"COMP 249",
+               "name":"Object Oriented Programming II",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"ENGR 233",
+               "name":"Applied Advanced Calculus",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"SOEN 228",
+               "name":"System Hardware",
+               "credits":"4",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"SOEN 287",
+               "name":"Introduction to Web Applications",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"",
+               "name":"",
+               "credits":"",
+               "isElective":true,
+               "electiveType":"Science"
+            }
+         ],
+         "isWorkTerm":false
+      },
+      {  
+         "season":"summer",
+         "courseList":[  
+            {  
+               "code":"COMP 352",
+               "name":"Data Structures and Algorithms",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"ENCS 282",
+               "name":"Technical Writing and Communication",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"COMP 348",
+               "name":"Principles of Programming Languages",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"ENGR 202",
+               "name":"Sustainable Development and Environmental Stewardship",
+               "credits":"1.5",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"",
+               "name":"",
+               "credits":"",
+               "isElective":true,
+               "electiveType":"General"
+            }
+         ],
+         "isWorkTerm":false
+      },
+      {  
+         "season":"fall",
+         "courseList":[  
+
+         ],
+         "isWorkTerm":true
+      },
+      {  
+         "season":"winter",
+         "courseList":[  
+            {  
+               "code":"COMP 346",
+               "name":"Operating Systems",
+               "credits":"4",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"ELEC 275",
+               "name":"Principles of Electrical Engineering",
+               "credits":"3.5",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"ENGR 371",
+               "name":"Probability and Statistics in Engineering",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"SOEN 331",
+               "name":"Introduction to Formal Methods for Software Engineering",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"SOEN 341",
+               "name":"Software Process",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            }
+         ],
+         "isWorkTerm":false
+      },
+      {  
+         "season":"summer",
+         "courseList":[  
+
+         ],
+         "isWorkTerm":true
+      },
+      {  
+         "season":"fall",
+         "courseList":[  
+            {  
+               "code":"COMP 335",
+               "name":"Introduction to Theoretical Computer Science",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"SOEN 342",
+               "name":"Software Requirements and Specifications",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"SOEN 343",
+               "name":"Software Architecture and Design I",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"SOEN 384",
+               "name":"Management Measurement and Quality Control",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"ENGR 391",
+               "name":"Numerical Methods in Engineering",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            }
+         ],
+         "isWorkTerm":false
+      },
+      {  
+         "season":"winter",
+         "courseList":[  
+            {  
+               "code":"SOEN 344",
+               "name":"Software Architecture and Design II",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"SOEN 345",
+               "name":"Software Testing, Verification and Quality Assurance",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"SOEN 357",
+               "name":"User Interface Design",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"SOEN 390",
+               "name":"Software Engineering Team Design Project",
+               "credits":"3.5",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"",
+               "name":"",
+               "credits":"",
+               "isElective":true,
+               "electiveType":"Program"
+            }
+         ],
+         "isWorkTerm":false
+      },
+      {  
+         "season":"summer",
+         "courseList":[  
+
+         ],
+         "isWorkTerm":true
+      },
+      {  
+         "season":"fall",
+         "courseList":[  
+            {  
+               "code":"SOEN 490",
+               "name":"Capstone Software Engineering Design Project",
+               "credits":"4",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"ENGR 301",
+               "name":"Engineering Management Principles and Economics",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"SOEN 321",
+               "name":"Information Systems Security",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"",
+               "name":"",
+               "credits":"",
+               "isElective":true,
+               "electiveType":"Program"
+            },
+            {  
+               "code":"",
+               "name":"",
+               "credits":"",
+               "isElective":true,
+               "electiveType":"Program"
+            }
+         ],
+         "isWorkTerm":false
+      },
+      {  
+         "season":"winter",
+         "courseList":[  
+            {  
+               "code":"SOEN 385",
+               "name":"Control Systems",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"ENGR 392",
+               "name":"Impact of Technology on Society",
+               "credits":"3",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"SOEN 490",
+               "name":"Capstone Software Engineering Design Project",
+               "credits":"4",
+               "isElective":false,
+               "electiveType":""
+            },
+            {  
+               "code":"",
+               "name":"",
+               "credits":"",
+               "isElective":true,
+               "electiveType":"Program"
+            },
+            {  
+               "code":"",
+               "name":"",
+               "credits":"",
+               "isElective":true,
+               "electiveType":"Program"
+            }
+         ],
+         "isWorkTerm":false
+      }
+   ]
+}
