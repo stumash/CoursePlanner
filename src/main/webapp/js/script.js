@@ -1,4 +1,4 @@
-//variable used to ensure the schedule is only validated once per view update
+//variable used to ensure the sequence is only validated once per view update
 var draggingItem = false;
 
 //asks to confirm refresh page click event or when F5 is pressed
@@ -54,7 +54,7 @@ function loadDefaultSequence(){
 
 function populatePage(courseSequenceObject){
 	for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
-	    var $courseContainer = $(".scheduleContainer .term:nth-of-type(" + (i + 1) +") .courseContainer");
+	    var $courseContainer = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .courseContainer");
 		if(courseSequenceObject.semesterList[i].courseList.length === 0){
             addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "Work Term", "-");
 		} else {
@@ -191,7 +191,7 @@ function generateSequenceObject(callback){
         }
 	};
 	for(var i = 1; i <= 15; i++){
-		getSemesterObject($(".scheduleContainer .term:nth-of-type(" + i + ")"), onFinish);
+		getSemesterObject($(".sequenceContainer .term:nth-of-type(" + i + ")"), onFinish);
 	}
 }
 
