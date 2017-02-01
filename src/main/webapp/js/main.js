@@ -8,7 +8,7 @@ function myFunction() {
    localStorage.setItem("EntrySemester", $("#Semester").val());
    localStorage.setItem("Program", $("#Program").val());
    localStorage.setItem("IsInCoop", $("#checkbox > input").prop('checked'));
-   window.location.assign("../sequenceBuilder.html");
+   window.location.assign("sequenceBuilder.html");
 }
 
 $( document ).ready(function() {
