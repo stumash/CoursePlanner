@@ -3,7 +3,7 @@ var draggingItem = false;
 
 //asks to confirm refresh page click event or when F5 is pressed
 window.onbeforeunload = function(e) {
-	return undefined;
+	return undefined;   //silenced for now, but not forgotten
 };
 
 $(document).ready(function(){
