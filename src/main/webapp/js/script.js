@@ -126,7 +126,7 @@ function requestCourseInfo(code){
 }
 
 function addCourseRow($courseContainer, code, name, credits){
-    var rowHtml = '<div class="course"><div class="left">" + code +"</div><div class="center">" + name +"</div><div class="right">" + credits +"</div></div>';
+    var rowHtml = "<div class='course'><div class='left'>" + code +"</div><div class='center'>" + name +"</div><div class='right'>" + credits +"</div></div>";
     $courseContainer.append(rowHtml);
 }
 
