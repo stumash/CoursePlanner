@@ -8,7 +8,7 @@ body {
     background-size: cover;
 }
 
-div.scheduleContainer {
+div.sequenceContainer {
 	background-color: white;
 	position: absolute;
 	left: 400px;

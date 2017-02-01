@@ -9,7 +9,7 @@ commitAuthor=$(git --no-pager show -s --format='%an <%ae>' HEAD) &&
 
 # add a comment to the html that indicates the current commit
 sed -i "4i\<!--This site was built against the source of the following commit: $commitHash ($commitAuthor) -->" ./src/main/webapp/index.html &&
-sed -i "4i\<!--This site was built against the source of the following commit: $commitHash ($commitAuthor) -->" ./src/main/webapp/scheduleBuilder.html &&
+sed -i "4i\<!--This site was built against the source of the following commit: $commitHash ($commitAuthor) -->" ./src/main/webapp/sequenceBuilder.html &&
 
 # build project
 mvn clean install -q &&
@@ -17,7 +17,7 @@ mvn clean install -q &&
 # remove commit logging script from html
 # we do not want our deploy script to change our source files
 sed -i "4d" ./src/main/webapp/index.html &&
-sed -i "4d" ./src/main/webapp/scheduleBuilder.html &&
+sed -i "4d" ./src/main/webapp/sequenceBuilder.html &&
 
 # transfer the built project onto the VM
 # this will trigger Tomcat to reload the site content
