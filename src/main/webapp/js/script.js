@@ -166,7 +166,7 @@ function validateSequence(){
     });
 }
 
-function clearAllHighlights(affectedCourses){
+function clearAllHighlights(){
     $(".course.invalid").removeClass("invalid");
 }
 
