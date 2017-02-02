@@ -38,6 +38,11 @@ $(document).ready(function(){
     $("button.search").click(function(){
         requestCourseInfo($("#classSearch").val());
 	});
+
+    $(".exportButton").click(function(){
+        exportSequence();
+    });
+
 });
 
 function loadDefaultSequence(){
@@ -292,6 +297,22 @@ function fillCourseInfoBox(courseInfo){
             "<b>Terms offered:</b> " + termsOffered + "<br>" +
             "<b>Notes:</b> " + notes);
     }
+}
+
+function exportSequence(){
+    generateSequenceObject( function(result){
+        var oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", function(){
+
+            var response = JSON.parse(this.responseText);
+            console.log("Server export response: " + this.responseText);
+
+        });
+        oReq.open("POST", "http://138.197.6.26/courseplanner/export");
+        oReq.send(JSON.stringify({
+            "semesterList": result
+        }));
+    });
 }
 
 
