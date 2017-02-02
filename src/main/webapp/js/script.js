@@ -8,8 +8,11 @@ window.onbeforeunload = function(e) {
 
 $(document).ready(function(){
 
+    // call functions needed to set up the page
     loadDefaultSequence();
+    getCourseList();
 
+    // set up event listeners for static elements
 	$("button.toggle").html("&#x25B2");
 
     $("button.toggle").click(function(){
@@ -335,6 +338,22 @@ function saveAs(uri, filename) {
     } else {
         location.replace(uri);
     }
+}
+
+// grab list of course codes from server and setup autocomplete for the search bar
+function getCourseList(){
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", function(){
+
+        var response = JSON.parse(this.responseText);
+
+        $("#classSearch").autocomplete({
+            source: response.codes
+        });
+
+    });
+    oReq.open("GET", "http://138.197.6.26/courseplanner/courselist");
+    oReq.send();
 }
 
 

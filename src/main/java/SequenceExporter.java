@@ -2,7 +2,6 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +46,6 @@ public class SequenceExporter extends HttpServlet {
         }
 
         PrintWriter out = response.getWriter();
-        ServletContext cntxt = this.getServletContext();
 
         logger.info("Responding with: " + responseJson.toString());
         out.println(responseJson.toString());
