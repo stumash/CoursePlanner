@@ -346,7 +346,6 @@ function getCourseList(){
     oReq.addEventListener("load", function(){
 
         var response = JSON.parse(this.responseText);
-        console.log("Server course list response: " + this.responseText);
 
         $("#classSearch").autocomplete({
             source: response.codes
