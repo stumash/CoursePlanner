@@ -114,6 +114,8 @@ function populatePage(courseSequenceObject){
 }
 
 function requestCourseInfo(code){
+    code = code.toUpperCase();
+
     var requestBody = {
         "code": code
     };
