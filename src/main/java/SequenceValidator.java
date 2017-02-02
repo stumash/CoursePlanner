@@ -68,8 +68,8 @@ public class SequenceValidator extends HttpServlet {
         JSONObject responseMessage = new JSONObject();
         ArrayList<String> errorMessages = new ArrayList<String>();
 
-        // start at the last semester and check that for each of itc classes c, 
-        // all that courses prereqs appear somewhere in an earlier semester
+        // For each semester s (starting at the last one), check that for each course c in s
+        // all prereqs of c appear in earlier semesters and all coreqs appear no later than s.
 //        ArrayList<String> errors = new ArrayList<String>();
         ArrayList<SequenceIssue> issues = new ArrayList<SequenceIssue>();
         for (int i = semesters.size()-1; i > -1; i--) {
