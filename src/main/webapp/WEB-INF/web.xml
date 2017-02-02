@@ -27,6 +27,16 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>CourseListProvider</servlet-name>
+        <servlet-class>CourseListProvider</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CourseListProvider</servlet-name>
+        <url-pattern>/courselist</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>SequenceExporter</servlet-name>
         <servlet-class>SequenceExporter</servlet-class>
     </servlet>

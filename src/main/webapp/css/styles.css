@@ -272,3 +272,15 @@ input[type="text"]{
     font-size: 15px;
     width: calc(100% - 128px);
 }
+
+ul.ui-autocomplete {
+	max-height: 250px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: fixed;
+}
+
+ul.ui-autocomplete li {
+	font-family: Orbitron, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+}
