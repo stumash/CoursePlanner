@@ -26,4 +26,14 @@
         <url-pattern>/courseinfo</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>SequenceExporter</servlet-name>
+        <servlet-class>SequenceExporter</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SequenceExporter</servlet-name>
+        <url-pattern>/export</url-pattern>
+    </servlet-mapping>
+
 </web-app>
