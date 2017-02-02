@@ -28,7 +28,7 @@ public class SequenceExporter extends HttpServlet {
 
         logger.info("---------User requested a sequence export---------");
 
-        ArrayList<Semester> semesters = grabSemestersFromRequest(request);
+        ArrayList<Semester> semesters = Util.grabSemestersFromRequest(request);
 
         logger.info(semesters.get(3).isWorkTerm());
 
@@ -39,31 +39,6 @@ public class SequenceExporter extends HttpServlet {
 
         logger.info("Responding with: " + responseJson.toString());
         out.println(responseJson.toString());
-    }
-
-    private ArrayList<Semester> grabSemestersFromRequest(HttpServletRequest request) throws IOException{
-        StringBuffer jb = new StringBuffer();
-        String line;
-        JSONObject requestJson;
-        ArrayList<Semester> semesters = new ArrayList<Semester>();
-        try {
-            BufferedReader reader = request.getReader();
-            while ((line = reader.readLine()) != null) {
-                jb.append(line);
-            }
-        } catch (Exception e) { /*report an error*/ }
-        try {
-            requestJson =  new JSONObject(jb.toString());
-            JSONArray semestersAsJson = requestJson.getJSONArray("semesterList");
-            for(int i = 0; i < semestersAsJson.length(); i++){
-                semesters.add(new Semester(semestersAsJson.getJSONObject(i)));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            // crash and burn
-            throw new IOException("Error parsing JSON request string");
-        }
-        return semesters;
     }
 
 }
