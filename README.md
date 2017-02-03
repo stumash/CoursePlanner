@@ -15,6 +15,6 @@ A website for helping to design your curriculum sequence.  The 3 main features a
 
 Visit the page at: http://138.197.6.26/courseplanner
 
-### Credits
+## Credits:
 
 [Pandoc](http://pandoc.org/): Used to generate pdf files from sequence data.
