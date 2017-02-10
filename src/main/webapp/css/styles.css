@@ -9,6 +9,7 @@ body {
 }
 
 div.sequenceContainer {
+	min-width: 700px;
 	background-color: white;
 	position: absolute;
 	left: 400px;
