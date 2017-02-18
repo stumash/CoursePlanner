@@ -234,12 +234,12 @@ function getCourseObject($courseContainer){
     var code = $courseContainer.find(".left").text();
     var name = $courseContainer.find(".center").text();
 
-    if(name.includes("Work Term")){
+    if(name.indexOf("Work Term") >= 0){
     	return undefined;
 	}
 
     var credits = $courseContainer.find(".right").text();
-	var isElective = $courseContainer.find(".center").text().includes("Elective");
+	var isElective = ($courseContainer.find(".center").text().indexOf("Elective") >= 0);
     var electiveType = "";
 
 	if(isElective){
@@ -270,11 +270,11 @@ function fillCourseInfoBox(courseInfo){
 
         var termsOffered = "";
         if(courseInfo.termsOffered){
-            if(courseInfo.termsOffered.includes("f"))
+            if(courseInfo.termsOffered.indexOf("f") >= 0)
                 termsOffered = termsOffered + "fall ";
-            if(courseInfo.termsOffered.includes("w"))
+            if(courseInfo.termsOffered.indexOf("w") >= 0)
                 termsOffered = termsOffered + "winter ";
-            if(courseInfo.termsOffered.includes("s"))
+            if(courseInfo.termsOffered.indexOf("s") >= 0)
                 termsOffered = termsOffered + "summer ";
         }
 
