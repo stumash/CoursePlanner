@@ -9,6 +9,7 @@ body {
 }
 
 div.sequenceContainer {
+	min-width: 700px;
 	background-color: white;
 	position: absolute;
 	left: 400px;
@@ -59,6 +60,8 @@ div.course {
 	cursor: grab;
 	cursor: -moz-grab;
 	cursor: -webkit-grab;
+	transition: background-color 0.5s;
+	-webkit-transition: background-color 0.5s; /*Safari*/
 }
 
 div.course:last-of-type:not(.grabbed) {
@@ -102,18 +105,22 @@ div.right {
 	padding: 8px 0px; /*to center the text vertically*/
 }
 
-div.infoBox {
+div.infoPanel {
 	position: fixed;
 	float: left;
-	margin-top: 25px;
+	margin-top: 19px;
 	margin-left: 30px;
 	min-height: 250px;
 	width: 320px;
-	border: 3px solid black;
-	border-radius: 5px;
 	display: inline-block;
 }
-div.infoBox p {
+
+div.infoPanel > div {
+	margin: 6px 0px;
+	border-radius: 5px;
+}
+
+div.infoPanel p {
 	font: italic small-caps normal 15px Arial, Helvetica, sans-serif;
 	margin: 15px;
 }
@@ -161,7 +168,7 @@ div.export {
 	height: 50px;
 	border: 3px solid #900C3F;
 	background-color: #900C3F;
-
+	border-radius: 5px;
 }
 
 button.exportButton {
@@ -265,10 +272,22 @@ input[type="text"]{
 	margin-left: 6px;
     padding-left: 4px;
     position: relative;
-    top: 2px;
+    top: 3px;
     border-radius: 1px;
     font-family: Orbitron, Arial, Helvetica, sans-serif;
     height: 23px;
     font-size: 15px;
     width: calc(100% - 128px);
+}
+
+ul.ui-autocomplete {
+	max-height: 250px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: fixed;
+}
+
+ul.ui-autocomplete li {
+	font-family: Orbitron, Arial, Helvetica, sans-serif;
+	font-size: 15px;
 }
