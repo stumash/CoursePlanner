@@ -9,7 +9,7 @@ window.onbeforeunload = function(e) {
 $(document).ready(function(){
 
     // call functions needed to set up the page
-    loadDefaultSequence();
+    loadSequence();
     getCourseList();
 
     // set up event listeners for static elements
@@ -48,16 +48,27 @@ $(document).ready(function(){
 
 });
 
-function loadDefaultSequence(){
-    var oReq = new XMLHttpRequest();
-    oReq.addEventListener("load", function(){
+function loadSequence(){
 
-        var courseList = JSON.parse(this.responseText);
-        populatePage(courseList);
+    var savedSequence = JSON.parse(localStorage.getItem("savedSequence"));
 
-    });
-    oReq.open("GET", "http://138.197.6.26/courseplanner/js/defaultSequence.json");
-    oReq.send();
+    if(savedSequence === null){
+        // load the default sequence
+        var oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", function(){
+
+            var courseList = JSON.parse(this.responseText);
+            populatePage(courseList);
+
+        });
+        oReq.open("GET", "http://138.197.6.26/courseplanner/js/defaultSequence.json");
+        oReq.send();
+        console.log("true");
+    } else {
+        // load the saved sequence
+        populatePage(savedSequence);
+        validateSequence(savedSequence);
+    }
 }
 
 function populatePage(courseSequenceObject){
@@ -67,7 +78,7 @@ function populatePage(courseSequenceObject){
             addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "Work Term", "-");
 		} else {
 			for(var j = 0; j < courseSequenceObject.semesterList[i].courseList.length; j++){
-				if(courseSequenceObject.semesterList[i].courseList[j].isElective === "true"){
+				if(courseSequenceObject.semesterList[i].courseList[j].isElective === "true" || courseSequenceObject.semesterList[i].courseList[j].isElective === true){
 					var electiveType = courseSequenceObject.semesterList[i].courseList[j].electiveType.toString();
                     addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", electiveType + " Elective", "-");
 				}else{
@@ -109,7 +120,10 @@ function populatePage(courseSequenceObject){
         //update event gets invoked when an item is dropped into a new position (excluding its original position)
         update: function(event, ui) {
             if(draggingItem){
-                validateSequence();
+                generateSequenceObject(function(result){
+                    localStorage.setItem("savedSequence", JSON.stringify(result));
+                    validateSequence(result);
+                });
             }
             draggingItem = false;
         }
@@ -140,40 +154,36 @@ function addCourseRow($courseContainer, code, name, credits){
     $courseContainer.append(rowHtml);
 }
 
-function validateSequence(){
+function validateSequence(sequenceObject){
 
     clearAllHighlights();
 
-    generateSequenceObject( function(result){
-        var oReq = new XMLHttpRequest();
-        oReq.addEventListener("load", function(){
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", function(){
 
-            var response = JSON.parse(this.responseText);
-            console.log("Server validation response: " + this.responseText);
+        var response = JSON.parse(this.responseText);
+        console.log("Server validation response: " + this.responseText);
 
-            var $errorBox = $(".errorBox .error");
-            var $container = $(".errorBox");
-            if(response.valid === "true"){
-                $container.addClass("valid");
-                $container.removeClass("invalid");
-                $errorBox.text("Current sequence is valid");
-            } else {
-                $container.addClass("invalid");
-                $container.removeClass("valid");
-                $errorBox.html("Current sequence is invalid:</br>");
-                for(var i = 0; i < response.issues.length; i++){
-                    var message = response.issues[i].message;
-                    $errorBox.append("</br> - " + message + "</br>");
-                    highlightAffectedCourses(response.issues[i].affectedCourses);
-                }
+        var $errorBox = $(".errorBox .error");
+        var $container = $(".errorBox");
+        if(response.valid === "true"){
+            $container.addClass("valid");
+            $container.removeClass("invalid");
+            $errorBox.text("Current sequence is valid");
+        } else {
+            $container.addClass("invalid");
+            $container.removeClass("valid");
+            $errorBox.html("Current sequence is invalid:</br>");
+            for(var i = 0; i < response.issues.length; i++){
+                var message = response.issues[i].message;
+                $errorBox.append("</br> - " + message + "</br>");
+                highlightAffectedCourses(response.issues[i].affectedCourses);
             }
+        }
 
-        });
-        oReq.open("POST", "http://138.197.6.26/courseplanner/validate");
-        oReq.send(JSON.stringify({
-            "semesterList": result
-        }));
     });
+    oReq.open("POST", "http://138.197.6.26/courseplanner/validate");
+    oReq.send(JSON.stringify(sequenceObject));
 }
 
 function clearAllHighlights(){
@@ -197,7 +207,7 @@ function generateSequenceObject(callback){
         }
         count++;
         if(count === 15){
-            callback(semesterList);
+            callback({ "semesterList" : semesterList});
         }
 	};
 	for(var i = 1; i <= 15; i++){
@@ -321,9 +331,7 @@ function exportSequence(){
 
         });
         oReq.open("POST", "http://138.197.6.26/courseplanner/export");
-        oReq.send(JSON.stringify({
-            "semesterList": result
-        }));
+        oReq.send(JSON.stringify(result));
     });
 }
 
