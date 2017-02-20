@@ -383,6 +383,7 @@ function resetToDefaultSequence() {
             // auto-save the new sequence
             generateSequenceObject(function(result) {
                 localStorage.setItem("savedSequence", JSON.stringify(result));
+                validateSequence(result);
             });
 
         });
