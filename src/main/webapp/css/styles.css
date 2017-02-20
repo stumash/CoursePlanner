@@ -32,15 +32,25 @@ div.term {
 }
 
 div.semesterHeading {
-	height: 34px;
+	height: 40px;
 	margin-bottom: 0px;
 	font: italic small-caps normal 20px Orbitron, Arial, Helvetica, sans-serif;
 	border: none;
 	text-align: center;
-	padding-top: 6px;
-	padding-left: 30px;
+	padding-left: 60px;
 	font-weight: bold;
 	background-color: #DDDDDD;
+}
+
+div.semesterHeading > * {
+	display: inline-block;
+	padding-top: 6px;
+}
+
+div.semesterHeading .shiftSemester {
+	float: right;
+	height: 34px;
+	width: 30px;
 }
 
 div.courseContainer {
@@ -190,13 +200,12 @@ div.leftButton button:hover{
 }
 
 button.toggle {
-	margin-bottom: 4px;
+	margin: 5px 8px;
 	cursor: pointer;
 	width: 25px;
 	height: 28px;
 	border-radius: 100%;
 	float: right;
-	margin-right: 8px;
 	font: bold 15px Arial;
 	padding-right: 20px;
 	background-color: #900C3F;
