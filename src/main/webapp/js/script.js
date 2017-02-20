@@ -46,6 +46,10 @@ $(document).ready(function(){
         exportSequence();
     });
 
+    $(".defaultsButton").click(function(){
+        resetToDefaultSequence();
+    });
+
 });
 
 function loadSequence(){
@@ -63,7 +67,6 @@ function loadSequence(){
         });
         oReq.open("GET", "http://138.197.6.26/courseplanner/js/defaultSequence.json");
         oReq.send();
-        console.log("true");
     } else {
         // load the saved sequence
         populatePage(savedSequence);
@@ -72,6 +75,11 @@ function loadSequence(){
 }
 
 function populatePage(courseSequenceObject){
+
+    // clear all course containers first as we may call this more than once
+    // (this will remove all draggable course rows)
+    $(".courseContainer").empty();
+
 	for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
 	    var $courseContainer = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .courseContainer");
 		if(courseSequenceObject.semesterList[i].courseList.length === 0){
@@ -364,4 +372,17 @@ function getCourseList(){
     oReq.send();
 }
 
+function resetToDefaultSequence() {
+    if(confirm("Are you sure you want to reset to the default recommended sequence?")){
+        // load the default sequence
+        var oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", function(){
 
+            var courseList = JSON.parse(this.responseText);
+            populatePage(courseList);
+
+        });
+        oReq.open("GET", "http://138.197.6.26/courseplanner/js/defaultSequence.json");
+        oReq.send();
+    }
+}

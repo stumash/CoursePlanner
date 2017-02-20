@@ -164,14 +164,14 @@ p.error {
 	font: small-caps normal 15px Orbitron, Arial, Helvetica, sans-serif;
 }
 
-div.export {
+div.leftButton {
 	height: 50px;
 	border: 3px solid #900C3F;
 	background-color: #900C3F;
 	border-radius: 5px;
 }
 
-button.exportButton {
+div.leftButton button {
 	cursor: pointer;
 	width: 100%;
 	height: 50px;
@@ -185,7 +185,7 @@ button.exportButton {
 	-webkit-transition: opacity 1s; /*Safari*/
 }
 
-button.exportButton:hover{
+div.leftButton button:hover{
 	opacity: 1;
 }
 
