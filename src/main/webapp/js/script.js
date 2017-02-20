@@ -64,7 +64,6 @@ function addContainers(callback){
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", function(){
 
-        console.log("term template: " + this.responseText);
         var termTemplate = this.responseText;
         var $sequenceContainer = $(".sequenceContainer");
 
@@ -264,7 +263,7 @@ function generateSequenceObject(callback){
 }
 
 function getSemesterObject($semesterContainer, callback){
-	var seasonText = $semesterContainer.find(".semesterHeading").text().split(" ")[0].trim().toLowerCase();
+	var seasonText = $semesterContainer.find(".semesterHeading > div").text().split(" ")[0].trim().toLowerCase();
 	var courseList = [];
 	var $courses = $semesterContainer.find(".course");
     var count = $courses.length;
