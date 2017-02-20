@@ -380,6 +380,10 @@ function resetToDefaultSequence() {
 
             var courseList = JSON.parse(this.responseText);
             populatePage(courseList);
+            // auto-save the new sequence
+            generateSequenceObject(function(result) {
+                localStorage.setItem("savedSequence", JSON.stringify(result));
+            });
 
         });
         oReq.open("GET", "http://138.197.6.26/courseplanner/js/defaultSequence.json");
