@@ -47,10 +47,12 @@ div.semesterHeading > * {
 	padding-top: 6px;
 }
 
-div.semesterHeading .shiftSemester {
+div.shiftSemester {
 	float: right;
 	height: 34px;
 	width: 30px;
+	cursor: pointer;
+	color: #900C3F;
 }
 
 div.courseContainer {

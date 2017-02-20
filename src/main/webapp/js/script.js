@@ -31,6 +31,10 @@ $(document).ready(function(){
             $courses.slideToggle();
         });
 
+        $(".shiftSemester").click(function(){
+            console.log("should shift semester down");
+        });
+
     });
     getCourseList();
 
