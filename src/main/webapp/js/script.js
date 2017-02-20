@@ -1,3 +1,6 @@
+// constants
+var NUMBER_OF_YEARS = 5;
+
 //variable used to ensure the sequence is only validated once per view update
 var draggingItem = false;
 
@@ -9,23 +12,27 @@ window.onbeforeunload = function(e) {
 $(document).ready(function(){
 
     // call functions needed to set up the page
-    loadSequence();
-    getCourseList();
+    addContainers(function(){
 
-    // set up event listeners for static elements
-	$("button.toggle").html("&#x25B2");
+        loadSequence();
 
-    $("button.toggle").click(function(){
-    	var $courses =  $(this).parent().parent().children(".courseContainer");
+        // set up event listeners for static elements
+        $("button.toggle").html("&#x25B2");
 
-    	if($courses.is(":hidden")){
-			$(this).html("&#x25B2");    
-		}else{
-			$(this).html("&#x25BC");
-		}
+        $("button.toggle").click(function(){
+            var $courses =  $(this).parent().parent().children(".courseContainer");
 
-        $courses.slideToggle();
+            if($courses.is(":hidden")){
+                $(this).html("&#x25B2");
+            }else{
+                $(this).html("&#x25BC");
+            }
+
+            $courses.slideToggle();
+        });
+
     });
+    getCourseList();
 
     $("#classSearch").bind("enterKey",function(e){
         requestCourseInfo($("#classSearch").val());
@@ -51,6 +58,39 @@ $(document).ready(function(){
     });
 
 });
+
+function addContainers(callback){
+    // load the term template
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", function(){
+
+        console.log("term template: " + this.responseText);
+        var termTemplate = this.responseText;
+        var $sequenceContainer = $(".sequenceContainer");
+
+        for(var year = 1; year <= NUMBER_OF_YEARS; year++){
+            for(var term = 0; term < 3; term++) {
+                var headerText = "";
+                switch(term){
+                    case 0:
+                        headerText = "FALL " + year;
+                        break;
+                    case 1:
+                        headerText = "WINTER " + year;
+                        break;
+                    case 2:
+                        headerText = "SUMMER " + year;
+                        break;
+                }
+                var termHtml = termTemplate.replace("{HEADER_TEXT}", headerText);
+                $sequenceContainer.append(termHtml);
+            }
+        }
+        callback();
+    });
+    oReq.open("GET", "http://138.197.6.26/courseplanner/html/termTemplate.html");
+    oReq.send();
+}
 
 function loadSequence(){
 
