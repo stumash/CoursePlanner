@@ -490,12 +490,9 @@ function indexToSeason(index){
     switch(index%3){
         case 0:
             return "fall";
-            break;
         case 1:
             return "winter";
-            break;
         case 2:
             return "summer";
-            break;
     }
 }
