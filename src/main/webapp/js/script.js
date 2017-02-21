@@ -32,12 +32,14 @@ $(document).ready(function(){
         });
 
         $(".shiftSemester").click(function(){
-            // get season text from semester container header (e.g. FALL 4)
-            var seasonText = $(this).parent().find("div:first-of-type").text();
-            // convert the season text into an index
-            var indexOf = seasonTextToIndex(seasonText);
-            // shift down all semesters from that index
-            shiftAllDownFromSemester(indexOf);
+            if(confirm("Are you sure you want to shift your sequence downwards from this point?")){
+                // get season text from semester container header (e.g. FALL 4)
+                var seasonText = $(this).parent().find("div:first-of-type").text();
+                // convert the season text into an index
+                var indexOf = seasonTextToIndex(seasonText);
+                // shift down all semesters from that index
+                shiftAllDownFromSemester(indexOf);
+            }
         });
     });
     getCourseList();
