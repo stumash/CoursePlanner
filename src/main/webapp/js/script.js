@@ -444,18 +444,7 @@ function resetToDefaultSequence() {
 function shiftAllDownFromSemester(index) {
     generateSequenceObject(function(result){
         var semesterList = result.semesterList;
-        var season = "";
-        switch(index%3){
-            case 0:
-                season = "fall";
-                break;
-            case 1:
-                season = "winter";
-                break;
-            case 2:
-                season = "summer";
-                break;
-        }
+        var season = indexToSeason(index);
         var emptySemester = {
             "season": season,
             "courseList" : [],
@@ -495,4 +484,18 @@ function seasonTextToIndex(seasonText){
         seasonNumber = 2;
     }
     return (yearNumber - 1) * 3 + seasonNumber;
+}
+
+function indexToSeason(index){
+    switch(index%3){
+        case 0:
+            return "fall";
+            break;
+        case 1:
+            return "winter";
+            break;
+        case 2:
+            return "summer";
+            break;
+    }
 }
