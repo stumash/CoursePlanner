@@ -32,9 +32,13 @@ $(document).ready(function(){
         });
 
         $(".shiftSemester").click(function(){
-            console.log("should shift semester down");
+            // get season text from semester container header (e.g. FALL 4)
+            var seasonText = $(this).parent().find("div:first-of-type").text();
+            // convert the season text into an index
+            var indexOf = seasonTextToIndex(seasonText);
+            // shift down all semesters from that index
+            shiftAllDownFromSemester(indexOf);
         });
-
     });
     getCourseList();
 
@@ -43,8 +47,7 @@ $(document).ready(function(){
     });
 
     $("#classSearch").keyup(function(e){
-        if(e.keyCode == 13)
-        {
+        if(e.keyCode == 13){
             $(this).trigger("enterKey");
         }
     });
@@ -125,7 +128,7 @@ function populatePage(courseSequenceObject){
 
 	for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
 	    var $courseContainer = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .courseContainer");
-		if(courseSequenceObject.semesterList[i].courseList.length === 0){
+		if(courseSequenceObject.semesterList[i].courseList.length === 0 && (courseSequenceObject.semesterList[i].isWorkTerm === "true" || courseSequenceObject.semesterList[i].isWorkTerm === true)){
             addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "Work Term", "-");
 		} else {
 			for(var j = 0; j < courseSequenceObject.semesterList[i].courseList.length; j++){
@@ -433,4 +436,61 @@ function resetToDefaultSequence() {
         oReq.open("GET", "http://138.197.6.26/courseplanner/js/defaultSequence.json");
         oReq.send();
     }
+}
+
+// param index will indicate which semester we're shifting down from
+function shiftAllDownFromSemester(index) {
+    generateSequenceObject(function(result){
+        var semesterList = result.semesterList;
+        var season = "";
+        switch(index%3){
+            case 0:
+                season = "fall";
+                break;
+            case 1:
+                season = "winter";
+                break;
+            case 2:
+                season = "summer";
+                break;
+        }
+        var emptySemester = {
+            "season": season,
+            "courseList" : [],
+            "isWorkTerm": true
+        };
+        // insert the empty/work semester at the correct semester, pushing all the next ones forwards
+        semesterList.splice(index,0,emptySemester);
+        // update the seasons of the subsequent semesters
+        for(var i = index+1; i < semesterList.length; i++){
+            if(semesterList[i].season.toUpperCase() === "FALL"){
+                semesterList[i].season = "winter";
+            }
+            else if(semesterList[i].season.toUpperCase() === "WINTER"){
+                semesterList[i].season = "summer";
+            }
+            else if(semesterList[i].season.toUpperCase() === "SUMMER"){
+                semesterList[i].season = "fall";
+            }
+        }
+        result.semesterList = semesterList;
+        populatePage(result);
+        localStorage.setItem("savedSequence", JSON.stringify(result));
+        validateSequence(result);
+    });
+}
+
+function seasonTextToIndex(seasonText){
+    var yearNumber = seasonText.charAt(seasonText.length-1);
+    var seasonNumber = 0;
+    if(seasonText.toUpperCase().indexOf("FALL") >= 0){
+        seasonNumber = 0;
+    }
+    if(seasonText.toUpperCase().indexOf("WINTER") >= 0){
+        seasonNumber = 1;
+    }
+    if(seasonText.toUpperCase().indexOf("SUMMER") >= 0){
+        seasonNumber = 2;
+    }
+    return (yearNumber - 1) * 3 + seasonNumber;
 }

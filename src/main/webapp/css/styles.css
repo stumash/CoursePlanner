@@ -150,6 +150,8 @@ div.errorBox {
 	min-height: 150px;
 	margin-left: -0.45%;
 	border: 3.5px solid black;
+	max-height: 400px;
+	overflow-y: auto;
 }
 
 body div.valid {
