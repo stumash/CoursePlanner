@@ -1,6 +1,6 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.davidhuculak.web</groupId>
+    <groupId>com.tranzones.web</groupId>
     <artifactId>course-planner</artifactId>
     <version>1.0.0</version>
     <packaging>war</packaging>
