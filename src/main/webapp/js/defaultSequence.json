@@ -3,6 +3,7 @@
     {
       "season": "fall",
       "year": "2016",
+      "isWorkTerm": "false",
       "courseList": [
         {
           "code": "COMP 232",
@@ -44,6 +45,7 @@
     {
       "season": "winter",
       "year": "2017",
+      "isWorkTerm": "false",
       "courseList": [
         {
           "code": "COMP 249",
@@ -85,6 +87,7 @@
     {
       "season": "summer",
       "year": "2017",
+      "isWorkTerm": "false",
       "courseList": [
         {
           "code": "COMP 348",
@@ -126,11 +129,13 @@
     {
       "season": "fall",
       "year": "2017",
-      "courseList": []
+      "courseList": [],
+      "isWorkTerm": "true"
     },
     {
       "season": "winter",
       "year": "2018",
+      "isWorkTerm": "false",
       "courseList": [
         {
           "code": "COMP 346",
@@ -172,11 +177,13 @@
     {
       "season": "summer",
       "year": "2018",
-      "courseList": []
+      "courseList": [],
+      "isWorkTerm": "true"
     },
     {
       "season": "fall",
       "year": "2018",
+      "isWorkTerm": "false",
       "courseList": [
         {
           "code": "COMP 335",
@@ -218,6 +225,7 @@
     {
       "season": "winter",
       "year": "2019",
+      "isWorkTerm": "false",
       "courseList": [
         {
           "code": "SOEN 344",
@@ -259,11 +267,13 @@
     {
       "season": "summer",
       "year": "2019",
-      "courseList": []
+      "courseList": [],
+      "isWorkTerm": "true"
     },
     {
       "season": "fall",
       "year": "2019",
+      "isWorkTerm": "false",
       "courseList": [
         {
           "code": "SOEN 490",
@@ -305,6 +315,7 @@
     {
       "season": "winter",
       "year": "2020",
+      "isWorkTerm": "false",
       "courseList": [
         {
           "code": "SOEN 385",

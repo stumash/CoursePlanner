@@ -9,6 +9,7 @@ body {
 }
 
 div.sequenceContainer {
+	min-width: 700px;
 	background-color: white;
 	position: absolute;
 	left: 400px;
@@ -31,15 +32,27 @@ div.term {
 }
 
 div.semesterHeading {
-	height: 34px;
+	height: 40px;
 	margin-bottom: 0px;
 	font: italic small-caps normal 20px Orbitron, Arial, Helvetica, sans-serif;
 	border: none;
 	text-align: center;
-	padding-top: 6px;
-	padding-left: 30px;
+	padding-left: 60px;
 	font-weight: bold;
 	background-color: #DDDDDD;
+}
+
+div.semesterHeading > * {
+	display: inline-block;
+	padding-top: 6px;
+}
+
+div.shiftSemester {
+	float: right;
+	height: 34px;
+	width: 30px;
+	cursor: pointer;
+	color: #900C3F;
 }
 
 div.courseContainer {
@@ -59,6 +72,8 @@ div.course {
 	cursor: grab;
 	cursor: -moz-grab;
 	cursor: -webkit-grab;
+	transition: background-color 0.5s;
+	-webkit-transition: background-color 0.5s; /*Safari*/
 }
 
 div.course:last-of-type:not(.grabbed) {
@@ -102,18 +117,22 @@ div.right {
 	padding: 8px 0px; /*to center the text vertically*/
 }
 
-div.infoBox {
+div.infoPanel {
 	position: fixed;
 	float: left;
-	margin-top: 25px;
+	margin-top: 19px;
 	margin-left: 30px;
 	min-height: 250px;
 	width: 320px;
-	border: 3px solid black;
-	border-radius: 5px;
 	display: inline-block;
 }
-div.infoBox p {
+
+div.infoPanel > div {
+	margin: 6px 0px;
+	border-radius: 5px;
+}
+
+div.infoPanel p {
 	font: italic small-caps normal 15px Arial, Helvetica, sans-serif;
 	margin: 15px;
 }
@@ -131,6 +150,8 @@ div.errorBox {
 	min-height: 150px;
 	margin-left: -0.45%;
 	border: 3.5px solid black;
+	max-height: 400px;
+	overflow-y: auto;
 }
 
 body div.valid {
@@ -157,14 +178,14 @@ p.error {
 	font: small-caps normal 15px Orbitron, Arial, Helvetica, sans-serif;
 }
 
-div.export {
+div.leftButton {
 	height: 50px;
 	border: 3px solid #900C3F;
 	background-color: #900C3F;
-
+	border-radius: 5px;
 }
 
-button.exportButton {
+div.leftButton button {
 	cursor: pointer;
 	width: 100%;
 	height: 50px;
@@ -178,18 +199,17 @@ button.exportButton {
 	-webkit-transition: opacity 1s; /*Safari*/
 }
 
-button.exportButton:hover{
+div.leftButton button:hover{
 	opacity: 1;
 }
 
 button.toggle {
-	margin-bottom: 4px;
+	margin: 5px 8px;
 	cursor: pointer;
 	width: 25px;
 	height: 28px;
 	border-radius: 100%;
 	float: right;
-	margin-right: 8px;
 	font: bold 15px Arial;
 	padding-right: 20px;
 	background-color: #900C3F;
@@ -265,7 +285,7 @@ input[type="text"]{
 	margin-left: 6px;
     padding-left: 4px;
     position: relative;
-    top: 2px;
+    top: 3px;
     border-radius: 1px;
     font-family: Orbitron, Arial, Helvetica, sans-serif;
     height: 23px;
