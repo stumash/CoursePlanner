@@ -15,9 +15,7 @@ window.onbeforeunload = function(e) {
 $(document).ready(function(){
 
     // call functions needed to set up the page
-    loadSequence(function(){
-        initUI();
-    });
+    loadSequence();
     getCourseList();
 
 });
@@ -41,8 +39,7 @@ function loadSequence(callback){
                 // fill page with default sequence
                 populatePage(courseList);
                 validateSequence(courseList);
-                if(callback)
-                    callback();
+                initUI();
             });
 
         });
@@ -53,8 +50,7 @@ function loadSequence(callback){
             // fill page with the saved sequence
             populatePage(savedSequence);
             validateSequence(savedSequence);
-            if(callback)
-                callback();
+            initUI();
         });
     }
 }
@@ -397,9 +393,7 @@ function resetToDefaultSequence() {
 
         localStorage.removeItem("savedSequence");
 
-        loadSequence(function(){
-            initUI();
-        });
+        loadSequence();
     }
 }
 
@@ -429,9 +423,7 @@ function shiftAllDownFromSemester(index) {
         }
         result.semesterList = semesterList;
         localStorage.setItem("savedSequence", JSON.stringify(result));
-        loadSequence(function(){
-            initUI();
-        });
+        loadSequence();
     });
 }
 
