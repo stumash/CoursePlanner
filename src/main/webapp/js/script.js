@@ -1,106 +1,32 @@
 // constants
 var NUMBER_OF_YEARS = 5;
 
-//variable used to ensure the sequence is only validated once per view update
+//variable used to ensure the sequence is only validated once every time the user drags a class into a new position
 var draggingItem = false;
 
-//asks to confirm refresh page click event or when F5 is pressed
+// track the number of work terms in the list
+var workTermCount = 0;
+
+// asks to confirm refresh page click event or when F5 is pressed
 window.onbeforeunload = function(e) {
-	return undefined;   //silenced for now, but not forgotten
+	return undefined;   // silenced for now, but not forgotten
 };
 
 $(document).ready(function(){
 
     // call functions needed to set up the page
-    addContainers(function(){
-
-        loadSequence();
-
-        // set up event listeners for static elements
-        $("button.toggle").html("&#x25B2");
-
-        $("button.toggle").click(function(){
-            var $courses =  $(this).parent().parent().children(".courseContainer");
-
-            if($courses.is(":hidden")){
-                $(this).html("&#x25B2");
-            }else{
-                $(this).html("&#x25BC");
-            }
-
-            $courses.slideToggle();
-        });
-
-        $(".shiftSemester").click(function(){
-            if(confirm("Are you sure you want to shift your sequence downwards from this point?")){
-                // get season text from semester container header (e.g. FALL 4)
-                var seasonText = $(this).parent().find("div:first-of-type").text();
-                // convert the season text into an index
-                var indexOf = seasonTextToIndex(seasonText);
-                // shift down all semesters from that index
-                shiftAllDownFromSemester(indexOf);
-            }
-        });
+    loadSequence(function(){
+        initUI();
     });
     getCourseList();
 
-    $("#classSearch").bind("enterKey",function(e){
-        requestCourseInfo($("#classSearch").val());
-    });
-
-    $("#classSearch").keyup(function(e){
-        if(e.keyCode == 13){
-            $(this).trigger("enterKey");
-        }
-    });
-
-    $("button.search").click(function(){
-        requestCourseInfo($("#classSearch").val());
-	});
-
-    $(".exportButton").click(function(){
-        exportSequence();
-    });
-
-    $(".defaultsButton").click(function(){
-        resetToDefaultSequence();
-    });
-
 });
 
-function addContainers(callback){
-    // load the term template
-    var oReq = new XMLHttpRequest();
-    oReq.addEventListener("load", function(){
+function loadSequence(callback){
 
-        var termTemplate = this.responseText;
-        var $sequenceContainer = $(".sequenceContainer");
-
-        for(var year = 1; year <= NUMBER_OF_YEARS; year++){
-            for(var term = 0; term < 3; term++) {
-                var headerText = "";
-                switch(term){
-                    case 0:
-                        headerText = "FALL " + year;
-                        break;
-                    case 1:
-                        headerText = "WINTER " + year;
-                        break;
-                    case 2:
-                        headerText = "SUMMER " + year;
-                        break;
-                }
-                var termHtml = termTemplate.replace("{HEADER_TEXT}", headerText);
-                $sequenceContainer.append(termHtml);
-            }
-        }
-        callback();
-    });
-    oReq.open("GET", "http://138.197.6.26/courseplanner/html/termTemplate.html");
-    oReq.send();
-}
-
-function loadSequence(){
+    // clear whole page first
+    $(".sequenceContainer").html("<p class='mainHeader'>Concordia Engineering Sequence Builder</p>");
+    workTermCount = 0;
 
     var savedSequence = JSON.parse(localStorage.getItem("savedSequence"));
 
@@ -110,16 +36,48 @@ function loadSequence(){
         oReq.addEventListener("load", function(){
 
             var courseList = JSON.parse(this.responseText);
-            populatePage(courseList);
+
+            addContainers(courseList, function(){
+                // fill page with default sequence
+                populatePage(courseList);
+                validateSequence(courseList);
+                if(callback)
+                    callback();
+            });
 
         });
         oReq.open("GET", "http://138.197.6.26/courseplanner/js/defaultSequence.json");
         oReq.send();
     } else {
-        // load the saved sequence
-        populatePage(savedSequence);
-        validateSequence(savedSequence);
+        addContainers(savedSequence, function(){
+            // fill page with the saved sequence
+            populatePage(savedSequence);
+            validateSequence(savedSequence);
+            if(callback)
+                callback();
+        });
     }
+}
+
+function addContainers(courseList, callback){
+    // load the term template
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", function(){
+
+        var termTemplate = this.responseText;
+        var $sequenceContainer = $(".sequenceContainer");
+
+        for(var i = 0; i < courseList.semesterList.length; i++){
+            var currentSemester = courseList.semesterList[i];
+            var headerText = currentSemester.season.toUpperCase() + " " + (Math.floor(i/3) + 1);
+            var termHtml = termTemplate.replace("{HEADER_TEXT}", headerText);
+            $sequenceContainer.append(termHtml);
+        }
+
+        callback();
+    });
+    oReq.open("GET", "http://138.197.6.26/courseplanner/html/termTemplate.html");
+    oReq.send();
 }
 
 function populatePage(courseSequenceObject){
@@ -131,59 +89,53 @@ function populatePage(courseSequenceObject){
 	for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
 	    var $courseContainer = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .courseContainer");
 		if(courseSequenceObject.semesterList[i].courseList.length === 0 && (courseSequenceObject.semesterList[i].isWorkTerm === "true" || courseSequenceObject.semesterList[i].isWorkTerm === true)){
-            addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "Work Term", "-");
+            //addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "Work Term", "-");
 		} else {
 			for(var j = 0; j < courseSequenceObject.semesterList[i].courseList.length; j++){
 				if(courseSequenceObject.semesterList[i].courseList[j].isElective === "true" || courseSequenceObject.semesterList[i].courseList[j].isElective === true){
 					var electiveType = courseSequenceObject.semesterList[i].courseList[j].electiveType.toString();
-                    addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", electiveType + " Elective", "-");
+                    addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", electiveType + " Elective", "-", true);
 				}else{
 					var code = courseSequenceObject.semesterList[i].courseList[j].code.toString();
 					var name = courseSequenceObject.semesterList[i].courseList[j].name.toString();
 					var credits = courseSequenceObject.semesterList[i].courseList[j].credits.toString();
-                    addCourseRow($courseContainer, code, name, credits);
+                    addCourseRow($courseContainer, code, name, credits, true);
 				}
 			}
 		}
 	}
 
-    // add UI event listeners AFTER we've built all the html
+	fillWorkTerms();
+}
 
-    $("div.course").mousedown(function(){
-        $(this).addClass("grabbed");
-    });
+/* this function fills empty course containers with an undraggable work term row
+   and removes work term rows from course containers which contain both a work term and classes */
+function fillWorkTerms(){
+    var $courseContainers = $(".courseContainer");
 
-    $("div.course").mouseup(function(){
-        $(this).removeClass("grabbed");
-    });
+    $courseContainers.each(function(index){
 
-    $("div.course").click(function(){
-        var code = $(this).find(".left").html();
+        var $courseContainer = $(this);
 
-        if(code !== "-" && code !== ""){
-            requestCourseInfo(code);
-        }
-    });
-
-    $(".courseContainer, .semesterHeader").sortable({
-        connectWith: ".courseContainer",
-        //change event gets called when an item is dragged into a new position (including its original position)
-        change: function(event, ui) {
-            var centerText = $(ui.item).find(".center").text();
-            var index = ui.placeholder.index();
-            draggingItem = true;
-        },
-        //update event gets invoked when an item is dropped into a new position (excluding its original position)
-        update: function(event, ui) {
-            if(draggingItem){
-                generateSequenceObject(function(result){
-                    localStorage.setItem("savedSequence", JSON.stringify(result));
-                    validateSequence(result);
+        // if the semester doesn't contain any classes, mark it as a work term
+        if($(this).html() === ""){
+            addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "Work Term", "-", false);
+            workTermCount = workTermCount + 1;
+        } else {
+            // if there's a work term row in a list of length greater than two, remove it
+            var $courses = $courseContainer.find(".course");
+            if($courses.length > 1){
+                $courses.each(function(index){
+                    var $course = $(this);
+                    if($course.find(".center").text().indexOf("Work Term") >= 0){
+                        $course.remove();
+                        workTermCount = workTermCount - 1;
+                    }
                 });
             }
-            draggingItem = false;
         }
-    }).disableSelection();
+    });
+    console.log("Work term count: " + workTermCount);
 }
 
 function requestCourseInfo(code){
@@ -205,8 +157,12 @@ function requestCourseInfo(code){
     oReq.send(JSON.stringify(requestBody));
 }
 
-function addCourseRow($courseContainer, code, name, credits){
-    var rowHtml = "<div class='course'><div class='left'>" + code +"</div><div class='center'>" + name +"</div><div class='right'>" + credits +"</div></div>";
+function addCourseRow($courseContainer, code, name, credits, isDraggable){
+    var removeDragging = "";
+    if(!isDraggable){
+        removeDragging = " undraggable";
+    }
+    var rowHtml = "<div class='course" + removeDragging + "'><div class='left'>" + code +"</div><div class='center'>" + name +"</div><div class='right'>" + credits +"</div></div>";
     $courseContainer.append(rowHtml);
 }
 
@@ -422,21 +378,12 @@ function getCourseList(){
 
 function resetToDefaultSequence() {
     if(confirm("Are you sure you want to reset to the default recommended sequence?")){
-        // load the default sequence
-        var oReq = new XMLHttpRequest();
-        oReq.addEventListener("load", function(){
 
-            var courseList = JSON.parse(this.responseText);
-            populatePage(courseList);
-            // auto-save the new sequence
-            generateSequenceObject(function(result) {
-                localStorage.setItem("savedSequence", JSON.stringify(result));
-                validateSequence(result);
-            });
+        localStorage.removeItem("savedSequence");
 
+        loadSequence(function(){
+            initUI();
         });
-        oReq.open("GET", "http://138.197.6.26/courseplanner/js/defaultSequence.json");
-        oReq.send();
     }
 }
 
@@ -465,9 +412,10 @@ function shiftAllDownFromSemester(index) {
             }
         }
         result.semesterList = semesterList;
-        populatePage(result);
         localStorage.setItem("savedSequence", JSON.stringify(result));
-        validateSequence(result);
+        loadSequence(function(){
+            initUI();
+        });
     });
 }
 
@@ -495,4 +443,100 @@ function indexToSeason(index){
         case 2:
             return "summer";
     }
+}
+
+/* Big ugly function which sets up all event listeners */
+function initUI(){
+
+    // add mini triangle thingy into collapse buttons
+    $("button.toggle").html("&#x25B2");
+
+    // add click event for collapse buttons
+    $("button.toggle").off("click");
+    $("button.toggle").click(function(){
+        var $courses =  $(this).parent().parent().children(".courseContainer");
+
+        // flip the triangle around when the button is clicked
+        if($courses.is(":hidden")){
+            $(this).html("&#x25B2");
+        }else{
+            $(this).html("&#x25BC");
+        }
+
+        // trigger jquery-ui event
+        $courses.slideToggle();
+    });
+
+    // add click event for downward-shift buttons
+    $(".shiftSemester").off("click");
+    $(".shiftSemester").click(function(){
+        if(confirm("Are you sure you want to shift your sequence downwards from this point?")){
+            // get season text from semester container header (e.g. FALL 4)
+            var seasonText = $(this).parent().find("div:first-of-type").text();
+            // convert the season text into an index
+            var indexOf = seasonTextToIndex(seasonText);
+            // shift down all semesters from that index
+            shiftAllDownFromSemester(indexOf);
+        }
+    });
+
+    $("#classSearch").off("keyup");
+    $("#classSearch").keyup(function(e){
+        if(e.keyCode == 13){
+            requestCourseInfo($("#classSearch").val());
+        }
+    });
+
+    $("button.search").off("click");
+    $("button.search").click(function(){
+        requestCourseInfo($("#classSearch").val());
+    });
+
+    $(".exportButton").off("click");
+    $(".exportButton").click(function(){
+        exportSequence();
+    });
+
+    $(".defaultsButton").off("click");
+    $(".defaultsButton").click(function(){
+        resetToDefaultSequence();
+    });
+
+    $("div.course:not(.undraggable)").off("mousedown mouseup click");
+    $("div.course:not(.undraggable)").mousedown(function(){
+        $(this).addClass("grabbed");
+    });
+    $("div.course:not(.undraggable)").mouseup(function(){
+        $(this).removeClass("grabbed");
+    });
+    $("div.course:not(.undraggable)").click(function(){
+        var code = $(this).find(".left").html();
+
+        if(code !== "-" && code !== ""){
+            requestCourseInfo(code);
+        }
+    });
+
+    $(".courseContainer, .semesterHeader").sortable({
+        connectWith: ".courseContainer",
+        // change event gets called when an item is dragged into a new position (including its original position)
+        change: function(event, ui) {
+            var centerText = $(ui.item).find(".center").text();
+            var index = ui.placeholder.index();
+            draggingItem = true;
+        },
+        // update event gets invoked when an item is dropped into a new position (excluding its original position)
+        update: function(event, ui) {
+            if(draggingItem){
+                generateSequenceObject(function(result){
+                    localStorage.setItem("savedSequence", JSON.stringify(result));
+                    validateSequence(result);
+                });
+                fillWorkTerms();
+            }
+            draggingItem = false;
+        },
+        // remove drag ability from rows with classname 'undraggable'
+        cancel: ".undraggable"
+    }).disableSelection();
 }
