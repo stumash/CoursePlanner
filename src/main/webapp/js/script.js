@@ -168,16 +168,32 @@ function addCourseRow($courseContainer, code, name, credits, isDraggable){
 
 function validateSequence(sequenceObject){
 
+    var $errorBox = $(".errorBox .error");
+    var $container = $(".errorBox");
+    var loaded = false;
+
     clearAllHighlights();
+
+    // inform the user we're waiting for the validation results if it's taking a long time.
+    // we wait 150ms to prevent it from flashing the loading screen for only a split second
+    setTimeout(function(){
+        if(!loaded){
+            $container.removeClass("valid");
+            $container.removeClass("invalid");
+            $container.addClass("loading");
+            $errorBox.text("Validating sequence...");
+        }
+    }, 150);
 
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", function(){
 
+        loaded = true;
+        $container.removeClass("loading");
+
         var response = JSON.parse(this.responseText);
         console.log("Server validation response: " + this.responseText);
 
-        var $errorBox = $(".errorBox .error");
-        var $container = $(".errorBox");
         if(response.valid === "true"){
             $container.addClass("valid");
             $container.removeClass("invalid");

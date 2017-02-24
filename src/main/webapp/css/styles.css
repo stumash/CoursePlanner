@@ -165,6 +165,10 @@ body div.invalid {
 	background-color: rgba(251,152,152,0.95);
 }
 
+body div.loading {
+	background-color: rgba(255,228,181,0.95);
+}
+
 div.course.invalid:hover {
 	background-color: rgba(250,127,127,0.95);
 }
