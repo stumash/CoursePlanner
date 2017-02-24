@@ -68,23 +68,26 @@ div.course {
 	border-right: none;
 	border-left: none;
 	margin: -1px 0px;
+	transition: background-color 0.5s;
+	-webkit-transition: background-color 0.5s; /*Safari*/
+}
+
+div.course:not(.undraggable) {
 	cursor: move; /* fallback if grab cursor is unsupported */
 	cursor: grab;
 	cursor: -moz-grab;
 	cursor: -webkit-grab;
-	transition: background-color 0.5s;
-	-webkit-transition: background-color 0.5s; /*Safari*/
 }
 
 div.course:last-of-type:not(.grabbed) {
 	border-bottom: none;
 }
 
-div.course:hover {
+div.course:not(.undraggable):hover {
 	background-color: #DDDDDD;
 }
 
-div.course.grabbed {
+div.course.grabbed:not(.undraggable) {
 	border-right: 2px solid black;
 	border-left: 2px solid black;
 	border-radius: 5px;
