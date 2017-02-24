@@ -152,7 +152,7 @@ div.errorBox {
 	background-color: white;
 	min-height: 150px;
 	margin-left: -0.45%;
-	border: 3.5px solid black;
+	border: 3px solid black;
 	max-height: 400px;
 	overflow-y: auto;
 }
