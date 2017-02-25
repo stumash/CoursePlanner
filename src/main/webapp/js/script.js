@@ -331,7 +331,7 @@ function fillCourseInfoBox(courseInfo){
         termsOffered = termsOffered || "None";
         notes = notes || "None";
 
-        $("p.info").html("<b>Prerequisites:</b> " + prereqs + "<br>" +
+        $("p.info").html("<h2><ins>"+code+" ("+credits+" credits)</ins></h2>"+"<b>Prerequisites:</b> " + prereqs + "<br>" +
             "<b>Corequisites:</b> " + coreqs + "<br>" +
             "<b>Terms offered:</b> " + termsOffered + "<br>" +
             "<b>Notes:</b> " + notes);
