@@ -525,6 +525,19 @@ function initUI(){
         }
     });
 
+    $(".semesterHeading").droppable({
+        over: function(){
+            var $courses =  $(this).parent().children(".courseContainer");
+            console.log("$courses = "+$courses.text);
+            if($courses.is(":hidden")) {
+                console.log("tis hidden indeed");
+                $courses.slideToggle();
+            }else{
+                console.log("not hidden");
+            }
+        }
+    });
+
     $(".courseContainer, .semesterHeading").sortable({
         connectWith: ".courseContainer",
         // change event gets called when an item is dragged into a new position (including its original position)
