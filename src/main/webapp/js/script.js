@@ -1,5 +1,5 @@
 // constants
-const NUMBER_OF_YEARS = 5;
+var NUMBER_OF_YEARS = 5;
 
 //variable used to ensure the sequence is only validated once every time the user drags a class into a new position
 var draggingItem = false;
