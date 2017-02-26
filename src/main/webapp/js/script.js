@@ -525,7 +525,7 @@ function initUI(){
         }
     });
 
-    $(".courseContainer, .semesterHeader").sortable({
+    $(".courseContainer, .semesterHeading").sortable({
         connectWith: ".courseContainer",
         // change event gets called when an item is dragged into a new position (including its original position)
         change: function(event, ui) {
@@ -547,4 +547,5 @@ function initUI(){
         // remove drag ability from rows with classname 'undraggable'
         cancel: ".undraggable"
     }).disableSelection();
+
 }
