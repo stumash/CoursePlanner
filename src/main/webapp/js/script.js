@@ -303,26 +303,42 @@ function fillCourseInfoBox(courseInfo){
         var notes = courseInfo.notes || "";
 
         var termsOffered = "";
+        var fallIncluded = courseInfo.termsOffered.indexOf("f") >= 0;
+        var winterIncluded = courseInfo.termsOffered.indexOf("w") >= 0;
+        var summerIncluded = courseInfo.termsOffered.indexOf("s") >= 0;
         if(courseInfo.termsOffered){
-            if(courseInfo.termsOffered.indexOf("f") >= 0)
-                termsOffered = termsOffered + "fall ";
-            if(courseInfo.termsOffered.indexOf("w") >= 0)
-                termsOffered = termsOffered + "winter ";
-            if(courseInfo.termsOffered.indexOf("s") >= 0)
-                termsOffered = termsOffered + "summer ";
+            if(fallIncluded){
+                termsOffered = termsOffered + "fall";
+                if(winterIncluded)
+                    termsOffered += ", ";
+            }
+            if(winterIncluded) {
+                termsOffered = termsOffered + "winter";
+                if(summerIncluded)
+                    termsOffered += ", ";
+            }
+            if(summerIncluded) {
+                termsOffered = termsOffered + "summer";
+            }
         }
 
         var prereqs = "";
         if(courseInfo.prereqs){
             for(var i = 0; i < courseInfo.prereqs.length; i++){
-                prereqs = prereqs + courseInfo.prereqs[i] + ", ";
+                prereqs = prereqs + courseInfo.prereqs[i];
+
+                if(i !== courseInfo.prereqs.length-1)
+                    prereqs += ", ";
             }
         }
 
         var coreqs = "";
         if(courseInfo.coreqs){
             for(var j = 0; j < courseInfo.coreqs.length; j++){
-                coreqs = coreqs + courseInfo.coreqs[j] + ", ";
+                coreqs = coreqs + courseInfo.coreqs[j];
+
+                if(j !== courseInfo.coreqs.length-1)
+                    coreqs += ", ";
             }
         }
 
@@ -331,10 +347,16 @@ function fillCourseInfoBox(courseInfo){
         termsOffered = termsOffered || "None";
         notes = notes || "None";
 
-        $("p.info").html("<h2><ins>"+code+" ("+credits+" credits)</ins></h2>"+"<b>Prerequisites:</b> " + prereqs + "<br>" +
-            "<b>Corequisites:</b> " + coreqs + "<br>" +
-            "<b>Terms offered:</b> " + termsOffered + "<br>" +
-            "<b>Notes:</b> " + notes);
+        if(notes === "None"){//why bother displaying that there are no notes?
+            $("p.info").html("<h2><ins>"+code+" ("+credits+" credits)</ins></h2>"+"<b>Prerequisites:</b> " + prereqs + "<br>" +
+                "<b>Corequisites:</b> " + coreqs + "<br>" +
+                "<b>Terms offered:</b> " + termsOffered + "<br>");
+        }else{
+            $("p.info").html("<h2><ins>" + code + " (" + credits + " credits)</ins></h2>" + "<b>Prerequisites:</b> " + prereqs + "<br>" +
+                "<b>Corequisites:</b> " + coreqs + "<br>" +
+                "<b>Terms offered:</b> " + termsOffered + "<br>" +
+                "<b>Notes:</b> " + notes);//since they exist, include notes
+        }
     }
 }
 
