@@ -10,8 +10,8 @@ Numerical Methods in Engineering#ENGR 391#3#ENGR 213;ENGR 233;COMP 248##1;2;3#
 Impact of Technology on Society#ENGR 392#3#ENCS 282;ENGR 201;ENGR 202##1;2;3#
 Principles of Electrical Engineering#ELEC 275#3.5##ENGR 213#1;2#
 Mathematics for Computer Science#COMP 232#3###1;2;3#Students who have received credit for COMP 238 or COEN 231 may not take this course for credit.
-Object-Oritented Programming I#COMP 248#3.5###1;2;3#
-Object-Oritented Programming II#COMP 249#3.5###1;2;3#
+Object-Oriented Programming I#COMP 248#3.5###1;2;3#
+Object-Oriented Programming II#COMP 249#3.5#COMP 248##1;2;3#
 Introduction to Theoretical Computer Science#COMP 335#3#COMP 232;COMP 249##1;2;3#
 Operating Systems#COMP 346#3#SOEN 228;COMP 352##1;2#Students who have received credit for COEN 346 may not take this course for credit.
 Principles of Programming Languages#COMP 348#3#COMP 249##1;2;3#
