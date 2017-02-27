@@ -1,5 +1,5 @@
 course#code#credits#prerequisites#corequisites#semestersOffered#note
-Technical Writing and Communication#ENCS 282#3###1;2;3#Passing the Engineering Writing Test (EWT) or by passing ENCS 272 with a grade of C- or higher
+Technical Writing and Communication#ENCS 282#3###1;2;3#Before taking this course you must pass the Engineering Writing Test (EWT) or by pass ENCS 272 with a grade of C- or higher.
 Professional Practice and Responsibility#ENGR 201#1.5###1;2;3#
 Sustainable Development and Environmental Stewardship#ENGR 202#1.5###1;2;3#
 Applied Ordinary Differential Equations#ENGR 213#3###1;2;3#
@@ -25,7 +25,7 @@ Software Requirements and Specifications#SOEN 342#3#SOEN 341##1#
 Software Architecture Design II#SOEN 344#3#SOEN 343##2#
 Management, Measurement and Quality Control#SOEN 384#3#ENCS 282;SOEN 341##1#
 Control Systems and Applications#SOEN 385#3#ENGR 213;ENGR 233##2#
-Software Engineering Team Design Project#SOEN 390#3.5##SOEN 344;SOEN 357#2#
+Software Engineering Team Design Project#SOEN 390#3.5#SOEN 357#SOEN 344#2#
 Capstone Software Engineering Design Project#SOEN 490#4#SOEN 390##1;2#
 Software Testing, Verification and Quality Assurance#SOEN 345#3##SOEN 343#2#
 User Interface Design#SOEN 357#3#SOEN 342##2#
