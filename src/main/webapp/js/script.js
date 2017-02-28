@@ -84,12 +84,12 @@ function populatePage(courseSequenceObject){
 
     for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
         var $courseContainer = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .courseContainer");
-        var semesterList = courseSequenceObject.semesterList[i];
-        if(courseSequenceObject.semesterList[i].courseList.length === 0 && (semesterList.isWorkTerm === "true" || semesterList.isWorkTerm === true)){
+        var semester = courseSequenceObject.semesterList[i];
+        if(semester.courseList.length === 0 && (semester.isWorkTerm === "true" || semester.isWorkTerm === true)){
             //addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "Work Term", "-");
         } else {
-            for(var j = 0; j < courseSequenceObject.semesterList[i].courseList.length; j++){
-                var courseList = courseSequenceObject.semesterList[i].courseList[j];
+            for(var j = 0; j < semester.courseList.length; j++){
+                var courseList = semester.courseList[j];
                 if(courseList.isElective === "true" || courseList.isElective === true){
                     var electiveType = courseList.electiveType.toString();
                     addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", electiveType + " Elective", "-", true);
