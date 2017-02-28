@@ -525,25 +525,18 @@ function initUI(){
         }
     });
 
-    var globalTimer;
-
     $(".semesterHeading").droppable({
-        over: function(event, ui){
-            globalTimer = setTimeout(function(){
-                var $courses =  $(this).parent().children(".courseContainer");
-                console.log("$courses = "+$courses.text);
-                if($courses.is(":hidden")) {
-                    console.log("tis hidden indeed");
-                    $courses.slideToggle();
-                }else{
-                    console.log("not hidden");
-                }
-            }, 5000);
-        },
-        out: function(event, ui){
-            clearTimeout(globalTimer);
+        over: function(){
+            var $courses =  $(this).parent().children(".courseContainer");
+            console.log("$courses = "+$courses.text);
+            if($courses.is(":hidden")) {
+                console.log("tis hidden indeed");
+                $courses.slideToggle();
+            }else
+                console.log("not hidden");
+            }
         }
-    });
+    );
 
     $(".courseContainer, .semesterHeading").sortable({
         connectWith: ".courseContainer",
