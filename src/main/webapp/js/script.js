@@ -300,7 +300,7 @@ function fillCourseInfoBox(courseInfo){
         var name = courseInfo.name;
         var credits = courseInfo.credits;
         var code = courseInfo.code;
-        var notes = courseInfo.notes || "";
+        var notes = courseInfo.notes;
 
         var termsOffered = "";
         var fallIncluded = courseInfo.termsOffered.indexOf("f") >= 0;
@@ -345,12 +345,16 @@ function fillCourseInfoBox(courseInfo){
         prereqs = prereqs || "None";
         coreqs = coreqs || "None";
         termsOffered = termsOffered || "None";
-        notes = notes || "None";
 
-        $("p.info").html("<h2><ins>" + code + " (" + credits + " credits)</ins></h2>" + "<b>Prerequisites:</b> " + prereqs + "<br>" +
+        var courseInfoInjection = "<h2><ins>" + code + " (" + credits + " credits)</ins></h2>" + "<b>Prerequisites:</b> " + prereqs + "<br>" +
             "<b>Corequisites:</b> " + coreqs + "<br>" +
-            "<b>Terms offered:</b> " + termsOffered + "<br>" +
-            "<b>Notes:</b> " + notes);
+            "<b>Terms offered:</b> " + termsOffered;
+
+        if(notes !== undefined) {
+            courseInfoInjection += "<br>" + "<b>Notes:</b> " + notes;
+        }
+
+        $("p.info").html(courseInfoInjection);
     }
 }
 
