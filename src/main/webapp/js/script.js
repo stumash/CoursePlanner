@@ -82,26 +82,28 @@ function populatePage(courseSequenceObject){
     // (this will remove all draggable course rows)
     $(".courseContainer").empty();
 
-	for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
-	    var $courseContainer = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .courseContainer");
-		if(courseSequenceObject.semesterList[i].courseList.length === 0 && (courseSequenceObject.semesterList[i].isWorkTerm === "true" || courseSequenceObject.semesterList[i].isWorkTerm === true)){
+    for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
+        var $courseContainer = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .courseContainer");
+        var semester = courseSequenceObject.semesterList[i];
+        if(semester.courseList.length === 0 && (semester.isWorkTerm === "true" || semester.isWorkTerm === true)){
             //addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "Work Term", "-");
-		} else {
-			for(var j = 0; j < courseSequenceObject.semesterList[i].courseList.length; j++){
-				if(courseSequenceObject.semesterList[i].courseList[j].isElective === "true" || courseSequenceObject.semesterList[i].courseList[j].isElective === true){
-					var electiveType = courseSequenceObject.semesterList[i].courseList[j].electiveType.toString();
+        } else {
+            for(var j = 0; j < semester.courseList.length; j++){
+                var courseList = semester.courseList[j];
+                if(courseList.isElective === "true" || courseList.isElective === true){
+                    var electiveType = courseList.electiveType.toString();
                     addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", electiveType + " Elective", "-", true);
-				}else{
-					var code = courseSequenceObject.semesterList[i].courseList[j].code.toString();
-					var name = courseSequenceObject.semesterList[i].courseList[j].name.toString();
-					var credits = courseSequenceObject.semesterList[i].courseList[j].credits.toString();
+                }else{
+                    var code = courseList.code.toString();
+                    var name = courseList.name.toString();
+                    var credits = courseList.credits.toString();
                     addCourseRow($courseContainer, code, name, credits, true);
-				}
-			}
-		}
-	}
+                }
+            }
+        }
+    }
 
-	fillWorkTerms();
+    fillWorkTerms();
 }
 
 /* this function fills empty course containers with an undraggable work term row
