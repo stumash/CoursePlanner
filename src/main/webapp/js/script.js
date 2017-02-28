@@ -532,7 +532,9 @@ function initUI(){
             var $courses = $(this).parent().children(".courseContainer");
             globalTimer = setTimeout(function(){
                 if($courses.is(":hidden")){
-                    $courses.slideToggle();
+                    $courses.slideToggle(200, function(){
+                        $(".courseContainer").sortable("refresh");
+                    });
                 }
             }, 700);
         },
@@ -542,7 +544,7 @@ function initUI(){
         //add for drop: so it appends the dragging object to the current container
     });
 
-    $(".courseContainer, .semesterHeading").sortable({
+    $(".courseContainer").sortable({
         connectWith: ".courseContainer",
         // change event gets called when an item is dragged into a new position (including its original position)
         change: function(event, ui) {
