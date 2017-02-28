@@ -536,7 +536,7 @@ function initUI(){
                         $(".courseContainer").sortable("refresh");
                     });
                 }
-            }, 700);
+            }, 500);
         },
         out: function(){
             clearTimeout(globalTimer);
