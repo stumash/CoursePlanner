@@ -347,16 +347,10 @@ function fillCourseInfoBox(courseInfo){
         termsOffered = termsOffered || "None";
         notes = notes || "None";
 
-        if(notes === "None"){//why bother displaying that there are no notes?
-            $("p.info").html("<h2><ins>"+code+" ("+credits+" credits)</ins></h2>"+"<b>Prerequisites:</b> " + prereqs + "<br>" +
-                "<b>Corequisites:</b> " + coreqs + "<br>" +
-                "<b>Terms offered:</b> " + termsOffered + "<br>");
-        }else{
-            $("p.info").html("<h2><ins>" + code + " (" + credits + " credits)</ins></h2>" + "<b>Prerequisites:</b> " + prereqs + "<br>" +
-                "<b>Corequisites:</b> " + coreqs + "<br>" +
-                "<b>Terms offered:</b> " + termsOffered + "<br>" +
-                "<b>Notes:</b> " + notes);//since they exist, include notes
-        }
+        $("p.info").html("<h2><ins>" + code + " (" + credits + " credits)</ins></h2>" + "<b>Prerequisites:</b> " + prereqs + "<br>" +
+            "<b>Corequisites:</b> " + coreqs + "<br>" +
+            "<b>Terms offered:</b> " + termsOffered + "<br>" +
+            "<b>Notes:</b> " + notes);
     }
 }
 
