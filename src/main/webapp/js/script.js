@@ -547,7 +547,26 @@ function initUI(){
         }
     });
 
-    $(".courseContainer, .semesterHeading").sortable({
+    var globalTimer;
+
+    $(".semesterHeading").droppable({
+        over: function() {
+            var $courses = $(this).parent().children(".courseContainer");
+            globalTimer = setTimeout(function(){
+                if($courses.is(":hidden")){
+                    $courses.slideToggle(200, function(){
+                        $(".courseContainer").sortable("refresh");
+                    });
+                }
+            }, 500);
+        },
+        out: function(){
+            clearTimeout(globalTimer);
+        }
+        //add for drop: so it appends the dragging object to the current container
+    });
+
+    $(".courseContainer").sortable({
         connectWith: ".courseContainer",
         // change event gets called when an item is dragged into a new position (including its original position)
         change: function(event, ui) {
