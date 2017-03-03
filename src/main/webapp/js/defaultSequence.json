@@ -2,7 +2,6 @@
   "semesterList":	[
     {
       "season": "fall",
-      "year": "2016",
       "isWorkTerm": "false",
       "courseList": [
         {
@@ -44,7 +43,6 @@
     },
     {
       "season": "winter",
-      "year": "2017",
       "isWorkTerm": "false",
       "courseList": [
         {
@@ -86,7 +84,6 @@
     },
     {
       "season": "summer",
-      "year": "2017",
       "isWorkTerm": "false",
       "courseList": [
         {
@@ -128,13 +125,11 @@
     },
     {
       "season": "fall",
-      "year": "2017",
       "courseList": [],
       "isWorkTerm": "true"
     },
     {
       "season": "winter",
-      "year": "2018",
       "isWorkTerm": "false",
       "courseList": [
         {
@@ -176,13 +171,11 @@
     },
     {
       "season": "summer",
-      "year": "2018",
       "courseList": [],
       "isWorkTerm": "true"
     },
     {
       "season": "fall",
-      "year": "2018",
       "isWorkTerm": "false",
       "courseList": [
         {
@@ -224,7 +217,6 @@
     },
     {
       "season": "winter",
-      "year": "2019",
       "isWorkTerm": "false",
       "courseList": [
         {
@@ -266,13 +258,11 @@
     },
     {
       "season": "summer",
-      "year": "2019",
       "courseList": [],
       "isWorkTerm": "true"
     },
     {
       "season": "fall",
-      "year": "2019",
       "isWorkTerm": "false",
       "courseList": [
         {
@@ -314,7 +304,6 @@
     },
     {
       "season": "winter",
-      "year": "2020",
       "isWorkTerm": "false",
       "courseList": [
         {
