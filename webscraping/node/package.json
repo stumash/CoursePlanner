@@ -5,7 +5,6 @@
   "main"         : "main.js",
   "author"       : "Tranzones",
   "dependencies" : {
-    "express"    : "latest",
     "request"    : "latest",
     "cheerio"    : "latest"
   }
