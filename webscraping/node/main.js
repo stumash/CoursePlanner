@@ -106,7 +106,7 @@ function scrape(url, callback){
             callback(sequenceObject);
 
         }
-    })
+    });
 }
 
 function parseSeason(season){
@@ -177,20 +177,21 @@ var sitesToTest = [
 ];
 
 var fileCounter = 1;
+var writeJSON = function(sequenceObject){
+    var outPath = "out/sequence" + fileCounter + ".json";
+    fs.writeFile(outPath, JSON.stringify(sequenceObject, null, 4), function(err){
+        if(err){
+            console.log("ERROR writing to a file: " + outPath);
+        } else {
+            console.log("Done writing to file at: " + outPath);
+        }
+    });
+    fileCounter++;
+};
 
 fs.mkdir("out", function(err) {
     for(var i = 0; i < sitesToTest.length; i++){
         console.log("Started scraping from url: " + sitesToTest[i]);
-        scrape(sitesToTest[i], function(sequenceObject){
-            var outPath = "out/sequence" + fileCounter + ".json";
-            fs.writeFile(outPath, JSON.stringify(sequenceObject, null, 4), function(err){
-                if(err){
-                    console.log("error writing to a file");
-                } else {
-                    console.log("Done writing to file");
-                }
-            })
-            fileCounter++;
-        });
+        scrape(sitesToTest[i], writeJSON);
     }
 });
