@@ -121,22 +121,6 @@ function parseSeason(season){
 }
 
 var sitesToTest = [
-    //building engineering
-    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/sept.html",
-    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/jan.html",
-    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/co-op.html",
-    //civil engineering
-    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/sept1.html",
-    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/jan1.html",
-    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/co-op1.html",
-    //industrial engineering
-    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/sept-indu.html",
-    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/jan-indu.html",
-    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/co-op-indu.html",
-    //mechanical engineering
-    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/sept-mech.html",
-    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/jan-mech.html",
-    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/co-op-mech.html",
     //software engineering
     "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-soen-general.html",
     "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-soen-general.html",
@@ -173,7 +157,23 @@ var sitesToTest = [
     "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-soft-sys.html",
     "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-web-svcs.html",
     "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-web-svcs.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-web-svcs.html"
+    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-web-svcs.html",
+    //building engineering
+    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/sept.html",
+    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/jan.html",
+    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/co-op.html",
+    //civil engineering
+    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/sept1.html",
+    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/jan1.html",
+    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/co-op1.html",
+    //industrial engineering
+    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/sept-indu.html",
+    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/jan-indu.html",
+    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/co-op-indu.html",
+    //mechanical engineering
+    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/sept-mech.html",
+    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/jan-mech.html",
+    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/co-op-mech.html"
 ];
 
 var fileCounter = 1;
