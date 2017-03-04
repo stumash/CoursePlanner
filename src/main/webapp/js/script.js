@@ -8,7 +8,7 @@ var draggingItem = false;
 var workTermCount = 0;
 
 // asks to confirm refresh page click event or when F5 is pressed
-window.onbeforeunload = function(e) {
+window.onbeforeunload = function(e){
 	return undefined;   // silenced for now, but not forgotten
 };
 
@@ -45,7 +45,7 @@ function loadSequence(callback){
         });
         oReq.open("GET", "http://138.197.6.26/courseplanner/js/defaultSequence.json");
         oReq.send();
-    } else {
+    }else{
         addContainers(savedSequence, function(){
             // fill page with the saved sequence
             populatePage(savedSequence);
@@ -85,18 +85,20 @@ function populatePage(courseSequenceObject){
     for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
         var $courseContainer = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .courseContainer");
         var semester = courseSequenceObject.semesterList[i];
+        if(semester.isWorkTerm === false || semester.isWorkTerm === "false"){
             for(var j = 0; j < semester.courseList.length; j++){
                 var courseList = semester.courseList[j];
                 if(courseList.isElective === "true" || courseList.isElective === true){
                     var electiveType = courseList.electiveType.toString();
                     addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", electiveType + " Elective", "-", true);
-                }else{
+                }else {
                     var code = courseList.code.toString();
                     var name = courseList.name.toString();
                     var credits = courseList.credits.toString();
                     addCourseRow($courseContainer, code, name, credits, true);
                 }
             }
+        }
     }
 
     fillWorkTerms();
@@ -115,7 +117,7 @@ function fillWorkTerms(){
         if($(this).html() === ""){
             addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "Work Term", "-", false);
             workTermCount = workTermCount + 1;
-        } else {
+        }else{
             // if there's a work term row in a list of length greater than two, remove it
             var $courses = $courseContainer.find(".course");
             if($courses.length > 1){
@@ -192,7 +194,7 @@ function validateSequence(sequenceObject){
             $container.addClass("valid");
             $container.removeClass("invalid");
             $errorBox.text("Current sequence is valid");
-        } else {
+        }else{
             $container.addClass("invalid");
             $container.removeClass("valid");
             $errorBox.html("Current sequence is invalid:</br>");
@@ -224,7 +226,7 @@ function generateSequenceObject(callback){
 	var semesterList = [];
 	var count = 0;
 	var onFinish = function(semesterObject){
-        if(semesterObject) {
+        if(semesterObject){
             semesterList.push(semesterObject);
         }
         count++;
@@ -248,7 +250,7 @@ function getSemesterObject($semesterContainer, callback){
             var courseObject = getCourseObject($(this));
             if(courseObject){
                 courseList.push(courseObject);
-            } else {
+            }else{
                 courseList = [];
                 isWorkTerm = true;
             }
@@ -256,7 +258,7 @@ function getSemesterObject($semesterContainer, callback){
                 callback({"season" : seasonText, "courseList": courseList, "isWorkTerm": isWorkTerm});
             }
         });
-    } else {
+    }else{
 	    // ignore the empty terms by regarding them as undefined
         callback(undefined);
     }
@@ -294,7 +296,7 @@ function fillCourseInfoBox(courseInfo){
 
     if($.isEmptyObject(courseInfo)){
         $("p.info").html("Requested information for invalid course code");
-    } else {
+    }else{
         var name = courseInfo.name;
         var credits = courseInfo.credits;
         var code = courseInfo.code;
@@ -310,12 +312,12 @@ function fillCourseInfoBox(courseInfo){
                 if(winterIncluded)
                     termsOffered += ", ";
             }
-            if(winterIncluded) {
+            if(winterIncluded){
                 termsOffered = termsOffered + "winter";
                 if(summerIncluded)
                     termsOffered += ", ";
             }
-            if(summerIncluded) {
+            if(summerIncluded){
                 termsOffered = termsOffered + "summer";
             }
         }
@@ -348,7 +350,7 @@ function fillCourseInfoBox(courseInfo){
             "<b>Corequisites:</b> " + coreqs + "<br>" +
             "<b>Terms offered:</b> " + termsOffered;
 
-        if(notes !== undefined) {
+        if(notes !== undefined){
             courseInfoInjection += "<br>" + "<b>Notes:</b> " + notes;
         }
 
@@ -377,15 +379,15 @@ function exportSequence(){
     });
 }
 
-function saveAs(uri, filename) {
+function saveAs(uri, filename){
     var link = document.createElement('a');
-    if (typeof link.download === 'string') {
+    if(typeof link.download === 'string'){
         document.body.appendChild(link); // Firefox requires the link to be in the body
         link.download = filename;
         link.href = uri;
         link.click();
         document.body.removeChild(link); // remove the link when done
-    } else {
+    }else{
         location.replace(uri);
     }
 }
@@ -406,7 +408,7 @@ function getCourseList(){
     oReq.send();
 }
 
-function resetToDefaultSequence() {
+function resetToDefaultSequence(){
     if(confirm("Are you sure you want to reset to the default recommended sequence?")){
 
         localStorage.removeItem("savedSequence");
@@ -416,7 +418,7 @@ function resetToDefaultSequence() {
 }
 
 // param index will indicate which semester we're shifting down from
-function shiftAllDownFromSemester(index) {
+function shiftAllDownFromSemester(index){
     generateSequenceObject(function(result){
         var semesterList = result.semesterList;
         var season = indexToSeason(index);
@@ -546,7 +548,7 @@ function initUI(){
     var globalTimer;
 
     $(".semesterHeading").droppable({
-        over: function() {
+        over: function(){
             var $courses = $(this).parent().children(".courseContainer");
             globalTimer = setTimeout(function(){
                 if($courses.is(":hidden")){
@@ -565,13 +567,13 @@ function initUI(){
     $(".courseContainer").sortable({
         connectWith: ".courseContainer",
         // change event gets called when an item is dragged into a new position (including its original position)
-        change: function(event, ui) {
+        change: function(event, ui){
             var centerText = $(ui.item).find(".center").text();
             var index = ui.placeholder.index();
             draggingItem = true;
         },
         // update event gets invoked when an item is dropped into a new position (excluding its original position)
-        update: function(event, ui) {
+        update: function(event, ui){
             if(draggingItem){
                 generateSequenceObject(function(result){
                     localStorage.setItem("savedSequence", JSON.stringify(result));
