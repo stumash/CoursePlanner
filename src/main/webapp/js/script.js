@@ -44,7 +44,8 @@ function loadSequence(callback){
 
         });
         oReq.open("GET", "http://138.197.6.26/courseplanner/js/defaultSequence.json");
-    } else {  oReq.send();
+        oReq.send();
+    } else {
 
         addContainers(savedSequence, function(){
             // fill page with the saved sequence
