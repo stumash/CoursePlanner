@@ -44,8 +44,8 @@ function loadSequence(callback){
 
         });
         oReq.open("GET", "http://138.197.6.26/courseplanner/js/defaultSequence.json");
-        oReq.send();
-    }else{
+    } else {  oReq.send();
+
         addContainers(savedSequence, function(){
             // fill page with the saved sequence
             populatePage(savedSequence);
@@ -91,7 +91,7 @@ function populatePage(courseSequenceObject){
                 if(courseList.isElective === "true" || courseList.isElective === true){
                     var electiveType = courseList.electiveType.toString();
                     addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", electiveType + " Elective", "-", true);
-                }else {
+                } else {
                     var code = courseList.code.toString();
                     var name = courseList.name.toString();
                     var credits = courseList.credits.toString();
@@ -117,7 +117,7 @@ function fillWorkTerms(){
         if($(this).html() === ""){
             addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "Work Term", "-", false);
             workTermCount = workTermCount + 1;
-        }else{
+        } else {
             // if there's a work term row in a list of length greater than two, remove it
             var $courses = $courseContainer.find(".course");
             if($courses.length > 1){
@@ -194,7 +194,7 @@ function validateSequence(sequenceObject){
             $container.addClass("valid");
             $container.removeClass("invalid");
             $errorBox.text("Current sequence is valid");
-        }else{
+        } else {
             $container.addClass("invalid");
             $container.removeClass("valid");
             $errorBox.html("Current sequence is invalid:</br>");
@@ -250,7 +250,7 @@ function getSemesterObject($semesterContainer, callback){
             var courseObject = getCourseObject($(this));
             if(courseObject){
                 courseList.push(courseObject);
-            }else{
+            } else {
                 courseList = [];
                 isWorkTerm = true;
             }
@@ -258,7 +258,7 @@ function getSemesterObject($semesterContainer, callback){
                 callback({"season" : seasonText, "courseList": courseList, "isWorkTerm": isWorkTerm});
             }
         });
-    }else{
+    } else {
 	    // ignore the empty terms by regarding them as undefined
         callback(undefined);
     }
@@ -296,7 +296,7 @@ function fillCourseInfoBox(courseInfo){
 
     if($.isEmptyObject(courseInfo)){
         $("p.info").html("Requested information for invalid course code");
-    }else{
+    } else {
         var name = courseInfo.name;
         var credits = courseInfo.credits;
         var code = courseInfo.code;
@@ -387,7 +387,7 @@ function saveAs(uri, filename){
         link.href = uri;
         link.click();
         document.body.removeChild(link); // remove the link when done
-    }else{
+    } else {
         location.replace(uri);
     }
 }
@@ -487,7 +487,7 @@ function initUI(){
         // flip the triangle around when the button is clicked
         if($courses.is(":hidden")){
             $(this).html("&#x25B2");
-        }else{
+        } else {
             $(this).html("&#x25BC");
         }
 
