@@ -1,8 +1,9 @@
 var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
+var fileCounter = 1;
 
-function scrape(url, callback){
+function scrapeEncsSequenceUrl(url, outPath){
 
     request(url, function(error, response, html){
         if(!error){
@@ -35,18 +36,18 @@ function scrape(url, callback){
                                     "courseList": courseList,
                                     "isWorkTerm": "true"
                                 });
-                            } else if(firstCellText === "basic science") {
+                            } else if(firstCellText === "basic science"){
                                 isElective = "true";
                                 electiveType = "Science";
                                 foundACourse = true;
-                            } else if(firstCellText === "general education elective") {
+                            } else if(firstCellText === "general education elective"){
                                 isElective = "true";
                                 electiveType = "General";
                                 foundACourse = true;
-                            } else if(firstCellText.indexOf("elective") >= 0) {
-                                    isElective = "true";
-                                    electiveType = "Program";
-                                    foundACourse = true;
+                            } else if(firstCellText.indexOf("elective") >= 0){
+                                isElective = "true";
+                                electiveType = "Program";
+                                foundACourse = true;
                             } else {
                                 // add a course to the course list
                                 $rowCell.children().each(function(i, el){
@@ -67,16 +68,16 @@ function scrape(url, callback){
                             }
                             if(foundACourse){
                                 courseList.push({
-                                    "code": code,
-                                    "name": name,
-                                    "isElective": isElective,
-                                    "electiveType": electiveType,
-                                    "credits": credits
+                                    "code": code.trim(),
+                                    "name": name.trim(),
+                                    "isElective": isElective.trim(),
+                                    "electiveType": electiveType.trim(),
+                                    "credits": credits.trim()
                                 });
                             }
                         }
                     });
-                } else if($row.children().length === 1 && $row.children().text().toLowerCase().indexOf("year") >= 0) {
+                } else if($row.children().length === 1 && $row.children().text().toLowerCase().indexOf("year") >= 0){
                     if(hasStartedScraping){
                         if(courseList.length > 0){
                             semesterList.push({
@@ -101,10 +102,20 @@ function scrape(url, callback){
                 });
             }
 
-            var sequenceObject = {"semesterList" : semesterList};
-            console.log("Finished scraping from url: " + url);
-            callback(sequenceObject);
+            var sequenceObject = {
+                "sourceUrl": url,
+                "semesterList" : semesterList
+            };
 
+            console.log("Finished scraping from url: " + url);
+
+            fs.writeFile(outPath, JSON.stringify(sequenceObject, null, 4), function(err){
+                if(err){
+                    console.log("ERROR writing to a file: " + outPath);
+                } else {
+                    console.log("Done writing file: " + outPath);
+                }
+            });
         }
     });
 }
@@ -120,78 +131,51 @@ function parseSeason(season){
     return undefined;
 }
 
-var sitesToTest = [
-    //software engineering
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-soen-general.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-soen-general.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/co-op-soen-general.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-soen-games.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-soen-games.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/co-op-soen-games.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-soen-real-time.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-soen-real-time.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/co-op-soen-real-time.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-soen-web.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-soen-web.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/co-op-soen-web.html",
-    //computer science
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-general.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-general.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-general.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-comp-apps.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-comp-apps.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-comp-apps.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-comp-games.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-comp-games.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-comp-games.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-comp-sys.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-comp-sys.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-comp-sys.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-info-sys.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-info-sys.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-info-sys.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-math-stat.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-math-stat.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-soft-sys.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-soft-sys.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-soft-sys.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-web-svcs.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-web-svcs.html",
-    "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-web-svcs.html",
-    //building engineering
-    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/sept.html",
-    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/jan.html",
-    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/co-op.html",
-    //civil engineering
-    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/sept1.html",
-    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/jan1.html",
-    "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/co-op1.html",
-    //industrial engineering
-    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/sept-indu.html",
-    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/jan-indu.html",
-    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/co-op-indu.html",
-    //mechanical engineering
-    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/sept-mech.html",
-    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/jan-mech.html",
-    "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/co-op-mech.html"
-];
+// pull all info contained in URLs from sequenceUrls.json and write to appropriate files
+// we define this function inside the exports object to expose it to other files
+module.exports.updateData = function(){
 
-var fileCounter = 1;
-var writeJSON = function(sequenceObject){
-    var outPath = "out/sequence" + fileCounter + ".json";
-    fs.writeFile(outPath, JSON.stringify(sequenceObject, null, 4), function(err){
-        if(err){
-            console.log("ERROR writing to a file: " + outPath);
-        } else {
-            console.log("Done writing to file at: " + outPath);
+    var outputDir = "sequences";
+
+    fs.readFile("./sequenceUrls.json", function (err, data) {
+        if (err) {
+            console.log("ERROR reading sequenceUrls.json");
         }
-    });
-    fileCounter++;
-};
 
-fs.mkdir("out", function(err) {
-    for(var i = 0; i < sitesToTest.length; i++){
-        console.log("Started scraping from url: " + sitesToTest[i]);
-        scrape(sitesToTest[i], writeJSON);
-    }
-});
+        var sequenceUrls = JSON.parse(data.toString());
+
+        fs.mkdir(outputDir, function(err){
+            if(err){
+                console.log("Couldn't create sequences directory");
+            }
+            for (var program in sequenceUrls) {
+                var subList = sequenceUrls[program];
+                var options = subList.Options;
+                // in this case, sequenceVariant/optionType will be either September entry, January entry, or Coop
+                if(options){
+                    for(var optionType in options){
+                        var optionSubList = options[optionType];
+                        for(var sequenceVariant in optionSubList){
+                            var url = optionSubList[sequenceVariant];
+                            var fileName = outputDir + "/" + program + "-" + optionType + "-" + sequenceVariant + ".json";
+                            scrapeEncsSequenceUrl(url, fileName);
+                        }
+                    }
+                } else {
+                    for(var sequenceVariant in subList){
+                        var url = subList[sequenceVariant];
+                        var fileName = outputDir + "/" + program + "-" + sequenceVariant + ".json";
+                        scrapeEncsSequenceUrl(url, fileName);
+                    }
+                }
+                console.log(program + " -> " + sequenceUrls[program]);
+            }
+            // for(var i = 0; i < sitesToTest.length; i++){
+            //     console.log("Started scraping from url: " + sitesToTest[i]);
+            //     scrapeEncsSequenceUrl(sitesToTest[i], writeJSON);
+            // }
+        });
+
+
+    });
+}

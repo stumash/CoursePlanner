@@ -2,5 +2,5 @@
 *.class
 /.idea/
 /target/
-node_modules/
-/webscraping/node/out/
+/webscraping/node/node_modules/
+/webscraping/node/sequences/

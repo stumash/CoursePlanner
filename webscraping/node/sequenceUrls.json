@@ -1,0 +1,89 @@
+{
+  "SOEN": {
+    "Options": {
+      "General": {
+        "Sept": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-soen-general.html",
+        "Jan": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-soen-general.html",
+        "Coop": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/co-op-soen-general.html"
+      },
+      "Games": {
+        "Sept": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-soen-games.html",
+        "Jan": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-soen-games.html",
+        "Coop": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/co-op-soen-games.html"
+      },
+      "Realtime": {
+        "Sept": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-soen-real-time.html",
+        "Jan": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-soen-real-time.html",
+        "Coop": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/co-op-soen-real-time.html"
+      },
+      "Web": {
+        "Sept": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-soen-web.html",
+        "Jan": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-soen-web.html",
+        "Coop": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/co-op-soen-web.html"
+      }
+    }
+  },
+  "COMP": {
+    "Options": {
+      "General": {
+        "Sept": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-general.html",
+        "Jan": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-general.html",
+        "Coop": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-general.html"
+      },
+      "Apps": {
+        "Sept": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-comp-apps.html",
+        "Jan": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-comp-apps.html",
+        "Coop": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-comp-apps.html"
+      },
+      "Games": {
+        "Sept": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-comp-games.html",
+        "Jan": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-comp-games.html",
+        "Coop": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-comp-games.html"
+      },
+      "CompSys": {
+        "Sept": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-comp-sys.html",
+        "Jan": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-comp-sys.html",
+        "Coop": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-comp-sys.html"
+      },
+      "InfoSys": {
+        "Sept": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-info-sys.html",
+        "Jan": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-info-sys.html",
+        "Coop": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-info-sys.html"
+      },
+      "Stats": {
+        "Sept": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-math-stat.html",
+        "Jan": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-math-stat.html"
+      },
+      "SoftSys": {
+        "Sept": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-soft-sys.html",
+        "Jan": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-soft-sys.html",
+        "Coop": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-soft-sys.html"
+      },
+      "Web": {
+        "Sept": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-web-svcs.html",
+        "Jan": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-web-svcs.html",
+        "Coop": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-web-svcs.html"
+      }
+    }
+  },
+  "BLDG": {
+    "Sept": "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/sept.html",
+    "Jan": "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/jan.html",
+    "Coop": "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/co-op.html"
+  },
+  "CIVI": {
+    "Sept": "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/sept1.html",
+    "Jan": "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/jan1.html",
+    "Coop": "https://www.concordia.ca/encs/bcee/students/undergraduate/course-sequences/co-op1.html"
+  },
+  "INDU": {
+    "Sept": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/sept-indu.html",
+    "Jan": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/jan-indu.html",
+    "Coop": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/co-op-indu.html"
+  },
+  "MECH": {
+    "Sept": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/sept-mech.html",
+    "Jan": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/jan-mech.html",
+    "Coop": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/co-op-mech.html"
+  }
+}
