@@ -54,12 +54,14 @@ function scrapeEncsSequenceUrl(url, outPath, shouldBeVerbose){
                                     var cellText = $(this).children().text();
                                     switch(i){
                                         case 0:
-                                            code = cellText;
+                                            // replace new lines with a simple space
+                                            code = cellText.replace("\n", " ");
                                             break;
                                         case 1:
                                             name = cellText;
                                             break;
                                         case 2:
+                                            // remove brackets if any
                                             credits = cellText.replace("(", "").replace(")", "");
                                             break;
                                     }
