@@ -60,7 +60,7 @@ function scrapeEncsSequenceUrl(url, outPath, shouldBeVerbose){
                                             name = cellText;
                                             break;
                                         case 2:
-                                            credits = cellText;
+                                            credits = cellText.replace("(", "").replace(")", "");
                                             break;
                                     }
                                 });
