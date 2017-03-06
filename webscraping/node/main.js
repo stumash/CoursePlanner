@@ -138,8 +138,6 @@ function parseSeason(season){
 // we define this function inside the exports object to expose it to other files
 module.exports.updateData = function(shouldBeVerbose){
 
-    console.log("Generating sequence JSON files via webscraping");
-
     var outputDir = "../../src/main/webapp/sequences";
 
     fs.readFile("./sequenceUrls.json", function (err, data) {
