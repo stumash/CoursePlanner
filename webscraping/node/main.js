@@ -141,16 +141,16 @@ module.exports.updateData = function(shouldBeVerbose){
     var outputDir = "../../src/main/webapp/sequences";
 
     fs.readFile("./sequenceUrls.json", function (err, data) {
-        if (err && shouldBeVerbose) {
-            console.log("ERROR reading sequenceUrls.json (this might be because the directory already exists)");
+        if (err) {
+            console.error("ERROR reading sequenceUrls.json");
+            process.exit(1);
         }
 
         var sequenceUrls = JSON.parse(data.toString());
 
         fs.mkdir(outputDir, function(err){
             if(err && shouldBeVerbose){
-                console.log(err);
-                console.log("Couldn't create sequences directory");
+                console.log("Couldn't create sequences directory (this might be because the directory already exists)");
             }
             for (var program in sequenceUrls) {
                 var subList = sequenceUrls[program];

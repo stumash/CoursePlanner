@@ -9,7 +9,6 @@ node driver.js &&
 cd - > /dev/null &&
 
 echo "Sequence generation succeeded" &&
-
 echo "Building & deploying project..." &&
 
 # get ID of current commit
@@ -27,6 +26,8 @@ mvn clean install -q &&
 # we do not want our deploy script to change our source files
 sed -i "4d" ./src/main/webapp/index.html &&
 sed -i "4d" ./src/main/webapp/sequenceBuilder.html &&
+
+echo "Project build complete. Transferring war file to VM" &&
 
 # transfer the built project onto the VM
 # this will trigger Tomcat to reload the site content
