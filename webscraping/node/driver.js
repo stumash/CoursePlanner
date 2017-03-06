@@ -1,7 +1,9 @@
 var shouldBeVerbose = false;
 var programArgument = process.argv[2];
-if(programArgument === "-v" || programArgument === "--verbose") {
-    shouldBeVerbose = true;
+if(programArgument) {
+    if (programArgument.indexOf("-v") >= 0 || programArgument.indexOf("--verbose") >= 0){
+        shouldBeVerbose = true;
+    }
 }
 
 var sequenceScraper = require("./main.js");
