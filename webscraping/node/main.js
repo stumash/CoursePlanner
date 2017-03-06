@@ -3,7 +3,7 @@ var request = require('request');
 var cheerio = require('cheerio');
 var fileCounter = 1;
 
-function scrapeEncsSequenceUrl(url, outPath){
+function scrapeEncsSequenceUrl(url, outPath, shouldBeVerbose){
 
     request(url, function(error, response, html){
         if(!error){
@@ -107,12 +107,15 @@ function scrapeEncsSequenceUrl(url, outPath){
                 "semesterList" : semesterList
             };
 
-            console.log("Finished scraping from url: " + url);
+            if(shouldBeVerbose){
+                console.log("Finished scraping from url: " + url);
+            }
 
             fs.writeFile(outPath, JSON.stringify(sequenceObject, null, 4), function(err){
                 if(err){
-                    console.log("ERROR writing to a file: " + outPath);
-                } else {
+                    console.error("ERROR writing to a file: " + outPath);
+                    process.exit(1);
+                } else if(shouldBeVerbose) {
                     console.log("Done writing file: " + outPath);
                 }
             });
@@ -133,19 +136,22 @@ function parseSeason(season){
 
 // pull all info contained in URLs from sequenceUrls.json and write to appropriate files
 // we define this function inside the exports object to expose it to other files
-module.exports.updateData = function(){
+module.exports.updateData = function(shouldBeVerbose){
 
-    var outputDir = "sequences";
+    console.log("Generating sequence JSON files via webscraping");
+
+    var outputDir = "../../src/main/webapp/sequences";
 
     fs.readFile("./sequenceUrls.json", function (err, data) {
-        if (err) {
-            console.log("ERROR reading sequenceUrls.json");
+        if (err && shouldBeVerbose) {
+            console.log("ERROR reading sequenceUrls.json (this might be because the directory already exists)");
         }
 
         var sequenceUrls = JSON.parse(data.toString());
 
         fs.mkdir(outputDir, function(err){
-            if(err){
+            if(err && shouldBeVerbose){
+                console.log(err);
                 console.log("Couldn't create sequences directory");
             }
             for (var program in sequenceUrls) {
@@ -158,22 +164,17 @@ module.exports.updateData = function(){
                         for(var sequenceVariant in optionSubList){
                             var url = optionSubList[sequenceVariant];
                             var fileName = outputDir + "/" + program + "-" + optionType + "-" + sequenceVariant + ".json";
-                            scrapeEncsSequenceUrl(url, fileName);
+                            scrapeEncsSequenceUrl(url, fileName, shouldBeVerbose);
                         }
                     }
                 } else {
                     for(var sequenceVariant in subList){
                         var url = subList[sequenceVariant];
                         var fileName = outputDir + "/" + program + "-" + sequenceVariant + ".json";
-                        scrapeEncsSequenceUrl(url, fileName);
+                        scrapeEncsSequenceUrl(url, fileName, shouldBeVerbose);
                     }
                 }
-                console.log(program + " -> " + sequenceUrls[program]);
             }
-            // for(var i = 0; i < sitesToTest.length; i++){
-            //     console.log("Started scraping from url: " + sitesToTest[i]);
-            //     scrapeEncsSequenceUrl(sitesToTest[i], writeJSON);
-            // }
         });
 
 

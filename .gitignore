@@ -3,4 +3,4 @@
 /.idea/
 /target/
 /webscraping/node/node_modules/
-/webscraping/node/sequences/
+/src/main/webapp/sequences/
