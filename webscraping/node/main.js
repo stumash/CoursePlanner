@@ -25,7 +25,7 @@ function scrapeEncsSequenceUrl(url, outPath, shouldBeVerbose){
                 if($row.children().length === 3){
                     $row.each(function(i, el){
                         var $rowCell = $(this);
-                        var containsBoldText = $rowCell.children()[0].children[0].name === "b";
+                        var containsBoldText = $rowCell.children()[0].name === "th";
                         if(!containsBoldText){
                             var code = "", name = "", isElective = "false", electiveType = "", credits = "", foundACourse = false;
                             var firstCellText = $rowCell.find("p").text() || $rowCell.find("td").text();
@@ -177,4 +177,8 @@ module.exports.updateData = function(shouldBeVerbose){
 
 
     });
-}
+};
+
+module.exports.scrapeSingleUrl = function(url){
+    scrapeEncsSequenceUrl(url, "debug.json", true);
+};
