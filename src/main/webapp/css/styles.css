@@ -72,6 +72,12 @@ div.course {
 	-webkit-transition: background-color 0.5s; /*Safari*/
 }
 
+div.totalCredits{
+	margin-left: 0;
+	height: 23px;
+	font-size: 15px;
+}
+
 div.course:not(.undraggable) {
 	cursor: move; /* fallback if grab cursor is unsupported */
 	cursor: grab;

@@ -104,12 +104,14 @@ function populatePage(courseSequenceObject){
     }
 
     fillWorkTerms();
+    updateTotalCredits(courseSequenceObject);
 }
 
 function updateTotalCredits(courseSequenceObject){
 
     for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
-        var $courseContainer = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .courseContainer");
+        var $semesterHeading = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .semesterHeading");
+        var $totalCreditsDiv = $semesterHeading.find(".totalCredits");
         var semester = courseSequenceObject.semesterList[i];
         if(semester.isWorkTerm === false || semester.isWorkTerm === "false"){
             var totalCredits = 0;
@@ -122,7 +124,7 @@ function updateTotalCredits(courseSequenceObject){
                     totalCredits += credits;
                 }
             }
-            console.log("Total credits: ", totalCredits);
+            $totalCreditsDiv.html("Total credits: "+totalCredits+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
         }
     }
 }
