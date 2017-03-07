@@ -124,7 +124,7 @@ function updateTotalCredits(courseSequenceObject){
                     totalCredits += credits;
                 }
             }
-            $totalCreditsDiv.html("Total credits: "+totalCredits+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+            $totalCreditsDiv.html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total credits: "+totalCredits);
         }
     }
 }
