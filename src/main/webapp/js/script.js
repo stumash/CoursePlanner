@@ -87,6 +87,7 @@ function populatePage(courseSequenceObject){
         var $courseContainer = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .courseContainer");
         var semester = courseSequenceObject.semesterList[i];
         if(semester.isWorkTerm === false || semester.isWorkTerm === "false"){
+            var totalCredits = 0;
             for(var j = 0; j < semester.courseList.length; j++){
                 var courseList = semester.courseList[j];
                 if(courseList.isElective === "true" || courseList.isElective === true){
@@ -95,10 +96,13 @@ function populatePage(courseSequenceObject){
                 } else {
                     var code = courseList.code.toString();
                     var name = courseList.name.toString();
-                    var credits = courseList.credits.toString();
-                    addCourseRow($courseContainer, code, name, credits, true);
+                    var creditsStr = courseList.credits.toString();
+                    var credits = Number(creditsStr);
+                    totalCredits += credits;
+                    addCourseRow($courseContainer, code, name, creditsStr, true);
                 }
             }
+            console.log("Total credits: ", totalCredits);
         }
     }
 
