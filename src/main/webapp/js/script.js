@@ -87,7 +87,6 @@ function populatePage(courseSequenceObject){
         var $courseContainer = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .courseContainer");
         var semester = courseSequenceObject.semesterList[i];
         if(semester.isWorkTerm === false || semester.isWorkTerm === "false"){
-            var totalCredits = 0;
             for(var j = 0; j < semester.courseList.length; j++){
                 var courseList = semester.courseList[j];
                 if(courseList.isElective === "true" || courseList.isElective === true){
@@ -96,17 +95,36 @@ function populatePage(courseSequenceObject){
                 } else {
                     var code = courseList.code.toString();
                     var name = courseList.name.toString();
-                    var creditsStr = courseList.credits.toString();
-                    var credits = Number(creditsStr);
+                    var credits = courseList.credits.toString();
+                    addCourseRow($courseContainer, code, name, credits, true);
+                }
+            }
+            console.log($courseContainer.html());
+        }
+    }
+
+    fillWorkTerms();
+}
+
+function updateTotalCredits(courseSequenceObject){
+
+    for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
+        var $courseContainer = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .courseContainer");
+        var semester = courseSequenceObject.semesterList[i];
+        if(semester.isWorkTerm === false || semester.isWorkTerm === "false"){
+            var totalCredits = 0;
+            for(var j = 0; j < semester.courseList.length; j++){
+                var courseList = semester.courseList[j];
+                if(courseList.isElective === "true" || courseList.isElective === true){
+                    var electiveType = courseList.electiveType.toString();
+                } else {
+                    var credits = Number(courseList.credits);
                     totalCredits += credits;
-                    addCourseRow($courseContainer, code, name, creditsStr, true);
                 }
             }
             console.log("Total credits: ", totalCredits);
         }
     }
-
-    fillWorkTerms();
 }
 
 /* this function fills empty course containers with an undraggable work term row
