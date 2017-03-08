@@ -2,3 +2,5 @@
 *.class
 /.idea/
 /target/
+/webscraping/node/node_modules/
+/src/main/webapp/sequences/
