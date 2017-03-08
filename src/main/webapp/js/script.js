@@ -250,7 +250,7 @@ function highlightAffectedCourses(affectedCourses){
 function generateSequenceObject(callback){
 	var semesterList = [];
 	var count = 0;
-	var numerOfTerms = $(".sequenceContainer .term").length;
+	var numberOfTerms = $(".sequenceContainer .term").length;
 	var onFinish = function(sequenceObject){
         if(sequenceObject){
             semesterList.push(sequenceObject);
