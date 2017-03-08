@@ -72,10 +72,15 @@ div.course {
 	-webkit-transition: background-color 0.5s; /*Safari*/
 }
 
-div.totalCredits{
-	margin-left: 0;
+div.totalCredits {
 	height: 23px;
 	font-size: 15px;
+	float: left;
+	margin-left: 0;
+}
+
+div.seasonText {
+	position: center;
 }
 
 div.course:not(.undraggable) {
