@@ -75,8 +75,8 @@ div.course {
 div.totalCredits {
 	height: 23px;
 	font-size: 15px;
-	float: left;
-	margin-left: 0;
+	position: absolute;
+	right: 74%;
 }
 
 div.seasonText {
