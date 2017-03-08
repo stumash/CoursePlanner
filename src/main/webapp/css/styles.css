@@ -29,6 +29,7 @@ div.term {
 	margin: 20px;
 	padding: 0px;
 	border: 3px solid #900C3F;
+	position: relative;
 }
 
 div.semesterHeading {
@@ -73,10 +74,10 @@ div.course {
 }
 
 div.totalCredits {
-	height: 23px;
-	font-size: 15px;
+	display: inline-table;
+	font-size: 16px;
 	position: absolute;
-	right: 74%;
+	right: 90%;
 }
 
 div.seasonText {

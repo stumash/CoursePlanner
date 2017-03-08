@@ -99,7 +99,6 @@ function populatePage(courseSequenceObject){
                     addCourseRow($courseContainer, code, name, credits, true);
                 }
             }
-            console.log($courseContainer.html());
         }
     }
 
@@ -111,7 +110,7 @@ function updateTotalCredits(courseSequenceObject){
 
     for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
         var $semesterHeading = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .semesterHeading");
-        var $totalCreditsDiv = $semesterHeading.find(".totalCredits");
+        var $totalCreditsDiv = $semesterHeading.find("div.totalCredits");
         var semester = courseSequenceObject.semesterList[i];
         if(semester.isWorkTerm === false || semester.isWorkTerm === "false"){
             var totalCredits = 0;
