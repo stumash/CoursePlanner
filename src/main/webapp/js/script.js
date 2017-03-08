@@ -250,9 +250,9 @@ function highlightAffectedCourses(affectedCourses){
 function generateSequenceObject(callback){
 	var semesterList = [];
 	var count = 0;
-	var onFinish = function(semesterObject){
-        if(semesterObject){
-            semesterList.push(semesterObject);
+	var onFinish = function(sequenceObject){
+        if(sequenceObject){
+            semesterList.push(sequenceObject);
         }
         count++;
         if(count === 15){
@@ -385,7 +385,7 @@ function fillCourseInfoBox(courseInfo){
 
 function exportSequence(){
     $("#exportWaiting").css("display","inline-block");
-    generateSequenceObject( function(result){
+    generateSequenceObject( function(sequenceObject){
         var oReq = new XMLHttpRequest();
         oReq.addEventListener("load", function(){
 
@@ -400,7 +400,7 @@ function exportSequence(){
 
         });
         oReq.open("POST", "http://138.197.6.26/courseplanner/export");
-        oReq.send(JSON.stringify(result));
+        oReq.send(JSON.stringify(sequenceObject));
     });
 }
 
@@ -444,8 +444,8 @@ function resetToDefaultSequence(){
 
 // param index will indicate which semester we're shifting down from
 function shiftAllDownFromSemester(index){
-    generateSequenceObject(function(result){
-        var semesterList = result.semesterList;
+    generateSequenceObject(function(sequenceObject){
+        var semesterList = sequenceObject.semesterList;
         var season = indexToSeason(index);
         var emptySemester = {
             "season": season,
@@ -466,8 +466,8 @@ function shiftAllDownFromSemester(index){
                 semesterList[i].season = "fall";
             }
         }
-        result.semesterList = semesterList;
-        localStorage.setItem("savedSequence", JSON.stringify(result));
+        sequenceObject.semesterList = semesterList;
+        localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
         loadSequence();
     });
 }
@@ -600,10 +600,10 @@ function initUI(){
         // update event gets invoked when an item is dropped into a new position (excluding its original position)
         update: function(event, ui){
             if(draggingItem){
-                generateSequenceObject(function(result){
-                    localStorage.setItem("savedSequence", JSON.stringify(result));
-                    validateSequence(result);
-                    updateTotalCredits(JSON.parse(localStorage.getItem("savedSequence")));
+                generateSequenceObject(function(sequenceObject){
+                    localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
+                    validateSequence(sequenceObject);
+                    updateTotalCredits(sequenceObject);
                 });
                 fillWorkTerms();
             }
