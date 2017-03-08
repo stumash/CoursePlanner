@@ -250,22 +250,23 @@ function highlightAffectedCourses(affectedCourses){
 function generateSequenceObject(callback){
 	var semesterList = [];
 	var count = 0;
+	var numerOfTerms = $(".sequenceContainer .term").length;
 	var onFinish = function(sequenceObject){
         if(sequenceObject){
             semesterList.push(sequenceObject);
         }
         count++;
-        if(count === 15){
+        if(count === numberOfTerms){
             callback({ "semesterList" : semesterList});
         }
 	};
-	for(var i = 1; i <= 15; i++){
+	for(var i = 1; i <= numberOfTerms; i++){
 		getSemesterObject($(".sequenceContainer .term:nth-of-type(" + i + ")"), onFinish);
 	}
 }
 
 function getSemesterObject($semesterContainer, callback){
-	var seasonText = $semesterContainer.find(".semesterHeading > div").text().split(" ")[0].trim().toLowerCase();
+	var seasonText = $semesterContainer.find(".semesterHeading .seasonText").text().split(" ")[0].trim().toLowerCase();
 	var courseList = [];
 	var $courses = $semesterContainer.find(".course");
     var count = $courses.length;
