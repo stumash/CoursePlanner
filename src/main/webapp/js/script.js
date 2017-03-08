@@ -603,6 +603,7 @@ function initUI(){
                 generateSequenceObject(function(result){
                     localStorage.setItem("savedSequence", JSON.stringify(result));
                     validateSequence(result);
+                    updateTotalCredits(JSON.parse(localStorage.getItem("savedSequence")));
                 });
                 fillWorkTerms();
             }
