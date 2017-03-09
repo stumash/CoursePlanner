@@ -103,6 +103,29 @@ function populatePage(courseSequenceObject){
     }
 
     fillWorkTerms();
+    updateTotalCredits(courseSequenceObject);
+}
+
+function updateTotalCredits(courseSequenceObject){
+
+    for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
+        var $semesterHeading = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .semesterHeading");
+        var $totalCreditsDiv = $semesterHeading.find("div.totalCredits");
+        var semester = courseSequenceObject.semesterList[i];
+        if(semester.isWorkTerm === false || semester.isWorkTerm === "false"){
+            var totalCredits = 0;
+            for(var j = 0; j < semester.courseList.length; j++){
+                var courseList = semester.courseList[j];
+                if(courseList.isElective === "true" || courseList.isElective === true){
+                    var electiveType = courseList.electiveType.toString();
+                } else {
+                    var credits = Number(courseList.credits);
+                    totalCredits += credits;
+                }
+            }
+            $totalCreditsDiv.html("Total credits: "+totalCredits);
+        }
+    }
 }
 
 /* this function fills empty course containers with an undraggable work term row
@@ -226,22 +249,23 @@ function highlightAffectedCourses(affectedCourses){
 function generateSequenceObject(callback){
 	var semesterList = [];
 	var count = 0;
+	var numberOfTerms = $(".sequenceContainer .term").length;
 	var onFinish = function(semesterObject){
         if(semesterObject){
             semesterList.push(semesterObject);
         }
         count++;
-        if(count === 15){
+        if(count === numberOfTerms){
             callback({ "semesterList" : semesterList});
         }
 	};
-	for(var i = 1; i <= 15; i++){
+	for(var i = 1; i <= numberOfTerms; i++){
 		getSemesterObject($(".sequenceContainer .term:nth-of-type(" + i + ")"), onFinish);
 	}
 }
 
 function getSemesterObject($semesterContainer, callback){
-	var seasonText = $semesterContainer.find(".semesterHeading > div").text().split(" ")[0].trim().toLowerCase();
+	var seasonText = $semesterContainer.find(".semesterHeading .seasonText").text().split(" ")[0].trim().toLowerCase();
 	var courseList = [];
 	var $courses = $semesterContainer.find(".course");
     var count = $courses.length;
@@ -361,7 +385,7 @@ function fillCourseInfoBox(courseInfo){
 
 function exportSequence(){
     $("#exportWaiting").css("display","inline-block");
-    generateSequenceObject( function(result){
+    generateSequenceObject( function(sequenceObject){
         var oReq = new XMLHttpRequest();
         oReq.addEventListener("load", function(){
 
@@ -376,7 +400,7 @@ function exportSequence(){
 
         });
         oReq.open("POST", "http://138.197.6.26/courseplanner/export");
-        oReq.send(JSON.stringify(result));
+        oReq.send(JSON.stringify(sequenceObject));
     });
 }
 
@@ -420,8 +444,8 @@ function resetToDefaultSequence(){
 
 // param index will indicate which semester we're shifting down from
 function shiftAllDownFromSemester(index){
-    generateSequenceObject(function(result){
-        var semesterList = result.semesterList;
+    generateSequenceObject(function(sequenceObject){
+        var semesterList = sequenceObject.semesterList;
         var season = indexToSeason(index);
         var emptySemester = {
             "season": season,
@@ -442,8 +466,8 @@ function shiftAllDownFromSemester(index){
                 semesterList[i].season = "fall";
             }
         }
-        result.semesterList = semesterList;
-        localStorage.setItem("savedSequence", JSON.stringify(result));
+        sequenceObject.semesterList = semesterList;
+        localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
         loadSequence();
     });
 }
@@ -576,9 +600,10 @@ function initUI(){
         // update event gets invoked when an item is dropped into a new position (excluding its original position)
         update: function(event, ui){
             if(draggingItem){
-                generateSequenceObject(function(result){
-                    localStorage.setItem("savedSequence", JSON.stringify(result));
-                    validateSequence(result);
+                generateSequenceObject(function(sequenceObject){
+                    localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
+                    validateSequence(sequenceObject);
+                    updateTotalCredits(sequenceObject);
                 });
                 fillWorkTerms();
             }
