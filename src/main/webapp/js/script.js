@@ -250,9 +250,9 @@ function generateSequenceObject(callback){
 	var semesterList = [];
 	var count = 0;
 	var numberOfTerms = $(".sequenceContainer .term").length;
-	var onFinish = function(sequenceObject){
-        if(sequenceObject){
-            semesterList.push(sequenceObject);
+	var onFinish = function(semesterObject){
+        if(semesterObject){
+            semesterList.push(semesterObject);
         }
         count++;
         if(count === numberOfTerms){
