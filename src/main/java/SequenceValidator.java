@@ -70,7 +70,7 @@ public class SequenceValidator extends HttpServlet {
 
         // For each semester s (starting at the last one), check that for each course c in s
         // all prereqs of c appear in earlier semesters and all coreqs appear no later than s.
-//        ArrayList<String> errors = new ArrayList<String>();
+        //ArrayList<String> errors = new ArrayList<String>();
         ArrayList<SequenceIssue> issues = new ArrayList<SequenceIssue>();
         for (int i = semesters.size()-1; i > -1; i--) {
             Semester semester = semesters.get(i);
