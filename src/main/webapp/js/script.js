@@ -470,6 +470,7 @@ function shiftAllDownFromSemester(index){
         sequenceObject.semesterList = semesterList;
         localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
         loadSequence();
+        addSequenceToSequenceHistory(sequenceObject);
     });
 }
 
