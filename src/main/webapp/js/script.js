@@ -36,6 +36,10 @@ function loadSequence(){
 
             var courseList = JSON.parse(this.responseText);
 
+            if (sequenceHistory.length < 1) {
+                addSequenceToSequenceHistory(courseList);
+            }
+
             addContainers(courseList, function(){
                 // fill page with default sequence
                 populatePage(courseList);
@@ -47,6 +51,10 @@ function loadSequence(){
         oReq.open("GET", "http://138.197.6.26/courseplanner/sequences/SOEN-General-Coop.json");
         oReq.send();
     } else {
+
+        if (sequenceHistory.length < 1) {
+            addSequenceToSequenceHistory(savedSequence);
+        }
 
         addContainers(savedSequence, function(){
             // fill page with the saved sequence
@@ -572,6 +580,17 @@ function initUI(){
         }
     });
 
+    document.addEventListener('keydown', function(event) {
+        // 90 is ascii for 'Z'
+        if (event.keyCode == 90 && event.ctrlKey) {
+            if (event.shiftKey) {
+                redoSequenceModification();
+            } else {
+                undoSequenceModification();
+            }
+        }
+    });
+
     var globalTimer;
 
     $(".semesterHeading").droppable({
@@ -646,9 +665,9 @@ function addSequenceToSequenceHistory(sequenceObject) {
 // this function will let the user go back to the version of the sequence before the most recent
 // sequence modification.  The user will be able to use the key combination <C-z> to use this feature.
 function undoSequenceModification() {
-    if (sequenceHistory.length > 1) {
+    if (sequenceVersionIndex > 1) {
         sequenceVersionIndex--;
-        localStorage.setItem("savedSequence", JSON.stringify(sequenceHistory[sequenceVersionIndex]));
+        localStorage.setItem("savedSequence", JSON.stringify(sequenceHistory[sequenceVersionIndex - 1]));
         loadSequence();
     }
 }
@@ -662,4 +681,3 @@ function redoSequenceModification() {
         sequenceVersionIndex++;
     }
 }
-
