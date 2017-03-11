@@ -29,6 +29,7 @@ div.term {
 	margin: 20px;
 	padding: 0px;
 	border: 3px solid #900C3F;
+	position: relative;
 }
 
 div.semesterHeading {
@@ -68,23 +69,37 @@ div.course {
 	border-right: none;
 	border-left: none;
 	margin: -1px 0px;
+	transition: background-color 0.5s;
+	-webkit-transition: background-color 0.5s; /*Safari*/
+}
+
+div.totalCredits {
+	display: inline-table;
+	font-size: 16px;
+	position: absolute;
+	right: 90%;
+}
+
+div.seasonText {
+	position: center;
+}
+
+div.course:not(.undraggable) {
 	cursor: move; /* fallback if grab cursor is unsupported */
 	cursor: grab;
 	cursor: -moz-grab;
 	cursor: -webkit-grab;
-	transition: background-color 0.5s;
-	-webkit-transition: background-color 0.5s; /*Safari*/
 }
 
 div.course:last-of-type:not(.grabbed) {
 	border-bottom: none;
 }
 
-div.course:hover {
+div.course:not(.undraggable):hover {
 	background-color: #DDDDDD;
 }
 
-div.course.grabbed {
+div.course.grabbed:not(.undraggable) {
 	border-right: 2px solid black;
 	border-left: 2px solid black;
 	border-radius: 5px;
@@ -149,7 +164,7 @@ div.errorBox {
 	background-color: white;
 	min-height: 150px;
 	margin-left: -0.45%;
-	border: 3.5px solid black;
+	border: 3px solid black;
 	max-height: 400px;
 	overflow-y: auto;
 }
@@ -160,6 +175,10 @@ body div.valid {
 
 body div.invalid {
 	background-color: rgba(251,152,152,0.95);
+}
+
+body div.loading {
+	background-color: rgba(255,228,181,0.95);
 }
 
 div.course.invalid:hover {

@@ -1,0 +1,11 @@
+{
+  "name"         : "concordia-sequence-scrape",
+  "version"      : "1.0.0",
+  "description"  : "Scrape Concordia website to convert course sequences to JSON",
+  "main"         : "main.js",
+  "author"       : "Tranzones",
+  "dependencies" : {
+    "request"    : "latest",
+    "cheerio"    : "latest"
+  }
+}

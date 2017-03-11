@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
 		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
@@ -16,17 +17,17 @@
 		<div class="infoPanel">
 			<div class="classSearch">
 				<input id="classSearch" type="text" name="searchQueue" maxlength="8" placeholder="Class Search">
-				<button class="search" style="vertical-align:middle; margin-top:7px;"><span>Search </span></button>
+				<button class="search" title="Search for a class." style="vertical-align:middle; margin-top:7px;"><span>Search </span></button>
 				<p class="info">Search for or click on a class to view additional info.</p>
 			</div>
 			<div class="errorBox valid">
 				<p class="error">Current sequence is valid</p>
 			</div>
 			<div class="leftButton">
-				<button class="defaultsButton">RESET DEFAULT</button>
+				<button class="defaultsButton" title="Reset default sequence.">RESET DEFAULT</button>
 			</div>
 			<div class="leftButton">
-				<button class="exportButton">EXPORT&nbsp;&nbsp;<i id="exportWaiting" class="fa fa-cog fa-spin fa-fw" style="display: none;"></i></button>
+				<button class="exportButton" title="Export your sequence to PDF.">EXPORT&nbsp;&nbsp;<i id="exportWaiting" class="fa fa-cog fa-spin fa-fw" style="display: none;"></i></button>
 			</div>
 		</div>
 		<div class="sequenceContainer">
