@@ -142,7 +142,7 @@ function fillWorkTerms(){
             addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "Work Term", "-", false);
             workTermCount = workTermCount + 1;
         } else {
-            // if there's a work term row in a list of length greater than two, remove it
+            // if there's a work term row in a list of length greater than one, remove it
             var $courses = $courseContainer.find(".course");
             if($courses.length > 1){
                 $courses.each(function(index){
