@@ -124,6 +124,8 @@ function updateTotalCredits(courseSequenceObject){
                 }
             }
             $totalCreditsDiv.html("Total credits: "+totalCredits);
+        } else { // semester is a workterm
+            $totalCreditsDiv.html("");
         }
     }
 }
@@ -600,12 +602,12 @@ function initUI(){
         // update event gets invoked when an item is dropped into a new position (excluding its original position)
         update: function(event, ui){
             if(draggingItem){
+                fillWorkTerms();
                 generateSequenceObject(function(sequenceObject){
                     localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
                     validateSequence(sequenceObject);
                     updateTotalCredits(sequenceObject);
                 });
-                fillWorkTerms();
             }
             draggingItem = false;
         },
