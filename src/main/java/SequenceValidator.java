@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class SequenceValidator extends HttpServlet {
 
-    private static Logger logger = Logger.getLogger(SequenceValidator.class.getName());
+    private static Logger logger = Logger.getLogger("SequenceValidator");
     private static HashMap<String,CourseInfo> courseInfoMap;
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -26,6 +26,8 @@ public class SequenceValidator extends HttpServlet {
         response.setContentType("text/html");
 
         ArrayList<Semester> semesters = Util.grabSemestersFromRequest(request);
+
+        // just a simple log to make sure the json is getting parsed right
         // logSemesterData(semesters);
 
         CourseInfoParser.init(this.getServletContext());
