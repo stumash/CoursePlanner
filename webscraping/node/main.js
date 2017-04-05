@@ -138,9 +138,9 @@ function parseSeason(season){
 
 // pull all info contained in URLs from sequenceUrls.json and write to appropriate files
 // we define this function inside the exports object to expose it to other files
-module.exports.updateData = function(shouldBeVerbose){
+module.exports.updateData = function(coursePlannerHome, shouldBeVerbose){
 
-    var outputDir = "../../src/main/webapp/sequences";
+    var outputDir = coursePlannerHome + "/src/main/webapp/sequences";
 
     fs.readFile("./sequenceUrls.json", function (err, data) {
         if (err) {
