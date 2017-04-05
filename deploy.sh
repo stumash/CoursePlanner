@@ -1,14 +1,6 @@
 #!/usr/bin/env bash
 
 # tell the user what's going on
-echo "Generating sequence JSON files via webscraping" &&
-
-# run webscraper
-cd webscraping/node &&
-node driver.js &&
-cd - > /dev/null &&
-
-echo "Sequence generation succeeded" &&
 echo "Building & deploying project..." &&
 
 # get ID of current commit
