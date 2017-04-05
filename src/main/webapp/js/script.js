@@ -12,7 +12,6 @@ window.onbeforeunload = function(e){
 	return undefined;   // silenced for now, but not forgotten
 };
 
-
 $(document).ready(function(){
 
     // call functions needed to set up the page
@@ -21,7 +20,7 @@ $(document).ready(function(){
 
 });
 
-function loadSequence(){
+function loadSequence(callback){
 
     // clear whole page first
     $(".sequenceContainer").html("<p class='mainHeader'>Concordia Engineering Sequence Builder</p>");
@@ -36,10 +35,6 @@ function loadSequence(){
 
             var courseList = JSON.parse(this.responseText);
 
-            if (sequenceHistory.length < 1) {
-                addSequenceToSequenceHistory(courseList);
-            }
-
             addContainers(courseList, function(){
                 // fill page with default sequence
                 populatePage(courseList);
@@ -51,10 +46,6 @@ function loadSequence(){
         oReq.open("GET", "http://138.197.6.26/courseplanner/sequences/SOEN-General-Coop.json");
         oReq.send();
     } else {
-
-        if (sequenceHistory.length < 1) {
-            addSequenceToSequenceHistory(savedSequence);
-        }
 
         addContainers(savedSequence, function(){
             // fill page with the saved sequence
@@ -480,7 +471,6 @@ function shiftAllDownFromSemester(index){
         sequenceObject.semesterList = semesterList;
         localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
         loadSequence();
-        addSequenceToSequenceHistory(sequenceObject);
     });
 }
 
@@ -582,17 +572,6 @@ function initUI(){
         }
     });
 
-    document.addEventListener('keydown', function(event) {
-        // 90 is ascii for 'Z'
-        if (event.keyCode == 90 && event.ctrlKey) {
-            if (event.shiftKey) {
-                redoSequenceModification();
-            } else {
-                undoSequenceModification();
-            }
-        }
-    });
-
     var globalTimer;
 
     $(".semesterHeading").droppable({
@@ -626,7 +605,6 @@ function initUI(){
                 fillWorkTerms();
                 generateSequenceObject(function(sequenceObject){
                     localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
-                    addSequenceToSequenceHistory(sequenceObject);
                     validateSequence(sequenceObject);
                     updateTotalCredits(sequenceObject);
                 });
@@ -637,49 +615,4 @@ function initUI(){
         cancel: ".undraggable"
     }).disableSelection();
 
-}
-
-var sequenceHistory = [];
-var sequenceVersionIndex = 0;
-var sequenceHistoryMaxSize = 200;
-// The array sequenceHistory holds up to the last 200 versions of the course sequence json.
-// Every time the user alters the course sequence, a new version is saved in the array.  The user will
-// then be able to go backwards and forwards in version history using <C-z> and <C-y> keystrokes.
-
-// this function will add, upon modification by the user, the current version of the sequence to the
-// sequenceHistory array.
-function addSequenceToSequenceHistory(sequenceObject) {
-    if (sequenceVersionIndex < sequenceHistory.length) {
-        sequenceHistory[sequenceVersionIndex] = sequenceObject;
-        sequenceVersionIndex++;
-        sequenceHistory = sequenceHistory.slice(0,sequenceVersionIndex);
-    } else {
-        if (sequenceVersionIndex < sequenceHistoryMaxSize) {
-            sequenceHistory[sequenceVersionIndex] = sequenceObject;
-            sequenceVersionIndex++;
-        } else {
-            sequenceHistory.shift();
-            sequenceHistory[sequenceVersionIndex] = sequenceObject;
-        }
-    }
-}
-
-// this function will let the user go back to the version of the sequence before the most recent
-// sequence modification.  The user will be able to use the key combination <C-z> to use this feature.
-function undoSequenceModification() {
-    if (sequenceVersionIndex > 1) {
-        sequenceVersionIndex--;
-        localStorage.setItem("savedSequence", JSON.stringify(sequenceHistory[sequenceVersionIndex - 1]));
-        loadSequence();
-    }
-}
-
-// this function will let the user go forwards in history to the version of the sequence before the
-// most recent <C-z> command.  The user will be able to use the key combination <C-S-z> to use this feature.
-function redoSequenceModification() {
-    if (sequenceVersionIndex < sequenceHistory.length) {
-        localStorage.setItem("savedSequence", JSON.stringify(sequenceHistory[sequenceVersionIndex]));
-        loadSequence();
-        sequenceVersionIndex++;
-    }
 }
