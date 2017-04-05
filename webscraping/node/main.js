@@ -140,7 +140,7 @@ function parseSeason(season){
 // we define this function inside the exports object to expose it to other files
 module.exports.updateData = function(coursePlannerHome, shouldBeVerbose){
 
-    var outputDir = coursePlannerHome + "/src/main/webapp/sequences";
+    var outputDir = coursePlannerHome + "/sequences";
 
     fs.readFile("./sequenceUrls.json", function (err, data) {
         if (err) {
