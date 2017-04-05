@@ -100,7 +100,7 @@ function populatePage(courseSequenceObject){
                 var courseList = semester.courseList[j];
                 if(courseList.isElective === "true" || courseList.isElective === true){
                     var electiveType = courseList.electiveType.toString();
-                    addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", electiveType + " Elective", "-", true);
+                    addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", electiveType + " Elective", "3", true);
                 } else {
                     var code = courseList.code.toString();
                     var name = courseList.name.toString();
@@ -126,7 +126,8 @@ function updateTotalCredits(courseSequenceObject){
             for(var j = 0; j < semester.courseList.length; j++){
                 var courseList = semester.courseList[j];
                 if(courseList.isElective === "true" || courseList.isElective === true){
-                    var electiveType = courseList.electiveType.toString();
+                    // var electiveType = courseList.electiveType.toString();
+                    totalCredits += 3; // for now let us assume that most (if not all) electives are worth 3 credits
                 } else {
                     var credits = Number(courseList.credits);
                     totalCredits += credits;
