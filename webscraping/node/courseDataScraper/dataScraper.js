@@ -7,15 +7,19 @@ request(COMP_SOEN_courses_site, function (err, body, html) {
     // console.log(err || body); // Print out the HTML
     var $ = cheerio.load(html);
     var divClassSelector = "div.reference.parbase.section"; 
-    // for(var j = 2; j < 75; j++){  
-    	// console.log("j = " + j);
-    	// does not work properly for j = 0 or j = 1 and j > 32
-	    var courseCode = $(divClassSelector).next().children().children().last().prev().prev().find('b').eq(2);
+    for(var j = 1; j < 43; j++){  
+	    var courseCode = $(divClassSelector).next().children().children().last().prev().prev().find('b').eq(j);
+	    if(courseCode.text() === "")
+	    	courseCode = $(divClassSelector).next().children().children().last().prev().prev().find('b').eq(++j);
 		var courseCredits = courseCode[0].nextSibling.nodeValue;
+		if(courseCredits === null)
+			courseCredits = courseCode[0].nextSibling.nextSibling.nextSibling.nextSibling.nodeValue;
 		var coursePrereqs = courseCode[0].nextSibling.nextSibling.nextSibling.nodeValue;
+		if(coursePrereqs === null)
+			coursePrereqs = courseCode[0].nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nodeValue;
 
 		extractCourseData(courseCode.text(), courseCredits, coursePrereqs);
-	// }
+	}
 });
 
 // A function that returns one line of course info in csv format
@@ -43,17 +47,21 @@ function extractCourseData(code, credits, info){
 		// Sidenote: we need to support the fact that you can have X OR Y as a prereq for something
 		// For now this will only scan for the first match and take it
 		// Perhaps we can use "&" to sybolize logical ands and "+" for logical ors
-		var nextLast = i >= infoArray.length;
 		var required = infoArray[i].match(/[A-Z]{4}\s\d{3}/);
+		//booleans
+		var nextLast = i >= infoArray.length-1;
+		var matchExists = required !== null;
 		
 		if(infoArray[i].includes("concurrently")){
-			coreqs += required[0];
-			if(nextLast)
+			if(matchExists)
+				coreqs += required[0];
+			if(!nextLast)
 				coreqs += ";";
 		}
 		else{
-			prereqs += required[0];
-			if(nextLast)
+			if(matchExists)
+				prereqs += required[0];
+			if(!nextLast)
 				prereqs += ";";
 		}
 	}
@@ -61,5 +69,5 @@ function extractCourseData(code, credits, info){
 	var line = courseName + '#' + courseCode + '#' + courseCredits + "#" + prereqs + "#" + coreqs;
 
 	console.log("line: " + line);
-	console.log("info: " + info);
+	// console.log("info: " + info);
 }
