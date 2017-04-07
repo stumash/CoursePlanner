@@ -42,12 +42,13 @@ function extractCourseData(code, credits, info){
 	var infoArray = courseInfo.split(";");
 	var prereqs = "";
 	var coreqs = "";
+	var courseCodeRegex = /[A-Z]{4}\s\d{3}/;
 
 	for(i = 0; i < infoArray.length; i++){
 		// Sidenote: we need to support the fact that you can have X OR Y as a prereq for something
 		// For now this will only scan for the first match and take it
 		// Perhaps we can use "&" to sybolize logical ands and "+" for logical ors
-		var required = infoArray[i].match(/[A-Z]{4}\s\d{3}/);
+		var required = infoArray[i].match(courseCodeRegex);
 		//booleans
 		var nextLast = i >= infoArray.length-1;
 		var matchExists = required !== null;
