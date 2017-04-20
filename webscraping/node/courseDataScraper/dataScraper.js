@@ -18,8 +18,6 @@ request(COMP_SOEN_courses_site, function (err, body, html) {
     	courseNamesAndNotes[x] = courseNamesAndNotes[x].trim();
     }
 
-    console.log("iTags = " + iTags);
-    console.log("courseNamesAndNotes = " + courseNamesAndNotes);
     var iTagsCtr = 1;
 
     for(var j = 1; j < 43; j++){  
@@ -114,10 +112,10 @@ function extractCourseData(code, credits, info, notes){
 		}
 	}
 
-	var infoArray = courseInfo.split(";");
+	var infoArray = courseInfo.split(/\;|\,/g);
 	var prereqs = "";
 	var coreqs = "";
-	var courseCodeRegex = /[A-Z]{4}\s\d{3}/;
+	var courseCodeRegex = /[A-Z]{4}\s\d{3}|\d{3}/g;
 
 	for(i = 0; i < infoArray.length; i++){
 		// Sidenote: we need to support the fact that you can have X OR Y as a prereq for something
@@ -125,24 +123,52 @@ function extractCourseData(code, credits, info, notes){
 		// Perhaps we can use ";" to sybolize logical ands and "|" for logical ors
 		var required = infoArray[i].match(courseCodeRegex);
 		//booleans
-		var isNextLast = i >= infoArray.length-1;
 		var matchExists = required !== null;
+		j = 0;
 		
-		if(infoArray[i].includes("concurrently")){
-			if(matchExists)
-				coreqs += required[0];
-			if(!isNextLast)
-				coreqs += ";";
+		if(matchExists){
+			var nextExists;
+			// coreqs
+			while(j < required.length){
+				if(infoArray[i].includes("concurrently"))
+					coreqs += required[j];
+				if(i < infoArray.length-1)
+					nextExists = infoArray[i+1].includes("concurrently");
+				if(infoArray[i].includes("or") && j < required.length-1){
+					// check if or between classes
+					if(infoArray[i].indexOf("or") === (infoArray[i].indexOf(required[j]+required[j].length)+2) && infoArray[i].indexOf("or") === infoArray[i].indexOf(required[j+1])-3)
+						coreqs += "|";
+				}if(infoArray[i].includes("and") && j < required.length-1){
+					// check if and between classes
+					if(infoArray[i].indexOf("and") === (infoArray[i].indexOf(required[j]+required[j].length)+2) && infoArray[i].indexOf("and") === infoArray[i].indexOf(required[j+1])-3)
+						coreqs += ";";
+				}
+				else if(i < infoArray.length-1 && coreqs !== "" && nextExists)
+					coreqs += ";";
+				j++;
+			}
+			// prereqs
+			j = 0;
+			while(j < required.length){
+				if(!infoArray[i].includes("concurrently"))
+					prereqs += required[j];
+				if(i < infoArray.length-1)
+					nextExists = !infoArray[i+1].includes("concurrently");
+				if(infoArray[i].includes("or") && j < required.length-1){
+					// check if or between classes
+					if(infoArray[i].indexOf("or") > (infoArray[i].indexOf(required[j]+required[j].length)) && infoArray[i].indexOf("or") < infoArray[i].indexOf(required[j+1]))
+						prereqs += "|";
+				}else if(i < infoArray.length-1 && prereqs !== "" && nextExists)
+					prereqs += ";";
+				j++;
+
+			}
+
 		}
-		else{
-			if(matchExists)
-				prereqs += required[0];
-			if(!isNextLast)
-				prereqs += ";";
-		}
+
 	}
 	// Course data
-	var line = courseName + '#' + courseCode + '#' + courseCredits + "#" + prereqs + "#" + coreqs + "#" + semestersOffered + "#" + courseNotes + "#" + courseDescription;
+	var line = courseName + '#' + courseCode + '#' + courseCredits + "#" + prereqs + "#" + coreqs + "#" + semestersOffered + "#" + courseNotes + "#";
 
 	console.log(line);
 }
