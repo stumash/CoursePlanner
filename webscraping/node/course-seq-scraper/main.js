@@ -117,8 +117,10 @@ function scrapeEncsSequenceUrl(url, outPath, shouldBeVerbose, onComplete){
                 if(err){
                     console.error("ERROR writing to a file: " + outPath);
                     process.exit(1);
-                } else if(shouldBeVerbose) {
-                    console.log("Done writing file: " + outPath);
+                } else {
+                    if(shouldBeVerbose){
+                        console.log("Done writing file: " + outPath);
+                    }
                     if(onComplete){
                         onComplete();
                     }
