@@ -2,6 +2,8 @@ var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
 var COMP_SOEN_courses_site = "https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-70.html#b71.70.9";
+var all_other_courses_site = "https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html";
+var ctr = 0;
 
 request(COMP_SOEN_courses_site, function (err, body, html) {
     // console.log(err || body); // Print out the HTML
@@ -9,7 +11,7 @@ request(COMP_SOEN_courses_site, function (err, body, html) {
     var divClassSelector = "div.reference.parbase.section"; // base reference point
     
     // for COMP courses
-    var iTags = $(divClassSelector).next().children().children().last().prev().prev().find('i').text();
+    var iTags = $(divClassSelector).next().children().children().last().prev().prev().find('i').text(); //this gets coursenames and NOTES 
     iTags = iTags.replace(/[a-z][A-M|O-Z]/g, "e      C"); // seperate 'glued' classes (those randomly not seperated by whitespaces), in this case "eC"
     iTags = iTags.replace(/[a-z]\.[A-M,O-Z]/g, "t.      A"); // get rid of "t.A", will need a better way of handling this...
     var courseNamesAndNotes = iTags.split(/\s\s\s\s\s\s/g || /\s\s\s\s\s\s\s/g);
@@ -169,6 +171,7 @@ function extractCourseData(code, credits, info, notes){
 	}
 	// Course data
 	var line = courseName + '#' + courseCode + '#' + courseCredits + "#" + prereqs + "#" + coreqs + "#" + semestersOffered + "#" + courseNotes + "#";
-
+	// ctr++;
 	console.log(line);
+	// console.log(ctr);
 }
