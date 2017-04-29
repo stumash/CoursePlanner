@@ -1,0 +1,3 @@
+softeng
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(5) > div > div > div.content.row-fluid.accordion_accordion_panel_9 > div > div > div > div

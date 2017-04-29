@@ -1,17 +1,22 @@
-hardcoded.url <-
-  "https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html"
-hardcoded.css.selector <-
-  "#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(5) > div > div > div.content.row-fluid.accordion_accordion_panel_9 > div > div > div > div"
-
 # import packages
 library(rvest) # scraping and html parsing
 library(stringr) # regex utilities
 library(dplyr) # data frame manipulation
 library(readr) # read and write tables
 
-htmlpage.string <- read_html(hardcoded.url) # get the raw html
+# read program names, urls, and css-selectors
+urls.and.css.selectors <- read_lines("url_css-selector_pairs.txt")
+num.scrapes <- length(urls.and.css.selectors) / 3
+program.names <- urls.and.css.selectors[seq(from = 1, to = length(urls.and.css.selectors), by = 3)]
+urls <- urls.and.css.selectors[seq(from = 2, to = length(urls.and.css.selectors), by = 3)]
+css.selectors <- urls.and.css.selectors[seq(from = 3, to = length(urls.and.css.selectors), by = 3)]
+
+# we want to do the rest of the file inside a loop for as
+# many scrapes as defined in num.scrapes
+
+htmlpage.string <- read_html(urls[1]) # get the raw html
 program.html.string <- htmlpage.string %>%
-  html_node(css = hardcoded.css.selector) # extract desired DOM
+  html_node(css = css.selectors[1]) # extract desired DOM
 
 # match "course info header" of each course on concordia web site
 # ...something like 'SOEN 555    Systems'
