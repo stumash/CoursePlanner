@@ -24,3 +24,4 @@ echo "Project build complete. Transferring war file to VM" &&
 # transfer the built project onto the VM
 # this will trigger Tomcat to reload the site content
 scp target/courseplanner.war david@138.197.6.26:/opt/tomcat/webapps/courseplanner.war
+echo -e "\nDeployment completed at: $(date)"
