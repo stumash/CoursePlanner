@@ -1,8 +1,13 @@
 // constants
 var NUMBER_OF_YEARS = 5;
 
-//variable used to ensure the sequence is only validated once every time the user drags a class into a new position
+var container;
+var lastContainerIndex;
+// variable used to ensure the sequence is only validated once every time the user drags a class into a new position
 var draggingItem = false;
+
+// to keep track of whether the user is currently dragging a container over the last Container
+var isInLastContainer = false;
 
 // track the number of work terms in the list
 var workTermCount = 0;
@@ -140,8 +145,10 @@ function updateTotalCredits(courseSequenceObject){
     }
 }
 
-/* this function fills empty course containers with an undraggable work term row
-   and removes work term rows from course containers which contain both a work term and classes */
+/**
+ * this function fills empty course containers with an undraggable work term row
+ * and removes work term rows from course containers which contain both a work term and classes
+ */
 function fillWorkTerms(){
     var $courseContainers = $(".courseContainer");
 
@@ -511,7 +518,9 @@ function indexToSeason(index){
     }
 }
 
-/* Big ugly function which sets up all event listeners */
+/**
+ * Big ugly function which sets up all event listeners
+ */
 function initUI(){
 
     // add mini triangle thingy into collapse buttons
@@ -594,10 +603,86 @@ function initUI(){
         }
     });
 
+    // START !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    containers = $('.courseContainer');
+    lastContainerIndex = containers.length - 1;
+
+    console.log("before mouse enter: lastContainerIndex = "+lastContainerIndex);
+    // we know we are dragging so at this point if we happen to be hovering over the last container...
+    $('.courseContainer').eq(lastContainerIndex).mouseenter( function(event) {
+        console.log("mouse enter");
+        console.log("in mouse enter: lastContainerIndex = "+lastContainerIndex);
+
+        //console.log('isLastContainer = true;');
+
+        // @TODO handle updating this to false and you shoule be good
+        isInLastContainer = true;
+    });
+
+    console.log("before mouse leave: lastContainerIndex = "+lastContainerIndex);
+
+    $('.courseContainer').eq(lastContainerIndex).mouseleave( function(event) {
+        console.log("mouse leave");
+        console.log("in mouse leave: lastContainerIndex = "+lastContainerIndex);
+
+
+        //console.log('isLastContainer = false;');
+
+        // @TODO handle updating this to false and you shoule be good
+        isInLastContainer = false;
+    });
+
+    // I wrote onmouseover which is not a jquery function, instead of mouseover. The deploy script did not catch this error. So we must only be checking vanilla JS
+    // is it possible if we have it account for actual jquery linting?
+    $('.sequenceContainer').mouseover( function(event) {
+        // containers = $('.courseContainer');
+        // lastContainerIndex = containers.length - 1;
+        console.log("mouse over");
+        console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer);
+        if (draggingItem && isInLastContainer) {
+            // create new semester object
+        }
+    });
+
+    $(".courseContainer").sortable({
+        connectWith: ".courseContainer",
+        // change event gets called when an item is dragged into a new position (including its original position)
+        change: function(event, ui) {
+            //console.log("change event"); // HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            var centerText = $(ui.item).find(".center").text();
+            var index = ui.placeholder.index();
+            draggingItem = true;
+            console.log("dragging Item");
+
+            if ($('.courseContainer').length - 1 === lastContainerIndex) {
+               // isInLastContainer = true;
+            } else {
+               // isInLastContainer = false;
+            }
+        },
+        // update event gets invoked when an item is dropped into a new position (excluding its original position)
+        update: function(event, ui) {
+            if (draggingItem) {
+                fillWorkTerms();
+                generateSequenceObject(function(sequenceObject){
+                    localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
+                    addSequenceToSequenceHistory(sequenceObject);
+                    validateSequence(sequenceObject);
+                    updateTotalCredits(sequenceObject);
+                });
+            }
+            console.log("setting draggingItem to false");
+            draggingItem = false;
+        },
+        // remove drag ability from rows with classname 'undraggable'
+        cancel: ".undraggable"
+    }).disableSelection();
+
     var globalTimer;
 
     $(".semesterHeading").droppable({
-        over: function(){
+        over: function() {
             var $courses = $(this).parent().children(".courseContainer");
             globalTimer = setTimeout(function(){
                 if($courses.is(":hidden")){
@@ -607,37 +692,11 @@ function initUI(){
                 }
             }, 500);
         },
-        out: function(){
+        out: function() {
             clearTimeout(globalTimer);
         }
-        //add for drop: so it appends the dragging object to the current container
+        // add for drop: so it appends the dragging object to the current container
     });
-
-    $(".courseContainer").sortable({
-        connectWith: ".courseContainer",
-        // change event gets called when an item is dragged into a new position (including its original position)
-        change: function(event, ui){
-            var centerText = $(ui.item).find(".center").text();
-            var index = ui.placeholder.index();
-            draggingItem = true;
-        },
-        // update event gets invoked when an item is dropped into a new position (excluding its original position)
-        update: function(event, ui){
-            if(draggingItem){
-                fillWorkTerms();
-                generateSequenceObject(function(sequenceObject){
-                    localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
-                    addSequenceToSequenceHistory(sequenceObject);
-                    validateSequence(sequenceObject);
-                    updateTotalCredits(sequenceObject);
-                });
-            }
-            draggingItem = false;
-        },
-        // remove drag ability from rows with classname 'undraggable'
-        cancel: ".undraggable"
-    }).disableSelection();
-
 }
 
 var sequenceHistory = [];
