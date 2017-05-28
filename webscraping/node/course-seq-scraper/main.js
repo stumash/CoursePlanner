@@ -68,7 +68,7 @@ function scrapeEncsSequenceUrl(url, outPath, shouldBeVerbose, onComplete){
                                 });
                                 foundACourse = true;
                             }
-                            if(foundACourse){
+                            if(foundACourse && (code.trim().length > 0 || name.trim().length > 0 || credits.trim().length > 0 || electiveType.trim().length > 0)){
                                 courseList.push({
                                     "code": code.trim(),
                                     "name": name.trim(),

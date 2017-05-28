@@ -6,34 +6,41 @@ function validateScrapedSequenceJSON(sequenceJSON, onComplete){
 
     var issues = [];
 
+    // loop through all the data, pushing any issues found the the issues array
     for(var sIndex = 0; sIndex < sequenceJSON.semesterList.length; sIndex++){
 
         var semester = sequenceJSON.semesterList[sIndex];
         var courseList = semester.courseList;
+        var emptyRegex =  /^\s*$/;
 
         issues.push(validateValueRegex("semester season", semester.season, /WINTER|SUMMER|FALL/));
 
         if(semester.isWorkTerm === "false" || semester.isWorkTerm === false){
 
             if(!courseList.length > 0){
-                issues.push("Invalid number of courses in non-work term semester: " + courseList.length);
+                issues.push("Invalid number of courses in work term (semester " + sIndex + "): " + courseList.length);
             }
 
             for(var cIndex = 0; cIndex < courseList.length; cIndex++){
 
                 var course = courseList[cIndex];
+                var locationRef = "(semester " + (sIndex + 1) + ", course " + (cIndex + 1) + ")";
 
                 if(course.isElective === "false" || course.isElective === false){
 
-                    issues.push(validateValueRegex("course code", course.code, /\w{4}\s*\d{3}/));
+                    issues.push(validateValueRegex("course code " + locationRef, course.code, /\w{4}\s*\d{3}/));
 
-                    issues.push(validateValueRegex("course name", course.name, /\w*\s+\w*/));
+                    issues.push(validateValueRegex("course elective type " + locationRef, course.electiveType, emptyRegex));
 
-                    issues.push(validateValueRegex("course elective type", course.electiveType, /^\s*$/));
-
-                    issues.push(validateValueRegex("course credits", course.credits, /\d+/));
+                    // commented out as these properties can be derived from our course data db
+                    //issues.push(validateValueRegex("course name", course.name, /\w*\s+\w*/));
+                    //issues.push(validateValueRegex("course credits " + locationRef, course.credits, /\d+/));
 
                 } else {
+
+                    issues.push(validateValueRegex("course code " + locationRef, course.code, emptyRegex));
+
+                    issues.push(validateValueRegex("course elective type " + locationRef, course.electiveType, /SCIENCE|GENERAL|PROGRAM/));
 
                 }
 
@@ -42,14 +49,14 @@ function validateScrapedSequenceJSON(sequenceJSON, onComplete){
         } else {
 
             if(courseList.length > 0){
-                issues.push("Invalid number of courses in work term: " + courseList.length);
+                issues.push("Invalid number of courses in work term (semester " + sIndex + "): " + courseList.length);
             }
 
         }
 
     }
 
-    // filter out all undefined values from issues
+    // filter out all undefined values from issues array
     issues = issues.filter(function( element ) {
         return element !== undefined;
     });
