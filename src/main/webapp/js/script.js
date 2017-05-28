@@ -48,7 +48,7 @@ function loadSequence(){
             });
 
         });
-        oReq.open("GET", "http://138.197.6.26/courseplanner/sequences/SOEN-General-Coop.json");
+        oReq.open("GET", "http://138.197.6.26/courses/sequences/SOEN-General-Coop.json");
         oReq.send();
     } else {
 
