@@ -620,15 +620,15 @@ function initUI(){
             var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
             var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
 
-            console.log("out update");
-
-            console.log("event.pageY = "+event.pageY);
-            console.log("lastContainerRect.top = "+lastContainerRect.top);
-            console.log("lastContainer.height() = "+lastContainer.height());
-            console.log("bottomOfLastContainer = top + height() = "+bottomOfLastContainer);
-            console.log("lastHeadingRect.top = "+lastHeadingRect.top);
-            console.log("if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer");
-            console.log("if ("+event.pageY+" >= "+lastHeadingRect.top+" && "+event.pageY+" < "+bottomOfLastContainer);
+            // console.log("out update");
+            //
+            // console.log("event.pageY = "+event.pageY);
+            // console.log("lastContainerRect.top = "+lastContainerRect.top);
+            // console.log("lastContainer.height() = "+lastContainer.height());
+            // console.log("bottomOfLastContainer = top + height() = "+bottomOfLastContainer);
+            // console.log("lastHeadingRect.top = "+lastHeadingRect.top);
+            // console.log("if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer");
+            // console.log("if ("+event.pageY+" >= "+lastHeadingRect.top+" && "+event.pageY+" < "+bottomOfLastContainer);
 
             if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer) {
                 isInLastContainer = true;
@@ -653,15 +653,15 @@ function initUI(){
             var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
             var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
 
-            console.log("change update");
-
-            console.log("event.pageY = "+event.pageY);
-            console.log("lastContainerRect.top = "+lastContainerRect.top);
-            console.log("lastContainer.height() = "+lastContainer.height());
-            console.log("bottomOfLastContainer = top + height() = "+bottomOfLastContainer);
-            console.log("lastHeadingRect.top = "+lastHeadingRect.top);
-            console.log("if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer");
-            console.log("if ("+event.pageY+" >= "+lastHeadingRect.top+" && "+event.pageY+" < "+bottomOfLastContainer);
+            // console.log("change update");
+            //
+            // console.log("event.pageY = "+event.pageY);
+            // console.log("lastContainerRect.top = "+lastContainerRect.top);
+            // console.log("lastContainer.height() = "+lastContainer.height());
+            // console.log("bottomOfLastContainer = top + height() = "+bottomOfLastContainer);
+            // console.log("lastHeadingRect.top = "+lastHeadingRect.top);
+            // console.log("if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer");
+            // console.log("if ("+event.pageY+" >= "+lastHeadingRect.top+" && "+event.pageY+" < "+bottomOfLastContainer);
 
             if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer) {
                 isInLastContainer = true;
@@ -678,7 +678,7 @@ function initUI(){
             }
             lastMouseTop = startMouseTop;
 
-            console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer+", isMouseMoveDown = "+isMouseMoveDown);
+            // console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer+", isMouseMoveDown = "+isMouseMoveDown);
         },
         // update event gets invoked when an item is dropped into a new position (excluding its original position)
         update: function(event, ui) {
@@ -701,24 +701,6 @@ function initUI(){
                 isMouseMoveDown = false;
             }
             lastMouseTop = startMouseTop;
-
-            // var lastContainer = $('.courseContainer').eq(lastContainerIndex);
-            // var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
-            // var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
-            //
-            // console.log("out update");
-            //
-            // console.log("event.pageY = "+event.pageY);
-            // console.log("lastContainerRect.top = "+lastContainerRect.top);
-            // console.log("lastContainer.height() = "+lastContainer.height());
-            // console.log("bottomOfLastContainer = top + heigh() = "+bottomOfLastContainer);
-            // console.log("if ( event.pageY >= lastContainerRect.top && event.pageY <= bottomOfLastContainer ) --> isInLastContainer");
-            //
-            // if (isMouseMoveDown && event.pageY >= lastContainerRect.top && event.pageY <= bottomOfLastContainer) {
-            //     isInLastContainer = true;
-            // } else {
-            //     isInLastContainer = false;
-            // }
         },
         // stop event is triggered when sorting has stopped
         stop: function(event) {
@@ -742,7 +724,7 @@ function initUI(){
     $('.sequenceContainer').mouseover( function(event) {
         // containers = $('.courseContainer');
         // lastContainerIndex = containers.length - 1;
-        console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer+", isMouseMoveDown = "+isMouseMoveDown);
+        // console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer+", isMouseMoveDown = "+isMouseMoveDown);
 
         var startMouseTop = event.pageY;
 
@@ -789,7 +771,6 @@ function initUI(){
         out: function() {
             clearTimeout(globalTimer);
         }
-        // add for drop: so it appends the dragging object to the current container
     });
 }
 
