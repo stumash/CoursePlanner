@@ -6,6 +6,9 @@ var lastContainerIndex;
 // variable used to ensure the sequence is only validated once every time the user drags a class into a new position
 var draggingItem = false;
 
+// to keep track of when the mouse is moving down
+var isMouseMoveDown = false;
+
 // to keep track of whether the user is currently dragging a container over the last Container
 var isInLastContainer = false;
 
@@ -603,45 +606,35 @@ function initUI(){
         }
     });
 
-    // START !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
     containers = $('.courseContainer');
     lastContainerIndex = containers.length - 1;
 
-    console.log("before mouse enter: lastContainerIndex = "+lastContainerIndex);
-    // we know we are dragging so at this point if we happen to be hovering over the last container...
-    $('.courseContainer').eq(lastContainerIndex).mouseenter( function(event) {
-        console.log("mouse enter");
-        console.log("in mouse enter: lastContainerIndex = "+lastContainerIndex);
+    var lastMouseTop = 0;
 
-        //console.log('isLastContainer = true;');
+    $(".courseContainer").eq(lastContainerIndex).sortable({
+        // out event is triggered when a sortable item is moved away from a sortable list.
+        out: function(event) {
+            var lastHeading = $('.semesterHeading').eq(lastContainerIndex);
+            var lastHeadingRect = lastHeading.offset();
+            var lastContainer = $('.courseContainer').eq(lastContainerIndex);
+            var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
+            var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
 
-        // @TODO handle updating this to false and you shoule be good
-        isInLastContainer = true;
-    });
+            console.log("out update");
 
-    console.log("before mouse leave: lastContainerIndex = "+lastContainerIndex);
+            console.log("event.pageY = "+event.pageY);
+            console.log("lastContainerRect.top = "+lastContainerRect.top);
+            console.log("lastContainer.height() = "+lastContainer.height());
+            console.log("bottomOfLastContainer = top + height() = "+bottomOfLastContainer);
+            console.log("lastHeadingRect.top = "+lastHeadingRect.top);
+            console.log("if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer");
+            console.log("if ("+event.pageY+" >= "+lastHeadingRect.top+" && "+event.pageY+" < "+bottomOfLastContainer);
 
-    $('.courseContainer').eq(lastContainerIndex).mouseleave( function(event) {
-        console.log("mouse leave");
-        console.log("in mouse leave: lastContainerIndex = "+lastContainerIndex);
-
-
-        //console.log('isLastContainer = false;');
-
-        // @TODO handle updating this to false and you shoule be good
-        isInLastContainer = false;
-    });
-
-    // I wrote onmouseover which is not a jquery function, instead of mouseover. The deploy script did not catch this error. So we must only be checking vanilla JS
-    // is it possible if we have it account for actual jquery linting?
-    $('.sequenceContainer').mouseover( function(event) {
-        // containers = $('.courseContainer');
-        // lastContainerIndex = containers.length - 1;
-        console.log("mouse over");
-        console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer);
-        if (draggingItem && isInLastContainer) {
-            // create new semester object
+            if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer) {
+                isInLastContainer = true;
+            } else {
+                isInLastContainer = false;
+            }
         }
     });
 
@@ -649,17 +642,43 @@ function initUI(){
         connectWith: ".courseContainer",
         // change event gets called when an item is dragged into a new position (including its original position)
         change: function(event, ui) {
-            //console.log("change event"); // HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //console.log("change event");
             var centerText = $(ui.item).find(".center").text();
             var index = ui.placeholder.index();
             draggingItem = true;
-            console.log("dragging Item");
 
-            if ($('.courseContainer').length - 1 === lastContainerIndex) {
-               // isInLastContainer = true;
+            var lastHeading = $('.semesterHeading').eq(lastContainerIndex);
+            var lastHeadingRect = lastHeading.offset();
+            var lastContainer = $('.courseContainer').eq(lastContainerIndex);
+            var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
+            var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
+
+            console.log("change update");
+
+            console.log("event.pageY = "+event.pageY);
+            console.log("lastContainerRect.top = "+lastContainerRect.top);
+            console.log("lastContainer.height() = "+lastContainer.height());
+            console.log("bottomOfLastContainer = top + height() = "+bottomOfLastContainer);
+            console.log("lastHeadingRect.top = "+lastHeadingRect.top);
+            console.log("if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer");
+            console.log("if ("+event.pageY+" >= "+lastHeadingRect.top+" && "+event.pageY+" < "+bottomOfLastContainer);
+
+            if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer) {
+                isInLastContainer = true;
             } else {
-               // isInLastContainer = false;
+                isInLastContainer = false;
             }
+
+            var startMouseTop = event.pageY;
+
+            if (startMouseTop > lastMouseTop){
+                isMouseMoveDown = true;
+            } else {
+                isMouseMoveDown = false;
+            }
+            lastMouseTop = startMouseTop;
+
+            console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer+", isMouseMoveDown = "+isMouseMoveDown);
         },
         // update event gets invoked when an item is dropped into a new position (excluding its original position)
         update: function(event, ui) {
@@ -672,12 +691,87 @@ function initUI(){
                     updateTotalCredits(sequenceObject);
                 });
             }
-            console.log("setting draggingItem to false");
             draggingItem = false;
+
+            var startMouseTop = event.pageY;
+
+            if (startMouseTop > lastMouseTop){
+                isMouseMoveDown = true;
+            } else {
+                isMouseMoveDown = false;
+            }
+            lastMouseTop = startMouseTop;
+
+            // var lastContainer = $('.courseContainer').eq(lastContainerIndex);
+            // var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
+            // var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
+            //
+            // console.log("out update");
+            //
+            // console.log("event.pageY = "+event.pageY);
+            // console.log("lastContainerRect.top = "+lastContainerRect.top);
+            // console.log("lastContainer.height() = "+lastContainer.height());
+            // console.log("bottomOfLastContainer = top + heigh() = "+bottomOfLastContainer);
+            // console.log("if ( event.pageY >= lastContainerRect.top && event.pageY <= bottomOfLastContainer ) --> isInLastContainer");
+            //
+            // if (isMouseMoveDown && event.pageY >= lastContainerRect.top && event.pageY <= bottomOfLastContainer) {
+            //     isInLastContainer = true;
+            // } else {
+            //     isInLastContainer = false;
+            // }
+        },
+        // stop event is triggered when sorting has stopped
+        stop: function(event) {
+            draggingItem = false; // to account for when user drags but does not change position of course
+
+            var startMouseTop = event.pageY;
+
+            if (startMouseTop > lastMouseTop){
+                isMouseMoveDown = true;
+            } else {
+                isMouseMoveDown = false;
+            }
+            lastMouseTop = startMouseTop;
         },
         // remove drag ability from rows with classname 'undraggable'
         cancel: ".undraggable"
     }).disableSelection();
+
+    // I wrote onmouseover which is not a jquery function, instead of mouseover. The deploy script did not catch this error. So we must only be checking vanilla JS
+    // @TODO is it possible if we have it account for actual jquery linting during deployment?
+    $('.sequenceContainer').mouseover( function(event) {
+        // containers = $('.courseContainer');
+        // lastContainerIndex = containers.length - 1;
+        console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer+", isMouseMoveDown = "+isMouseMoveDown);
+
+        var startMouseTop = event.pageY;
+
+        if (startMouseTop > lastMouseTop){
+            isMouseMoveDown = true;
+        } else {
+            isMouseMoveDown = false;
+        }
+        lastMouseTop = startMouseTop;
+
+    });
+
+    $('.courseContainer').on( 'mousemove', function(event) {
+        if (draggingItem && isInLastContainer) {
+            // display tip
+            console.log("DID YOU KNOW: You can easily add a new semester by dragging a class below this term");
+        }
+    });
+
+    $('.courseContainer').on( 'mouseleave' ,function(event) { // unbinds event after binding as opposed to the method directly above
+        var lastContainer = $('.courseContainer').eq(lastContainerIndex);
+        var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
+        var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
+
+        if( isMouseMoveDown && draggingItem && event.pageY > bottomOfLastContainer) {
+            // add new semester
+            console.log("ADDING NEW SEMESTER!");
+        }
+    });
 
     var globalTimer;
 
