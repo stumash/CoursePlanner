@@ -33,28 +33,20 @@ public class SequenceProvider extends HttpServlet {
 
         String sequenceID = Util.grabSequenceIDFromRequest(request);
 
-        // do mongo db operations here
-
-        Block<Document> dbCallback = new Block<Document>() {
-            public String responseString = "";
-            public void apply(final Document document) {
-                responseString = "{ \"response\": \"" + document.toJson() + "\"}";
-                //logger.info(document.toJson());
-            }
-        };
-
+        // connect to collection from mongodb server
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://138.197.6.26:27017"));
         MongoDatabase db = mongoClient.getDatabase("mongotest");
         MongoCollection collection = db.getCollection("courseSequences");
 
         logger.info("requested ID: " + sequenceID);
 
-        // loop through the collection
-
+        // find document with specified _id value
         String responseString = "";
         Document filter = new Document();
         filter.put("_id", sequenceID);
         Document dbResult = (Document)collection.find(filter).first();
+
+
         if(dbResult != null) {
             responseString = "{ \"response\": " + dbResult.toJson() + "}";
         } else {
