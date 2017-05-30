@@ -8,7 +8,7 @@ var completedFileCount = 0;
 
 var mongoServerUrl = 'mongodb://138.197.6.26:27017/myproject';
 
-function scrapeEncsSequenceUrl(url, outPath, db, shouldBeVerbose){
+function scrapeEncsSequenceUrl(url, outPath, plainFileName, db, shouldBeVerbose){
 
     request(url, function(error, response, html){
         if(!error){
@@ -127,10 +127,10 @@ function scrapeEncsSequenceUrl(url, outPath, db, shouldBeVerbose){
                 }
             });
 
-            db.collection("courseSequences").update({_id : outPath}, {$set:sequenceObject}, {upsert: true}, function(err, result) {
+            db.collection("courseSequences").update({_id : plainFileName}, {$set:sequenceObject}, {upsert: true}, function(err, result) {
                 assert.equal(err, null);
                 if(shouldBeVerbose) {
-                    console.log("Wrote contents of file: " + outPath + " to db.");
+                    console.log("Wrote contents of file: " + plainFileName + " to db.");
                 }
                 completedFileCount++;
                 if(completedFileCount == totalFileCount){
@@ -188,17 +188,19 @@ module.exports.updateData = function(coursePlannerHome, shouldBeVerbose){
                             var optionSubList = options[optionType];
                             for(var sequenceVariant in optionSubList){
                                 var url = optionSubList[sequenceVariant];
-                                var fileName = outputDir + "/" + program + "-" + optionType + "-" + sequenceVariant + ".json";
+                                var plainFileName = program + "-" + optionType + "-" + sequenceVariant + ".json";
+                                var fileName = outputDir + "/" + plainFileName;
                                 totalFileCount++;
-                                scrapeEncsSequenceUrl(url, fileName, db, shouldBeVerbose);
+                                scrapeEncsSequenceUrl(url, fileName, plainFileName, db, shouldBeVerbose);
                             }
                         }
                     } else {
                         for(var sequenceVariant in subList){
                             var url = subList[sequenceVariant];
-                            var fileName = outputDir + "/" + program + "-" + sequenceVariant + ".json";
+                            var plainFileName =  program + "-" + sequenceVariant + ".json";
+                            var fileName = outputDir + "/" + plainFileName;
                             totalFileCount++;
-                            scrapeEncsSequenceUrl(url, fileName, db, shouldBeVerbose);
+                            scrapeEncsSequenceUrl(url, fileName, plainFileName, db, shouldBeVerbose);
                         }
                     }
                 }
