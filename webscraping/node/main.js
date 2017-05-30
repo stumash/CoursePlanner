@@ -6,7 +6,7 @@ var assert = require('assert');
 var totalFileCount = 0;
 var completedFileCount = 0;
 
-var mongoServerUrl = 'mongodb://138.197.6.26:27017/myproject';
+var mongoServerUrl = 'mongodb://138.197.6.26:27017/mongotest';
 
 function scrapeEncsSequenceUrl(url, outPath, plainFileName, db, shouldBeVerbose){
 

@@ -37,4 +37,27 @@ public class Util {
         return semesters;
     }
 
+    static String grabSequenceIDFromRequest(HttpServletRequest request) throws IOException {
+        StringBuffer jb = new StringBuffer();
+        String line;
+        String sequenceID = "";
+        JSONObject requestJson;
+        ArrayList<Semester> semesters = new ArrayList<Semester>();
+        try {
+            BufferedReader reader = request.getReader();
+            while ((line = reader.readLine()) != null) {
+                jb.append(line);
+            }
+        } catch (Exception e) { /*report an error*/ };
+        try {
+            requestJson =  new JSONObject(jb.toString());
+            sequenceID = requestJson.getString("sequenceID");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            // crash and burn
+            throw new IOException("Error parsing JSON request string");
+        }
+        return sequenceID;
+    }
+
 }

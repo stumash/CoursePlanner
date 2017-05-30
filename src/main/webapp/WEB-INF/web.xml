@@ -46,4 +46,14 @@
         <url-pattern>/export</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>SequenceProvider</servlet-name>
+        <servlet-class>SequenceProvider</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SequenceProvider</servlet-name>
+        <url-pattern>/mongosequences</url-pattern>
+    </servlet-mapping>
+
 </web-app>
