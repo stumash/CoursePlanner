@@ -8,6 +8,22 @@ function myFunction() {
    window.location.assign("sequenceBuilder.html");
 }
 
+function loadSequenceFileNames(){
+	var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", function(){
+
+    	var fileNameArray = JSON.parse(this.responseText);
+        var $listBox = $("#SequenceType");
+
+        for(var i = 0; i < fileNameArray.length; i++){
+        	//<option value="BLDG-Coop.json">BLDG-Coop.json</option>
+        	$listBox.append("<option value=\"" + fileNameArray[i] + "\">" + fileNameArray[i] + "</option>");
+        }
+    });
+    oReq.open("GET", "http://138.197.6.26/courseplanner/mongosequencelist");
+    oReq.send();
+}
+
 $( document ).ready(function() {
 	$("#checkbox").on("click", function() {
 		console.log( "We should now toggle the checkbox" );
@@ -15,4 +31,5 @@ $( document ).ready(function() {
 		$('#checkbox input').prop('checked', !status);
 	});
 	$("#checkbox > input").on("click", function(e) { e.stopPropagation(); });
+	loadSequenceFileNames();
 });
