@@ -3,12 +3,15 @@ library(rvest) # scraping and html parsing
 library(stringr) # regex utilities
 library(dplyr) # data frame manipulation
 library(readr) # read and write tables
+library(jsonlite) # df to json conversion, json prettify
 
-# read program names, urls, and css-selectors
+# all (url, css-selector) pairs to scrape from
 urls.and.css.selectors <- read_lines("url_css-selector_pairs.txt")
 num.scrapes <- length(urls.and.css.selectors) / 3
+
+# store the 3-tuples (program.name, url, css.selector) in three vectors
 program.names <- urls.and.css.selectors[seq(from = 1, to = length(urls.and.css.selectors), by = 3)]
-urls <- urls.and.css.selectors[seq(from = 2, to = length(urls.and.css.selectors), by = 3)]
+urls          <- urls.and.css.selectors[seq(from = 2, to = length(urls.and.css.selectors), by = 3)]
 css.selectors <- urls.and.css.selectors[seq(from = 3, to = length(urls.and.css.selectors), by = 3)]
 
 for(i in 1:num.scrapes) {
@@ -18,21 +21,21 @@ for(i in 1:num.scrapes) {
 
     # match "course info header" of each course on concordia web site
     # ...something like 'SOEN 555    Systems'
-    course.info.header <- "[A-Z]{4} [0-9]{3}[[:space:]]+?[A-Z][a-z]+."
+    course.info.header.regex <- "[A-Z]{4} [0-9]{3}[[:space:]]+?[A-Z][a-z]+."
 
-    # split string on empty string before each course.info.header, convert to data frame
+    # split string on empty string before each course.info.header.regex match, convert to data frame
     program.courses <- html_text(program.html.string) %>%
-        str_split( paste(sep = "", "(?=(", course.info.header, "))") )
+        str_split( paste(sep = "", "(?=(", course.info.header.regex, "))") )
 
-    # list to data frame nonsense
+    # list to data frame R nonsense
     program.courses <- program.courses %>% .[[1]] %>% .[-1] %>%
         as.data.frame(stringsAsFactors = FALSE)
     colnames(program.courses) <- c("fullstring") # also better column name
 
-    # some cleaning of the full string of each course
+    # some cleaning of the full string of each course extracted for each course
     program.courses[,1] <- str_trim(program.courses[,1])
 
-    # some regexes for data extraction
+    # some regexes for data extraction from full string
     course.code.regex <- '[A-Z]{4} [0-9]{3}'
     course.name.regex <- '[A-Z][a-z][^(]*'
     credits.regex <- '\\(([0-9](\\.[0-9])?[0-9]?) credits\\)'
@@ -76,13 +79,14 @@ for(i in 1:num.scrapes) {
 
     # store and remove redundant data from program.courses data frame
     full.course.strings <- program.courses$fullstring %>% as.data.frame(stringsAsFactors = FALSE)
+    colnames(full.course.strings) <- c("course.string")
     # remove columns 'fullstring' and 'secondhalf.string' from program.courses data frame
     program.courses <- program.courses %>% select(-one_of(c('fullstring')))
     program.courses <- program.courses %>% select(-one_of(c('secondhalf.string')))
 
-    # store data in csv files
-    write_delim(full.course.strings, paste(sep="_",program.names[i],"full-course-info.csv"),
-                append = FALSE, col_names = TRUE, delim = "#")
-    write_delim(program.courses, paste(sep="_",program.names[i],"table.csv"),
-                append = FALSE, col_names = TRUE, delim = "#")
+    # store data in JSON-formatted files
+    file.connection <- file(paste(sep = "_", program.names[i], "full-course-info.json"))
+    writeLines(prettify(toJSON(full.course.strings)), file.connection); close(file.connection)
+    file.connection <- file(paste(sep = "_", program.names[i], "document.json"))
+    writeLines(prettify(toJSON(program.courses)), file.connection); close(file.connection)
 }

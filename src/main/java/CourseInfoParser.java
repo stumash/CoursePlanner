@@ -44,7 +44,7 @@ public class CourseInfoParser {
                         break;
 
                     if (currToken.equals("#")) //if empty token
-                        continue; 
+                        continue;
 
                     switch(i) {
                         case 0: //course name
@@ -95,7 +95,7 @@ public class CourseInfoParser {
 
                 currLine = br.readLine();
                 courseMap.put(currCourseInfo.code,currCourseInfo);
-            } 
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,10 +111,10 @@ class CourseInfo {
     public ArrayList<String> coreqs = new ArrayList<String>();
     public TermsOffered isOfferedIn = new TermsOffered();
     public String notes;
-    
+
     @Override
     public String toString() {
-        return code + "/" + name + " -- " + credits + " crds, offerediIn " + isOfferedIn.toString() + " -- prereqs: " + 
+        return code + "/" + name + " -- " + credits + " crds, offerediIn " + isOfferedIn.toString() + " -- prereqs: " +
             prereqs.toString() + " -- coreqs: " + coreqs.toString();
     }
 }
