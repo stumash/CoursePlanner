@@ -8,6 +8,8 @@ var draggingItem = false;
 
 // to keep track of when the mouse is moving down
 var isMouseMoveDown = false;
+window.lastMouseDown = 0;
+window.startMouseTop = 0;
 
 // to keep track of whether the user is currently dragging a container over the last Container
 var isInLastContainer = false;
@@ -29,7 +31,7 @@ $(document).ready(function(){
 
 });
 
-function loadSequence(){
+function loadSequence(callback){
 
     // clear whole page first
     $(".sequenceContainer").html("<p class='mainHeader'>Concordia Engineering Sequence Builder</p>");
@@ -42,17 +44,21 @@ function loadSequence(){
         var oReq = new XMLHttpRequest();
         oReq.addEventListener("load", function(){
 
-            var courseList = JSON.parse(this.responseText);
+            var sequenceObject = JSON.parse(this.responseText);
+            localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
 
             if (sequenceHistory.length < 1) {
-                addSequenceToSequenceHistory(courseList);
+                addSequenceToSequenceHistory(sequenceObject);
             }
 
-            addContainers(courseList, function(){
+            addContainers(sequenceObject, function(){
                 // fill page with default sequence
-                populatePage(courseList);
-                validateSequence(courseList);
+                populatePage(sequenceObject);
+                validateSequence(sequenceObject);
                 initUI();
+                if (callback) {
+                    callback();
+                }
             });
 
         });
@@ -69,6 +75,9 @@ function loadSequence(){
             populatePage(savedSequence);
             validateSequence(savedSequence);
             initUI();
+            if (callback) {
+                callback();
+            }
         });
     }
 }
@@ -79,6 +88,7 @@ function addContainers(courseList, callback){
     oReq.addEventListener("load", function(){
 
         var termTemplate = this.responseText;
+        console.log("term template:\n" + termTemplate);
         var $sequenceContainer = $(".sequenceContainer");
 
         for(var i = 0; i < courseList.semesterList.length; i++){
@@ -253,6 +263,7 @@ function validateSequence(sequenceObject){
 
     });
     oReq.open("POST", "http://138.197.6.26/courseplanner/validate");
+    console.log("verifying:\n" + JSON.stringify(sequenceObject));
     oReq.send(JSON.stringify(sequenceObject));
 }
 
@@ -609,8 +620,6 @@ function initUI(){
     containers = $('.courseContainer');
     lastContainerIndex = containers.length - 1;
 
-    var lastMouseTop = 0;
-
     $(".courseContainer").eq(lastContainerIndex).sortable({
         // out event is triggered when a sortable item is moved away from a sortable list.
         out: function(event) {
@@ -635,6 +644,8 @@ function initUI(){
             } else {
                 isInLastContainer = false;
             }
+
+            updateIsMouseMoveDown(event);
         }
     });
 
@@ -669,16 +680,9 @@ function initUI(){
                 isInLastContainer = false;
             }
 
-            var startMouseTop = event.pageY;
+            updateIsMouseMoveDown(event);
 
-            if (startMouseTop > lastMouseTop){
-                isMouseMoveDown = true;
-            } else {
-                isMouseMoveDown = false;
-            }
-            lastMouseTop = startMouseTop;
-
-            // console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer+", isMouseMoveDown = "+isMouseMoveDown);
+            console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer+", isMouseMoveDown = "+isMouseMoveDown);
         },
         // update event gets invoked when an item is dropped into a new position (excluding its original position)
         update: function(event, ui) {
@@ -693,27 +697,13 @@ function initUI(){
             }
             draggingItem = false;
 
-            var startMouseTop = event.pageY;
-
-            if (startMouseTop > lastMouseTop){
-                isMouseMoveDown = true;
-            } else {
-                isMouseMoveDown = false;
-            }
-            lastMouseTop = startMouseTop;
+            updateIsMouseMoveDown(event);
         },
         // stop event is triggered when sorting has stopped
         stop: function(event) {
             draggingItem = false; // to account for when user drags but does not change position of course
 
-            var startMouseTop = event.pageY;
-
-            if (startMouseTop > lastMouseTop){
-                isMouseMoveDown = true;
-            } else {
-                isMouseMoveDown = false;
-            }
-            lastMouseTop = startMouseTop;
+            updateIsMouseMoveDown(event);
         },
         // remove drag ability from rows with classname 'undraggable'
         cancel: ".undraggable"
@@ -722,18 +712,13 @@ function initUI(){
     // I wrote onmouseover which is not a jquery function, instead of mouseover. The deploy script did not catch this error. So we must only be checking vanilla JS
     // @TODO is it possible if we have it account for actual jquery linting during deployment?
     $('.sequenceContainer').mouseover( function(event) {
+        // if not for this then after adding an extra semester draggin item would stay true all the time and display hint would show up while hovering over any term
+        draggingItem = false;
         // containers = $('.courseContainer');
         // lastContainerIndex = containers.length - 1;
-        // console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer+", isMouseMoveDown = "+isMouseMoveDown);
+        console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer+", isMouseMoveDown = "+isMouseMoveDown);
 
-        var startMouseTop = event.pageY;
-
-        if (startMouseTop > lastMouseTop){
-            isMouseMoveDown = true;
-        } else {
-            isMouseMoveDown = false;
-        }
-        lastMouseTop = startMouseTop;
+        updateIsMouseMoveDown(event);
 
     });
 
@@ -744,14 +729,63 @@ function initUI(){
         }
     });
 
+    $(document).keypress(function(e) {
+        if(e.which == 13) {
+            console.log('You pressed enter!');
+            // add new semester
+            // console.log("ADDING NEW SEMESTER!");
+            var sequenceObject = JSON.parse(localStorage.getItem("savedSequence"));
+
+            // make changes to sequence object
+            console.log("sequenceObject: \n" + JSON.stringify(sequenceObject));
+
+            var newEmptySemester = {"season":"winter","courseList":[],"isWorkTerm":true};
+
+            sequenceObject.semesterList.push(newEmptySemester);
+
+            // update local storage variable
+            localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
+
+            // add to sequence history
+            console.log("Updated sequenceObject:\n" + JSON.stringify(sequenceObject));
+
+            addSequenceToSequenceHistory(sequenceObject);
+            // reload the page
+            loadSequence();
+        }
+    });
+
     $('.courseContainer').on( 'mouseleave' ,function(event) { // unbinds event after binding as opposed to the method directly above
         var lastContainer = $('.courseContainer').eq(lastContainerIndex);
         var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
         var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
 
         if( isMouseMoveDown && draggingItem && event.pageY > bottomOfLastContainer) {
+            lastContainerIndex++;
+
             // add new semester
-            console.log("ADDING NEW SEMESTER!");
+            // console.log("ADDING NEW SEMESTER!");
+            var sequenceObject = JSON.parse(localStorage.getItem("savedSequence"));
+
+            // make changes to sequence object
+            console.log("sequenceObject: \n" + JSON.stringify(sequenceObject));
+
+            // @TODO chose the correct next following season.
+            var newEmptySemester = {"season":"winter","courseList":[],"isWorkTerm":true};
+
+            sequenceObject.semesterList.push(newEmptySemester);
+
+            // update local storage variable
+            localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
+
+            // add to sequence history
+            console.log("Updated sequenceObject:\n" + JSON.stringify(sequenceObject));
+
+            addSequenceToSequenceHistory(sequenceObject);
+            // reload the page
+            loadSequence(function() {
+                $(window).scrollTop($(document).height() - $(window).height());
+            });
         }
     });
 
@@ -772,6 +806,18 @@ function initUI(){
             clearTimeout(globalTimer);
         }
     });
+}
+
+// must be called inside a handler function so that you can pass it an event object
+function updateIsMouseMoveDown(event) {
+    window.startMouseTop = event.pageY;
+
+    if (window.startMouseTop > window.lastMouseTop){
+        isMouseMoveDown = true;
+    } else {
+        isMouseMoveDown = false;
+    }
+    window.lastMouseTop = window.startMouseTop;
 }
 
 var sequenceHistory = [];
