@@ -9,19 +9,17 @@ var workTermCount = 0;
 
 // asks to confirm refresh page click event or when F5 is pressed
 window.onbeforeunload = function(e){
-	return undefined;   // silenced for now, but not forgotten
+    return undefined;   // silenced for now, but not forgotten
 };
 
-$(document).ready(function(){
-
+$(document).ready(function() {
     // call functions needed to set up the page
     loadSequence();
     getCourseList();
 
 });
 
-function loadSequence(callback){
-
+function loadSequence(){
     // clear whole page first
     $(".sequenceContainer").html("<p class='mainHeader'>Concordia Engineering Sequence Builder</p>");
     workTermCount = 0;
@@ -35,6 +33,10 @@ function loadSequence(callback){
 
             var courseList = JSON.parse(this.responseText);
 
+            if (sequenceHistory.length < 1) {
+                addSequenceToSequenceHistory(courseList);
+            }
+
             addContainers(courseList, function(){
                 // fill page with default sequence
                 populatePage(courseList);
@@ -43,9 +45,12 @@ function loadSequence(callback){
             });
 
         });
-        oReq.open("GET", "http://138.197.6.26/courseplanner/sequences/SOEN-General-Coop.json");
         oReq.send();
     } else {
+
+        if (sequenceHistory.length < 1) {
+            addSequenceToSequenceHistory(savedSequence);
+        }
 
         addContainers(savedSequence, function(){
             // fill page with the saved sequence
@@ -91,7 +96,7 @@ function populatePage(courseSequenceObject){
                 var courseList = semester.courseList[j];
                 if(courseList.isElective === "true" || courseList.isElective === true){
                     var electiveType = courseList.electiveType.toString();
-                    addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", electiveType + " Elective", "-", true);
+                    addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", electiveType + " Elective", "3", true);
                 } else {
                     var code = courseList.code.toString();
                     var name = courseList.name.toString();
@@ -117,7 +122,8 @@ function updateTotalCredits(courseSequenceObject){
             for(var j = 0; j < semester.courseList.length; j++){
                 var courseList = semester.courseList[j];
                 if(courseList.isElective === "true" || courseList.isElective === true){
-                    var electiveType = courseList.electiveType.toString();
+                    // var electiveType = courseList.electiveType.toString();
+                    totalCredits += 3; // for now let us assume that most (if not all) electives are worth 3 credits
                 } else {
                     var credits = Number(courseList.credits);
                     totalCredits += credits;
@@ -249,10 +255,10 @@ function highlightAffectedCourses(affectedCourses){
 }
 
 function generateSequenceObject(callback){
-	var semesterList = [];
-	var count = 0;
-	var numberOfTerms = $(".sequenceContainer .term").length;
-	var onFinish = function(semesterObject){
+    var semesterList = [];
+    var count = 0;
+    var numberOfTerms = $(".sequenceContainer .term").length;
+    var onFinish = function(semesterObject){
         if(semesterObject){
             semesterList.push(semesterObject);
         }
@@ -260,19 +266,19 @@ function generateSequenceObject(callback){
         if(count === numberOfTerms){
             callback({ "semesterList" : semesterList});
         }
-	};
-	for(var i = 1; i <= numberOfTerms; i++){
-		getSemesterObject($(".sequenceContainer .term:nth-of-type(" + i + ")"), onFinish);
-	}
+    };
+    for(var i = 1; i <= numberOfTerms; i++){
+        getSemesterObject($(".sequenceContainer .term:nth-of-type(" + i + ")"), onFinish);
+    }
 }
 
-function getSemesterObject($semesterContainer, callback){
-	var seasonText = $semesterContainer.find(".semesterHeading .seasonText").text().split(" ")[0].trim().toLowerCase();
-	var courseList = [];
-	var $courses = $semesterContainer.find(".course");
+function getSemesterObject($semesterContainer, callback) {
+    var seasonText = $semesterContainer.find(".semesterHeading .seasonText").text().split(" ")[0].trim().toLowerCase();
+    var courseList = [];
+    var $courses = $semesterContainer.find(".course");
     var count = $courses.length;
     var isWorkTerm = false;
-	if(count > 0){
+    if(count > 0){
         $courses.each(function(i, obj){
             var courseObject = getCourseObject($(this));
             if(courseObject){
@@ -286,7 +292,7 @@ function getSemesterObject($semesterContainer, callback){
             }
         });
     } else {
-	    // ignore the empty terms by regarding them as undefined
+        // ignore the empty terms by regarding them as undefined
         callback(undefined);
     }
 }
@@ -296,21 +302,21 @@ function getCourseObject($courseContainer){
     var name = $courseContainer.find(".center").text();
 
     if(name.indexOf("Work Term") >= 0){
-    	return undefined;
-	}
+        return undefined;
+    }
 
     var credits = $courseContainer.find(".right").text();
-	var isElective = ($courseContainer.find(".center").text().indexOf("Elective") >= 0);
+    var isElective = ($courseContainer.find(".center").text().indexOf("Elective") >= 0);
     var electiveType = "";
 
-	if(isElective){
-		electiveType = $courseContainer.find(".center").text().replace(" Elective", "");
-		code = "";
-		name = "";
-		credits = "";
-	}
+    if(isElective){
+        electiveType = $courseContainer.find(".center").text().replace(" Elective", "");
+        code = "";
+        name = "";
+        credits = "";
+    }
 
-	return {
+    return {
         "code": code,
         "name": name,
         "credits": credits,
@@ -471,6 +477,7 @@ function shiftAllDownFromSemester(index){
         sequenceObject.semesterList = semesterList;
         localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
         loadSequence();
+        addSequenceToSequenceHistory(sequenceObject);
     });
 }
 
@@ -572,6 +579,17 @@ function initUI(){
         }
     });
 
+    document.addEventListener('keydown', function(event) {
+        // 90 is ascii for 'Z'
+        if (event.keyCode == 90 && event.ctrlKey) {
+            if (event.shiftKey) {
+                redoSequenceModification();
+            } else {
+                undoSequenceModification();
+            }
+        }
+    });
+
     var globalTimer;
 
     $(".semesterHeading").droppable({
@@ -615,4 +633,49 @@ function initUI(){
         cancel: ".undraggable"
     }).disableSelection();
 
+}
+
+var sequenceHistory = [];
+var sequenceVersionIndex = 0;
+var sequenceHistoryMaxSize = 200;
+// The array sequenceHistory holds up to the last 200 versions of the course sequence json.
+// Every time the user alters the course sequence, a new version is saved in the array.  The user will
+// then be able to go backwards and forwards in version history using <C-z> and <C-y> keystrokes.
+
+// this function will add, upon modification by the user, the current version of the sequence to the
+// sequenceHistory array.
+function addSequenceToSequenceHistory(sequenceObject) {
+    if (sequenceVersionIndex < sequenceHistory.length) {
+        sequenceHistory[sequenceVersionIndex] = sequenceObject;
+        sequenceVersionIndex++;
+        sequenceHistory = sequenceHistory.slice(0,sequenceVersionIndex);
+    } else {
+        if (sequenceVersionIndex < sequenceHistoryMaxSize) {
+            sequenceHistory[sequenceVersionIndex] = sequenceObject;
+            sequenceVersionIndex++;
+        } else {
+            sequenceHistory.shift();
+            sequenceHistory[sequenceVersionIndex] = sequenceObject;
+        }
+    }
+}
+
+// this function will let the user go back to the version of the sequence before the most recent
+// sequence modification.  The user will be able to use the key combination <C-z> to use this feature.
+function undoSequenceModification() {
+    if (sequenceVersionIndex > 1) {
+        sequenceVersionIndex--;
+        localStorage.setItem("savedSequence", JSON.stringify(sequenceHistory[sequenceVersionIndex - 1]));
+        loadSequence();
+    }
+}
+
+// this function will let the user go forwards in history to the version of the sequence before the
+// most recent <C-z> command.  The user will be able to use the key combination <C-S-z> to use this feature.
+function redoSequenceModification() {
+    if (sequenceVersionIndex < sequenceHistory.length) {
+        localStorage.setItem("savedSequence", JSON.stringify(sequenceHistory[sequenceVersionIndex]));
+        loadSequence();
+        sequenceVersionIndex++;
+    }
 }

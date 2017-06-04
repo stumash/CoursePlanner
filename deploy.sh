@@ -1,14 +1,6 @@
 #!/usr/bin/env bash
 
 # tell the user what's going on
-echo "Generating sequence JSON files via webscraping" &&
-
-# run webscraper
-cd webscraping/node &&
-node driver.js &&
-cd - > /dev/null &&
-
-echo "Sequence generation succeeded" &&
 echo "Building & deploying project..." &&
 
 # get ID of current commit
@@ -32,3 +24,12 @@ echo "Project build complete. Transferring war file to VM" &&
 # transfer the built project onto the VM
 # this will trigger Tomcat to reload the site content
 scp target/courseplanner.war david@138.197.6.26:/opt/tomcat/webapps/courseplanner.war
+
+# if ends with error code 0 (success) then print deployment complete, else deployment failed
+if [ "$?" = "0" ];
+then
+	echo -e "\nDeployment completed at: $(date)"
+else
+	echo -e "\nDeployment failed at: $(date)" 1>&2
+	exit 1
+fi
