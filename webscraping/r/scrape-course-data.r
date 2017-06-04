@@ -43,9 +43,9 @@ for(i in 1:num.scrapes) {
 
     # extracting the regexes to new columns in the program.courses data frame
     program.courses <- program.courses %>% # str_extract only takes first occurence of regex
-        mutate(course.code = str_extract(program.courses$fullstring, course.code.regex))
+        mutate(code = str_extract(program.courses$fullstring, course.code.regex))
     program.courses <- program.courses %>%
-        mutate(course.name = str_extract(program.courses$fullstring, course.name.regex) %>% str_trim)
+        mutate(name = str_extract(program.courses$fullstring, course.name.regex) %>% str_trim)
     program.courses <- program.courses %>%
         mutate(credits = str_match(program.courses$fullstring, credits.regex) %>% .[,2])
     program.courses <- program.courses %>%
@@ -67,7 +67,7 @@ for(i in 1:num.scrapes) {
 
     # extracting the regex to new columns in the program.courses data frame
     program.courses <- program.courses %>%
-        mutate(course.description = program.courses$secondhalf.string %>% str_extract(course.description.regex))
+        mutate(description = program.courses$secondhalf.string %>% str_extract(course.description.regex))
     program.courses <- program.courses %>%
         mutate(lecture.hours = program.courses$secondhalf.string %>% str_match(lectures.regex) %>% .[,2])
     program.courses <- program.courses %>%
@@ -79,7 +79,7 @@ for(i in 1:num.scrapes) {
 
     # store and remove redundant data from program.courses data frame
     full.course.strings <- program.courses$fullstring %>% as.data.frame(stringsAsFactors = FALSE)
-    colnames(full.course.strings) <- c("course.string")
+    colnames(full.course.strings) <- c("contents")
     # remove columns 'fullstring' and 'secondhalf.string' from program.courses data frame
     program.courses <- program.courses %>% select(-one_of(c('fullstring')))
     program.courses <- program.courses %>% select(-one_of(c('secondhalf.string')))
