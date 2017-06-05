@@ -87,6 +87,6 @@ for(i in 1:num.scrapes) {
     # store data in JSON-formatted files
     file.connection <- file(paste(sep = "_", program.names[i], "full-course-info.json"))
     writeLines(prettify(toJSON(full.course.strings)), file.connection); close(file.connection)
-    file.connection <- file(paste(sep = "_", program.names[i], "document.json"))
+    file.connection <- file(paste(sep = "_", program.names[i], "collection.json"))
     writeLines(prettify(toJSON(program.courses)), file.connection); close(file.connection)
 }
