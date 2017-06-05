@@ -10,7 +10,6 @@
         <servlet-name>SequenceValidator</servlet-name>
         <servlet-class>SequenceValidator</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>SequenceValidator</servlet-name>
         <url-pattern>/validate</url-pattern>
@@ -20,7 +19,6 @@
         <servlet-name>CourseInfoProvider</servlet-name>
         <servlet-class>CourseInfoProvider</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>CourseInfoProvider</servlet-name>
         <url-pattern>/courseinfo</url-pattern>
@@ -30,7 +28,6 @@
         <servlet-name>CourseListProvider</servlet-name>
         <servlet-class>CourseListProvider</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>CourseListProvider</servlet-name>
         <url-pattern>/courselist</url-pattern>
@@ -40,7 +37,6 @@
         <servlet-name>SequenceExporter</servlet-name>
         <servlet-class>SequenceExporter</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>SequenceExporter</servlet-name>
         <url-pattern>/export</url-pattern>
