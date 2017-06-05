@@ -37,7 +37,7 @@ public class Util {
         return semesters;
     }
 
-    static String grabSequenceIDFromRequest(HttpServletRequest request) throws IOException {
+    static String grabSequenceIdFromRequest(HttpServletRequest request) throws IOException {
         StringBuffer jb = new StringBuffer();
         String line;
         String sequenceID = "";
