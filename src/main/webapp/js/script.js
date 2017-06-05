@@ -27,11 +27,16 @@ function loadSequence(){
     var savedSequence = JSON.parse(localStorage.getItem("savedSequence"));
 
     if(savedSequence === null){
+
+        var requestBody = {
+            "sequenceID": localStorage.getItem("sequenceType")
+        };
+
         // load the default sequence
         var oReq = new XMLHttpRequest();
         oReq.addEventListener("load", function(){
 
-            var courseList = JSON.parse(this.responseText);
+            var courseList = JSON.parse(this.responseText).response;
 
             if (sequenceHistory.length < 1) {
                 addSequenceToSequenceHistory(courseList);
@@ -45,8 +50,10 @@ function loadSequence(){
             });
 
         });
-        oReq.open("GET", "http://138.197.6.26/courses/sequences/SOEN-General-Coop.json");
-        oReq.send();
+        oReq.open("POST", "http://138.197.6.26/courseplanner/mongosequences");
+        oReq.send(JSON.stringify(requestBody));
+        //oReq.open("GET", "http://138.197.6.26/courses/sequences/" + localStorage.getItem("sequenceType"));
+        //oReq.send();
     } else {
 
         if (sequenceHistory.length < 1) {

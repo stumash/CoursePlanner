@@ -1,11 +1,12 @@
 {
-  "name"         : "concordia-sequence-scrape",
-  "version"      : "1.0.0",
-  "description"  : "Scrape Concordia website to convert course sequences to JSON",
-  "main"         : "main.js",
-  "author"       : "Tranzones",
-  "dependencies" : {
-    "request"    : "latest",
-    "cheerio"    : "latest"
+  "name": "concordia-sequence-scrape",
+  "version": "1.0.0",
+  "description": "Scrape Concordia website to convert course sequences to JSON",
+  "main": "main.js",
+  "author": "Tranzones",
+  "dependencies": {
+    "cheerio": "latest",
+    "mongodb": "^2.2.27",
+    "request": "latest"
   }
 }
