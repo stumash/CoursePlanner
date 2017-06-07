@@ -15,16 +15,16 @@ gitTagInserted=true
 mvn clean install -q &&
 mvnCleanInstallSuccessful=true
 
-if gitTagInserted
+if $gitTagInserted
 then
     # remove commit logging script from html
     # we do not want our deploy script to change our source files,
     # only the deployed version of them
     sed -i "4d" ./src/main/webapp/index.html &&
-    sed -i "4d" ./src/main/webapp/sequenceBuilder.html &&
+    sed -i "4d" ./src/main/webapp/sequenceBuilder.html
 fi
 
-if ! mvnCleanInstallSuccessful
+if ! $mvnCleanInstallSuccessful
 then
     echo "Project build failed" 1>&2
     exit 1
@@ -37,7 +37,7 @@ scp target/courseplanner.war david@138.197.6.26:/opt/tomcat/webapps/courseplanne
 deploymentSuccessful=true
 
 # if ends with error code 0 (success) then print deployment complete, else deployment failed
-if deploymentSuccessful
+if $deploymentSuccessful
 then
     echo -e "\nDeployment completed at: $(date)"
 else
