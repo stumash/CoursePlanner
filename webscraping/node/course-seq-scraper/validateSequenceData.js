@@ -101,7 +101,7 @@ function cleanUp(){
 console.log("running sequence scraper...");
 
 // scrape data
-sequenceScraper.updateData("./", false, function(){
+sequenceScraper.updateData("./", true, function(){
 
     console.log("validating sequence data");
 
@@ -119,10 +119,10 @@ sequenceScraper.updateData("./", false, function(){
                 validateScrapedSequenceJSON(sequenceJSON, function(isValid, issues){
                     numVerified++;
                     if(!isValid){
-                        console.log(file + " (" + sequenceJSON.sourceUrl + ")" + " CONTAINS ISSUES: ");
+                        console.log(file + " CONTAINS ISSUES: ");
                         console.log(issues);
                     } else {
-                        console.log(file + " (" + sequenceJSON.sourceUrl + ")" + ": OK");
+                        console.log(file + ": OK");
                     }
                     if(numVerified == files.length){
                         cleanUp();
@@ -130,5 +130,5 @@ sequenceScraper.updateData("./", false, function(){
                 });
             });
         });
-    })
+    });
 });
