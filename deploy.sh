@@ -30,6 +30,8 @@ if [ "$?" = "0" ];
 then
 	echo -e "\nDeployment completed at: $(date)"
 else
+	sed -i "4d" ./src/main/webapp/index.html &&
+	sed -i "4d" ./src/main/webapp/sequenceBuilder.html &&
 	echo -e "\nDeployment failed at: $(date)" 1>&2
 	exit 1
 fi

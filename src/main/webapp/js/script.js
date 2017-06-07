@@ -9,12 +9,10 @@ var workTermCount = 0;
 
 // asks to confirm refresh page click event or when F5 is pressed
 window.onbeforeunload = function(e){
-	return undefined;   // silenced for now, but not forgotten
+    return undefined;   // silenced for now, but not forgotten
 };
 
-
-$(document).ready(function(){
-
+$(document).ready(function() {
     // call functions needed to set up the page
     loadSequence();
     getCourseList();
@@ -22,7 +20,6 @@ $(document).ready(function(){
 });
 
 function loadSequence(){
-
     // clear whole page first
     $(".sequenceContainer").html("<p class='mainHeader'>Concordia Engineering Sequence Builder</p>");
     workTermCount = 0;
@@ -259,10 +256,10 @@ function highlightAffectedCourses(affectedCourses){
 }
 
 function generateSequenceObject(callback){
-	var semesterList = [];
-	var count = 0;
-	var numberOfTerms = $(".sequenceContainer .term").length;
-	var onFinish = function(semesterObject){
+    var semesterList = [];
+    var count = 0;
+    var numberOfTerms = $(".sequenceContainer .term").length;
+    var onFinish = function(semesterObject){
         if(semesterObject){
             semesterList.push(semesterObject);
         }
@@ -270,19 +267,19 @@ function generateSequenceObject(callback){
         if(count === numberOfTerms){
             callback({ "semesterList" : semesterList});
         }
-	};
-	for(var i = 1; i <= numberOfTerms; i++){
-		getSemesterObject($(".sequenceContainer .term:nth-of-type(" + i + ")"), onFinish);
-	}
+    };
+    for(var i = 1; i <= numberOfTerms; i++){
+        getSemesterObject($(".sequenceContainer .term:nth-of-type(" + i + ")"), onFinish);
+    }
 }
 
-function getSemesterObject($semesterContainer, callback){
-	var seasonText = $semesterContainer.find(".semesterHeading .seasonText").text().split(" ")[0].trim().toLowerCase();
-	var courseList = [];
-	var $courses = $semesterContainer.find(".course");
+function getSemesterObject($semesterContainer, callback) {
+    var seasonText = $semesterContainer.find(".semesterHeading .seasonText").text().split(" ")[0].trim().toLowerCase();
+    var courseList = [];
+    var $courses = $semesterContainer.find(".course");
     var count = $courses.length;
     var isWorkTerm = false;
-	if(count > 0){
+    if(count > 0){
         $courses.each(function(i, obj){
             var courseObject = getCourseObject($(this));
             if(courseObject){
@@ -296,7 +293,7 @@ function getSemesterObject($semesterContainer, callback){
             }
         });
     } else {
-	    // ignore the empty terms by regarding them as undefined
+        // ignore the empty terms by regarding them as undefined
         callback(undefined);
     }
 }
@@ -306,21 +303,21 @@ function getCourseObject($courseContainer){
     var name = $courseContainer.find(".center").text();
 
     if(name.indexOf("Work Term") >= 0){
-    	return undefined;
-	}
+        return undefined;
+    }
 
     var credits = $courseContainer.find(".right").text();
-	var isElective = ($courseContainer.find(".center").text().indexOf("Elective") >= 0);
+    var isElective = ($courseContainer.find(".center").text().indexOf("Elective") >= 0);
     var electiveType = "";
 
-	if(isElective){
-		electiveType = $courseContainer.find(".center").text().replace(" Elective", "");
-		code = "";
-		name = "";
-		credits = "";
-	}
+    if(isElective){
+        electiveType = $courseContainer.find(".center").text().replace(" Elective", "");
+        code = "";
+        name = "";
+        credits = "";
+    }
 
-	return {
+    return {
         "code": code,
         "name": name,
         "credits": credits,
