@@ -1,11 +1,10 @@
 var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
-var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
-var mongoServerUrl = 'mongodb://138.197.6.26:27017/mongotest';
+// var mongoServerUrl = 'mongodb://138.197.6.26:27017/mongotest';
 
-function scrapeEncsSequenceUrl(url, outPath, plainFileName, db, shouldBeVerbose, onComplete){
+function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onComplete){
 
     request(url, function(error, response, html){
         if(!error){
@@ -122,21 +121,22 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, db, shouldBeVerbose,
                 } else {
                     if(shouldBeVerbose){
                         console.log("Done writing file: " + outPath);
+                        if(onComplete){
+                            onComplete();
+                        }
                     }
                 }
             });
 
-            db.collection("courseSequences").update({_id : plainFileName}, {$set:sequenceObject}, {upsert: true}, function(err, result) {
-                assert.equal(err, null);
-                if(shouldBeVerbose) {
-                    console.log("Wrote contents of file: " + plainFileName + " to db.");
-                    if(onComplete){
-                        onComplete();
-                    }
-                }
-            });
-
-
+            // db.collection("courseSequences").update({_id : plainFileName}, {$set:sequenceObject}, {upsert: true}, function(err, result) {
+            //     assert.equal(err, null);
+            //     if(shouldBeVerbose) {
+            //         console.log("Wrote contents of file: " + plainFileName + " to db.");
+            //         if(onComplete){
+            //             onComplete();
+            //         }
+            //     }
+            // });
 
         }
     });
@@ -173,16 +173,15 @@ module.exports.updateData = function(coursePlannerHome, shouldBeVerbose, onCompl
                 console.log("Couldn't create sequences directory (this might be because the directory already exists)");
             }
 
-            MongoClient.connect(mongoServerUrl, function(err, db) {
-                assert.equal(null, err);
-                console.log("Connected successfully to db server");
+            // MongoClient.connect(mongoServerUrl, function(err, db) {
+            //     assert.equal(null, err);
+            //     console.log("Connected successfully to db server");
 
                 var completionCallback = function(){
                     numCompleted++;
                     console.log("numstarted: " + numStarted + ", nuimcompleted: " + numCompleted);
                     if(numCompleted == numStarted){
                         console.log("All db writes have been completed.");
-                        db.close();
                         if(onComplete){
                             onComplete();
                         }
@@ -201,7 +200,7 @@ module.exports.updateData = function(coursePlannerHome, shouldBeVerbose, onCompl
                                 var plainFileName = program + "-" + optionType + "-" + sequenceVariant + ".json";
                                 var fileName = outputDir + "/" + plainFileName;
                                 numStarted++;
-                                scrapeEncsSequenceUrl(url, fileName, plainFileName, db, shouldBeVerbose, completionCallback);
+                                scrapeEncsSequenceUrl(url, fileName, plainFileName, shouldBeVerbose, completionCallback);
                             }
                         }
                     } else {
@@ -210,7 +209,7 @@ module.exports.updateData = function(coursePlannerHome, shouldBeVerbose, onCompl
                             var plainFileName =  program + "-" + sequenceVariant + ".json";
                             var fileName = outputDir + "/" + plainFileName;
                             numStarted++;
-                            scrapeEncsSequenceUrl(url, fileName, plainFileName, db, shouldBeVerbose, completionCallback);
+                            scrapeEncsSequenceUrl(url, fileName, plainFileName, shouldBeVerbose, completionCallback);
                         }
                     }
                 }
@@ -240,7 +239,7 @@ module.exports.updateData = function(coursePlannerHome, shouldBeVerbose, onCompl
                 //         }
                 //     }
                 // }
-            });
+            //});
         });
 
 
