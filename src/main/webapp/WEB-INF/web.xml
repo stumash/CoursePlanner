@@ -42,4 +42,24 @@
         <url-pattern>/export</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>SequenceProvider</servlet-name>
+        <servlet-class>SequenceProvider</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SequenceProvider</servlet-name>
+        <url-pattern>/mongosequences</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SequenceNamesList</servlet-name>
+        <servlet-class>SequenceNamesList</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SequenceNamesList</servlet-name>
+        <url-pattern>/mongosequencelist</url-pattern>
+    </servlet-mapping>
+
 </web-app>
