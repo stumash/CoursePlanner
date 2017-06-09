@@ -16,7 +16,6 @@ function loadSequenceFileNames(){
         var $listBox = $("#SequenceType");
 
         for(var i = 0; i < fileNameArray.length; i++){
-        	//<option value="BLDG-Coop.json">BLDG-Coop.json</option>
         	$listBox.append("<option value=\"" + fileNameArray[i] + "\">" + fileNameArray[i] + "</option>");
         }
     });

@@ -50,7 +50,7 @@ public class SequenceNamesList extends HttpServlet {
                 }
             }
         } catch (Exception e){
-            logger.info("Error getting sequence names");
+            logger.info("Error getting sequence names: " + e.toString());
         }
 
         responseString += "]";
