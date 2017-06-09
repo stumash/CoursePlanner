@@ -1,14 +1,10 @@
 var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
-var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
-var totalFileCount = 0;
-var completedFileCount = 0;
+// var mongoServerUrl = 'mongodb://138.197.6.26:27017/mongotest';
 
-var mongoServerUrl = 'mongodb://138.197.6.26:27017/mongotest';
-
-function scrapeEncsSequenceUrl(url, outPath, plainFileName, db, shouldBeVerbose){
+function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onComplete){
 
     request(url, function(error, response, html){
         if(!error){
@@ -73,7 +69,7 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, db, shouldBeVerbose)
                                 });
                                 foundACourse = true;
                             }
-                            if(foundACourse){
+                            if(foundACourse && (code.trim().length > 0 || name.trim().length > 0 || credits.trim().length > 0 || electiveType.trim().length > 0)){
                                 courseList.push({
                                     "code": code.trim(),
                                     "name": name.trim(),
@@ -122,24 +118,25 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, db, shouldBeVerbose)
                 if(err){
                     console.error("ERROR writing to a file: " + outPath);
                     process.exit(1);
-                } else if(shouldBeVerbose) {
-                    console.log("Done writing file: " + outPath);
+                } else {
+                    if(shouldBeVerbose){
+                        console.log("Done writing file: " + outPath);
+                        if(onComplete){
+                            onComplete();
+                        }
+                    }
                 }
             });
 
-            db.collection("courseSequences").update({_id : plainFileName}, {$set:sequenceObject}, {upsert: true}, function(err, result) {
-                assert.equal(err, null);
-                if(shouldBeVerbose) {
-                    console.log("Wrote contents of file: " + plainFileName + " to db.");
-                }
-                completedFileCount++;
-                if(completedFileCount == totalFileCount){
-                    console.log("All db writes have been completed.");
-                    db.close();
-                }
-            });
-
-
+            // db.collection("courseSequences").update({_id : plainFileName}, {$set:sequenceObject}, {upsert: true}, function(err, result) {
+            //     assert.equal(err, null);
+            //     if(shouldBeVerbose) {
+            //         console.log("Wrote contents of file: " + plainFileName + " to db.");
+            //         if(onComplete){
+            //             onComplete();
+            //         }
+            //     }
+            // });
 
         }
     });
@@ -158,9 +155,10 @@ function parseSeason(season){
 
 // pull all info contained in URLs from sequenceUrls.json and write to appropriate files
 // we define this function inside the exports object to expose it to other files
-module.exports.updateData = function(coursePlannerHome, shouldBeVerbose){
+module.exports.updateData = function(coursePlannerHome, shouldBeVerbose, onComplete){
 
     var outputDir = coursePlannerHome + "/sequences";
+    var numStarted = 0, numCompleted = 0;
 
     fs.readFile("./sequenceUrls.json", function (err, data) {
         if (err) {
@@ -175,9 +173,20 @@ module.exports.updateData = function(coursePlannerHome, shouldBeVerbose){
                 console.log("Couldn't create sequences directory (this might be because the directory already exists)");
             }
 
-            MongoClient.connect(mongoServerUrl, function(err, db) {
-                assert.equal(null, err);
-                console.log("Connected successfully to db server");
+            // MongoClient.connect(mongoServerUrl, function(err, db) {
+            //     assert.equal(null, err);
+            //     console.log("Connected successfully to db server");
+
+                var completionCallback = function(){
+                    numCompleted++;
+                    console.log("numstarted: " + numStarted + ", nuimcompleted: " + numCompleted);
+                    if(numCompleted == numStarted){
+                        console.log("All db writes have been completed.");
+                        if(onComplete){
+                            onComplete();
+                        }
+                    }
+                };
 
                 for (var program in sequenceUrls) {
                     var subList = sequenceUrls[program];
@@ -190,8 +199,8 @@ module.exports.updateData = function(coursePlannerHome, shouldBeVerbose){
                                 var url = optionSubList[sequenceVariant];
                                 var plainFileName = program + "-" + optionType + "-" + sequenceVariant + ".json";
                                 var fileName = outputDir + "/" + plainFileName;
-                                totalFileCount++;
-                                scrapeEncsSequenceUrl(url, fileName, plainFileName, db, shouldBeVerbose);
+                                numStarted++;
+                                scrapeEncsSequenceUrl(url, fileName, plainFileName, shouldBeVerbose, completionCallback);
                             }
                         }
                     } else {
@@ -199,12 +208,38 @@ module.exports.updateData = function(coursePlannerHome, shouldBeVerbose){
                             var url = subList[sequenceVariant];
                             var plainFileName =  program + "-" + sequenceVariant + ".json";
                             var fileName = outputDir + "/" + plainFileName;
-                            totalFileCount++;
-                            scrapeEncsSequenceUrl(url, fileName, plainFileName, db, shouldBeVerbose);
+                            numStarted++;
+                            scrapeEncsSequenceUrl(url, fileName, plainFileName, shouldBeVerbose, completionCallback);
                         }
                     }
                 }
-            });
+
+                // for (var program in sequenceUrls) {
+                //     var subList = sequenceUrls[program];
+                //     var options = subList.Options;
+                //     // in this case, sequenceVariant/optionType will be either September entry, January entry, or Coop
+                //     if(options){
+                //         for(var optionType in options){
+                //             var optionSubList = options[optionType];
+                //             for(var sequenceVariant in optionSubList){
+                //                 var url = optionSubList[sequenceVariant];
+                //                 var plainFileName = program + "-" + optionType + "-" + sequenceVariant + ".json";
+                //                 var fileName = outputDir + "/" + plainFileName;
+                //                 totalFileCount++;
+                //                 scrapeEncsSequenceUrl(url, fileName, plainFileName, db, shouldBeVerbose);
+                //             }
+                //         }
+                //     } else {
+                //         for(var sequenceVariant in subList){
+                //             var url = subList[sequenceVariant];
+                //             var plainFileName =  program + "-" + sequenceVariant + ".json";
+                //             var fileName = outputDir + "/" + plainFileName;
+                //             totalFileCount++;
+                //             scrapeEncsSequenceUrl(url, fileName, plainFileName, db, shouldBeVerbose);
+                //         }
+                //     }
+                // }
+            //});
         });
 
 
