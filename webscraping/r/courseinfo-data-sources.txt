@@ -1,0 +1,39 @@
+ENCS
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(3) > div > div > div.content.row-fluid.accordion_accordion_panel_8 > div > div > div > div
+ENGR
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(4) > div > div > div.content.row-fluid.accordion_accordion_panel_3 > div > div > div > div
+AERO
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(5) > div > div > div.content.row-fluid.accordion_accordion_panel_9 > div > div > div > div
+BCEE
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(6) > div > div > div.content.row-fluid.accordion_accordion_panel_1 > div > div > div > div
+BLDG
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(7) > div > div > div.content.row-fluid.accordion_accordion_panel_2 > div > div > div > div
+CIVI
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(8) > div > div > div.content.row-fluid.accordion_accordion_panel_4 > div > div > div > div
+COEN
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(9) > div > div > div.content.row-fluid.accordion_accordion_panel_5 > div > div > div > div
+ELEC
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(10) > div > div > div.content.row-fluid.accordion_accordion_panel_7 > div > div > div > div
+IADI
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(11) > div > div > div.content.row-fluid.accordion_accordion_panel_6 > div > div > div > div
+INDU
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(12) > div > div > div.content.row-fluid.accordion_accordion_panel_0 > div > div > div > div
+MECH
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(13) > div > div > div.content.row-fluid.accordion_accordion_panel > div > div > div > div
+COMP
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-70.html#compsci
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(79)
+SOEN
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-70.html#softeng
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(81)

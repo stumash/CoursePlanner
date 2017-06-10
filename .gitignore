@@ -1,5 +1,6 @@
 *.iml
 *.class
+.Rhistory
 /.idea/
 /target/
 node_modules/
