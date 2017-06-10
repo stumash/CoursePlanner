@@ -85,8 +85,8 @@ for(i in 1:num.scrapes) {
     program.courses <- program.courses %>% select(-one_of(c('secondhalf.string')))
 
     # store data in JSON-formatted files
-    file.connection <- file(paste(sep = "_", program.names[i], "full-course-info.json"))
+    file.connection <- file(paste(sep = "_", paste(sep="", "course-info-jsonfiles/", program.names[i]), "full-course-info.json"))
     writeLines(prettify(toJSON(full.course.strings)), file.connection); close(file.connection)
-    file.connection <- file(paste(sep = "_", program.names[i], "document.json"))
+    file.connection <- file(paste(sep = "_", paste(sep="", "course-info-jsonfiles/", program.names[i]), "document.json"))
     writeLines(prettify(toJSON(program.courses)), file.connection); close(file.connection)
 }
