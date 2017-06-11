@@ -6,6 +6,11 @@
 
     <display-name>My Website</display-name>
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.html</location>
+    </error-page>
+
     <servlet>
         <servlet-name>SequenceValidator</servlet-name>
         <servlet-class>SequenceValidator</servlet-class>
