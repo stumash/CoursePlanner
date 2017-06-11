@@ -53,7 +53,7 @@ CLAS
 http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-060.html
 #content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(21)
 MARA
-http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-060.html
 #content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(23)
 MCHI
 http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-060.html
