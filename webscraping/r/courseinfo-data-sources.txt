@@ -73,9 +73,6 @@ http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-060.ht
 HEBR
 http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-060.html
 #content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(35)
-MGRK
-http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-060.html
-#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(37)
 COMS
 http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-070.html
 #content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(21)
@@ -91,9 +88,6 @@ http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-100.ht
 TESL
 http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-090.html#b31.090.1
 #content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(21)
-ESL
-http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-090.html#ESL_Courses
-#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(23)
 FRAN
 http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-110.html
 #content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(13)

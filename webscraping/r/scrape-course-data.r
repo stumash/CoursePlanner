@@ -15,6 +15,9 @@ urls          <- urls.and.css.selectors[seq(from = 2, to = length(urls.and.css.s
 css.selectors <- urls.and.css.selectors[seq(from = 3, to = length(urls.and.css.selectors), by = 3)]
 
 for(i in 1:num.scrapes) {
+    # print(i)
+    # print(program.name[i])
+
     htmlpage.string <- read_html(urls[i]) # get the raw html
     program.html.string <- htmlpage.string %>%
         html_node(css = css.selectors[i]) # extract desired DOM
