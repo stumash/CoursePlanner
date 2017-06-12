@@ -7,24 +7,35 @@
  * storer.js is also written in a bad imperative accent
  */
 
+/**
+ * imports
+ */
 var fs = require('fs');
+var assert = require('assert');
+var MongoClient = require('mongodb').MongoClient;
 
-const jsonFilesDir = '../../r/course-info-jsonfiles/';
-const jsonFilenameRegex = /_document.json/;
+/**
+ * constants
+ */
+const DIR = '../../r/course-info-jsonfiles/';
+const jsonFilenameRegex = /_document.json/;//filter by filename
 
-var peristCourseToDb = function(courseJson) {
+/**
+ * 'static' functions
+ */
+const readJsonFrom
 
-};
-
+/**
+ * main method
+ */
 var main = (function() {
-    var jsonfiles = fs.readdirSync(jsonFilesDir).filter(function(filename) {
+    var jsonfilenames = fs.readdirSync(DIR).filter(function(filename) {
         return jsonFilenameRegex.test(filename);
     })
 
-    jsonfiles.forEach(function(file) {
-        console.log(file);
+    jsonfilenames.forEach(function(filename) {
+        console.log(filename);
     });
-    console.log();
 
-    //TODO: for each json file, parse and store
+
 })();
