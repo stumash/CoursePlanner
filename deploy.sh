@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+if [ $# -gt 0 ] # need one arg
+then 
+    if [ "${1}" == "prod" ]
+    then
+        devname=""
+    else
+        devname="${1:0:1}"
+    fi
+else
+    echo "deploy.sh takes one arg, the name of the dev, for deploying dev-specific .war files." 1>&2
+    exit 1
+fi
+
 # tell the user what's going on
 echo "Building & deploying project..."
 
@@ -16,8 +29,7 @@ mvn clean install -q &&
 mvnCleanInstallSuccessful=true
 
 if $gitTagInserted
-then
-    # remove commit logging script from html
+then # remove git tag
     # we do not want our deploy script to change our source files,
     # only the deployed version of them
     sed -i "4d" ./src/main/webapp/index.html &&
@@ -33,14 +45,15 @@ echo "Project build complete. Transferring war file to VM"
 
 # transfer the built project onto the VM
 # this will trigger Tomcat to reload the site content
-scp target/courseplanner.war david@138.197.6.26:/opt/tomcat/webapps/courseplanner.war &&
+scp "target/courseplanner.war" david@138.197.6.26:/opt/tomcat/webapps/"courseplanner${devname}.war" &&
 deploymentSuccessful=true
 
 # if ends with error code 0 (success) then print deployment complete, else deployment failed
 if $deploymentSuccessful
 then
-    echo -e "\nDeployment completed at: $(date)"
+    echo -e "\nDeployed courseplanner${devname}.war successfully at: $(date)"
 else
-    echo -e "\nDeployment failed at: $(date)" 1>&2
+    echo -e "\nFailed to scp courseplanner${devname}.war at: $(date)"
     exit 1
 fi
+
