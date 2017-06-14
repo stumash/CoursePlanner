@@ -41,7 +41,7 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
                                 isElective = "true";
                                 electiveType = "Science";
                                 foundACourse = true;
-                            } else if(firstCellText === "general education elective"){
+                            } else if(firstCellText.indexOf("general") >= 0){
                                 isElective = "true";
                                 electiveType = "General";
                                 foundACourse = true;
