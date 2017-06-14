@@ -179,9 +179,9 @@ sequenceScraper.updateData("./", true, function(){
                         }
                         if (numVerified == files.length) {
                             db.close();
-                            //cleanUp();
+                            cleanUp();
                             if(foundIssue){
-                                //sendIssueEmail();
+                                sendIssueEmail();
                             }
                         }
                     });
