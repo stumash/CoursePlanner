@@ -1,7 +1,4 @@
 // constants
-var NUMBER_OF_YEARS = 5;
-
-var container;
 var lastContainerIndex;
 // variable used to ensure the sequence is only validated once every time the user drags a class into a new position
 var draggingItem = false;
@@ -16,11 +13,6 @@ var isInLastContainer = false;
 
 // track the number of work terms in the list
 var workTermCount = 0;
-
-// asks to confirm refresh page click event or when F5 is pressed
-window.onbeforeunload = function(e){
-    return undefined;   // silenced for now, but not forgotten
-};
 
 $(document).ready(function() {
     // call functions needed to set up the page
