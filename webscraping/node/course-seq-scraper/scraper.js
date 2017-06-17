@@ -1,9 +1,10 @@
 var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
-var fileCounter = 1;
+var assert = require('assert');
+// var mongoServerUrl = 'mongodb://138.197.6.26:27017/mongotest';
 
-function scrapeEncsSequenceUrl(url, outPath, shouldBeVerbose){
+function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onComplete){
 
     request(url, function(error, response, html){
         if(!error){
@@ -40,7 +41,7 @@ function scrapeEncsSequenceUrl(url, outPath, shouldBeVerbose){
                                 isElective = "true";
                                 electiveType = "Science";
                                 foundACourse = true;
-                            } else if(firstCellText === "general education elective"){
+                            } else if(firstCellText.indexOf("general") >= 0){
                                 isElective = "true";
                                 electiveType = "General";
                                 foundACourse = true;
@@ -68,7 +69,7 @@ function scrapeEncsSequenceUrl(url, outPath, shouldBeVerbose){
                                 });
                                 foundACourse = true;
                             }
-                            if(foundACourse){
+                            if(foundACourse && (code.trim().length > 0 || name.trim().length > 0 || credits.trim().length > 0 || electiveType.trim().length > 0)){
                                 courseList.push({
                                     "code": code.trim(),
                                     "name": name.trim(),
@@ -117,10 +118,26 @@ function scrapeEncsSequenceUrl(url, outPath, shouldBeVerbose){
                 if(err){
                     console.error("ERROR writing to a file: " + outPath);
                     process.exit(1);
-                } else if(shouldBeVerbose) {
-                    console.log("Done writing file: " + outPath);
+                } else {
+                    if(shouldBeVerbose){
+                        console.log("Done writing file: " + outPath);
+                        if(onComplete){
+                            onComplete();
+                        }
+                    }
                 }
             });
+
+            // db.collection("courseSequences").update({_id : plainFileName}, {$set:sequenceObject}, {upsert: true}, function(err, result) {
+            //     assert.equal(err, null);
+            //     if(shouldBeVerbose) {
+            //         console.log("Wrote contents of file: " + plainFileName + " to db.");
+            //         if(onComplete){
+            //             onComplete();
+            //         }
+            //     }
+            // });
+
         }
     });
 }
@@ -138,9 +155,10 @@ function parseSeason(season){
 
 // pull all info contained in URLs from sequenceUrls.json and write to appropriate files
 // we define this function inside the exports object to expose it to other files
-module.exports.updateData = function(coursePlannerHome, shouldBeVerbose){
+module.exports.updateData = function(coursePlannerHome, shouldBeVerbose, onComplete){
 
     var outputDir = coursePlannerHome + "/sequences";
+    var numStarted = 0, numCompleted = 0;
 
     fs.readFile("./sequenceUrls.json", function (err, data) {
         if (err) {
@@ -154,27 +172,74 @@ module.exports.updateData = function(coursePlannerHome, shouldBeVerbose){
             if(err && shouldBeVerbose){
                 console.log("Couldn't create sequences directory (this might be because the directory already exists)");
             }
-            for (var program in sequenceUrls) {
-                var subList = sequenceUrls[program];
-                var options = subList.Options;
-                // in this case, sequenceVariant/optionType will be either September entry, January entry, or Coop
-                if(options){
-                    for(var optionType in options){
-                        var optionSubList = options[optionType];
-                        for(var sequenceVariant in optionSubList){
-                            var url = optionSubList[sequenceVariant];
-                            var fileName = outputDir + "/" + program + "-" + optionType + "-" + sequenceVariant + ".json";
-                            scrapeEncsSequenceUrl(url, fileName, shouldBeVerbose);
+
+            // MongoClient.connect(mongoServerUrl, function(err, db) {
+            //     assert.equal(null, err);
+            //     console.log("Connected successfully to db server");
+
+                var completionCallback = function(){
+                    numCompleted++;
+                    console.log("numstarted: " + numStarted + ", nuimcompleted: " + numCompleted);
+                    if(numCompleted == numStarted){
+                        console.log("All db writes have been completed.");
+                        if(onComplete){
+                            onComplete();
                         }
                     }
-                } else {
-                    for(var sequenceVariant in subList){
-                        var url = subList[sequenceVariant];
-                        var fileName = outputDir + "/" + program + "-" + sequenceVariant + ".json";
-                        scrapeEncsSequenceUrl(url, fileName, shouldBeVerbose);
+                };
+
+                for (var program in sequenceUrls) {
+                    var subList = sequenceUrls[program];
+                    var options = subList.Options;
+                    // in this case, sequenceVariant/optionType will be either September entry, January entry, or Coop
+                    if(options){
+                        for(var optionType in options){
+                            var optionSubList = options[optionType];
+                            for(var sequenceVariant in optionSubList){
+                                var url = optionSubList[sequenceVariant];
+                                var plainFileName = program + "-" + optionType + "-" + sequenceVariant + ".json";
+                                var fileName = outputDir + "/" + plainFileName;
+                                numStarted++;
+                                scrapeEncsSequenceUrl(url, fileName, plainFileName, shouldBeVerbose, completionCallback);
+                            }
+                        }
+                    } else {
+                        for(var sequenceVariant in subList){
+                            var url = subList[sequenceVariant];
+                            var plainFileName =  program + "-" + sequenceVariant + ".json";
+                            var fileName = outputDir + "/" + plainFileName;
+                            numStarted++;
+                            scrapeEncsSequenceUrl(url, fileName, plainFileName, shouldBeVerbose, completionCallback);
+                        }
                     }
                 }
-            }
+
+                // for (var program in sequenceUrls) {
+                //     var subList = sequenceUrls[program];
+                //     var options = subList.Options;
+                //     // in this case, sequenceVariant/optionType will be either September entry, January entry, or Coop
+                //     if(options){
+                //         for(var optionType in options){
+                //             var optionSubList = options[optionType];
+                //             for(var sequenceVariant in optionSubList){
+                //                 var url = optionSubList[sequenceVariant];
+                //                 var plainFileName = program + "-" + optionType + "-" + sequenceVariant + ".json";
+                //                 var fileName = outputDir + "/" + plainFileName;
+                //                 totalFileCount++;
+                //                 scrapeEncsSequenceUrl(url, fileName, plainFileName, db, shouldBeVerbose);
+                //             }
+                //         }
+                //     } else {
+                //         for(var sequenceVariant in subList){
+                //             var url = subList[sequenceVariant];
+                //             var plainFileName =  program + "-" + sequenceVariant + ".json";
+                //             var fileName = outputDir + "/" + plainFileName;
+                //             totalFileCount++;
+                //             scrapeEncsSequenceUrl(url, fileName, plainFileName, db, shouldBeVerbose);
+                //         }
+                //     }
+                // }
+            //});
         });
 
 

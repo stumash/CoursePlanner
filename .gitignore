@@ -1,6 +1,9 @@
 *.iml
 *.class
+.Rhistory
 /.idea/
 /target/
-/webscraping/node/node_modules/
+node_modules/
 /src/main/webapp/sequences/
+
+/webscraping/r/course-info-jsonfiles/*.json

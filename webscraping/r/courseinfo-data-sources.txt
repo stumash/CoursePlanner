@@ -1,0 +1,174 @@
+ENCS
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(3) > div > div > div.content.row-fluid.accordion_accordion_panel_8 > div > div > div > div
+ENGR
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(4) > div > div > div.content.row-fluid.accordion_accordion_panel_3 > div > div > div > div
+AERO
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(5) > div > div > div.content.row-fluid.accordion_accordion_panel_9 > div > div > div > div
+BCEE
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(6) > div > div > div.content.row-fluid.accordion_accordion_panel_1 > div > div > div > div
+BLDG
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(7) > div > div > div.content.row-fluid.accordion_accordion_panel_2 > div > div > div > div
+CIVI
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(8) > div > div > div.content.row-fluid.accordion_accordion_panel_4 > div > div > div > div
+COEN
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(9) > div > div > div.content.row-fluid.accordion_accordion_panel_5 > div > div > div > div
+ELEC
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(10) > div > div > div.content.row-fluid.accordion_accordion_panel_7 > div > div > div > div
+IADI
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(11) > div > div > div.content.row-fluid.accordion_accordion_panel_6 > div > div > div > div
+INDU
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(12) > div > div > div.content.row-fluid.accordion_accordion_panel_0 > div > div > div > div
+MECH
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-60.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div:nth-child(13) > div > div > div.content.row-fluid.accordion_accordion_panel > div > div > div > div
+COMP
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-70.html#compsci
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(79)
+SOEN
+https://www.concordia.ca/academics/undergraduate/calendar/current/sec71/71-70.html#softeng
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(81)
+ADED
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-090.html#b31.090.2
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(27)
+AHSC
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-010.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(13)
+BIOL
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-030.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(13)
+CHEM
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-050.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(11)
+CLAS
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-060.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(21)
+MARA
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-060.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(23)
+MCHI
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-060.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(25)
+GERM
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-060.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(27)
+ITAL
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-060.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(29)
+SPAN
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-060.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(31)
+LING
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-060.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(33)
+HEBR
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-060.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(35)
+COMS
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-070.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(21)
+ECON
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-080.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(13)
+EDUC
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-090.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(13)
+ENGL
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-100.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(11)
+TESL
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-090.html#b31.090.1
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(21)
+FRAN
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-110.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(13)
+CATA
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-120.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(13)
+GEOG
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-130.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(13)
+GEOL
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-130.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(15)
+URBS
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-130.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(21)
+HIST
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-160.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(11)
+INTE
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-170.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(24)
+JOUR
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-180.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(13)
+ACTU
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-200.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(13)
+MACF
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-200.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(15)
+MAST
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-200.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(17)
+MATH
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-200.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(19)
+STAT
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-200.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(21)
+PHIL
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-220.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(9)
+PHYS
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-230.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(13)
+POLI
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-240.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(23)
+PSYC
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-250.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(23)
+RELI
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-270.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(11)
+SOCI
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-310.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(13)
+ANTH
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-310.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(19)
+THEO
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-330.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(9)
+LBCL
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-520.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(11)
+LOYC
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-525.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(11)
+IRST
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-530.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(9)
+SCPA
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-540.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(11)
+FPST
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-540.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(17)
+SCOL
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-550.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(13)
+WSDB
+http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-560.html
+#content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(14)

@@ -6,11 +6,15 @@
 
     <display-name>My Website</display-name>
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.html</location>
+    </error-page>
+
     <servlet>
         <servlet-name>SequenceValidator</servlet-name>
         <servlet-class>SequenceValidator</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>SequenceValidator</servlet-name>
         <url-pattern>/validate</url-pattern>
@@ -20,7 +24,6 @@
         <servlet-name>CourseInfoProvider</servlet-name>
         <servlet-class>CourseInfoProvider</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>CourseInfoProvider</servlet-name>
         <url-pattern>/courseinfo</url-pattern>
@@ -30,7 +33,6 @@
         <servlet-name>CourseListProvider</servlet-name>
         <servlet-class>CourseListProvider</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>CourseListProvider</servlet-name>
         <url-pattern>/courselist</url-pattern>
@@ -40,10 +42,29 @@
         <servlet-name>SequenceExporter</servlet-name>
         <servlet-class>SequenceExporter</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>SequenceExporter</servlet-name>
         <url-pattern>/export</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SequenceProvider</servlet-name>
+        <servlet-class>SequenceProvider</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SequenceProvider</servlet-name>
+        <url-pattern>/mongosequences</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SequenceNamesList</servlet-name>
+        <servlet-class>SequenceNamesList</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SequenceNamesList</servlet-name>
+        <url-pattern>/mongosequencelist</url-pattern>
     </servlet-mapping>
 
 </web-app>
