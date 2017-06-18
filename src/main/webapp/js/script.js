@@ -21,7 +21,7 @@ $(document).ready(function() {
 
 });
 
-function loadSequence(){
+function loadSequence(callback){
     // clear whole page first
     $(".sequenceContainer").html("<p class='mainHeader'>Concordia Engineering Sequence Builder</p>");
     workTermCount = 0;
@@ -41,17 +41,21 @@ function loadSequence(){
             var courseList = JSON.parse(this.responseText).response;
 
             if (sequenceHistory.length < 1) {
-                addSequenceToSequenceHistory(sequenceObject);
+                addSequenceToSequenceHistory(courseList);
             }
 
-            addContainers(sequenceObject, function(){
+            addContainers(courseList, function(){
                 // fill page with default sequence
-                populatePage(sequenceObject);
-                validateSequence(sequenceObject);
+                populatePage(courseList);
+                validateSequence(courseList);
                 initUI();
                 if (callback) {
                     callback();
                 }
+
+                generateSequenceObject(function(sequenceObject){
+                    localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
+                });
             });
 
         });
@@ -615,35 +619,6 @@ function initUI(){
     containers = $('.courseContainer');
     lastContainerIndex = containers.length - 1;
 
-    $(".courseContainer").eq(lastContainerIndex).sortable({
-        // out event is triggered when a sortable item is moved away from a sortable list.
-        out: function(event) {
-            var lastHeading = $('.semesterHeading').eq(lastContainerIndex);
-            var lastHeadingRect = lastHeading.offset();
-            var lastContainer = $('.courseContainer').eq(lastContainerIndex);
-            var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
-            var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
-
-            // console.log("out update");
-            //
-            // console.log("event.pageY = "+event.pageY);
-            // console.log("lastContainerRect.top = "+lastContainerRect.top);
-            // console.log("lastContainer.height() = "+lastContainer.height());
-            // console.log("bottomOfLastContainer = top + height() = "+bottomOfLastContainer);
-            // console.log("lastHeadingRect.top = "+lastHeadingRect.top);
-            // console.log("if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer");
-            // console.log("if ("+event.pageY+" >= "+lastHeadingRect.top+" && "+event.pageY+" < "+bottomOfLastContainer);
-
-            if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer) {
-                isInLastContainer = true;
-            } else {
-                isInLastContainer = false;
-            }
-
-            updateIsMouseMoveDown(event);
-        }
-    });
-
     $(".courseContainer").sortable({
         connectWith: ".courseContainer",
         // change event gets called when an item is dragged into a new position (including its original position)
@@ -679,6 +654,32 @@ function initUI(){
 
             console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer+", isMouseMoveDown = "+isMouseMoveDown);
         },
+        // out event is triggered when a sortable item is moved away from a sortable list.
+        out: function(event) {
+            var lastHeading = $('.semesterHeading').eq(lastContainerIndex);
+            var lastHeadingRect = lastHeading.offset();
+            var lastContainer = $('.courseContainer').eq(lastContainerIndex);
+            var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
+            var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
+
+            // console.log("out update");
+            //
+            // console.log("event.pageY = "+event.pageY);
+            // console.log("lastContainerRect.top = "+lastContainerRect.top);
+            // console.log("lastContainer.height() = "+lastContainer.height());
+            // console.log("bottomOfLastContainer = top + height() = "+bottomOfLastContainer);
+            // console.log("lastHeadingRect.top = "+lastHeadingRect.top);
+            // console.log("if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer");
+            // console.log("if ("+event.pageY+" >= "+lastHeadingRect.top+" && "+event.pageY+" < "+bottomOfLastContainer);
+
+            if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer) {
+                isInLastContainer = true;
+            } else {
+                isInLastContainer = false;
+            }
+
+            updateIsMouseMoveDown(event);
+        },
         // update event gets invoked when an item is dropped into a new position (excluding its original position)
         update: function(event, ui) {
             if (draggingItem) {
@@ -707,7 +708,7 @@ function initUI(){
     // I wrote onmouseover which is not a jquery function, instead of mouseover. The deploy script did not catch this error. So we must only be checking vanilla JS
     // @TODO is it possible if we have it account for actual jquery linting during deployment?
     $('.sequenceContainer').mouseover( function(event) {
-        // if not for this then after adding an extra semester draggin item would stay true all the time and display hint would show up while hovering over any term
+        // if not for this then after adding an extra semester draggingItem would stay true all the time and display hint would show up while hovering over any term
         draggingItem = false;
         // containers = $('.courseContainer');
         // lastContainerIndex = containers.length - 1;
@@ -754,12 +755,15 @@ function initUI(){
         var lastContainer = $('.courseContainer').eq(lastContainerIndex);
         var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
         var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
+        console.log("lastContainer: ", lastContainer);
+        console.log("lastContainer.height(): ", lastContainer.height());
+        console.log("lastContainer.top: ", lastContainerRect.top);
 
         if( isMouseMoveDown && draggingItem && event.pageY > bottomOfLastContainer) {
             lastContainerIndex++;
 
             // add new semester
-            // console.log("ADDING NEW SEMESTER!");
+            console.log("ADDING NEW SEMESTER!");
             var sequenceObject = JSON.parse(localStorage.getItem("savedSequence"));
 
             // make changes to sequence object
@@ -777,6 +781,7 @@ function initUI(){
             console.log("Updated sequenceObject:\n" + JSON.stringify(sequenceObject));
 
             addSequenceToSequenceHistory(sequenceObject);
+
             // reload the page
             loadSequence(function() {
                 $(window).scrollTop($(document).height() - $(window).height());
