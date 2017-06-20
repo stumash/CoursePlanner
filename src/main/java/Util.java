@@ -13,19 +13,11 @@ import java.util.ArrayList;
 public class Util {
 
     static ArrayList<Semester> grabSemestersFromRequest(HttpServletRequest request) throws IOException {
-        StringBuffer jb = new StringBuffer();
-        String line;
-        JSONObject requestJson;
+
         ArrayList<Semester> semesters = new ArrayList<Semester>();
+
         try {
-            BufferedReader reader = request.getReader();
-            while ((line = reader.readLine()) != null) {
-                jb.append(line);
-            }
-        } catch (Exception e) { /*report an error*/ }
-        try {
-            requestJson =  new JSONObject(jb.toString());
-            JSONArray semestersAsJson = requestJson.getJSONArray("semesterList");
+            JSONArray semestersAsJson = (JSONArray) grabPropertyFromRequest("semesterList", request);
             for(int i = 0; i < semestersAsJson.length(); i++){
                 semesters.add(new Semester(semestersAsJson.getJSONObject(i)));
             }
@@ -34,13 +26,18 @@ public class Util {
             // crash and burn
             throw new IOException("Error parsing JSON request string");
         }
+
         return semesters;
     }
 
     static String grabSequenceIdFromRequest(HttpServletRequest request) throws IOException {
+        return (String) grabPropertyFromRequest("sequenceID", request);
+    }
+
+    static Object grabPropertyFromRequest(String key, HttpServletRequest request) throws IOException {
         StringBuffer jb = new StringBuffer();
         String line;
-        String sequenceID = "";
+        Object propertyValue = null;
         JSONObject requestJson;
         ArrayList<Semester> semesters = new ArrayList<Semester>();
         try {
@@ -51,13 +48,13 @@ public class Util {
         } catch (Exception e) { /*report an error*/ };
         try {
             requestJson =  new JSONObject(jb.toString());
-            sequenceID = requestJson.getString("sequenceID");
+            propertyValue = requestJson.get(key);
         } catch (JSONException e) {
             e.printStackTrace();
             // crash and burn
             throw new IOException("Error parsing JSON request string");
         }
-        return sequenceID;
+        return  propertyValue;
     }
 
 }
