@@ -42,7 +42,6 @@ var main = (function() {
                 return jsonFilenameRegex.test(filename);
             });
             allDocuments.forEach(function (file) {
-                console.log("reading from file: " + file);
                 totalFiles++;
                 fs.readFile(DIR + file, "utf-8", function (err, fileContent) {
                     var courseJSON = JSON.parse(fileContent);
