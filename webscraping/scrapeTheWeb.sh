@@ -11,5 +11,7 @@ node scrapeAndValidate.js
 # run scraper for course data
 cd "$webscrapedir/r"
 Rscript scrape-course-data.r
+
+# run storer for course data
 cd "$webscrapedir/node/course-info-storer"
 node storer.js
