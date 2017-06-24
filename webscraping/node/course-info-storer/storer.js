@@ -32,8 +32,6 @@ var main = (function() {
         assert.equal(null, err);
         console.log("Connected successfully to db server");
 
-        var foundIssue = false;
-
         var filesPushed = 0, totalFiles = 0;
 
         // read all files in Rscript output folder and push to DB
