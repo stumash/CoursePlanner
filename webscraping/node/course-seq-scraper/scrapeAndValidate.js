@@ -142,7 +142,7 @@ function sendIssueEmail(){
 // RUN OUR BEAUTIFUL FUNCTIONS:
 sequenceScraper.updateData("./", true, function(){
 
-    logMessage("validating sequence data");
+    console.log("validating sequence data");
 
     var seqFolder = './sequences/';
     var numVerified = 0;
