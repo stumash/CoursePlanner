@@ -2,7 +2,7 @@ var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
 var assert = require('assert');
-// var mongoServerUrl = 'mongodb://138.197.6.26:27017/mongotest';
+// var mongoServerUrl = 'mongodb://138.197.6.26:27017/courseplannerdb';
 
 function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onComplete){
 
