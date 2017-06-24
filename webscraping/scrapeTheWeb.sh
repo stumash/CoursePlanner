@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
+
+pushd `dirname $0` > /dev/null
 webscrapedir=$(pwd)
+popd > /dev/null
 
 # run scraper for course sequences
-cd /home/david/CoursePlanner/webscraping/node/course-seq-scraper
+cd "$webscrapedir/node/course-seq-scraper"
 node scrapeAndValidate.js
 
-cd $webscrapedir
 # run scraper for course data
-Rscript r/scrape-course-data.r
+cd "$webscrapedir/r"
+Rscript scrape-course-data.r
