@@ -70,8 +70,14 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
                                 foundACourse = true;
                             }
                             if(foundACourse && (code.trim().length > 0 || name.trim().length > 0 || credits.trim().length > 0 || electiveType.trim().length > 0)){
+                                var courseCode = /\w{4}\s{1}\d{3}/.exec(code.trim());
+                                if(courseCode){
+                                    courseCode = courseCode.toString();
+                                } else {
+                                    courseCode = "";
+                                }
                                 courseList.push({
-                                    "code": code.trim(),
+                                    "code": courseCode,
                                     "name": name.trim(),
                                     "isElective": isElective.trim(),
                                     "electiveType": electiveType.trim(),

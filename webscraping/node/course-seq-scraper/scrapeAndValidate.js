@@ -34,7 +34,7 @@ function validateScrapedSequenceJSON(sequenceJSON, onComplete){
 
                 if(course.isElective === "false" || course.isElective === false){
 
-                    issues.push(validateValueRegex("course code " + locationRef, course.code, /\w{4}\s*\d{3}/));
+                    issues.push(validateValueRegex("course code " + locationRef, course.code, /^\w{4}\s{1}\d{3}$/));
 
                     issues.push(validateValueRegex("course elective type " + locationRef, course.electiveType, emptyRegex));
 
