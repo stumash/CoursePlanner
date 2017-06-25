@@ -1,10 +1,20 @@
 #!/usr/bin/env bash
+
+# This is our script for running our webscraping activites. It it to be run in a cron script.
+# Example: 0 0 * * * sh /home/david/CoursePlanner/webscraping/scrapeTheWeb.sh
+
+pushd `dirname $0` > /dev/null
 webscrapedir=$(pwd)
+popd > /dev/null
 
 # run scraper for course sequences
-cd /home/david/CoursePlanner/webscraping/node/course-seq-scraper
+cd "$webscrapedir/node/course-seq-scraper"
 node scrapeAndValidate.js
 
-cd $webscrapedir
 # run scraper for course data
-Rscript r/scrape-course-data.r
+cd "$webscrapedir/r"
+Rscript scrape-course-data.r
+
+# run storer for course data
+cd "$webscrapedir/node/course-info-storer"
+node storer.js
