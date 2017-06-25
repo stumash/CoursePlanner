@@ -50,10 +50,8 @@ function loadSequence(){
             });
 
         });
-        oReq.open("POST", "http://138.197.6.26/courseplanner/mongosequences");
+        oReq.open("POST", "mongosequences");
         oReq.send(JSON.stringify(requestBody));
-        //oReq.open("GET", "http://138.197.6.26/courses/sequences/" + localStorage.getItem("sequenceType"));
-        //oReq.send();
     } else {
 
         if (sequenceHistory.length < 1) {
@@ -86,7 +84,7 @@ function addContainers(courseList, callback){
 
         callback();
     });
-    oReq.open("GET", "http://138.197.6.26/courseplanner/html/termTemplate.html");
+    oReq.open("GET", "html/termTemplate.html");
     oReq.send();
 }
 
@@ -189,7 +187,7 @@ function requestCourseInfo(code){
         fillCourseInfoBox(response);
 
     });
-    oReq.open("POST", "http://138.197.6.26/courseplanner/courseinfo");
+    oReq.open("POST", "courseinfo");
     oReq.send(JSON.stringify(requestBody));
 }
 
@@ -246,7 +244,7 @@ function validateSequence(sequenceObject){
         }
 
     });
-    oReq.open("POST", "http://138.197.6.26/courseplanner/validate");
+    oReq.open("POST", "validate");
     oReq.send(JSON.stringify(sequenceObject));
 }
 
@@ -409,13 +407,13 @@ function exportSequence(){
             console.log("Server export response: " + this.responseText);
 
             if(response.exportPath){
-                var downloadUrl = "http://138.197.6.26/courseplanner" + response.exportPath;
+                var downloadUrl = "" + response.exportPath;
                 saveAs(downloadUrl, "MySequence.pdf");
                 $("#exportWaiting").css("display","none");
             }
 
         });
-        oReq.open("POST", "http://138.197.6.26/courseplanner/export");
+        oReq.open("POST", "export");
         oReq.send(JSON.stringify(sequenceObject));
     });
 }
@@ -445,7 +443,7 @@ function getCourseList(){
         });
 
     });
-    oReq.open("GET", "http://138.197.6.26/courseplanner/courselist");
+    oReq.open("GET", "courselist");
     oReq.send();
 }
 
