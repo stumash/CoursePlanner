@@ -5,7 +5,7 @@ var fs = require("fs");
 var sequenceScraper = require("./scraper.js");
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
-var mongoServerUrl = 'mongodb://138.197.6.26:27017/mongotest';
+var mongoServerUrl = 'mongodb://138.197.6.26:27017/courseplannerdb';
 var log = "*** Sequence Validation Log ***<br><br>";
 
 function validateScrapedSequenceJSON(sequenceJSON, onComplete){
