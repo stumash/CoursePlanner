@@ -23,7 +23,7 @@ for what it's worth it lets you view documents from the db and/or delete them.
 //   });
 // }
 
-var collectionName = "courseSequences";
+var collectionName = "courseData";
 
 var deleteAllDocuments = function(db, callback) {
   // Get the documents collection
@@ -44,7 +44,8 @@ var findDocuments = function(db, callback) {
     collection.find({}).toArray(function(err, docs) {
         assert.equal(err, null);
         console.log("Found the following records");
-        console.log(docs)
+        console.log(docs);
+        console.log("total number of records: " + docs.length);
         callback(docs);
     });
 }
