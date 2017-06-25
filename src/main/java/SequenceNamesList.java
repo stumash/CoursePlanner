@@ -33,7 +33,7 @@ public class SequenceNamesList extends HttpServlet {
         logger.info("---------Client app requested the list of course sequences---------");
 
         // connect to collection from mongodb server
-        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://138.197.6.26:27017"));
+        MongoClient mongoClient = Util.getMongoClient();
         MongoDatabase db = mongoClient.getDatabase("courseplannerdb");
         MongoCollection collection = db.getCollection("courseSequences");
 

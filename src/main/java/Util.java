@@ -1,3 +1,5 @@
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +13,8 @@ import java.util.ArrayList;
  * Created by David Huculak on 2017-02-02.
  */
 public class Util {
+
+    static final String MONGO_URL = "mongodb://138.197.6.26:27017";
 
     static ArrayList<Semester> grabSemestersFromRequest(HttpServletRequest request) throws IOException {
 
@@ -55,6 +59,10 @@ public class Util {
             throw new IOException("Error parsing JSON request string");
         }
         return  propertyValue;
+    }
+
+    static MongoClient getMongoClient(){
+        return new MongoClient(new MongoClientURI(MONGO_URL));
     }
 
 }
