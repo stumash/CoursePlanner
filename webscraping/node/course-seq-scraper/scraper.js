@@ -51,7 +51,7 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
                             } else {
                                 // add a course to the course list
                                 $rowCell.children().each(function(i, el){
-                                    var cellText = $(this).children().text();
+                                    var cellText = $(this).children().text() || $(this).text();
                                     switch(i){
                                         case 0:
                                             // replace new lines with a simple space
@@ -68,15 +68,9 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
                                 });
                                 foundACourse = true;
                             }
-                            if(foundACourse && (code.trim().length > 0 || name.trim().length > 0 || credits.trim().length > 0 || electiveType.trim().length > 0)){
-                                var courseCode = /\w{4}\s{1}\d{3}/.exec(code.trim());
-                                if(courseCode){
-                                    courseCode = courseCode.toString();
-                                } else {
-                                    courseCode = "";
-                                }
+                            if(foundACourse && code.trim().length > 0){
                                 courseList.push({
-                                    "code": courseCode,
+                                    "code": code.trim(),
                                     "name": name.trim(),
                                     "isElective": isElective.trim(),
                                     "electiveType": electiveType.trim(),
@@ -184,7 +178,7 @@ module.exports.updateData = function(coursePlannerHome, shouldBeVerbose, onCompl
 
                 var completionCallback = function(){
                     numCompleted++;
-                    console.log("numstarted: " + numStarted + ", nuimcompleted: " + numCompleted);
+                    console.log(numCompleted + "/" + numStarted + " db writes completed");
                     if(numCompleted == numStarted){
                         console.log("All db writes have been completed.");
                         if(onComplete){
