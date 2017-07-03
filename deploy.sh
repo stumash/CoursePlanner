@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# This is the deploy script for the CoursePlanner webapp. To run it you will need to have maven installed and have permissions to scp the war file to the remote VM.
+
 if [ $# -gt 0 ] # need one arg
 then 
     if [ "${1}" == "prod" ]
