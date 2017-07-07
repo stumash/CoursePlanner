@@ -95,7 +95,13 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
                             }
                         }
                     });
-                } else if($row.children().length === 1 && $row.children().text().toLowerCase().indexOf("year") >= 0){
+                } else if(/work term [i]+/g.test($row.children().text().toLowerCase())){
+                    semesterList.push({
+                        "season": currentSeason,
+                        "courseList": courseList,
+                        "isWorkTerm": "true"
+                    });
+                }else if($row.children().text().toLowerCase().indexOf("year") >= 0){
                     if(hasStartedScraping){
                         if(courseList.length > 0){
                             semesterList.push({
