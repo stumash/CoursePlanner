@@ -2,6 +2,7 @@ var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
 var assert = require('assert');
+var courseCodeRegex = /\w{4}\s?\d{3}/;
 
 function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onComplete){
 
@@ -56,7 +57,10 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
                                         courseCode = "";
                                         isElec = "true";
                                         elecType = "Program";
+                                    } else {
+                                        courseCode = extractCourseCode(courseCode);
                                     }
+                                    courseCode = addMiddleSpaceIfNeeded(courseCode);
                                     orCourseList.push({
                                         "code": courseCode.trim().toUpperCase(),
                                         "isElective": isElec.trim(),
@@ -78,11 +82,11 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
                                 foundACourse = true;
                             } else {
                                 // add a course to the course list
-                                var testCode = $($rowCell.children()[0]).text().match(/\w{4}\s?\d{3}/);
-                                code = testCode ? testCode[0] : "";
+                                code = extractCourseCode($($rowCell.children()[0]).text());
                                 foundACourse = true;
                             }
                             if(foundACourse && (code.trim().length > 0) || electiveType.trim().length > 0){
+                                code = addMiddleSpaceIfNeeded(code);
                                 courseList.push({
                                     "code": code.trim().toUpperCase(),
                                     "isElective": isElective.trim(),
@@ -141,6 +145,22 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
 
         }
     });
+}
+
+function addMiddleSpaceIfNeeded(courseCode){
+    var pattern = new RegExp(/^\w{4}\d{3}$/);
+    var res = pattern.test(courseCode.trim());
+    if(res){
+        // add space where it needs to go
+        return courseCode.substr(0, 4) + " " + courseCode.substr(4);
+    } else {
+        return courseCode;
+    }
+}
+
+function extractCourseCode(courseCodeStr){
+    var test = courseCodeStr.match(courseCodeRegex);
+    return (test) ? test[0] : "";
 }
 
 function parseSeason(season){

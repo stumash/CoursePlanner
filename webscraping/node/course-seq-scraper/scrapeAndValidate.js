@@ -81,7 +81,7 @@ function findCourseIssues(course, locationRef){
 
     if(course.isElective === "false" || course.isElective === false){
 
-        courseIssues.push(validateValueRegex("course code " + locationRef, course.code, /^\w{4}\s?\d{3}$/));
+        courseIssues.push(validateValueRegex("course code " + locationRef, course.code, /^\w{4}\s{1}\d{3}$/));
 
         courseIssues.push(validateValueRegex("course elective type " + locationRef, course.electiveType, emptyRegex));
 
