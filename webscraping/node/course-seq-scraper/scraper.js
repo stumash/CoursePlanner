@@ -2,6 +2,7 @@ var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
 var assert = require('assert');
+var courseCodeRegex = /\w{4}\s?\d{3}/;
 
 function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onComplete){
 
@@ -30,13 +31,44 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
                             var code = "", name = "", isElective = "false", electiveType = "", credits = "", foundACourse = false;
                             var firstCellText = $rowCell.find("p").text() || $rowCell.find("td").text();
                             firstCellText = firstCellText.toLowerCase().trim();
+                            var pattern = new RegExp(/\bor\b/);
+                            var courseCodeValue = $($rowCell.children()[0]).text().replace(/\r?\n|\r/g, " ").trim().toLowerCase();
+
                             if(firstCellText.indexOf("work term") >= 0){
                                 semesterList.push({
                                     "season": currentSeason,
                                     "courseList": courseList,
                                     "isWorkTerm": "true"
                                 });
-                            } else if(firstCellText === "basic science"){
+                            } else if(pattern.test(courseCodeValue)){
+                                var orList = courseCodeValue.split(/\bor\b/);
+                                var orCourseList = [];
+                                orList.forEach(function(courseCode){
+                                    var isElec = "false", elecType = "";
+                                    if(firstCellText.indexOf("basic science") >= 0){
+                                        courseCode = "";
+                                        isElec = "true";
+                                        elecType = "Science";
+                                    } else if(courseCode.indexOf("general") >= 0){
+                                        courseCode = "";
+                                        isElec = "true";
+                                        elecType = "General";
+                                    } else if(courseCode.indexOf("elective") >= 0){
+                                        courseCode = "";
+                                        isElec = "true";
+                                        elecType = "Program";
+                                    } else {
+                                        courseCode = extractCourseCode(courseCode);
+                                    }
+                                    courseCode = addMiddleSpaceIfNeeded(courseCode);
+                                    orCourseList.push({
+                                        "code": courseCode.trim().toUpperCase(),
+                                        "isElective": isElec.trim(),
+                                        "electiveType": elecType.trim()
+                                    });
+                                });
+                                courseList.push(orCourseList);
+                            } else if(firstCellText.indexOf("basic science") >= 0){
                                 isElective = "true";
                                 electiveType = "Science";
                                 foundACourse = true;
@@ -50,36 +82,26 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
                                 foundACourse = true;
                             } else {
                                 // add a course to the course list
-                                $rowCell.children().each(function(i, el){
-                                    var cellText = $(this).children().text();
-                                    switch(i){
-                                        case 0:
-                                            // replace new lines with a simple space
-                                            code = cellText.replace("\n", " ");
-                                            break;
-                                        case 1:
-                                            name = cellText;
-                                            break;
-                                        case 2:
-                                            // remove brackets if any
-                                            credits = cellText.replace("(", "").replace(")", "");
-                                            break;
-                                    }
-                                });
+                                code = extractCourseCode($($rowCell.children()[0]).text());
                                 foundACourse = true;
                             }
-                            if(foundACourse && (code.trim().length > 0 || name.trim().length > 0 || credits.trim().length > 0 || electiveType.trim().length > 0)){
+                            if(foundACourse && (code.trim().length > 0) || electiveType.trim().length > 0){
+                                code = addMiddleSpaceIfNeeded(code);
                                 courseList.push({
-                                    "code": code.trim(),
-                                    "name": name.trim(),
+                                    "code": code.trim().toUpperCase(),
                                     "isElective": isElective.trim(),
-                                    "electiveType": electiveType.trim(),
-                                    "credits": credits.trim()
+                                    "electiveType": electiveType.trim()
                                 });
                             }
                         }
                     });
-                } else if($row.children().length === 1 && $row.children().text().toLowerCase().indexOf("year") >= 0){
+                } else if(/work term [i]+/g.test($row.children().text().toLowerCase())){
+                    semesterList.push({
+                        "season": currentSeason,
+                        "courseList": courseList,
+                        "isWorkTerm": "true"
+                    });
+                }else if($row.children().text().toLowerCase().indexOf("year") >= 0){
                     if(hasStartedScraping){
                         if(courseList.length > 0){
                             semesterList.push({
@@ -115,11 +137,11 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
 
             fs.writeFile(outPath, JSON.stringify(sequenceObject, null, 4), function(err){
                 if(err){
-                    console.error("ERROR writing to a file: " + outPath);
+                    console.error("ERROR writing to a file: " + plainFileName);
                     process.exit(1);
                 } else {
                     if(shouldBeVerbose){
-                        console.log("Done writing file: " + outPath);
+                        console.log("Done writing file: " + plainFileName);
                         if(onComplete){
                             onComplete();
                         }
@@ -127,18 +149,24 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
                 }
             });
 
-            // db.collection("courseSequences").update({_id : plainFileName}, {$set:sequenceObject}, {upsert: true}, function(err, result) {
-            //     assert.equal(err, null);
-            //     if(shouldBeVerbose) {
-            //         console.log("Wrote contents of file: " + plainFileName + " to db.");
-            //         if(onComplete){
-            //             onComplete();
-            //         }
-            //     }
-            // });
-
         }
     });
+}
+
+function addMiddleSpaceIfNeeded(courseCode){
+    var pattern = new RegExp(/^\w{4}\d{3}$/);
+    var res = pattern.test(courseCode.trim());
+    if(res){
+        // add space where it needs to go
+        return courseCode.substr(0, 4) + " " + courseCode.substr(4);
+    } else {
+        return courseCode;
+    }
+}
+
+function extractCourseCode(courseCodeStr){
+    var test = courseCodeStr.match(courseCodeRegex);
+    return (test) ? test[0] : "";
 }
 
 function parseSeason(season){
@@ -168,77 +196,47 @@ module.exports.updateData = function(coursePlannerHome, shouldBeVerbose, onCompl
         var sequenceUrls = JSON.parse(data.toString());
 
         fs.mkdir(outputDir, function(err){
+
             if(err && shouldBeVerbose){
                 console.log("Couldn't create sequences directory (this might be because the directory already exists)");
             }
 
-            // MongoClient.connect(mongoServerUrl, function(err, db) {
-            //     assert.equal(null, err);
-            //     console.log("Connected successfully to db server");
-
-                var completionCallback = function(){
-                    numCompleted++;
-                    console.log("numstarted: " + numStarted + ", nuimcompleted: " + numCompleted);
-                    if(numCompleted == numStarted){
-                        console.log("All db writes have been completed.");
-                        if(onComplete){
-                            onComplete();
-                        }
+            var completionCallback = function(){
+                numCompleted++;
+                console.log(numCompleted + "/" + numStarted + " file writes completed");
+                if(numCompleted == numStarted){
+                    console.log("All file writes have been completed.");
+                    if(onComplete){
+                        onComplete();
                     }
-                };
+                }
+            };
 
-                for (var program in sequenceUrls) {
-                    var subList = sequenceUrls[program];
-                    var options = subList.Options;
-                    // in this case, sequenceVariant/optionType will be either September entry, January entry, or Coop
-                    if(options){
-                        for(var optionType in options){
-                            var optionSubList = options[optionType];
-                            for(var sequenceVariant in optionSubList){
-                                var url = optionSubList[sequenceVariant];
-                                var plainFileName = program + "-" + optionType + "-" + sequenceVariant + ".json";
-                                var fileName = outputDir + "/" + plainFileName;
-                                numStarted++;
-                                scrapeEncsSequenceUrl(url, fileName, plainFileName, shouldBeVerbose, completionCallback);
-                            }
-                        }
-                    } else {
-                        for(var sequenceVariant in subList){
-                            var url = subList[sequenceVariant];
-                            var plainFileName =  program + "-" + sequenceVariant + ".json";
+            for (var program in sequenceUrls) {
+                var subList = sequenceUrls[program];
+                var options = subList.Options;
+                // in this case, sequenceVariant/optionType will be either September entry, January entry, or Coop
+                if(options){
+                    for(var optionType in options){
+                        var optionSubList = options[optionType];
+                        for(var sequenceVariant in optionSubList){
+                            var url = optionSubList[sequenceVariant];
+                            var plainFileName = program + "-" + optionType + "-" + sequenceVariant + ".json";
                             var fileName = outputDir + "/" + plainFileName;
                             numStarted++;
                             scrapeEncsSequenceUrl(url, fileName, plainFileName, shouldBeVerbose, completionCallback);
                         }
                     }
+                } else {
+                    for(var sequenceVariant in subList){
+                        var url = subList[sequenceVariant];
+                        var plainFileName =  program + "-" + sequenceVariant + ".json";
+                        var fileName = outputDir + "/" + plainFileName;
+                        numStarted++;
+                        scrapeEncsSequenceUrl(url, fileName, plainFileName, shouldBeVerbose, completionCallback);
+                    }
                 }
-
-                // for (var program in sequenceUrls) {
-                //     var subList = sequenceUrls[program];
-                //     var options = subList.Options;
-                //     // in this case, sequenceVariant/optionType will be either September entry, January entry, or Coop
-                //     if(options){
-                //         for(var optionType in options){
-                //             var optionSubList = options[optionType];
-                //             for(var sequenceVariant in optionSubList){
-                //                 var url = optionSubList[sequenceVariant];
-                //                 var plainFileName = program + "-" + optionType + "-" + sequenceVariant + ".json";
-                //                 var fileName = outputDir + "/" + plainFileName;
-                //                 totalFileCount++;
-                //                 scrapeEncsSequenceUrl(url, fileName, plainFileName, db, shouldBeVerbose);
-                //             }
-                //         }
-                //     } else {
-                //         for(var sequenceVariant in subList){
-                //             var url = subList[sequenceVariant];
-                //             var plainFileName =  program + "-" + sequenceVariant + ".json";
-                //             var fileName = outputDir + "/" + plainFileName;
-                //             totalFileCount++;
-                //             scrapeEncsSequenceUrl(url, fileName, plainFileName, db, shouldBeVerbose);
-                //         }
-                //     }
-                // }
-            //});
+            }
         });
 
 
