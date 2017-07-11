@@ -3,8 +3,8 @@
 # This is our script for running our webscraping activites. It it to be run in a cron script.
 # Example: 0 0 * * * sh /home/david/CoursePlanner/webscraping/scrapeTheWeb.sh
 
-pushd `dirname $0` > /dev/null # this script is now in the directory of this file
-webscrapedir=$(pwd) # save this directory as $webscrapedir
+pushd `dirname $0` > /dev/null
+webscrapedir=$(pwd)
 popd > /dev/null
 
 # run scraper for course sequences
