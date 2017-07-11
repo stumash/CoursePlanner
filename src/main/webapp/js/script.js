@@ -13,9 +13,9 @@ window.onbeforeunload = function(e){
 };
 
 $(document).ready(function() {
+
     // call functions needed to set up the page
     loadSequence();
-    getCourseList();
 
 });
 
@@ -342,43 +342,35 @@ function fillCourseInfoBox(courseInfo){
         var notes = courseInfo.notes;
 
         var termsOffered = "";
-        var fallIncluded = courseInfo.termsOffered.indexOf("f") >= 0;
-        var winterIncluded = courseInfo.termsOffered.indexOf("w") >= 0;
-        var summerIncluded = courseInfo.termsOffered.indexOf("s") >= 0;
         if(courseInfo.termsOffered){
-            if(fallIncluded){
-                termsOffered = termsOffered + "fall";
-                if(winterIncluded)
-                    termsOffered += ", ";
-            }
-            if(winterIncluded){
-                termsOffered = termsOffered + "winter";
-                if(summerIncluded)
-                    termsOffered += ", ";
-            }
-            if(summerIncluded){
-                termsOffered = termsOffered + "summer";
+            var fallIncluded = courseInfo.termsOffered.indexOf("f") >= 0;
+            var winterIncluded = courseInfo.termsOffered.indexOf("w") >= 0;
+            var summerIncluded = courseInfo.termsOffered.indexOf("s") >= 0;
+            if(courseInfo.termsOffered){
+                if(fallIncluded){
+                    termsOffered = termsOffered + "fall";
+                    if(winterIncluded)
+                        termsOffered += ", ";
+                }
+                if(winterIncluded){
+                    termsOffered = termsOffered + "winter";
+                    if(summerIncluded)
+                        termsOffered += ", ";
+                }
+                if(summerIncluded){
+                    termsOffered = termsOffered + "summer";
+                }
             }
         }
 
         var prereqs = "";
-        if(courseInfo.prereqs){
-            for(var i = 0; i < courseInfo.prereqs.length; i++){
-                prereqs = prereqs + courseInfo.prereqs[i];
-
-                if(i !== courseInfo.prereqs.length-1)
-                    prereqs += ", ";
-            }
+        if(courseInfo.prereq){
+            prereqs = courseInfo.prereq.string;
         }
 
         var coreqs = "";
-        if(courseInfo.coreqs){
-            for(var j = 0; j < courseInfo.coreqs.length; j++){
-                coreqs = coreqs + courseInfo.coreqs[j];
-
-                if(j !== courseInfo.coreqs.length-1)
-                    coreqs += ", ";
-            }
+        if(courseInfo.coreq){
+            coreqs = courseInfo.coreq.string;
         }
 
         prereqs = prereqs || "None";
@@ -429,22 +421,6 @@ function saveAs(uri, filename){
     } else {
         location.replace(uri);
     }
-}
-
-// grab list of course codes from server and setup autocomplete for the search bar
-function getCourseList(){
-    var oReq = new XMLHttpRequest();
-    oReq.addEventListener("load", function(){
-
-        var response = JSON.parse(this.responseText);
-
-        $("#classSearch").autocomplete({
-            source: response.codes
-        });
-
-    });
-    oReq.open("GET", "courselist");
-    oReq.send();
 }
 
 function resetToDefaultSequence(){
@@ -546,6 +522,25 @@ function initUI(){
             // shift down all semesters from that index
             shiftAllDownFromSemester(indexOf);
         }
+    });
+
+    $("#classSearch").autocomplete({
+        source: function(request, response){
+
+            var requestBody = {
+                "filter" : request.term
+            };
+
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", function(){
+                var courseList = JSON.parse(this.responseText);
+                response(courseList);
+            });
+            oReq.open("POST", "filtercoursecodes");
+            oReq.send(JSON.stringify(requestBody));
+        },
+        minLength: 2,
+        delay: 750
     });
 
     $("#classSearch").off("keyup");

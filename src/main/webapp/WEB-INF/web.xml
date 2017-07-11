@@ -30,15 +30,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>CourseListProvider</servlet-name>
-        <servlet-class>CourseListProvider</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CourseListProvider</servlet-name>
-        <url-pattern>/courselist</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>SequenceExporter</servlet-name>
         <servlet-class>SequenceExporter</servlet-class>
     </servlet>
@@ -65,6 +56,16 @@
     <servlet-mapping>
         <servlet-name>SequenceNamesList</servlet-name>
         <url-pattern>/mongosequencelist</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FilterCourseCodes</servlet-name>
+        <servlet-class>FilterCourseCodes</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FilterCourseCodes</servlet-name>
+        <url-pattern>/filtercoursecodes</url-pattern>
     </servlet-mapping>
 
 </web-app>
