@@ -99,14 +99,14 @@ function populatePage(courseSequenceObject){
         var semester = courseSequenceObject.semesterList[i];
         if(semester.isWorkTerm === false || semester.isWorkTerm === "false"){
             for(var j = 0; j < semester.courseList.length; j++){
-                var courseList = semester.courseList[j];
-                if(courseList.isElective === "true" || courseList.isElective === true){
-                    var electiveType = courseList.electiveType.toString();
+                var course = semester.courseList[j];
+                if(course.isElective === "true" || course.isElective === true){
+                    var electiveType = course.electiveType.toString();
                     addCourseRow($courseContainer, "-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", electiveType + " Elective", "3", true);
-                } else {
-                    var code = courseList.code.toString();
-                    var name = courseList.name.toString();
-                    var credits = courseList.credits.toString();
+                } else if(!course.length) {
+                    var code = course.code.toString();
+                    var name = course.name.toString();
+                    var credits = course.credits.toString();
                     addCourseRow($courseContainer, code, name, credits, true);
                 }
             }
@@ -126,12 +126,12 @@ function updateTotalCredits(courseSequenceObject){
         if(semester.isWorkTerm === false || semester.isWorkTerm === "false"){
             var totalCredits = 0;
             for(var j = 0; j < semester.courseList.length; j++){
-                var courseList = semester.courseList[j];
-                if(courseList.isElective === "true" || courseList.isElective === true){
+                var course = semester.courseList[j];
+                if(course.isElective === "true" || course.isElective === true){
                     // var electiveType = courseList.electiveType.toString();
                     totalCredits += 3; // for now let us assume that most (if not all) electives are worth 3 credits
-                } else {
-                    var credits = Number(courseList.credits);
+                } else if(!course.length) {
+                    var credits = Number(course.credits);
                     totalCredits += credits;
                 }
             }

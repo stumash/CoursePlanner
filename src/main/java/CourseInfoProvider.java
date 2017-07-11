@@ -1,8 +1,4 @@
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Logger;
-import org.bson.Document;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,24 +20,9 @@ public class CourseInfoProvider extends HttpServlet {
 
         String courseCode = (String) Util.grabPropertyFromRequest("code", request);
 
-        // connect to collection from mongodb server
-        MongoClient mongoClient = Util.getMongoClient();
-        MongoDatabase db = mongoClient.getDatabase(Util.DB_NAME);
-        MongoCollection collection = db.getCollection(Util.COURSE_DATA_COLLECTION_NAME);
-
         logger.info("requested course code: " + courseCode);
 
-        // find document with specified _id value
-        String responseString = "";
-        Document filter = new Document();
-        filter.put("_id", courseCode);
-        Document dbResult = (Document)collection.find(filter).first();
-
-        if(dbResult != null) {
-            responseString = dbResult.toJson();
-        } else {
-            responseString = "{}";
-        }
+        String responseString = Util.getCourseObjectFromDB(courseCode);
 
         logger.info("Responding with: " + responseString);
         PrintWriter out = response.getWriter();

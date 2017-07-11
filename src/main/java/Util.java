@@ -1,5 +1,8 @@
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,20 +54,42 @@ public class Util {
             while ((line = reader.readLine()) != null) {
                 jb.append(line);
             }
-        } catch (Exception e) { /*report an error*/ };
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new IOException("Error reading from request string");
+        }
         try {
             requestJson =  new JSONObject(jb.toString());
             propertyValue = requestJson.get(key);
         } catch (JSONException e) {
             e.printStackTrace();
-            // crash and burn
-            throw new IOException("Error parsing JSON request string");
+            throw new IOException("Error parsing JSON request string : " + jb.toString());
         }
         return  propertyValue;
     }
 
     static MongoClient getMongoClient(){
         return new MongoClient(new MongoClientURI(MONGO_URL));
+    }
+
+    static String getCourseObjectFromDB(String courseCode){
+
+        // connect to collection from mongodb server
+        MongoClient mongoClient = Util.getMongoClient();
+        MongoDatabase db = mongoClient.getDatabase(Util.DB_NAME);
+        MongoCollection collection = db.getCollection(Util.COURSE_DATA_COLLECTION_NAME);
+
+
+        // find document with specified _id value
+        Document filter = new Document();
+        filter.put("_id", courseCode);
+        Document dbResult = (Document)collection.find(filter).first();
+
+        if(dbResult != null) {
+            return dbResult.toJson();
+        } else {
+            return "{}";
+        }
     }
 
 }
