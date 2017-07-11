@@ -21,7 +21,8 @@ $(document).ready(function() {
 
 function loadSequence(){
     // clear whole page first
-    $(".sequenceContainer").html("<p class='mainHeader'>Concordia Engineering Sequence Builder</p>");
+    $(".sequenceContainer").html("<p class='mainHeader'>Concordia Engineering Sequence Builder</p>" +
+                                 "<p class='subHeader'></p>");
     workTermCount = 0;
 
     var savedSequence = JSON.parse(localStorage.getItem("savedSequence"));
@@ -93,6 +94,9 @@ function populatePage(courseSequenceObject){
     // clear all course containers first as we may call this more than once
     // (this will remove all draggable course rows)
     $(".courseContainer").empty();
+
+    // add in sub header
+    $(".subHeader").text("Selected program: " + localStorage.getItem("sequenceType") + ", minCredits: " + courseSequenceObject.minTotalCredits);
 
     for(var i = 0; i < courseSequenceObject.semesterList.length; i++){
         var $courseContainer = $(".sequenceContainer .term:nth-of-type(" + (i + 1) +") .courseContainer");

@@ -14,6 +14,7 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
             var courseList = [];
             var currentSeason = "";
             var hasStartedScraping = false;
+            var minTotalCredits = $(".section.title .section-header").text().match(/\S*\d+\S*/)[0];
 
             $(".concordia-table.table-condensed tbody > tr").each(function(i, el){
                 var $row = $(this);
@@ -128,6 +129,7 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
 
             var sequenceObject = {
                 "sourceUrl": url,
+                "minTotalCredits" : minTotalCredits,
                 "semesterList" : semesterList
             };
 
