@@ -1,13 +1,10 @@
-import org.apache.log4j.Logger;
-
 import javax.servlet.ServletContext;
-import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 
 public class CourseInfoParser {
 

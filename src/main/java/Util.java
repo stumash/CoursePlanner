@@ -40,14 +40,6 @@ public class Util {
         return semesters;
     }
 
-    static String grabSequenceIdFromRequest(HttpServletRequest request) throws IOException {
-        return (String) grabPropertyFromRequest("sequenceID", request);
-    }
-
-    static String grabCourseCodeFromRequest(HttpServletRequest request) throws IOException {
-        return (String) grabPropertyFromRequest("code", request);
-    }
-
     static Object grabPropertyFromRequest(String key, HttpServletRequest request) throws IOException {
         StringBuffer jb = new StringBuffer();
         String line;

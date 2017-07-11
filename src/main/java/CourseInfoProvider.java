@@ -3,17 +3,13 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Logger;
 import org.bson.Document;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.util.HashMap;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class CourseInfoProvider extends HttpServlet {
 
@@ -26,7 +22,7 @@ public class CourseInfoProvider extends HttpServlet {
 
         logger.info("---------User requested info for a course---------");
 
-        String courseCode = Util.grabCourseCodeFromRequest(request);
+        String courseCode = (String) Util.grabPropertyFromRequest("code", request);
 
         // connect to collection from mongodb server
         MongoClient mongoClient = Util.getMongoClient();

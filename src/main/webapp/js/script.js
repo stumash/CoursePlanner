@@ -13,9 +13,9 @@ window.onbeforeunload = function(e){
 };
 
 $(document).ready(function() {
+
     // call functions needed to set up the page
     loadSequence();
-    getCourseList();
 
 });
 
@@ -422,22 +422,6 @@ function saveAs(uri, filename){
     }
 }
 
-// grab list of course codes from server and setup autocomplete for the search bar
-function getCourseList(){
-    var oReq = new XMLHttpRequest();
-    oReq.addEventListener("load", function(){
-
-        var response = JSON.parse(this.responseText);
-
-        $("#classSearch").autocomplete({
-            source: response.codes
-        });
-
-    });
-    oReq.open("GET", "courselist");
-    oReq.send();
-}
-
 function resetToDefaultSequence(){
     if(confirm("Are you sure you want to reset to the default recommended sequence?")){
 
@@ -537,6 +521,25 @@ function initUI(){
             // shift down all semesters from that index
             shiftAllDownFromSemester(indexOf);
         }
+    });
+
+    $("#classSearch").autocomplete({
+        source: function(request, response){
+
+            var requestBody = {
+                "filter" : request.term
+            };
+
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", function(){
+                var courseList = JSON.parse(this.responseText);
+                response(courseList);
+            });
+            oReq.open("POST", "filtercoursecodes");
+            oReq.send(JSON.stringify(requestBody));
+        },
+        minLength: 2,
+        delay: 750
     });
 
     $("#classSearch").off("keyup");
