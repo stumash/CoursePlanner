@@ -342,43 +342,34 @@ function fillCourseInfoBox(courseInfo){
         var notes = courseInfo.notes;
 
         var termsOffered = "";
-        var fallIncluded = courseInfo.termsOffered.indexOf("f") >= 0;
-        var winterIncluded = courseInfo.termsOffered.indexOf("w") >= 0;
-        var summerIncluded = courseInfo.termsOffered.indexOf("s") >= 0;
-        if(courseInfo.termsOffered){
-            if(fallIncluded){
-                termsOffered = termsOffered + "fall";
-                if(winterIncluded)
-                    termsOffered += ", ";
-            }
-            if(winterIncluded){
-                termsOffered = termsOffered + "winter";
-                if(summerIncluded)
-                    termsOffered += ", ";
-            }
-            if(summerIncluded){
-                termsOffered = termsOffered + "summer";
-            }
-        }
+        // commenting this out as we are not supporting this feature for our MVP
+        // var fallIncluded = courseInfo.termsOffered.indexOf("f") >= 0;
+        // var winterIncluded = courseInfo.termsOffered.indexOf("w") >= 0;
+        // var summerIncluded = courseInfo.termsOffered.indexOf("s") >= 0;
+        // if(courseInfo.termsOffered){
+        //     if(fallIncluded){
+        //         termsOffered = termsOffered + "fall";
+        //         if(winterIncluded)
+        //             termsOffered += ", ";
+        //     }
+        //     if(winterIncluded){
+        //         termsOffered = termsOffered + "winter";
+        //         if(summerIncluded)
+        //             termsOffered += ", ";
+        //     }
+        //     if(summerIncluded){
+        //         termsOffered = termsOffered + "summer";
+        //     }
+        // }
 
         var prereqs = "";
-        if(courseInfo.prereqs){
-            for(var i = 0; i < courseInfo.prereqs.length; i++){
-                prereqs = prereqs + courseInfo.prereqs[i];
-
-                if(i !== courseInfo.prereqs.length-1)
-                    prereqs += ", ";
-            }
+        if(courseInfo.prereq){
+            prereqs = courseInfo.prereq.string;
         }
 
         var coreqs = "";
-        if(courseInfo.coreqs){
-            for(var j = 0; j < courseInfo.coreqs.length; j++){
-                coreqs = coreqs + courseInfo.coreqs[j];
-
-                if(j !== courseInfo.coreqs.length-1)
-                    coreqs += ", ";
-            }
+        if(courseInfo.coreq){
+            coreqs = courseInfo.coreq.string;
         }
 
         prereqs = prereqs || "None";

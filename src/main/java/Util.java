@@ -16,6 +16,12 @@ public class Util {
 
     static final String MONGO_URL = "mongodb://138.197.6.26:27017";
 
+    static final String DB_NAME = "courseplannerdb";
+
+    static final String COURSE_DATA_COLLECTION_NAME = "courseData";
+
+    static final String COURSE_SEQUENCE_COLLECTION_NAME = "courseSequences";
+
     static ArrayList<Semester> grabSemestersFromRequest(HttpServletRequest request) throws IOException {
 
         ArrayList<Semester> semesters = new ArrayList<Semester>();
@@ -36,6 +42,10 @@ public class Util {
 
     static String grabSequenceIdFromRequest(HttpServletRequest request) throws IOException {
         return (String) grabPropertyFromRequest("sequenceID", request);
+    }
+
+    static String grabCourseCodeFromRequest(HttpServletRequest request) throws IOException {
+        return (String) grabPropertyFromRequest("code", request);
     }
 
     static Object grabPropertyFromRequest(String key, HttpServletRequest request) throws IOException {

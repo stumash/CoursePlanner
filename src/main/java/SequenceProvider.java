@@ -33,10 +33,10 @@ public class SequenceProvider extends HttpServlet {
 
         String sequenceID = Util.grabSequenceIdFromRequest(request);
 
-        // connect to collection from mongodb serverd
+        // connect to collection from mongodb server
         MongoClient mongoClient = Util.getMongoClient();
-        MongoDatabase db = mongoClient.getDatabase("courseplannerdb");
-        MongoCollection collection = db.getCollection("courseSequences");
+        MongoDatabase db = mongoClient.getDatabase(Util.DB_NAME);
+        MongoCollection collection = db.getCollection(Util.COURSE_SEQUENCE_COLLECTION_NAME);
 
         logger.info("requested ID: " + sequenceID);
 
