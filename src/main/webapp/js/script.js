@@ -342,25 +342,26 @@ function fillCourseInfoBox(courseInfo){
         var notes = courseInfo.notes;
 
         var termsOffered = "";
-        // commenting this out as we are not supporting this feature for our MVP
-        // var fallIncluded = courseInfo.termsOffered.indexOf("f") >= 0;
-        // var winterIncluded = courseInfo.termsOffered.indexOf("w") >= 0;
-        // var summerIncluded = courseInfo.termsOffered.indexOf("s") >= 0;
-        // if(courseInfo.termsOffered){
-        //     if(fallIncluded){
-        //         termsOffered = termsOffered + "fall";
-        //         if(winterIncluded)
-        //             termsOffered += ", ";
-        //     }
-        //     if(winterIncluded){
-        //         termsOffered = termsOffered + "winter";
-        //         if(summerIncluded)
-        //             termsOffered += ", ";
-        //     }
-        //     if(summerIncluded){
-        //         termsOffered = termsOffered + "summer";
-        //     }
-        // }
+        if(courseInfo.termsOffered){
+            var fallIncluded = courseInfo.termsOffered.indexOf("f") >= 0;
+            var winterIncluded = courseInfo.termsOffered.indexOf("w") >= 0;
+            var summerIncluded = courseInfo.termsOffered.indexOf("s") >= 0;
+            if(courseInfo.termsOffered){
+                if(fallIncluded){
+                    termsOffered = termsOffered + "fall";
+                    if(winterIncluded)
+                        termsOffered += ", ";
+                }
+                if(winterIncluded){
+                    termsOffered = termsOffered + "winter";
+                    if(summerIncluded)
+                        termsOffered += ", ";
+                }
+                if(summerIncluded){
+                    termsOffered = termsOffered + "summer";
+                }
+            }
+        }
 
         var prereqs = "";
         if(courseInfo.prereq){
