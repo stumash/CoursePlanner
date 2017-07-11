@@ -11,6 +11,8 @@ popd > /dev/null
 cd "$webscrapedir/node/course-seq-scraper"
 node scrapeAndValidate.js
 
+# delete and remake the directory to hold scraped course-info json files
+rm -r $webscrapedir/r/course-info-jsonfiles; mkdir $webscrapedir/r/course-info-jsonfiles
 # run scraper for course data
 cd "$webscrapedir/r"
 Rscript scrape-course-data.r
