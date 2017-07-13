@@ -287,6 +287,11 @@ p.mainHeader {
 	text-align: center;
 }
 
+p.subHeader {
+	font: italic small-caps normal 20px Arial, Helvetica, sans-serif;
+	text-align: center;
+}
+
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   font-family: Orbitron, Arial, Helvetica, sans-serif;
 }
