@@ -1,3 +1,5 @@
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,20 +14,20 @@ import java.util.ArrayList;
  */
 public class Util {
 
+    static final String MONGO_URL = "mongodb://138.197.6.26:27017";
+
+    static final String DB_NAME = "courseplannerdb";
+
+    static final String COURSE_DATA_COLLECTION_NAME = "courseData";
+
+    static final String COURSE_SEQUENCE_COLLECTION_NAME = "courseSequences";
+
     static ArrayList<Semester> grabSemestersFromRequest(HttpServletRequest request) throws IOException {
-        StringBuffer jb = new StringBuffer();
-        String line;
-        JSONObject requestJson;
+
         ArrayList<Semester> semesters = new ArrayList<Semester>();
+
         try {
-            BufferedReader reader = request.getReader();
-            while ((line = reader.readLine()) != null) {
-                jb.append(line);
-            }
-        } catch (Exception e) { /*report an error*/ }
-        try {
-            requestJson =  new JSONObject(jb.toString());
-            JSONArray semestersAsJson = requestJson.getJSONArray("semesterList");
+            JSONArray semestersAsJson = (JSONArray) grabPropertyFromRequest("semesterList", request);
             for(int i = 0; i < semestersAsJson.length(); i++){
                 semesters.add(new Semester(semestersAsJson.getJSONObject(i)));
             }
@@ -34,13 +36,14 @@ public class Util {
             // crash and burn
             throw new IOException("Error parsing JSON request string");
         }
+
         return semesters;
     }
 
-    static String grabSequenceIdFromRequest(HttpServletRequest request) throws IOException {
+    static Object grabPropertyFromRequest(String key, HttpServletRequest request) throws IOException {
         StringBuffer jb = new StringBuffer();
         String line;
-        String sequenceID = "";
+        Object propertyValue = null;
         JSONObject requestJson;
         ArrayList<Semester> semesters = new ArrayList<Semester>();
         try {
@@ -51,13 +54,17 @@ public class Util {
         } catch (Exception e) { /*report an error*/ };
         try {
             requestJson =  new JSONObject(jb.toString());
-            sequenceID = requestJson.getString("sequenceID");
+            propertyValue = requestJson.get(key);
         } catch (JSONException e) {
             e.printStackTrace();
             // crash and burn
             throw new IOException("Error parsing JSON request string");
         }
-        return sequenceID;
+        return  propertyValue;
+    }
+
+    static MongoClient getMongoClient(){
+        return new MongoClient(new MongoClientURI(MONGO_URL));
     }
 
 }

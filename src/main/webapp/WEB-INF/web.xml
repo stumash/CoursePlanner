@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <display-name>My Website</display-name>
+    <display-name>Concordia Course Planner</display-name>
 
     <error-page>
         <error-code>404</error-code>
@@ -27,15 +27,6 @@
     <servlet-mapping>
         <servlet-name>CourseInfoProvider</servlet-name>
         <url-pattern>/courseinfo</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>CourseListProvider</servlet-name>
-        <servlet-class>CourseListProvider</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CourseListProvider</servlet-name>
-        <url-pattern>/courselist</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -65,6 +56,16 @@
     <servlet-mapping>
         <servlet-name>SequenceNamesList</servlet-name>
         <url-pattern>/mongosequencelist</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FilterCourseCodes</servlet-name>
+        <servlet-class>FilterCourseCodes</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FilterCourseCodes</servlet-name>
+        <url-pattern>/filtercoursecodes</url-pattern>
     </servlet-mapping>
 
 </web-app>

@@ -1,24 +1,16 @@
-import com.mongodb.*;
+import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Logger;
-import org.bson.BSON;
 import org.bson.Document;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * Created by David Huculak on 2017-02-02.
@@ -33,8 +25,8 @@ public class SequenceNamesList extends HttpServlet {
         logger.info("---------Client app requested the list of course sequences---------");
 
         // connect to collection from mongodb server
-        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://138.197.6.26:27017"));
-        MongoDatabase db = mongoClient.getDatabase("mongotest");
+        MongoClient mongoClient = Util.getMongoClient();
+        MongoDatabase db = mongoClient.getDatabase("courseplannerdb");
         MongoCollection collection = db.getCollection("courseSequences");
 
         // find document with specified _id value

@@ -19,7 +19,7 @@ function loadSequenceFileNames(){
         	$listBox.append("<option value=\"" + fileNameArray[i] + "\">" + fileNameArray[i] + "</option>");
         }
     });
-    oReq.open("GET", "http://138.197.6.26/courseplanner/mongosequencelist");
+    oReq.open("GET", "mongosequencelist");
     oReq.send();
 }
 
