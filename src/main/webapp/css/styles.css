@@ -218,7 +218,7 @@ div.leftButton button {
 	-webkit-transition: opacity 1s; /*Safari*/
 }
 
-div.leftButton button:hover{
+div.leftButton button:hover {
 	opacity: 1;
 }
 
@@ -300,7 +300,7 @@ p.mainHeader {
   font-family: Orbitron, Arial, Helvetica, sans-serif;
 }
 
-input[type="text"]{
+input[type="text"] {
 	margin-left: 6px;
     padding-left: 4px;
     position: relative;
@@ -322,4 +322,33 @@ ul.ui-autocomplete {
 ul.ui-autocomplete li {
 	font-family: Orbitron, Arial, Helvetica, sans-serif;
 	font-size: 15px;
+}
+
+div.test {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    position: relative;
+    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+    animation-name: example;
+    animation-duration: 4s;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes example {
+    0%   {background-color:red; left:0px; top:0px;}
+    25%  {background-color:yellow; left:200px; top:0px;}
+    50%  {background-color:blue; left:200px; top:200px;}
+    75%  {background-color:green; left:0px; top:200px;}
+    100% {background-color:red; left:0px; top:0px;}
+}
+
+/* Standard syntax */
+@keyframes example {
+    0%   {background-color:red; left:0px; top:0px;}
+    25%  {background-color:yellow; left:200px; top:0px;}
+    50%  {background-color:blue; left:200px; top:200px;}
+    75%  {background-color:green; left:0px; top:200px;}
+    100% {background-color:red; left:0px; top:0px;}
 }
