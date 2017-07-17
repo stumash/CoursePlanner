@@ -15,30 +15,23 @@ else
     exit 1
 fi
 
-# tell the user what's going on
-echo "Building & deploying project..."
+# run frontend build tools
+echo "Building frontend..." &&
+if [ "${2}" == "x" ]
+then
+    # build for production (no react dev tools, optimized performance)
+    npm run build-prod
+else
+    # build for development (with react dev tools, bad performance)
+    npm run build-dev
+fi &&
 
-# get ID of current commit
-commitHash=$(git rev-parse HEAD) &&
-commitAuthor=$(git --no-pager show -s --format='%an <%ae>' HEAD) &&
-# add a comment to the html that indicates the current commit
-sed -i "4i\<!--This site was built against the source of the following commit: $commitHash ($commitAuthor) -->" ./src/main/webapp/index.html &&
-sed -i "4i\<!--This site was built against the source of the following commit: $commitHash ($commitAuthor) -->" ./src/main/webapp/sequenceBuilder.html &&
-gitTagInserted=true
-
-# build project
+# compile backend sources and package frontend assets
+echo "Building backend..." &&
 mvn clean install -q &&
-mvnCleanInstallSuccessful=true
+projectBuildSuccessful=true
 
-if $gitTagInserted
-then # remove git tag
-    # we do not want our deploy script to change our source files,
-    # only the deployed version of them
-    sed -i "4d" ./src/main/webapp/index.html &&
-    sed -i "4d" ./src/main/webapp/sequenceBuilder.html
-fi
-
-if ! $mvnCleanInstallSuccessful
+if ! $projectBuildSuccessful
 then
     echo "Project build failed" 1>&2
     exit 1

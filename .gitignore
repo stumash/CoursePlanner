@@ -4,6 +4,9 @@
 /.idea/
 /target/
 node_modules/
+
 /src/main/webapp/sequences/
+/src/main/webapp/bundle.js
+/src/main/webapp/babel-out/
 
 /webscraping/r/course-info-jsonfiles/*.json
