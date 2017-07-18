@@ -722,6 +722,13 @@ function initUI(){
         }
     });
 
+    $(document).on('mousemove', function(e){
+        $('#test').css({
+           left:  e.pageX,
+           top:   e.pageY
+        });
+    });
+
     $(document).keypress(function(e) {
         if(e.which == 13) {
             console.log('You pressed enter!');
