@@ -49,13 +49,10 @@ body {
 }
 
 #inputGroup select:hover {
-
 	background-color: rgba(175,175,175, 1);
-
 } 
 
 #inputGroup select:active {
-
 	border: 2px solid #000000;
 }
 
@@ -75,19 +72,16 @@ body {
 }
 
 #checkbox:hover {
-
 	background-color: rgba(175,175,175, 1);
 	cursor: pointer;
   
 } 
 
 #checkbox:active {
-
 	border: 2px solid #000000;
 }
 
 .btn {
-
 	color: #000033;
 	/*background color: rgba(175,175,175,0.8);*/
 	letter-spacing: 0.8px;
@@ -98,17 +92,13 @@ body {
 	margin-top: 97px;
 	height: 40px;
 	width: 100px;
-
 }
 
 .btn:hover {
-
 	cursor: pointer;
-
 }
 
 #credits {
-
     text-align: center;
     font-family: orbitron;
     font-size: 18px;
@@ -116,13 +106,11 @@ body {
     letter-spacing: 0.8px;
     float: right;
     margin-right: 1%;
-    background-color: rgba(100, 100, 100, 0.7);
-
 }
 
 /* unvisited link */
 a:link {
-  color: #900C3F; /* concordia magenta */
+  color: blue; /* concordia magenta */
 }
 
 a:active {
