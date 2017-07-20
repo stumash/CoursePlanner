@@ -1,27 +1,23 @@
 @import url('https://fonts.googleapis.com/css?family=Orbitron');
 
-body {
-	color: #000033;
-	margin: 0px;
-    background: url("../images/Concordia-Background.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-
 #root {
     font-family: orbitron;
 }
 
-.semesterBox {
-    height: 150px;
-    padding: 4px;
+.semesterGrid > div {
+    margin: 0;
 }
 
-.semesterList {
-    height: 100%;
-    background-color: grey;
+.semesterBox {
+    border-bottom: 1px solid black;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.semesterItem {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    background-color: #E6E6E6;
 }
 
 .controlCenter > div > div {
@@ -31,5 +27,14 @@ body {
 
 .controlCenter > div > div > div {
     height: 100%;
-    background-color: yellow;
+    border: 1px solid black;
+}
+
+.yearNumber {
+    margin-top: 14px;
+}
+
+.columnName, .yearNumber, .columnNames {
+    background-color: #D3D3D3;
+    padding: 0;
 }

@@ -1,17 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {SemesterGridView} from "./semesterGrid";
-import {ControlCenterView} from "./controlCenter";
+import {SemesterGridContainer} from "./semesterGrid";
+import {ControlCenter} from "./controlCenter";
 
 class RootComponent extends React.Component {
     render() {
         return (
             <div className="row">
-                <div className = "controlCenter col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                    <ControlCenterView />
+                <div className="col-sm-3 col-xs-12">
+                    <ControlCenter/>
                 </div>
-                <div className = "semesterGrid col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                    <SemesterGridView />
+                <div className="col-sm-9 col-xs-12">
+                    <SemesterGridContainer/>
                 </div>
             </div>
         );
