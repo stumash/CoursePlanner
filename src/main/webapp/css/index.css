@@ -14,11 +14,22 @@ body {
     font-family: orbitron;
 }
 
-#header-text {
-  font-family: orbitron;
-  margin: 0 auto;
-  position: relative;
-  text-align: center;
-  top: 0%;
-  width: 60%;
+.semesterBox {
+    height: 150px;
+    padding: 4px;
+}
+
+.semesterList {
+    height: 100%;
+    background-color: grey;
+}
+
+.controlCenter > div > div {
+    height: 120px;
+    padding: 4px;
+}
+
+.controlCenter > div > div > div {
+    height: 100%;
+    background-color: yellow;
 }

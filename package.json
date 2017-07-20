@@ -5,7 +5,7 @@
   "main": "babel-src/index.js",
   "scripts": {
     "babel": "babel src/main/webapp/babel-src -d src/main/webapp/babel-out",
-    "browserify": "browserify src/main/webapp/babel-out/index.js -o src/main/webapp/bundle.js",
+    "browserify": "browserify src/main/webapp/babel-out/ -o src/main/webapp/bundle.js",
     "browserify-prod": "browserify src/main/webapp/babel-out/index.js -g [envify --NODE_ENV production] -g uglifyify -p bundle-collapser/plugin | uglifyjs --compress --mangle > src/main/webapp/bundle.js",
     "build-dev": "npm run babel && npm run browserify",
     "build-prod": "npm run babel && npm run browserify-prod"
