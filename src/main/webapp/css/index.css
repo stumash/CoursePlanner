@@ -12,19 +12,25 @@
 
 /* Styling for SemesterList */
 
+.semesterListItem:first-of-type {
+    border-top: none;
+}
+
 .semesterListItem {
     border-top: 1px solid black;
 }
 
 .semesterID {
     font-weight: bold;
+    margin-top: 6px;
+    margin-bottom: 2px;
 }
 
 /* Styling for SemesterBox */
 
 .semesterItem {
-    margin-top: 6px;
-    margin-bottom: 6px;
+    max-width: 150px;
+    margin: 6px auto;
     border: 1px solid black;
 }
 
