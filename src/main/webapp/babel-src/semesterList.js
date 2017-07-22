@@ -7,6 +7,7 @@ export class SemesterList extends React.Component {
 
     constructor(props){
         super(props);
+        // Ignore this BS - it will be replaced by a traversal of our json data
         this.numberOfYears = 4;
         this.yearArray = [];
         for(let i = 1; i <= this.numberOfYears; i++){

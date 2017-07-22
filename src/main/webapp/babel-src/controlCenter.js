@@ -12,12 +12,12 @@ export class ControlCenter extends React.Component {
                     </div>
                     <div className="col-xs-12">
                         <div>
-                            Control 2
+                            Controls/TextArea 1
                         </div>
                     </div>
                     <div className="col-xs-12">
                         <div>
-                            Control 3
+                            Controls/TextArea 2
                         </div>
                     </div>
                 </div>
