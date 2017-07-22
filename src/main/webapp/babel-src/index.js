@@ -20,5 +20,5 @@ class RootComponent extends React.Component {
 
 ReactDOM.render(
     <RootComponent />,
-    document.getElementById("root")
+    document.getElementById("react-root")
 );
