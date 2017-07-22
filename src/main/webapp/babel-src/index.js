@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {SemesterGridContainer} from "./semesterGrid";
+import {SemesterTable} from "./semesterTable";
+import {SemesterList} from "./semesterList";
 import {ControlCenter} from "./controlCenter";
 
 class RootComponent extends React.Component {
@@ -8,10 +9,14 @@ class RootComponent extends React.Component {
         return (
             <div className="row">
                 <div className="col-sm-3 col-xs-12">
-                    <ControlCenter/>
+                    <ControlCenter />
                 </div>
-                <div className="col-sm-9 col-xs-12">
-                    <SemesterGridContainer/>
+                {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
+                <div className="col-sm-9 hidden-xs">
+                    <SemesterTable />
+                </div>
+                <div className="col-xs-12 visible-xs">
+                    <SemesterList />
                 </div>
             </div>
         );

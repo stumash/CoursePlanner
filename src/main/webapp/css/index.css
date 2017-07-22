@@ -1,24 +1,36 @@
 @import url('https://fonts.googleapis.com/css?family=Orbitron');
 
-#react-root {
-    font-family: orbitron;
+/* Styling for SemesterTable */
+
+.semesterTable {
+    width: 100%;
 }
 
-.semesterGrid > div {
-    margin: 0;
+/* Styling for SemesterList */
+
+.semesterListItem {
+    border-top: 1px solid black;
 }
+
+.semesterID {
+    font-weight: bold;
+}
+
+/* Styling for SemesterBox */
 
 .semesterBox {
-    border-bottom: 1px solid black;
     padding-top: 8px;
     padding-bottom: 8px;
+    width: 100%;
 }
 
 .semesterItem {
     margin-top: 6px;
     margin-bottom: 6px;
-    background-color: #E6E6E6;
+    border: 1px solid black;
 }
+
+/* Styling for ControlCenter */
 
 .controlCenter > div > div {
     height: 120px;
@@ -28,13 +40,4 @@
 .controlCenter > div > div > div {
     height: 100%;
     border: 1px solid black;
-}
-
-.yearNumber {
-    margin-top: 14px;
-}
-
-.columnName, .yearNumber, .columnNames {
-    background-color: #D3D3D3;
-    padding: 0;
 }
