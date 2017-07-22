@@ -624,6 +624,7 @@ function initUI(){
             var centerText = $(ui.item).find(".center").text();
             var index = ui.placeholder.index();
             draggingItem = true;
+            console.log('lastContainerIndex = ' + lastContainerIndex);
 
             var lastHeading = $('.semesterHeading').eq(lastContainerIndex);
             var lastHeadingRect = lastHeading.offset();
@@ -774,7 +775,26 @@ function initUI(){
             console.log("sequenceObject: \n" + JSON.stringify(sequenceObject));
 
             // @TODO chose the correct next following season.
-            var newEmptySemester = {"season":"winter","courseList":[],"isWorkTerm":true};
+            var seasons = [];
+            seasons[0] = 'fall';
+            seasons[1] = 'winter';
+            seasons[2] = 'summer';
+            var newEmptySemester = {};
+            console.log('lastContainerIndex : ' + lastContainerIndex);
+            var currentSeason = sequenceObject.semesterList[lastContainerIndex].season;
+            var nextSeason;
+            
+            if (currentSeason === seasons[0]) {
+                nextSeason = seasons[1];
+            } else if (currentSeason === seasons[1]) {
+                nextSeason = seasons[2];
+            } else {
+                nextSeason = seasons[0];
+            }
+
+            newEmptySemester.season = nextSeason;
+            newEmptySemester.courseList = [];
+            newEmptySemester.isWorkTerm = true;
 
             sequenceObject.semesterList.push(newEmptySemester);
 
