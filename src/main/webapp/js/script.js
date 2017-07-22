@@ -765,8 +765,6 @@ function initUI(){
         console.log("lastContainer.top: ", lastContainerRect.top);
 
         if( isMouseMoveDown && draggingItem && event.pageY > bottomOfLastContainer) {
-            lastContainerIndex++;
-
             // add new semester
             console.log("ADDING NEW SEMESTER!");
             var sequenceObject = JSON.parse(localStorage.getItem("savedSequence"));
@@ -782,7 +780,7 @@ function initUI(){
             var newEmptySemester = {};
             console.log('lastContainerIndex : ' + lastContainerIndex);
             var currentSeason = sequenceObject.semesterList[lastContainerIndex].season;
-            var nextSeason;
+            var nextSeason = seasons[(lastContainerIndex + 1) % 3];
             
             if (currentSeason === seasons[0]) {
                 nextSeason = seasons[1];
@@ -804,6 +802,7 @@ function initUI(){
             // add to sequence history
             console.log("Updated sequenceObject:\n" + JSON.stringify(sequenceObject));
 
+            lastContainerIndex++;
             addSequenceToSequenceHistory(sequenceObject);
 
             // reload the page
