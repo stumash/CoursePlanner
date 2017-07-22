@@ -616,38 +616,13 @@ function initUI(){
         connectWith: ".courseContainer",
         // change event gets called when an item is dragged into a new position (including its original position)
         change: function(event, ui) {
-            var centerText = $(ui.item).find(".center").text();
-            var index = ui.placeholder.index();
             draggingItem = true;
-
-            var lastHeading = $('.semesterHeading').eq(lastContainerIndex);
-            var lastHeadingRect = lastHeading.offset();
-            var lastContainer = $('.courseContainer').eq(lastContainerIndex);
-            var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
-            var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
-
-            if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer) {
-                isInLastContainer = true;
-            } else {
-                isInLastContainer = false;
-            }
-
+            updateIsInLastContainer(event);
             updateIsMouseMoveDown(event);
         },
         // out event is triggered when a sortable item is moved away from a sortable list.
         out: function(event) {
-            var lastHeading = $('.semesterHeading').eq(lastContainerIndex);
-            var lastHeadingRect = lastHeading.offset();
-            var lastContainer = $('.courseContainer').eq(lastContainerIndex);
-            var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
-            var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
-
-            if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer) {
-                isInLastContainer = true;
-            } else {
-                isInLastContainer = false;
-            }
-
+            updateIsInLastContainer(event);
             updateIsMouseMoveDown(event);
         },
         // update event gets invoked when an item is dropped into a new position (excluding its original position)
@@ -734,6 +709,20 @@ function initUI(){
             clearTimeout(globalTimer);
         }
     });
+}
+
+function updateIsInLastContainer(event) {
+    var lastHeading = $('.semesterHeading').eq(lastContainerIndex);
+    var lastHeadingRect = lastHeading.offset();
+    var lastContainer = $('.courseContainer').eq(lastContainerIndex);
+    var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
+    var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
+
+    if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer) {
+        isInLastContainer = true;
+    } else {
+        isInLastContainer = false;
+    }
 }
 
 // must be called inside a handler function so that you can pass it an event object
