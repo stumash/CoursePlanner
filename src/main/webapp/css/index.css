@@ -2,8 +2,8 @@
 
 /* Styling for SemesterTable */
 
-.semesterTable {
-    width: 100%;
+.semesterTable tr > td:first-of-type {
+    vertical-align: middle;
 }
 
 /* Styling for SemesterList */
@@ -17,12 +17,6 @@
 }
 
 /* Styling for SemesterBox */
-
-.semesterBox {
-    padding-top: 8px;
-    padding-bottom: 8px;
-    width: 100%;
-}
 
 .semesterItem {
     margin-top: 6px;

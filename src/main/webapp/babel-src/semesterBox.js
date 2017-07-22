@@ -3,11 +3,6 @@ import React from "react";
 const DUMMY_COURSES = ["COMP 248", "COMP 249", "COMP 352", "COMP 348"];
 
 export class SemesterBox extends React.Component {
-
-    constructor(props){
-        super(props);
-    }
-
     render() {
         return (
             <div className={"semesterBox"}>
