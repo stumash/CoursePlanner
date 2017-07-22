@@ -86,7 +86,6 @@ function addContainers(courseList, callback){
     oReq.addEventListener("load", function(){
 
         var termTemplate = this.responseText;
-        console.log("term template:\n" + termTemplate);
         var $sequenceContainer = $(".sequenceContainer");
 
         for(var i = 0; i < courseList.semesterList.length; i++){
@@ -188,7 +187,6 @@ function fillWorkTerms(){
             }
         }
     });
-    console.log("Work term count: " + workTermCount);
 }
 
 function requestCourseInfo(code){
@@ -202,7 +200,6 @@ function requestCourseInfo(code){
     oReq.addEventListener("load", function(){
 
         var response = JSON.parse(this.responseText);
-        console.log("Server course-info response: " + this.responseText);
         fillCourseInfoBox(response);
 
     });
@@ -245,7 +242,6 @@ function validateSequence(sequenceObject){
         $container.removeClass("loading");
 
         var response = JSON.parse(this.responseText);
-        console.log("Server validation response: " + this.responseText);
 
         if(response.valid === "true"){
             $container.addClass("valid");
@@ -416,7 +412,7 @@ function exportSequence(){
         oReq.addEventListener("load", function(){
 
             var response = JSON.parse(this.responseText);
-            console.log("Server export response: " + this.responseText);
+
 
             if(response.exportPath){
                 var downloadUrl = "" + response.exportPath;
@@ -620,27 +616,15 @@ function initUI(){
         connectWith: ".courseContainer",
         // change event gets called when an item is dragged into a new position (including its original position)
         change: function(event, ui) {
-            //console.log("change event");
             var centerText = $(ui.item).find(".center").text();
             var index = ui.placeholder.index();
             draggingItem = true;
-            console.log('lastContainerIndex = ' + lastContainerIndex);
 
             var lastHeading = $('.semesterHeading').eq(lastContainerIndex);
             var lastHeadingRect = lastHeading.offset();
             var lastContainer = $('.courseContainer').eq(lastContainerIndex);
             var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
             var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
-
-            // console.log("change update");
-            //
-            // console.log("event.pageY = "+event.pageY);
-            // console.log("lastContainerRect.top = "+lastContainerRect.top);
-            // console.log("lastContainer.height() = "+lastContainer.height());
-            // console.log("bottomOfLastContainer = top + height() = "+bottomOfLastContainer);
-            // console.log("lastHeadingRect.top = "+lastHeadingRect.top);
-            // console.log("if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer");
-            // console.log("if ("+event.pageY+" >= "+lastHeadingRect.top+" && "+event.pageY+" < "+bottomOfLastContainer);
 
             if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer) {
                 isInLastContainer = true;
@@ -649,8 +633,6 @@ function initUI(){
             }
 
             updateIsMouseMoveDown(event);
-
-            console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer+", isMouseMoveDown = "+isMouseMoveDown);
         },
         // out event is triggered when a sortable item is moved away from a sortable list.
         out: function(event) {
@@ -659,16 +641,6 @@ function initUI(){
             var lastContainer = $('.courseContainer').eq(lastContainerIndex);
             var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
             var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
-
-            // console.log("out update");
-            //
-            // console.log("event.pageY = "+event.pageY);
-            // console.log("lastContainerRect.top = "+lastContainerRect.top);
-            // console.log("lastContainer.height() = "+lastContainer.height());
-            // console.log("bottomOfLastContainer = top + height() = "+bottomOfLastContainer);
-            // console.log("lastHeadingRect.top = "+lastHeadingRect.top);
-            // console.log("if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer");
-            // console.log("if ("+event.pageY+" >= "+lastHeadingRect.top+" && "+event.pageY+" < "+bottomOfLastContainer);
 
             if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer) {
                 isInLastContainer = true;
@@ -703,105 +675,38 @@ function initUI(){
         cancel: ".undraggable"
     }).disableSelection();
 
-    // I wrote onmouseover which is not a jquery function, instead of mouseover. The deploy script did not catch this error. So we must only be checking vanilla JS
-    // @TODO is it possible if we have it account for actual jquery linting during deployment?
     $('.sequenceContainer').mouseover( function(event) {
-        // if not for this then after adding an extra semester draggingItem would stay true all the time and display hint would show up while hovering over any term
         draggingItem = false;
-        // containers = $('.courseContainer');
-        // lastContainerIndex = containers.length - 1;
-        console.log("draggingItem = "+draggingItem+", inLastContainer = "+isInLastContainer+", isMouseMoveDown = "+isMouseMoveDown);
-
         updateIsMouseMoveDown(event);
-
     });
 
-    $('.courseContainer').on( 'mousemove', function(event) {
-        if (draggingItem && isInLastContainer) {
-            // display tip
-            console.log("DID YOU KNOW: You can easily add a new semester by dragging a class below this term");
-        }
-    });
-
-    $(document).on('mousemove', function(e){
-        $('#test').css({
-           left:  e.pageX,
-           top:   e.pageY
-        });
-    });
-
-    $(document).keypress(function(e) {
-        if(e.which == 13) {
-            console.log('You pressed enter!');
-            // add new semester
-            // console.log("ADDING NEW SEMESTER!");
-            var sequenceObject = JSON.parse(localStorage.getItem("savedSequence"));
-
-            // make changes to sequence object
-            console.log("sequenceObject: \n" + JSON.stringify(sequenceObject));
-
-            var newEmptySemester = {"season":"winter","courseList":[],"isWorkTerm":true};
-
-            sequenceObject.semesterList.push(newEmptySemester);
-
-            // update local storage variable
-            localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
-
-            // add to sequence history
-            console.log("Updated sequenceObject:\n" + JSON.stringify(sequenceObject));
-
-            addSequenceToSequenceHistory(sequenceObject);
-            // reload the page
-            loadSequence();
-        }
-    });
-
-    $('.courseContainer').on( 'mouseleave' ,function(event) { // unbinds event after binding as opposed to the method directly above
+    $('.courseContainer').on( 'mouseleave' ,function(event) { 
         var lastContainer = $('.courseContainer').eq(lastContainerIndex);
         var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
         var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
-        console.log("lastContainer: ", lastContainer);
-        console.log("lastContainer.height(): ", lastContainer.height());
-        console.log("lastContainer.top: ", lastContainerRect.top);
 
         if( isMouseMoveDown && draggingItem && event.pageY > bottomOfLastContainer) {
             // add new semester
-            console.log("ADDING NEW SEMESTER!");
             var sequenceObject = JSON.parse(localStorage.getItem("savedSequence"));
-
-            // make changes to sequence object
-            console.log("sequenceObject: \n" + JSON.stringify(sequenceObject));
-
-            // @TODO chose the correct next following season.
             var seasons = [];
             seasons[0] = 'fall';
             seasons[1] = 'winter';
             seasons[2] = 'summer';
             var newEmptySemester = {};
-            console.log('lastContainerIndex : ' + lastContainerIndex);
             var currentSeason = sequenceObject.semesterList[lastContainerIndex].season;
-            var nextSeason = seasons[(lastContainerIndex + 1) % 3];
-            
-            if (currentSeason === seasons[0]) {
-                nextSeason = seasons[1];
-            } else if (currentSeason === seasons[1]) {
-                nextSeason = seasons[2];
-            } else {
-                nextSeason = seasons[0];
-            }
+            var nextSeason = seasons[(seasons.indexOf(currentSeason) + 1) % 3];
 
             newEmptySemester.season = nextSeason;
             newEmptySemester.courseList = [];
             newEmptySemester.isWorkTerm = true;
 
+            // make changes to sequence object
             sequenceObject.semesterList.push(newEmptySemester);
 
             // update local storage variable
             localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
 
             // add to sequence history
-            console.log("Updated sequenceObject:\n" + JSON.stringify(sequenceObject));
-
             lastContainerIndex++;
             addSequenceToSequenceHistory(sequenceObject);
 
