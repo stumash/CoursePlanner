@@ -2,6 +2,10 @@
 
 /* Styling for SemesterTable */
 
+.semesterTable {
+    margin-top: 4px;
+}
+
 .semesterTable tr > td:first-of-type {
     vertical-align: middle;
 }
