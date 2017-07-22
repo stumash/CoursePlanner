@@ -1,16 +1,18 @@
 // constants
-var NUMBER_OF_YEARS = 5;
-
-//variable used to ensure the sequence is only validated once every time the user drags a class into a new position
+var lastContainerIndex;
+// variable used to ensure the sequence is only validated once every time the user drags a class into a new position
 var draggingItem = false;
+
+// to keep track of when the mouse is moving down
+var isMouseMoveDown = false;
+window.lastMouseDown = 0;
+window.startMouseTop = 0;
+
+// to keep track of whether the user is currently dragging a container over the last Container
+var isInLastContainer = false;
 
 // track the number of work terms in the list
 var workTermCount = 0;
-
-// asks to confirm refresh page click event or when F5 is pressed
-window.onbeforeunload = function(e){
-    return undefined;   // silenced for now, but not forgotten
-};
 
 $(document).ready(function() {
 
@@ -19,7 +21,7 @@ $(document).ready(function() {
 
 });
 
-function loadSequence(){
+function loadSequence(callback){
     // clear whole page first
     $(".sequenceContainer").html("<p class='mainHeader'>Concordia Engineering Sequence Builder</p>" +
                                  "<p class='subHeader'></p>");
@@ -48,6 +50,13 @@ function loadSequence(){
                 populatePage(courseList);
                 validateSequence(courseList);
                 initUI();
+                if (callback) {
+                    callback();
+                }
+
+                generateSequenceObject(function(sequenceObject){
+                    localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
+                });
             });
 
         });
@@ -64,6 +73,9 @@ function loadSequence(){
             populatePage(savedSequence);
             validateSequence(savedSequence);
             initUI();
+            if (callback) {
+                callback();
+            }
         });
     }
 }
@@ -146,8 +158,10 @@ function updateTotalCredits(courseSequenceObject){
     }
 }
 
-/* this function fills empty course containers with an undraggable work term row
-   and removes work term rows from course containers which contain both a work term and classes */
+/**
+ * this function fills empty course containers with an undraggable work term row
+ * and removes work term rows from course containers which contain both a work term and classes
+ */
 function fillWorkTerms(){
     var $courseContainers = $(".courseContainer");
 
@@ -173,7 +187,6 @@ function fillWorkTerms(){
             }
         }
     });
-    console.log("Work term count: " + workTermCount);
 }
 
 function requestCourseInfo(code){
@@ -187,7 +200,6 @@ function requestCourseInfo(code){
     oReq.addEventListener("load", function(){
 
         var response = JSON.parse(this.responseText);
-        console.log("Server course-info response: " + this.responseText);
         fillCourseInfoBox(response);
 
     });
@@ -230,7 +242,6 @@ function validateSequence(sequenceObject){
         $container.removeClass("loading");
 
         var response = JSON.parse(this.responseText);
-        console.log("Server validation response: " + this.responseText);
 
         if(response.valid === "true"){
             $container.addClass("valid");
@@ -248,6 +259,7 @@ function validateSequence(sequenceObject){
         }
 
     });
+
     oReq.open("POST", "validate");
     oReq.send(JSON.stringify(sequenceObject));
 }
@@ -400,7 +412,7 @@ function exportSequence(){
         oReq.addEventListener("load", function(){
 
             var response = JSON.parse(this.responseText);
-            console.log("Server export response: " + this.responseText);
+
 
             if(response.exportPath){
                 var downloadUrl = "" + response.exportPath;
@@ -493,7 +505,9 @@ function indexToSeason(index){
     }
 }
 
-/* Big ugly function which sets up all event listeners */
+/**
+ * Big ugly function which sets up all event listeners
+ */
 function initUI(){
 
     // add mini triangle thingy into collapse buttons
@@ -595,36 +609,25 @@ function initUI(){
         }
     });
 
-    var globalTimer;
-
-    $(".semesterHeading").droppable({
-        over: function(){
-            var $courses = $(this).parent().children(".courseContainer");
-            globalTimer = setTimeout(function(){
-                if($courses.is(":hidden")){
-                    $courses.slideToggle(200, function(){
-                        $(".courseContainer").sortable("refresh");
-                    });
-                }
-            }, 500);
-        },
-        out: function(){
-            clearTimeout(globalTimer);
-        }
-        //add for drop: so it appends the dragging object to the current container
-    });
+    containers = $('.courseContainer');
+    lastContainerIndex = containers.length - 1;
 
     $(".courseContainer").sortable({
         connectWith: ".courseContainer",
         // change event gets called when an item is dragged into a new position (including its original position)
-        change: function(event, ui){
-            var centerText = $(ui.item).find(".center").text();
-            var index = ui.placeholder.index();
+        change: function(event, ui) {
             draggingItem = true;
+            updateIsInLastContainer(event);
+            updateIsMouseMoveDown(event);
+        },
+        // out event is triggered when a sortable item is moved away from a sortable list.
+        out: function(event) {
+            updateIsInLastContainer(event);
+            updateIsMouseMoveDown(event);
         },
         // update event gets invoked when an item is dropped into a new position (excluding its original position)
-        update: function(event, ui){
-            if(draggingItem){
+        update: function(event, ui) {
+            if (draggingItem) {
                 fillWorkTerms();
                 generateSequenceObject(function(sequenceObject){
                     localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
@@ -634,11 +637,104 @@ function initUI(){
                 });
             }
             draggingItem = false;
+
+            updateIsMouseMoveDown(event);
+        },
+        // stop event is triggered when sorting has stopped
+        stop: function(event) {
+            draggingItem = false; // to account for when user drags but does not change position of course
+
+            updateIsMouseMoveDown(event);
         },
         // remove drag ability from rows with classname 'undraggable'
         cancel: ".undraggable"
     }).disableSelection();
 
+    $('.sequenceContainer').mouseover( function(event) {
+        draggingItem = false;
+        updateIsMouseMoveDown(event);
+    });
+
+    $('.courseContainer').on( 'mouseleave' ,function(event) { 
+        var lastContainer = $('.courseContainer').eq(lastContainerIndex);
+        var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
+        var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
+
+        if( isMouseMoveDown && draggingItem && event.pageY > bottomOfLastContainer) {
+            // add new semester
+            var sequenceObject = JSON.parse(localStorage.getItem("savedSequence"));
+            var seasons = [];
+            seasons[0] = 'fall';
+            seasons[1] = 'winter';
+            seasons[2] = 'summer';
+            var newEmptySemester = {};
+            var currentSeason = sequenceObject.semesterList[lastContainerIndex].season;
+            var nextSeason = seasons[(seasons.indexOf(currentSeason) + 1) % 3];
+
+            newEmptySemester.season = nextSeason;
+            newEmptySemester.courseList = [];
+            newEmptySemester.isWorkTerm = true;
+
+            // make changes to sequence object
+            sequenceObject.semesterList.push(newEmptySemester);
+
+            // update local storage variable
+            localStorage.setItem("savedSequence", JSON.stringify(sequenceObject));
+
+            // add to sequence history
+            lastContainerIndex++;
+            addSequenceToSequenceHistory(sequenceObject);
+
+            // reload the page
+            loadSequence(function() {
+                $(window).scrollTop($(document).height() - $(window).height());
+            });
+        }
+    });
+
+    var globalTimer;
+
+    $(".semesterHeading").droppable({
+        over: function() {
+            var $courses = $(this).parent().children(".courseContainer");
+            globalTimer = setTimeout(function(){
+                if($courses.is(":hidden")){
+                    $courses.slideToggle(200, function(){
+                        $(".courseContainer").sortable("refresh");
+                    });
+                }
+            }, 500);
+        },
+        out: function() {
+            clearTimeout(globalTimer);
+        }
+    });
+}
+
+function updateIsInLastContainer(event) {
+    var lastHeading = $('.semesterHeading').eq(lastContainerIndex);
+    var lastHeadingRect = lastHeading.offset();
+    var lastContainer = $('.courseContainer').eq(lastContainerIndex);
+    var lastContainerRect = lastContainer.offset(); // offset gets absolute top and left position
+    var bottomOfLastContainer = lastContainerRect.top + lastContainer.height();
+
+    if (event.pageY >= lastHeadingRect.top && event.pageY < bottomOfLastContainer) {
+        isInLastContainer = true;
+    } else {
+        isInLastContainer = false;
+    }
+}
+
+// must be called inside a handler function so that you can pass it an event object
+function updateIsMouseMoveDown(event) {
+    window.startMouseTop = event.pageY;
+
+    if (window.startMouseTop > window.lastMouseTop){
+        isMouseMoveDown = true;
+    } else {
+        isMouseMoveDown = false;
+    }
+    window.lastMouseTop = window.startMouseTop;
 }
 
 var sequenceHistory = [];

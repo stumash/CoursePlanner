@@ -218,7 +218,7 @@ div.leftButton button {
 	-webkit-transition: opacity 1s; /*Safari*/
 }
 
-div.leftButton button:hover{
+div.leftButton button:hover {
 	opacity: 1;
 }
 
@@ -305,7 +305,7 @@ p.subHeader {
   font-family: Orbitron, Arial, Helvetica, sans-serif;
 }
 
-input[type="text"]{
+input[type="text"] {
 	margin-left: 6px;
     padding-left: 4px;
     position: relative;
