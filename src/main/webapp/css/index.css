@@ -20,6 +20,10 @@
     border-top: 1px solid black;
 }
 
+.semesterListItem .courseList {
+    margin-bottom: 6px;
+}
+
 .semesterID {
     font-weight: bold;
     margin-top: 6px;
@@ -34,10 +38,13 @@
     border: 1px solid black;
 }
 
+.noCoursesIndicator, .workTermIndicator {
+    vertical-align: middle;
+}
+
 /* Styling for ControlCenter */
 
 .controlCenter > div > div {
-    height: 120px;
     padding: 4px;
 }
 

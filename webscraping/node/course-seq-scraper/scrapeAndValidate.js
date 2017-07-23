@@ -197,7 +197,7 @@ sequenceScraper.updateData("./", true, function(){
                             logMessage(file + ": PASS");
 
                             // write the json to the db
-                            db.collection("courseSequences").update({_id : file}, {$set:sequenceJSON}, {upsert: true}, function(err, result) {
+                            db.collection("courseSequences").update({_id : file.replace(".json","")}, {$set:sequenceJSON}, {upsert: true}, function(err, result) {
                                 assert.equal(err, null);
                                 logMessage("Wrote contents of file: " + file + " to db.");
                             });

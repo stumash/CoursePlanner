@@ -7,12 +7,60 @@ export class SemesterTable extends React.Component {
 
     constructor(props){
         super(props);
-        // Ignore this BS - it will be replaced by a traversal of our json data
-        this.numberOfYears = 4;
-        this.yearArray = [];
-        for(let i = 1; i <= this.numberOfYears; i++){
-            this.yearArray.push(i);
+    }
+
+    generateTableBody(){
+
+        if(!this.props.courseSequenceObject.isLoading){
+
+            const semesterList = this.props.courseSequenceObject.semesterList;
+
+            let filledSemesterList = this.fillMissingSemesters(semesterList);
+
+            let tableContent = [];
+
+            for(let year = 1; year <= (Math.ceil(filledSemesterList.length/3)); year++){
+                tableContent.push(
+                    <tr key={year}>
+                        <td className="text-center">{year}</td>
+                        {SEASON_NAMES.map((season, seasonIndex) =>
+                            {
+                                let currentSemester = filledSemesterList[((year-1)*3)+seasonIndex] || {};
+                                if(currentSemester){
+                                    return (
+                                        <td key={season}>
+                                            <SemesterBox year={year} season={season} semester={currentSemester}/>
+                                        </td>
+                                    );
+                                } else {
+                                    return (<td key={season}></td>);
+                                }
+                            }
+
+                        )}
+                    </tr>
+                );
+            }
+
+            return tableContent;
         }
+    }
+
+    fillMissingSemesters(semesterList){
+        for(let i = 0; i < semesterList.length; i++){
+
+            let expectedSeason = SEASON_NAMES[i%3].toLowerCase();
+
+            if(!(semesterList[i].season === expectedSeason)){
+                semesterList.splice(i, 0, {
+                    "courseList" : [],
+                    "isWorkTerm" : "false",
+                    "season" : expectedSeason
+                });
+            }
+
+        }
+        return semesterList;
     }
 
     render() {
@@ -27,16 +75,7 @@ export class SemesterTable extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.yearArray.map((year) =>
-                        <tr key={year}>
-                            <td className="text-center">{year}</td>
-                            {SEASON_NAMES.map((season) =>
-                                <td key={season}>
-                                    <SemesterBox year={year} season={season}/>
-                                </td>
-                            )}
-                        </tr>
-                    )}
+                    {this.generateTableBody()}
                 </tbody>
             </table>
         );
