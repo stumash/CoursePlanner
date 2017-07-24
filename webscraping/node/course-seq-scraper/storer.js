@@ -9,6 +9,7 @@ var mongoServerUrl = 'mongodb://138.197.6.26:27017/courseplannerdb';
 var log = "*** Sequence Validation Log ***<br><br>";
 var emptyRegex =  /^\s*$/;
 
+const SEASON_NAMES = ["fall", "winter", "summer"];
 
 var storeAllCourses = (function (){
 
@@ -50,7 +51,7 @@ var storeAllCourses = (function (){
                         if (numVerified == files.length) {
                             db.close();
                             if(foundIssue){
-                                sendIssueEmail();
+                                //sendIssueEmail();
                             }
                         }
                     });
@@ -64,54 +65,58 @@ function validateScrapedSequenceJSON(sequenceJSON, onComplete){
 
     var issues = [];
 
-    // loop through all the data, pushing any issues found the the issues array
-    for(var sIndex = 0; sIndex < sequenceJSON.semesterList.length; sIndex++){
+    for(var yIndex = 0; yIndex < sequenceJSON.yearList.length; yIndex++){
 
-        var semester = sequenceJSON.semesterList[sIndex];
-        var courseList = semester.courseList;
+        var year = sequenceJSON.yearList[yIndex];
 
-        issues.push(validateValueRegex("semester season", semester.season, /WINTER|SUMMER|FALL/));
+        SEASON_NAMES.forEach((season) => {
 
-        if(semester.isWorkTerm === "false" || semester.isWorkTerm === false){
+            var semester = year[season];
+            if(semester) {
 
-            if(!courseList.length > 0){
-                issues.push("Invalid number of courses in work term (semester " + sIndex + "): " + courseList.length);
-            }
+                var courseList = semester.courseList;
 
-            for(var cIndex = 0; cIndex < courseList.length; cIndex++){
+                if(semester.isWorkTerm === "false" || semester.isWorkTerm === false){
 
-                var locationRef = "(semester " + (sIndex + 1) + ", course " + (cIndex + 1) + ")";
-                var course = courseList[cIndex];
-                // check if we get an array when we were expecting a plain object. this means that we encountered a list of courses joined by OR
-                // rather than an individual course.
-                if(course.length >= 2){
-                    course.forEach(function(course){
-                        var courseIssues = findCourseIssues(course, locationRef);
-                        if(courseIssues.length > 0){
-                            courseIssues.forEach(function(issue){
-                                issues.push(issue);
+                    for(var cIndex = 0; cIndex < courseList.length; cIndex++){
+
+                        var locationRef = "(" + season + " of year " + (yIndex + 1) + ", course #" + (cIndex + 1) + ")";
+                        var course = courseList[cIndex];
+
+                        // check if we get an array when we were expecting a plain object. this means that we encountered a list of courses joined by OR
+                        // rather than an individual course.
+                        if(course.length >= 2){
+                            course.forEach(function(course){
+                                var courseIssues = findCourseIssues(course, locationRef);
+                                if(courseIssues.length > 0){
+                                    courseIssues.forEach(function(issue){
+                                        issues.push(issue);
+                                    });
+                                }
                             });
+                        } else {
+
+                            var courseIssues = findCourseIssues(course, locationRef);
+                            if(courseIssues.length > 0){
+                                courseIssues.forEach(function(issue){
+                                    issues.push(issue);
+                                });
+                            }
                         }
-                    });
+                    }
+
                 } else {
 
-                    var courseIssues = findCourseIssues(course, locationRef);
-                    if(courseIssues.length > 0){
-                        courseIssues.forEach(function(issue){
-                            issues.push(issue);
-                        });
+                    if(courseList.length > 0){
+                        issues.push("Invalid number of courses in work term (semester " + sIndex + "): " + courseList.length);
                     }
+
                 }
+            } else {
+                issues.push("Year " + (yIndex + 1) + " is missing season: " + season);
             }
 
-        } else {
-
-            if(courseList.length > 0){
-                issues.push("Invalid number of courses in work term (semester " + sIndex + "): " + courseList.length);
-            }
-
-        }
-
+        });
     }
 
     // filter out all undefined values from issues array

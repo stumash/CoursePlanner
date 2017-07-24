@@ -3,9 +3,7 @@ import React from "react";
 export class SemesterBox extends React.Component {
 
     renderCourseList(){
-        if(!this.props.semester){
-            return;
-        }
+
         let courseList = this.props.semester.courseList || [];
         let isWorkTerm = this.props.semester.isWorkTerm || "false";
 

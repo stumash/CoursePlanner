@@ -1,6 +1,5 @@
 import React from "react";
 import {SemesterBox} from "./semesterBox";
-import {fillMissingSemesters} from "./util";
 import {SEASON_NAMES} from "./util";
 
 /*
@@ -18,32 +17,16 @@ export class SemesterList extends React.Component {
 
         if(!this.props.courseSequenceObject.isLoading){
 
-            const semesterList = this.props.courseSequenceObject.semesterList;
+            const yearList = this.props.courseSequenceObject.yearList;
 
-            let filledSemesterList = fillMissingSemesters(semesterList);
-
-            let listContent = [];
-
-            for(let year = 1; year <= (Math.ceil(filledSemesterList.length/3)); year++){
-                SEASON_NAMES.forEach((season, seasonIndex) =>
-                    {
-                        let currentSemester = filledSemesterList[((year-1)*3)+seasonIndex] || {};
-                        if(currentSemester){
-                            listContent.push(
-                                <div className="semesterListItem col-xs-12" key={season + "" + year}>
-                                    <div className="semesterID text-center col-xs-8 col-xs-offset-2">{season + " " + year}</div>
-                                    <SemesterBox year={year} season={season} semester={currentSemester}/>
-                                </div>
-                            );
-                        } else {
-                            listContent.push(<td key={season}></td>);
-                        }
-                    }
-
-                );
-            }
-
-            return listContent;
+            return yearList.map((year, yearNumber) =>
+                {SEASON_NAMES.map((season) =>
+                    <div className="semesterListItem col-xs-12" key={season + "" + yearNumber}>
+                        <div className="semesterID text-center col-xs-8 col-xs-offset-2">{season + " " + yearNumber}</div>
+                        <SemesterBox year={yearNumber} season={season} semester={yearList[yearNumber][season]}/>
+                    </div>
+                )}
+            );
         }
     }
 
