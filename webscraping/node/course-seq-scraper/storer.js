@@ -51,7 +51,7 @@ var storeAllCourses = (function (){
                         if (numVerified == files.length) {
                             db.close();
                             if(foundIssue){
-                                //sendIssueEmail();
+                                sendIssueEmail();
                             }
                         }
                     });
@@ -205,10 +205,9 @@ function sendIssueEmail(){
         }
     });
 
-    //  petergranitski@gmail.com , stumash1@gmail.com
     var mailOptions = {
         from: '"Course Planner Debug" <concordiacourseplanner@gmail.com>', // sender address
-        to: 'davidhuculak5@gmail.com', // list of receivers
+        to: 'davidhuculak5@gmail.com, petergranitski@gmail.com , stumash1@gmail.com', // list of receivers
         subject: 'Course Planner has encountered an issue', // Subject line
         html: message // html body
     };
