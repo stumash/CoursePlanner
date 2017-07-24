@@ -36,6 +36,15 @@
     max-width: 150px;
     margin: 6px auto;
     border: 1px solid black;
+    cursor: pointer;
+}
+
+.semesterItem:hover {
+    background-color: #E6E6E6;
+}
+
+.semesterItem:active {
+    background-color: #D3D3D3;
 }
 
 .noCoursesIndicator, .workTermIndicator {

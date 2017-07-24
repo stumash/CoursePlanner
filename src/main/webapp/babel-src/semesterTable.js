@@ -1,13 +1,18 @@
 import React from "react";
 import {SemesterBox} from "./semesterBox";
+import {fillMissingSemesters} from "./util";
+import {SEASON_NAMES} from "./util";
 
-const SEASON_NAMES = ["Fall", "Winter", "Summer"];
-
+/*
+ *  Table which contains all courses of current sequence
+ *  This view is to be displayed for larger screens (>=sm)
+ *
+ *  Expects props:
+ *
+ *  courseSequenceObject - the json object which contains all necessary data for the sequence we want to display
+ *
+*/
 export class SemesterTable extends React.Component {
-
-    constructor(props){
-        super(props);
-    }
 
     generateTableBody(){
 
@@ -15,8 +20,7 @@ export class SemesterTable extends React.Component {
 
             const semesterList = this.props.courseSequenceObject.semesterList;
 
-            let filledSemesterList = this.fillMissingSemesters(semesterList);
-
+            let filledSemesterList = fillMissingSemesters(semesterList);
             let tableContent = [];
 
             for(let year = 1; year <= (Math.ceil(filledSemesterList.length/3)); year++){
@@ -46,33 +50,22 @@ export class SemesterTable extends React.Component {
         }
     }
 
-    fillMissingSemesters(semesterList){
-        for(let i = 0; i < semesterList.length; i++){
-
-            let expectedSeason = SEASON_NAMES[i%3].toLowerCase();
-
-            if(!(semesterList[i].season === expectedSeason)){
-                semesterList.splice(i, 0, {
-                    "courseList" : [],
-                    "isWorkTerm" : "false",
-                    "season" : expectedSeason
-                });
-            }
-
-        }
-        return semesterList;
+    generateTableHead(){
+        return (
+            <tr>
+                <th className="text-center">Year</th>
+                {SEASON_NAMES.map((season) =>
+                    <th className="text-center" key={season}>{season}</th>
+                )}
+            </tr>
+        );
     }
 
     render() {
         return (
-            <table className="semesterTable table table-bordered" >
+            <table className="semesterTable table table-hover table table-bordered" >
                 <thead>
-                    <tr>
-                        <th className="text-center">Year</th>
-                        {SEASON_NAMES.map((season) =>
-                            <th className="text-center" key={season}>{season}</th>
-                        )}
-                    </tr>
+                    {this.generateTableHead()}
                 </thead>
                 <tbody>
                     {this.generateTableBody()}

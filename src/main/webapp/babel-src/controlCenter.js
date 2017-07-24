@@ -1,6 +1,14 @@
 import React from "react";
-import {DEFAULT_PROGRAM} from "./rootComponent";
 
+/*
+ *  Rectangular area which contains widgets/views relevant to user input and output
+ *
+ *  Expects props:
+ *
+ *  onChangeChosenProgram(chosenProgram) - function to call in the event that the user changes their chosen program
+ *      param chosenProgram - the name of the new program
+ *
+ */
 export class ControlCenter extends React.Component {
 
     constructor(props){
@@ -12,7 +20,8 @@ export class ControlCenter extends React.Component {
     }
 
     handleSequenceChange(event){
-        this.props.onChangeSequenceType(event.target.value);
+        // event.target.value holds the new value selected by the user
+        this.props.onChangeChosenProgram(event.target.value);
     }
 
     componentDidMount() {
@@ -32,7 +41,7 @@ export class ControlCenter extends React.Component {
     renderSelectionBox(){
         if(this.state.sequenceList.length > 0){
             return (
-                <select className="form-control" onChange={this.handleSequenceChange} value={this.props.sequenceType}>
+                <select className="form-control" onChange={this.handleSequenceChange} value={this.props.chosenProgram}>
                     {this.state.sequenceList.map((sequenceName) =>
                         <option key={sequenceName}>{sequenceName}</option>
                     )}
@@ -47,6 +56,7 @@ export class ControlCenter extends React.Component {
         }
     }
 
+    // For now, everything here is hardcoded except the sequence selection menu
     render() {
         return (
             <div className="controlCenter">

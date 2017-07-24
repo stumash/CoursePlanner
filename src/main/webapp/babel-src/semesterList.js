@@ -1,19 +1,18 @@
 import React from "react";
 import {SemesterBox} from "./semesterBox";
+import {fillMissingSemesters} from "./util";
+import {SEASON_NAMES} from "./util";
 
-const SEASON_NAMES = ["Fall", "Winter", "Summer"];
-
+/*
+ *  List which contains all courses of current sequence
+ *  This view is to be displayed for smaller screens (<sm)
+ *
+ *  Expects props:
+ *
+ *  courseSequenceObject - the json object which contains all necessary data for the sequence we want to display
+ *
+ */
 export class SemesterList extends React.Component {
-
-    constructor(props){
-        super(props);
-        // Ignore this BS - it will be replaced by a traversal of our json data
-        this.numberOfYears = 4;
-        this.yearArray = [];
-        for(let i = 1; i <= this.numberOfYears; i++){
-            this.yearArray.push(i);
-        }
-    }
 
     generateListBody(){
 
@@ -21,7 +20,7 @@ export class SemesterList extends React.Component {
 
             const semesterList = this.props.courseSequenceObject.semesterList;
 
-            let filledSemesterList = this.fillMissingSemesters(semesterList);
+            let filledSemesterList = fillMissingSemesters(semesterList);
 
             let listContent = [];
 
@@ -48,37 +47,10 @@ export class SemesterList extends React.Component {
         }
     }
 
-    fillMissingSemesters(semesterList){
-        for(let i = 0; i < semesterList.length; i++){
-
-            let expectedSeason = SEASON_NAMES[i%3].toLowerCase();
-
-            if(!(semesterList[i].season === expectedSeason)){
-                semesterList.splice(i, 0, {
-                    "courseList" : [],
-                    "isWorkTerm" : "false",
-                    "season" : expectedSeason
-                });
-            }
-
-        }
-        return semesterList;
-    }
-
     render() {
         return (
             <div>
                 {this.generateListBody()}
-                {/*{this.yearArray.map((year) =>*/}
-                    {/*{return SEASON_NAMES.map((season) =>*/}
-                        {/*<div className="semesterListItem col-xs-12">*/}
-                            {/*<div className="semesterID text-center col-xs-8 col-xs-offset-2">*/}
-                                {/*{season + " " + year}*/}
-                            {/*</div>*/}
-                            {/*<SemesterBox key={season + " " + year} year={year} season={season}/>*/}
-                        {/*</div>*/}
-                    {/*)}*/}
-                {/*)}*/}
             </div>
         );
     }

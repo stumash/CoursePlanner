@@ -2,10 +2,15 @@ import React from "react";
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
 import {ControlCenter} from "./controlCenter";
+import {DEFAULT_PROGRAM} from "./util";
 
-export const DEFAULT_PROGRAM = "SOEN-General-Coop";
-
-export class RootComponent extends React.Component {
+/*
+ *  Root component of our main page
+ *
+ *  This component loads up the saved/default sequence once it's created
+ *
+ */
+export class MainPage extends React.Component {
 
     constructor(props){
         super(props);
@@ -13,34 +18,36 @@ export class RootComponent extends React.Component {
             "courseSequenceObject" : {
                 "isLoading" : true
             },
-            "sequenceType" : localStorage.getItem("sequenceType") || DEFAULT_PROGRAM
+            "chosenProgram" : localStorage.getItem("chosenProgram") || DEFAULT_PROGRAM
         };
-        this.updateSequenceType = this.updateSequenceType.bind(this);
+        this.updateChosenProgram = this.updateChosenProgram.bind(this);
     }
 
     componentDidMount() {
         this.loadCourseSequenceObject();
     }
 
-    updateSequenceType(newSequenceType){
+    updateChosenProgram(newChosenProgram){
 
-        // INSERT CONFIRM BOX HERE - MAKE SURE USER DOESNT LOSE THEIR WORK
-
-        localStorage.setItem("sequenceType", newSequenceType);
+        // remember the program selected by the user
+        localStorage.setItem("chosenProgram", newChosenProgram);
+        // clear the saved sequence to force a reloading of the user's chosen program
+        // (INSERT CONFIRM BOX HERE - MAKE SURE USER DOESN'T LOSE THEIR WORK BY ACCIDENTALLY CHANGING PROGRAMS)
         localStorage.removeItem("savedSequence");
 
-        this.setState({"sequenceType": newSequenceType}, this.loadCourseSequenceObject);
+        // Must use the callback param of setState to ensure the chosenProgram is changed in time
+        this.setState({"chosenProgram": newChosenProgram}, this.loadCourseSequenceObject);
     }
 
+    // Load chosen sequence via backend request if we don't find one that's already saved
     loadCourseSequenceObject(){
 
         var courseSequenceObject = JSON.parse(localStorage.getItem("savedSequence"));
 
         if(courseSequenceObject === null){
 
-
             var requestBody = {
-                "sequenceID": this.state.sequenceType
+                "sequenceID": this.state.chosenProgram
             };
 
             $.ajax({
@@ -63,7 +70,7 @@ export class RootComponent extends React.Component {
         return (
             <div className="row">
                 <div className="col-sm-3 col-xs-12">
-                    <ControlCenter onChangeSequenceType={this.updateSequenceType} sequenceType={this.state.sequenceType}/>
+                    <ControlCenter onChangeChosenProgram={this.updateChosenProgram} chosenProgram={this.state.chosenProgram}/>
                 </div>
                 {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
                 <div className="col-sm-9 hidden-xs">
