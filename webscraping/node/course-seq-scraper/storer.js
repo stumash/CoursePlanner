@@ -1,13 +1,64 @@
 'use strict';
+
 var nodemailer = require('nodemailer');
 var remove = require("remove");
 var fs = require("fs");
-var sequenceScraper = require("./scraper.js");
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var mongoServerUrl = 'mongodb://138.197.6.26:27017/courseplannerdb';
 var log = "*** Sequence Validation Log ***<br><br>";
 var emptyRegex =  /^\s*$/;
+
+
+var storeAllCourses = (function (){
+
+    console.log("Storing + validating sequence json data");
+
+    var seqFolder = './sequences/';
+    var numVerified = 0;
+
+    MongoClient.connect(mongoServerUrl, function(err, db) {
+        assert.equal(null, err);
+        console.log("Connected successfully to db server");
+
+        var foundIssue = false;
+
+        // read all files in sequence folder and pass them through the validator
+        fs.readdir(seqFolder, function (err, files) {
+            files.forEach(function (file) {
+                fs.readFile(seqFolder + file, "utf-8", function (err, fileContent) {
+                    var sequenceJSON = JSON.parse(fileContent);
+                    if (err) {
+                        throw err;
+                    }
+                    validateScrapedSequenceJSON(sequenceJSON, function (isValid, issues) {
+                        numVerified++;
+                        if (!isValid) {
+                            logMessage(file + ": FAIL - ");
+                            logMessage(issues);
+                            foundIssue = true;
+                        } else {
+                            logMessage(file + ": PASS");
+
+                            // write the json to the db
+                            db.collection("courseSequences").update({_id : file.replace(".json","")}, {$set:sequenceJSON}, {upsert: true}, function(err, result) {
+                                assert.equal(err, null);
+                                logMessage("Wrote contents of file: " + file + " to db.");
+                            });
+
+                        }
+                        if (numVerified == files.length) {
+                            db.close();
+                            if(foundIssue){
+                                sendIssueEmail();
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    });
+})();
 
 function validateScrapedSequenceJSON(sequenceJSON, onComplete){
 
@@ -164,55 +215,3 @@ function sendIssueEmail(){
         console.log('Message %s sent: %s', info.messageId, info.response);
     });
 }
-
-// RUN OUR BEAUTIFUL FUNCTIONS:
-sequenceScraper.updateData("./", true, function(){
-
-    console.log("validating sequence data");
-
-    var seqFolder = './sequences/';
-    var numVerified = 0;
-
-    MongoClient.connect(mongoServerUrl, function(err, db) {
-        assert.equal(null, err);
-        console.log("Connected successfully to db server");
-
-        var foundIssue = false;
-
-        // read all files in sequence folder and pass them through the validator
-        fs.readdir(seqFolder, function (err, files) {
-            files.forEach(function (file) {
-                fs.readFile(seqFolder + file, "utf-8", function (err, fileContent) {
-                    var sequenceJSON = JSON.parse(fileContent);
-                    if (err) {
-                        throw err;
-                    }
-                    validateScrapedSequenceJSON(sequenceJSON, function (isValid, issues) {
-                        numVerified++;
-                        if (!isValid) {
-                            logMessage(file + ": FAIL - ");
-                            logMessage(issues);
-                            foundIssue = true;
-                        } else {
-                            logMessage(file + ": PASS");
-
-                            // write the json to the db
-                            db.collection("courseSequences").update({_id : file.replace(".json","")}, {$set:sequenceJSON}, {upsert: true}, function(err, result) {
-                                assert.equal(err, null);
-                                logMessage("Wrote contents of file: " + file + " to db.");
-                            });
-
-                        }
-                        if (numVerified == files.length) {
-                            db.close();
-                            cleanUp();
-                            if(foundIssue){
-                                sendIssueEmail();
-                            }
-                        }
-                    });
-                });
-            });
-        });
-    });
-});

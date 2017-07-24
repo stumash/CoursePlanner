@@ -1,10 +1,62 @@
+'use strict';
+
 var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
 var assert = require('assert');
 var courseCodeRegex = /\w{4}\s?\d{3}/;
 
-function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onComplete){
+// pull all html documents from sequenceUrls.json and write to appropriate .json files
+var scrapeAllUrls = (function (){
+
+    var outputDir = "./sequences/";
+    var numStarted = 0, numCompleted = 0;
+
+    fs.readFile("./sequenceUrls.json", function (err, data) {
+        if (err) {
+            console.error("ERROR reading sequenceUrls.json");
+            process.exit(1);
+        }
+
+        var sequenceUrls = JSON.parse(data.toString());
+
+        // do some logging each time a sequence is finished with
+        var completionCallback = function(){
+            numCompleted++;
+            console.log(numCompleted + "/" + numStarted + " file writes completed");
+            if(numCompleted == numStarted){
+                console.log("All file writes have been completed.");
+            }
+        };
+
+        for (var program in sequenceUrls) {
+            var subList = sequenceUrls[program];
+            var options = subList.Options;
+            // in this case, sequenceVariant/optionType will be either September entry, January entry, or Coop
+            if(options){
+                for(var optionType in options){
+                    var optionSubList = options[optionType];
+                    for(var sequenceVariant in optionSubList){
+                        var url = optionSubList[sequenceVariant];
+                        var plainFileName = program + "-" + optionType + "-" + sequenceVariant + ".json";
+                        numStarted++;
+                        scrapeEncsSequenceUrl(url, outputDir, plainFileName, completionCallback);
+                    }
+                }
+            } else {
+                for(var sequenceVariant in subList){
+                    var url = subList[sequenceVariant];
+                    var plainFileName =  program + "-" + sequenceVariant + ".json";
+                    numStarted++;
+                    scrapeEncsSequenceUrl(url, outputDir, plainFileName, completionCallback);
+                }
+            }
+        }
+    });
+})();
+
+// pull html document from url and write to appropriate .json files
+function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
 
     request(url, function(error, response, html){
         if(!error){
@@ -133,21 +185,15 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, shouldBeVerbose, onC
                 "semesterList" : semesterList
             };
 
-            if(shouldBeVerbose){
-                console.log("Finished scraping from url: " + url);
-            }
+            console.log("Finished scraping from url: " + url);
 
-            fs.writeFile(outPath, JSON.stringify(sequenceObject, null, 4), function(err){
+            fs.writeFile(outPath + plainFileName, JSON.stringify(sequenceObject, null, 4), function(err){
                 if(err){
                     console.error("ERROR writing to a file: " + plainFileName);
                     process.exit(1);
                 } else {
-                    if(shouldBeVerbose){
-                        console.log("Done writing file: " + plainFileName);
-                        if(onComplete){
-                            onComplete();
-                        }
-                    }
+                    console.log("Done writing file: " + plainFileName);
+                    onComplete && onComplete();
                 }
             });
 
@@ -182,69 +228,6 @@ function parseSeason(season){
     return undefined;
 }
 
-// pull all info contained in URLs from sequenceUrls.json and write to appropriate files
-// we define this function inside the exports object to expose it to other files
-module.exports.updateData = function(coursePlannerHome, shouldBeVerbose, onComplete){
-
-    var outputDir = coursePlannerHome + "/sequences";
-    var numStarted = 0, numCompleted = 0;
-
-    fs.readFile("./sequenceUrls.json", function (err, data) {
-        if (err) {
-            console.error("ERROR reading sequenceUrls.json");
-            process.exit(1);
-        }
-
-        var sequenceUrls = JSON.parse(data.toString());
-
-        fs.mkdir(outputDir, function(err){
-
-            if(err && shouldBeVerbose){
-                console.log("Couldn't create sequences directory (this might be because the directory already exists)");
-            }
-
-            var completionCallback = function(){
-                numCompleted++;
-                console.log(numCompleted + "/" + numStarted + " file writes completed");
-                if(numCompleted == numStarted){
-                    console.log("All file writes have been completed.");
-                    if(onComplete){
-                        onComplete();
-                    }
-                }
-            };
-
-            for (var program in sequenceUrls) {
-                var subList = sequenceUrls[program];
-                var options = subList.Options;
-                // in this case, sequenceVariant/optionType will be either September entry, January entry, or Coop
-                if(options){
-                    for(var optionType in options){
-                        var optionSubList = options[optionType];
-                        for(var sequenceVariant in optionSubList){
-                            var url = optionSubList[sequenceVariant];
-                            var plainFileName = program + "-" + optionType + "-" + sequenceVariant + ".json";
-                            var fileName = outputDir + "/" + plainFileName;
-                            numStarted++;
-                            scrapeEncsSequenceUrl(url, fileName, plainFileName, shouldBeVerbose, completionCallback);
-                        }
-                    }
-                } else {
-                    for(var sequenceVariant in subList){
-                        var url = subList[sequenceVariant];
-                        var plainFileName =  program + "-" + sequenceVariant + ".json";
-                        var fileName = outputDir + "/" + plainFileName;
-                        numStarted++;
-                        scrapeEncsSequenceUrl(url, fileName, plainFileName, shouldBeVerbose, completionCallback);
-                    }
-                }
-            }
-        });
-
-
-    });
-};
-
-module.exports.scrapeSingleUrl = function(url){
-    scrapeEncsSequenceUrl(url, "debug.json", true);
+module.exports.scrapeSingleUrl = function(url, onComplete){
+    scrapeEncsSequenceUrl(url, "./", "debug.json", onComplete);
 };

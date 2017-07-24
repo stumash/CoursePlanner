@@ -7,12 +7,23 @@ pushd `dirname $0` > /dev/null
 webscrapedir=$(pwd)
 popd > /dev/null
 
-# run scraper for course sequences
+# Course Sequences:
+
+# delete and remake the directory to hold scraped course sequence json files
+rm -r $webscrapedir/node/course-seq-scraper/sequences; mkdir $webscrapedir/node/course-seq-scraper/sequences
 cd "$webscrapedir/node/course-seq-scraper"
-node scrapeAndValidate.js
+
+# run scraper for course sequences
+node scraper.js
+
+# run storer for course sequences
+node storer.js
+
+# Course Data:
 
 # delete and remake the directory to hold scraped course-info json files
 rm -r $webscrapedir/r/course-info-jsonfiles; mkdir $webscrapedir/r/course-info-jsonfiles
+
 # run scraper for course data
 cd "$webscrapedir/r"
 Rscript scrape-course-data.r

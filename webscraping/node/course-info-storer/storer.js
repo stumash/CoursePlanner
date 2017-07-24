@@ -4,7 +4,7 @@
  *   the files in webscraping/r/course-info-jsonfiles/, storer.js
  *   takes those jsonfiles and pushes their contents to the database.
  *
- * storer.js is also written in a bad imperative accent
+ * stumash.js also speaks to people in a bad imperative accent
  */
 
 /**
