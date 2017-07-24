@@ -1,24 +1,63 @@
 @import url('https://fonts.googleapis.com/css?family=Orbitron');
 
-body {
-	color: #000033;
-	margin: 0px;
-    background: url("../images/Concordia-Background.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+/* Styling for SemesterTable */
+
+.semesterTable {
+    margin-top: 4px;
 }
 
-#root {
-    font-family: orbitron;
+.semesterTable tr > td:first-of-type {
+    vertical-align: middle;
 }
 
-#header-text {
-  font-family: orbitron;
-  margin: 0 auto;
-  position: relative;
-  text-align: center;
-  top: 0%;
-  width: 60%;
+/* Styling for SemesterList */
+
+.semesterListItem:first-of-type {
+    border-top: none;
+}
+
+.semesterListItem {
+    border-top: 1px solid black;
+}
+
+.semesterListItem .courseList {
+    margin-bottom: 6px;
+}
+
+.semesterID {
+    font-weight: bold;
+    margin-top: 6px;
+    margin-bottom: 2px;
+}
+
+/* Styling for SemesterBox */
+
+.semesterItem {
+    max-width: 150px;
+    margin: 6px auto;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.semesterItem:hover {
+    background-color: #E6E6E6;
+}
+
+.semesterItem:active {
+    background-color: #D3D3D3;
+}
+
+.noCoursesIndicator, .workTermIndicator {
+    vertical-align: middle;
+}
+
+/* Styling for ControlCenter */
+
+.controlCenter > div > div {
+    padding: 4px;
+}
+
+.controlCenter > div > div > div {
+    height: 100%;
+    border: 1px solid black;
 }

@@ -1,7 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import {MainPage} from "./mainPage";
 
+// Render our MainPage component to index.html
 ReactDOM.render(
-    <h1 id="header-text">Hello, world</h1>,
-    document.getElementById('root')
+    <MainPage/>,
+    document.getElementById("react-root")
 );

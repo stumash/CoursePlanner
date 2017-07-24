@@ -45,7 +45,7 @@
 
     <servlet-mapping>
         <servlet-name>SequenceProvider</servlet-name>
-        <url-pattern>/mongosequences</url-pattern>
+        <url-pattern>/coursesequences</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -55,7 +55,7 @@
 
     <servlet-mapping>
         <servlet-name>SequenceNamesList</servlet-name>
-        <url-pattern>/mongosequencelist</url-pattern>
+        <url-pattern>/sequencelist</url-pattern>
     </servlet-mapping>
 
     <servlet>
