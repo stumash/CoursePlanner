@@ -1,122 +1,63 @@
 @import url('https://fonts.googleapis.com/css?family=Orbitron');
 
-body {
-	color: #000033;
-	margin: 0px;
-    background: url("../images/Concordia-Background.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+/* Styling for SemesterTable */
+
+.semesterTable {
+    margin-top: 4px;
 }
 
-#main {
-	/*background-color: rgba(175,175,175,0.1);*/
-	padding: 4px 0px;
+.semesterTable tr > td:first-of-type {
+    vertical-align: middle;
 }
 
-#header-text {
-  font-family: orbitron;
-  margin: 0 auto;
-  position: relative;
-  text-align: center;
-  top: 0%;
+/* Styling for SemesterList */
+
+.semesterListItem:first-of-type {
+    border-top: none;
 }
 
-#box {
-  font-family: orbitron;
-  margin: 0 auto;
-  position: relative;
-  text-align: center;
-  width: 100%;
-  float: right;
+.semesterListItem {
+    border-top: 1px solid black;
 }
 
-#inputGroup select {
-	color: #000033;
-	letter-spacing: 0.8px;
-	border-radius: 4px;
-	font-weight: bold;
-	height: 40px;
-    width: 250px;
-    text-align: center;
-    font-family: orbitron;
-    font-size: 13px;
-    display: block;
-    border: 2px solid #444444;
-    background-color: rgba(175,175,175,0.8);
-    margin: 12px auto;
+.semesterListItem .courseList {
+    margin-bottom: 6px;
 }
 
-#inputGroup select:hover {
-	background-color: rgba(175,175,175, 1);
-} 
-
-#inputGroup select:active {
-	border: 2px solid #000000;
-}
-
-#checkbox {
-	color: #000033;
-	letter-spacing: 0.8px;
-	border-radius: 4px;
-	padding-top: 8px;
-	font-weight: bold;
-	height: 28px;
-    width: 244px;
-    font-family: orbitron;
-    display: block;
-    border: 2px solid #444444;
-    background-color: rgba(175,175,175,0.8);
-    margin: 12px auto;
-}
-
-#checkbox:hover {
-	background-color: rgba(175,175,175, 1);
-	cursor: pointer;
-  
-} 
-
-#checkbox:active {
-	border: 2px solid #000000;
-}
-
-.btn {
-	color: #000033;
-	/*background color: rgba(175,175,175,0.8);*/
-	letter-spacing: 0.8px;
-	border-radius: 4px;
-	font-size: 15px;
-	font-family: orbitron;
-	font-weight: bold;
-	margin-top: 97px;
-	height: 40px;
-	width: 100px;
-}
-
-.btn:hover {
-	cursor: pointer;
-}
-
-#credits {
-    text-align: center;
-    font-family: orbitron;
-    font-size: 18px;
+.semesterID {
     font-weight: bold;
-    letter-spacing: 0.8px;
-    float: right;
-    margin-right: 1%;
+    margin-top: 6px;
+    margin-bottom: 2px;
 }
 
-/* unvisited link */
-a:link {
-  color: blue; /* concordia magenta */
+/* Styling for SemesterBox */
+
+.semesterItem {
+    max-width: 150px;
+    margin: 6px auto;
+    border: 1px solid black;
+    cursor: pointer;
 }
 
-a:active {
-  color: white;
+.semesterItem:hover {
+    background-color: #E6E6E6;
 }
 
-a:hover {
-  color: orange;
+.semesterItem:active {
+    background-color: #D3D3D3;
+}
+
+.noCoursesIndicator, .workTermIndicator {
+    vertical-align: middle;
+}
+
+/* Styling for ControlCenter */
+
+.controlCenter > div > div {
+    padding: 4px;
+}
+
+.controlCenter > div > div > div {
+    height: 100%;
+    border: 1px solid black;
 }

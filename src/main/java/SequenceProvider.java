@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 
 public class SequenceProvider extends HttpServlet {
 
@@ -57,35 +58,53 @@ public class SequenceProvider extends HttpServlet {
         MongoDatabase db = mongoClient.getDatabase(Util.DB_NAME);
         MongoCollection collection = db.getCollection(Util.COURSE_DATA_COLLECTION_NAME);
         JSONObject sequenceJson = new JSONObject();
+        
         try{
 
             // convert to json object
             sequenceJson = new JSONObject(sequenceJsonString);
-            JSONArray semesterList = sequenceJson.getJSONArray("semesterList");
+            JSONArray yearList = sequenceJson.getJSONArray("yearList");
 
-            // traverse through, filling missing info on each valid course code
-            for(int i = 0; i < semesterList.length(); i++){
-                JSONObject semester = semesterList.getJSONObject(i);
-                JSONArray courseList = semester.getJSONArray("courseList");
-                for(int j = 0; j < courseList.length(); j++){
-                    Object entry = courseList.get(j);
-                    if(entry instanceof JSONObject){
-                        courseList.put(j, fillMissingInfo((JSONObject) entry, collection));
-                    } else if(entry instanceof JSONArray) {
-                        JSONArray orList = (JSONArray) entry;
-                        for(int k = 0; k < orList.length(); k++){
-                            orList.put(k, fillMissingInfo((JSONObject) orList.get(k), collection));
+
+            for(int i = 0; i < yearList.length(); i++) {
+
+                JSONObject year = yearList.getJSONObject(i);
+                JSONObject newYear = new JSONObject();
+
+                for (Iterator<String> seasonIterator = year.keys(); seasonIterator.hasNext(); ) {
+
+                    String season = seasonIterator.next();
+                    JSONObject semester = year.getJSONObject(season);
+                    JSONArray courseList = semester.getJSONArray("courseList");
+
+                    // loop through course list and fill missing info for each course
+                    for(int j = 0; j < courseList.length(); j++){
+
+                        Object entry = courseList.get(j);
+
+                        if(entry instanceof JSONObject){
+                            // found a simple course
+                            courseList.put(j, fillMissingInfo((JSONObject) entry, collection));
+                        } else if(entry instanceof JSONArray) {
+                            // found a list of courses (OR)
+                            JSONArray orList = (JSONArray) entry;
+
+                            for(int k = 0; k < orList.length(); k++){
+                                orList.put(k, fillMissingInfo((JSONObject) orList.get(k), collection));
+                            }
+
+                            courseList.put(j, orList);
+                        } else {
+                            logger.warn("Found unusual value inside course sequence. Expected a course object but found: " + entry.toString());
                         }
-                        courseList.put(j, orList);
-                    } else {
-                        logger.warn("Found unusual value inside course sequence. Expected a course object but found: " + entry.toString());
                     }
+                    
+                    semester.put("courseList", courseList);
+                    newYear.put(season, semester);
                 }
-                semester.put("courseList", courseList);
-                semesterList.put(i, semester);
+                
+                sequenceJson.put("yearList", yearList);
             }
-            sequenceJson.put("semesterList", semesterList);
-
         } catch(JSONException e){
             e.printStackTrace();
             throw new IOException("Error parsing sequence JSON data : " + sequenceJsonString);
