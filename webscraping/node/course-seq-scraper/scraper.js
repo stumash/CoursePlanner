@@ -6,6 +6,8 @@ var cheerio = require('cheerio');
 var assert = require('assert');
 var courseCodeRegex = /\w{4}\s?\d{3}/;
 
+const SEASON_NAMES = ["fall", "winter", "summer"];
+
 // pull all html documents from sequenceUrls.json and write to appropriate .json files
 var scrapeAllUrls = (function (){
 
@@ -179,10 +181,12 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
                 });
             }
 
+            var yearList = toYearList(semesterList);
+
             var sequenceObject = {
                 "sourceUrl": url,
                 "minTotalCredits" : minTotalCredits,
-                "semesterList" : semesterList
+                "yearList" : yearList
             };
 
             console.log("Finished scraping from url: " + url);
@@ -199,6 +203,53 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
 
         }
     });
+}
+
+// converts a list of semesters into a list of years, ensuring that each year has a fall, winter and summer semester object
+function toYearList(semesterList){
+
+    var yearList = [];
+
+    const noCourseSemester = {
+        "courseList": [],
+        "isWorkTerm": "false",
+    };
+
+    // first, fill in missing semesters
+    var filledSemesterList = fillMissingSemesters(semesterList);
+
+    // second, form year objects and add them to year list
+    for(let year = 1; year <= (Math.ceil(filledSemesterList.length/3)); year++){
+        let yearObject = {};
+        SEASON_NAMES.forEach((season, seasonIndex) => {
+            let currentSemester = filledSemesterList[((year-1)*3)+seasonIndex] || noCourseSemester;
+
+            // remove season property as it has become redundant information
+            delete currentSemester.season;
+
+            yearObject[season] = currentSemester;
+        });
+        yearList.push(yearObject);
+    }
+
+    return yearList;
+}
+
+// Take an array of semester objects and add in any missing semesters
+function fillMissingSemesters(semesterList){
+    for(var i = 0; i < semesterList.length; i++){
+
+        let expectedSeason = SEASON_NAMES[i%3];
+
+        if(!(semesterList[i].season === expectedSeason)){
+            semesterList.splice(i, 0, {
+                "courseList" : [],
+                "isWorkTerm" : "false"
+            });
+        }
+
+    }
+    return semesterList;
 }
 
 function addMiddleSpaceIfNeeded(courseCode){

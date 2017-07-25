@@ -1,7 +1,7 @@
 import React from "react";
 import {SemesterBox} from "./semesterBox";
-import {fillMissingSemesters} from "./util";
 import {SEASON_NAMES} from "./util";
+import {SEASON_NAMES_PRETTY} from "./util";
 
 /*
  *  Table which contains all courses of current sequence
@@ -18,35 +18,18 @@ export class SemesterTable extends React.Component {
 
         if(!this.props.courseSequenceObject.isLoading){
 
-            const semesterList = this.props.courseSequenceObject.semesterList;
+            const yearList = this.props.courseSequenceObject.yearList;
 
-            let filledSemesterList = fillMissingSemesters(semesterList);
-            let tableContent = [];
-
-            for(let year = 1; year <= (Math.ceil(filledSemesterList.length/3)); year++){
-                tableContent.push(
-                    <tr key={year}>
-                        <td className="text-center">{year}</td>
-                        {SEASON_NAMES.map((season, seasonIndex) =>
-                            {
-                                let currentSemester = filledSemesterList[((year-1)*3)+seasonIndex] || {};
-                                if(currentSemester){
-                                    return (
-                                        <td key={season}>
-                                            <SemesterBox year={year} season={season} semester={currentSemester}/>
-                                        </td>
-                                    );
-                                } else {
-                                    return (<td key={season}></td>);
-                                }
-                            }
-
-                        )}
-                    </tr>
-                );
-            }
-
-            return tableContent;
+            return yearList.map((year, yearIndex) =>
+                <tr key={yearIndex}>
+                    <td className="text-center">{(yearIndex + 1)}</td>
+                    {SEASON_NAMES.map((season) =>
+                        <td key={season}>
+                            <SemesterBox semester={yearList[yearIndex][season]}/>
+                        </td>
+                    )}
+                </tr>
+            );
         }
     }
 
@@ -54,7 +37,7 @@ export class SemesterTable extends React.Component {
         return (
             <tr>
                 <th className="text-center">Year</th>
-                {SEASON_NAMES.map((season) =>
+                {SEASON_NAMES_PRETTY.map((season) =>
                     <th className="text-center" key={season}>{season}</th>
                 )}
             </tr>
