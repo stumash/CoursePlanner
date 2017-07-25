@@ -20,12 +20,12 @@ export class SemesterTable extends React.Component {
 
             const yearList = this.props.courseSequenceObject.yearList;
 
-            return yearList.map((year, yearNumber) =>
-                <tr key={yearNumber}>
-                    <td className="text-center">{yearNumber}</td>
+            return yearList.map((year, yearIndex) =>
+                <tr key={yearIndex}>
+                    <td className="text-center">{(yearIndex + 1)}</td>
                     {SEASON_NAMES.map((season) =>
                         <td key={season}>
-                            <SemesterBox year={yearNumber} season={season} semester={yearList[yearNumber][season]}/>
+                            <SemesterBox semester={yearList[yearIndex][season]}/>
                         </td>
                     )}
                 </tr>

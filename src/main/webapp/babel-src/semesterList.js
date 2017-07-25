@@ -19,13 +19,13 @@ export class SemesterList extends React.Component {
 
             const yearList = this.props.courseSequenceObject.yearList;
 
-            return yearList.map((year, yearNumber) =>
-                {SEASON_NAMES.map((season) =>
-                    <div className="semesterListItem col-xs-12" key={season + "" + yearNumber}>
-                        <div className="semesterID text-center col-xs-8 col-xs-offset-2">{season + " " + yearNumber}</div>
-                        <SemesterBox year={yearNumber} season={season} semester={yearList[yearNumber][season]}/>
+            return yearList.map((year, yearIndex) =>
+                SEASON_NAMES.map((season) =>
+                    <div className="semesterListItem col-xs-12" key={season + "" + yearIndex}>
+                        <div className="semesterID text-center col-xs-8 col-xs-offset-2">{season + " " + (yearIndex + 1)}</div>
+                        <SemesterBox semester={yearList[yearIndex][season]}/>
                     </div>
-                )}
+                )
             );
         }
     }
