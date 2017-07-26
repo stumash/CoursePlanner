@@ -65,7 +65,7 @@ mvnCommand="mvn clean install"
 echo "building backend... (maven)"
 if eval $mvnCommand $verbose
 then
-    echo "backend build succssful. Transferring war file to VM"
+    echo "backend build successful"
 else
     echo "backend build failed"
     echo "deploy.sh failed"
