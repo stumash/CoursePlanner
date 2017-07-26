@@ -13,22 +13,27 @@
 var fs = require('fs');
 var assert = require('assert');
 var MongoClient = require('mongodb').MongoClient;
+var argv = require('minimist')(process.argv.slice(2));
 
 /**
  * constants
  */
 const DIR = '../../r/course-info-jsonfiles/';
 const jsonFilenameRegex = /_document.json/;//filter by filename
-const mongoServerUrl = 'mongodb://138.197.6.26:27017/courseplannerdb';
+var mongoServerUrl = 'mongodb://138.197.6.26:27017/';
+var devDbName = "courseplannerdb-dev";
+var prodDbName = "courseplannerdb";
+var dbName = (argv.prod) ? prodDbName : devDbName;
+var dbFullUrl = mongoServerUrl + dbName;
 
 /**
  * main method
  */
-var main = (function() {
+var storeAllCourses = (function() {
 
     console.log("Storing course data in database...");
 
-    MongoClient.connect(mongoServerUrl, function(err, db) {
+    MongoClient.connect(dbFullUrl, function(err, db) {
         assert.equal(null, err);
         console.log("Connected successfully to db server");
 

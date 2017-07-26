@@ -10,8 +10,8 @@ popd > /dev/null
 # Course Sequences:
 
 # delete and remake the directory to hold scraped course sequence json files
-rm -r $webscrapedir/node/course-seq-scraper/sequences; mkdir $webscrapedir/node/course-seq-scraper/sequences
-cd "$webscrapedir/node/course-seq-scraper"
+rm -r $webscrapedir/node/course-seq/sequences; mkdir $webscrapedir/node/course-seq/sequences
+cd "$webscrapedir/node/course-seq"
 
 # run scraper for course sequences
 node scraper.js
@@ -29,5 +29,5 @@ cd "$webscrapedir/r"
 Rscript scrape-course-data.r
 
 # run storer for course data
-cd "$webscrapedir/node/course-info-storer"
+cd "$webscrapedir/node/course-info"
 node storer.js

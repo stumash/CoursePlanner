@@ -10,4 +10,4 @@ node_modules/
 /src/main/webapp/babel-out/
 
 /webscraping/r/course-info-jsonfiles/
-/webscraping/node/course-seq-scraper/sequences/
+/webscraping/node/course-seq/sequences/
