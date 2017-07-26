@@ -13,11 +13,15 @@ popd > /dev/null
 rm -r $webscrapedir/node/course-seq/sequences; mkdir $webscrapedir/node/course-seq/sequences
 cd "$webscrapedir/node/course-seq"
 
+# Make sure any new dependencies are installed
+
+npm install
+
 # run scraper for course sequences
 node scraper.js
 
 # run storer for course sequences
-node storer.js
+node storer.js "${1}"
 
 # Course Data:
 
@@ -30,4 +34,4 @@ Rscript scrape-course-data.r
 
 # run storer for course data
 cd "$webscrapedir/node/course-info"
-node storer.js
+node storer.js "${1}"
