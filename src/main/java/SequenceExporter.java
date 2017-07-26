@@ -1,33 +1,27 @@
-import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.ArrayList;
 
-/**
- * Created by David Huculak on 2017-02-02.
- */
-public class SequenceExporter extends HttpServlet {
-
-    private static Logger logger = Logger.getLogger("SequenceExporter");
+public class SequenceExporter extends CPServlet {
 
     private String EXPORTS_DIR;
 
-    public void init(final ServletConfig config) {
-        EXPORTS_DIR = config.getServletContext().getRealPath("/") + "exports/";
+    public void init(ServletConfig config) throws ServletException{
+        super.init(config);
+        EXPORTS_DIR = config.getServletContext().getRealPath("/") + appProperties.getProperty("exportsDirectory") + "/";
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         logger.info("---------User requested a sequence export---------");
 
-        ArrayList<Semester> semesters = Util.grabSemestersFromRequest(request);
+        ArrayList<Semester> semesters = grabSemestersFromRequest(request);
 
         String semesterAsMarkdown = semesterListToMarkdownString(semesters);
 
@@ -41,7 +35,7 @@ public class SequenceExporter extends HttpServlet {
         JSONObject responseJson = new JSONObject();
 
         try {
-            responseJson.put("exportPath","exports/"+fileName+".pdf");
+            responseJson.put("exportPath",appProperties.getProperty("exportsDirectory")+"/"+fileName+".pdf");
         } catch (JSONException e) {
             logger.error("JSONException occured");
             e.printStackTrace();
@@ -130,5 +124,4 @@ public class SequenceExporter extends HttpServlet {
             e.printStackTrace();
         }
     }
-
 }

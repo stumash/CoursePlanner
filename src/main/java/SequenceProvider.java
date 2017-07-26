@@ -1,35 +1,23 @@
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import org.apache.log4j.Logger;
 import org.bson.Document;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 
-public class SequenceProvider extends HttpServlet {
-
-    private static Logger logger = Logger.getLogger("SequenceProvider");
+public class SequenceProvider extends DBServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         logger.info("---------Client app requested a course sequence---------");
 
-        String sequenceID = (String) Util.grabPropertyFromRequest("sequenceID", request);
-
-        // connect to collection from mongodb server
-        MongoClient mongoClient = Util.getMongoClient();
-        MongoDatabase db = mongoClient.getDatabase(Util.DB_NAME);
-        MongoCollection collection = db.getCollection(Util.COURSE_SEQUENCE_COLLECTION_NAME);
+        String sequenceID = (String) grabPropertyFromRequest("sequenceID", request);
 
         logger.info("requested ID: " + sequenceID);
 
@@ -37,7 +25,7 @@ public class SequenceProvider extends HttpServlet {
         String responseString = "";
         Document filter = new Document();
         filter.put("_id", sequenceID);
-        Document dbResult = (Document)collection.find(filter).first();
+        Document dbResult = (Document) courseSequences.find(filter).first();
 
         if(dbResult != null) {
             String sequenceJsonString = dbResult.toJson();
@@ -54,9 +42,6 @@ public class SequenceProvider extends HttpServlet {
 
     public String fillAllMissingInfo(String sequenceJsonString) throws IOException{
 
-        MongoClient mongoClient = Util.getMongoClient();
-        MongoDatabase db = mongoClient.getDatabase(Util.DB_NAME);
-        MongoCollection collection = db.getCollection(Util.COURSE_DATA_COLLECTION_NAME);
         JSONObject sequenceJson = new JSONObject();
         
         try{
@@ -84,13 +69,13 @@ public class SequenceProvider extends HttpServlet {
 
                         if(entry instanceof JSONObject){
                             // found a simple course
-                            courseList.put(j, fillMissingInfo((JSONObject) entry, collection));
+                            courseList.put(j, fillMissingInfo((JSONObject) entry));
                         } else if(entry instanceof JSONArray) {
                             // found a list of courses (OR)
                             JSONArray orList = (JSONArray) entry;
 
                             for(int k = 0; k < orList.length(); k++){
-                                orList.put(k, fillMissingInfo((JSONObject) orList.get(k), collection));
+                                orList.put(k, fillMissingInfo((JSONObject) orList.get(k)));
                             }
 
                             courseList.put(j, orList);
@@ -114,13 +99,13 @@ public class SequenceProvider extends HttpServlet {
     }
 
     // add in name and credits values from the DB
-    public JSONObject fillMissingInfo(JSONObject courseObject, MongoCollection collection) throws JSONException{
+    public JSONObject fillMissingInfo(JSONObject courseObject) throws JSONException{
 
         if(!courseObject.getBoolean("isElective")){
 
             Document filter = new Document();
             filter.put("_id", courseObject.getString("code"));
-            Document dbResult = (Document)collection.find(filter).first();
+            Document dbResult = (Document) courseData.find(filter).first();
 
             JSONObject dbCourseDoc;
             if(dbResult != null) {
@@ -145,5 +130,4 @@ public class SequenceProvider extends HttpServlet {
         }
         return courseObject;
     }
-
 }

@@ -5,20 +5,26 @@ var remove = require("remove");
 var fs = require("fs");
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
-var mongoServerUrl = 'mongodb://138.197.6.26:27017/courseplannerdb';
+var argv = require('minimist')(process.argv.slice(2));
+
+var mongoServerUrl = 'mongodb://138.197.6.26:27017/';
+var devDbName = "courseplannerdb-dev";
+var prodDbName = "courseplannerdb";
+var dbName = (argv.prod) ? prodDbName : devDbName;
+var dbFullUrl = mongoServerUrl + dbName;
 var log = "*** Sequence Validation Log ***<br><br>";
 var emptyRegex =  /^\s*$/;
 
 const SEASON_NAMES = ["fall", "winter", "summer"];
 
-var storeAllCourses = (function (){
+var storeAllSequences = (function (){
 
     console.log("Storing + validating sequence json data");
 
     var seqFolder = './sequences/';
     var numVerified = 0;
 
-    MongoClient.connect(mongoServerUrl, function(err, db) {
+    MongoClient.connect(dbFullUrl, function(err, db) {
         assert.equal(null, err);
         console.log("Connected successfully to db server");
 

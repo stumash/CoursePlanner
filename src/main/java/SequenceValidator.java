@@ -1,10 +1,8 @@
-import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -12,9 +10,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SequenceValidator extends HttpServlet {
+public class SequenceValidator extends DBServlet {
 
-    private static Logger logger = Logger.getLogger("SequenceValidator");
     private static HashMap<String,CourseInfo> courseInfoMap;
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -24,7 +21,7 @@ public class SequenceValidator extends HttpServlet {
 
         response.setContentType("text/html");
 
-        ArrayList<Semester> semesters = Util.grabSemestersFromRequest(request);
+        ArrayList<Semester> semesters = grabSemestersFromRequest(request);
 
         // just a simple log to make sure the json is getting parsed right
         // logSemesterData(semesters);
@@ -171,5 +168,4 @@ public class SequenceValidator extends HttpServlet {
 
         return responseMessage;
     }
-
 }
