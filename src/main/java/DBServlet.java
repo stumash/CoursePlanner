@@ -15,8 +15,13 @@ public abstract class DBServlet extends CPServlet {
 
         // set up references to mongo collections
         MongoClient mongoClient = new MongoClient(new MongoClientURI(appProperties.getProperty("mongoUrl")));
-        MongoDatabase db = mongoClient.getDatabase(appProperties.getProperty("dbName"));
+        MongoDatabase db = mongoClient.getDatabase(getDbName());
         courseData = db.getCollection(appProperties.getProperty("courseDataCollectionName"));
         courseSequences = db.getCollection(appProperties.getProperty("courseSequenceCollectionName"));
     }
+
+    public String getDbName(){
+        return appProperties.getProperty("buildType").equals("prod") ? appProperties.getProperty("dbNameProd") : appProperties.getProperty("dbNameDev");
+    }
+
 }

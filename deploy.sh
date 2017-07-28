@@ -62,8 +62,14 @@ echo ""
 
 # compile backend sources and package frontend assets
 mvnCommand="mvn clean install"
+if $prod
+then
+    mvnProfile="-P prod"
+else
+    mvnProfile="-P dev"
+fi
 echo "building backend... (maven)"
-if eval $mvnCommand $verbose
+if eval $mvnCommand $mvnProfile $verbose
 then
     echo "backend build successful"
 else

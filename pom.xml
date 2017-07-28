@@ -4,9 +4,18 @@
     <artifactId>course-planner</artifactId>
     <version>1.0.0</version>
     <packaging>war</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <build>
         <finalName>courseplanner</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
 
             <!-- Java compiler -->
@@ -23,28 +32,26 @@
                 <version>2.2</version>
             </plugin>
 
-            <!-- Javascript linter -->
-            <plugin>
-                <groupId>com.cj.jshintmojo</groupId>
-                <artifactId>jshint-maven-plugin</artifactId>
-                <version>1.6.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>lint</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <directories>
-                        <directory>src/main/webapp/js</directory>
-                    </directories>
-                    <failOnError>true</failOnError>
-                </configuration>
-            </plugin>
-
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <buildType>dev</buildType>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <buildType>prod</buildType>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
 
