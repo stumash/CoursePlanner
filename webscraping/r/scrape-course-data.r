@@ -13,8 +13,10 @@ num.scrapes <- length(urls.and.css.selectors) / 3
 program.names <- urls.and.css.selectors[seq(from = 1, to = length(urls.and.css.selectors), by = 3)]
 urls          <- urls.and.css.selectors[seq(from = 2, to = length(urls.and.css.selectors), by = 3)]
 css.selectors <- urls.and.css.selectors[seq(from = 3, to = length(urls.and.css.selectors), by = 3)]
+rm(urls.and.css.selectors)
 
-for(i in 1:num.scrapes) {
+#for(i in 1:num.scrapes) {
+i <- 1
     # print(i)
     # print(program.name[i])
 
@@ -26,17 +28,19 @@ for(i in 1:num.scrapes) {
     # ...something like 'SOEN 555    Systems'
     course.info.header.regex <- "[A-Z]{4} [0-9]{3}[[:space:]]+?[A-Z][a-z]+."
 
-    # split string on empty string before each course.info.header.regex match, convert to data frame
+    # split text on empty string before each course.info.header.regex match, convert to data frame
     program.courses <- html_text(program.html.string) %>%
         str_split( paste(sep = "", "(?=(", course.info.header.regex, "))") )
 
-    # list to data frame R nonsense
+    # list to data-frame R nonsense
     program.courses <- program.courses %>% .[[1]] %>% .[-1] %>%
         as.data.frame(stringsAsFactors = FALSE)
     colnames(program.courses) <- c("fullstring") # also better column name
 
     # some cleaning of the full string of each course extracted for each course
-    program.courses[,1] <- str_trim(program.courses[,1])
+    program.courses[,1] <- str_trim(program.courses[,1]) # trim whitespace of ends of strings
+    program.courses[,1] <- str_replace_all(program.courses[,1], "\\s+", " ") # many adjacent whitespaces to single space
+    program.courses[,1] <- str_replace_all(program.courses[,1], "-\n", "")
 
     # some regexes for data extraction from full string
     course.code.regex <- '[A-Z]{4} [0-9]{3}'
@@ -53,13 +57,11 @@ for(i in 1:num.scrapes) {
         mutate(credits = str_match(program.courses$fullstring, credits.regex) %>% .[,2])
     program.courses <- program.courses %>%
         mutate(prereq.string = program.courses$fullstring %>% str_match(prereqs.regex) %>% .[,2])
+    
+    # create column 'secondhalf.string', smaller than 'fullstring' to extract more fields from
     program.courses <- program.courses %>%
         mutate(secondhalf.string = program.courses$fullstring %>% str_split('\\. ', n = 2) %>%
                sapply(function(x) x[2]) %>% str_trim)
-
-    # remove hyphen followed by newline (concordia website programmers being lazy)
-    program.courses$secondhalf.string <- program.courses$secondhalf.string %>%
-        str_replace('-\n', '')
 
     # some regexes for data extraction from column 'secondhalf.string'
     lectures.regex <- 'Lectures: ([^.]*)'
@@ -92,4 +94,4 @@ for(i in 1:num.scrapes) {
     writeLines(prettify(toJSON(full.course.strings)), file.connection); close(file.connection)
     file.connection <- file(paste(sep = "_", paste(sep="", "course-info-jsonfiles/", program.names[i]), "document.json"))
     writeLines(prettify(toJSON(program.courses)), file.connection); close(file.connection)
-}
+#}
