@@ -16,7 +16,7 @@ css.selectors <- urls.and.css.selectors[seq(from = 3, to = length(urls.and.css.s
 rm(urls.and.css.selectors)
 
 #for(i in 1:num.scrapes) {
-i <- 1
+i <- 2
     # print(i)
     # print(program.name[i])
 
@@ -82,12 +82,22 @@ i <- 1
     program.courses <- program.courses %>%
         mutate(note = program.courses$secondhalf.string %>% str_match(note.regex) %>% .[,2])
 
+    #### TODO: how do I want to do this?
+    # some regexes for data extraction from column 'prereq.string'
+    prereqs.split.regex <- ';|,'
+    # parse prereq.string into JSON object 'rqmts'
+    rqmts <- list(prereqs = NULL, coreqs = NULL, mincreds = NULL)
+    prereq.strings <- program.courses$prereq.string # temp variable for prereq strings
+    # add rqmts JSON objects as new column 'requirements'
+    program.courses <- mutate(program.courses, requirements = toJSON(rqmts))
+    
     # store and remove redundant data from program.courses data frame
     full.course.strings <- program.courses$fullstring %>% as.data.frame(stringsAsFactors = FALSE)
     colnames(full.course.strings) <- c("contents")
     # remove columns 'fullstring' and 'secondhalf.string' from program.courses data frame
     program.courses <- program.courses %>% select(-one_of(c('fullstring')))
     program.courses <- program.courses %>% select(-one_of(c('secondhalf.string')))
+    program.courses <- program.courses %>% select(-one_of(c('prereq.string')))
 
     # store data in JSON-formatted files
     file.connection <- file(paste(sep = "_", paste(sep="", "course-info-jsonfiles/", program.names[i]), "full-course-info.json"))
