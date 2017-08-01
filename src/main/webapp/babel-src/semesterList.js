@@ -4,7 +4,7 @@ import {SEASON_NAMES} from "./util";
 
 /*
  *  List which contains all courses of current sequence
- *  This view is to be displayed for smaller screens (<sm)
+ *  Alternative to the SemesterTable view. To be displayed for smaller screens (<sm)
  *
  *  Expects props:
  *
