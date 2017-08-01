@@ -82,14 +82,41 @@ i <- 2
     program.courses <- program.courses %>%
         mutate(note = program.courses$secondhalf.string %>% str_match(note.regex) %>% .[,2])
 
-    #### TODO: how do I want to do this?
+    #------------------------------------------------------------------------------------
+    # BEGIN PARSING PREREQ STRING INTO JSON OBJECT
+    # TODO!!!
+    
+    # temp variable for prereq strings
+    prereq.strings <- program.courses$prereq.string
+    
+    #'COMP 222, 333'/'COMP 222 or 333' to 'COMP 222, COMP 333'/'COMP 222 or COMP 333'. 4 times for good measure
+    prereq.strings <- gsub("([A-Z]{4} )([0-9]{3}(,| or) )([0-9]{3})", "\\1\\2\\1\\4", prereq.strings)
+    prereq.strings <- gsub("([A-Z]{4} )([0-9]{3}(,| or) )([0-9]{3})", "\\1\\2\\1\\4", prereq.strings)
+    prereq.strings <- gsub("([A-Z]{4} )([0-9]{3}(,| or) )([0-9]{3})", "\\1\\2\\1\\4", prereq.strings)
+    prereq.strings <- gsub("([A-Z]{4} )([0-9]{3}(,| or) )([0-9]{3})", "\\1\\2\\1\\4", prereq.strings)
+    
     # some regexes for data extraction from column 'prereq.string'
-    prereqs.split.regex <- ';|,'
-    # parse prereq.string into JSON object 'rqmts'
-    rqmts <- list(prereqs = NULL, coreqs = NULL, mincreds = NULL)
-    prereq.strings <- program.courses$prereq.string # temp variable for prereq strings
+    prereqs.split.regex <- '[,;] ' # split on colon
+    coreq.regex <- 'previously or concurrently'
+    
+    # parse prereq.string into list object 'rqmts'
+    prereq.strings <- str_split(prereq.strings, prereqs.split.regex) # split to list of vectors
+    lapply(prereq.strings, function(prereq.vector) {
+      coreqs <- # extract just strings that are coreqs
+      prereqs <-  # extract just strings that are prereqs
+      rqmts <- list('prereqs' = prereqs, 'coreqs' = coreqs)
+    })
+    str(prereq.strings)
+    
+    # some list to JSON testing
+    test <- list('testkey'=list())
+    testJSON <- toJSON(test, pretty=T) # convert to JSON { "testkey": [] }
+    
     # add rqmts JSON objects as new column 'requirements'
     program.courses <- mutate(program.courses, requirements = toJSON(rqmts))
+    
+    # END PARSING PREREQ STRING INTO JSON OBJECT
+    #------------------------------------------------------------------------------------
     
     # store and remove redundant data from program.courses data frame
     full.course.strings <- program.courses$fullstring %>% as.data.frame(stringsAsFactors = FALSE)
