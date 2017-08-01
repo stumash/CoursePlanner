@@ -25,7 +25,7 @@ export class SemesterTable extends React.Component {
                     <td className="text-center">{(yearIndex + 1)}</td>
                     {SEASON_NAMES.map((season) =>
                         <td key={season}>
-                            <SemesterBox semester={yearList[yearIndex][season]}/>
+                            <SemesterBox onSelectCourse={this.props.onSelectCourse} semester={yearList[yearIndex][season]}/>
                         </td>
                     )}
                 </tr>

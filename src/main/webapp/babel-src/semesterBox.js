@@ -7,8 +7,20 @@ import React from "react";
  *
  *  semester - json object which represents a single semester; contains array courseList and string isWorkTerm
  *
+ *  onSelectCourse(courseCode) - function to call in the event that the user selects a course such as by clicking on it
+ *      param courseCode - the code of the chosen course
+ *
  */
 export class SemesterBox extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.handleCourseSelection = this.handleCourseSelection.bind(this);
+    }
+
+    handleCourseSelection(event){
+        this.props.onSelectCourse(event.target.innerHTML.substring(0,8));
+    }
 
     renderCourseList(){
 
@@ -28,7 +40,7 @@ export class SemesterBox extends React.Component {
                 return (
                     <div className="semesterItem courseOrBlock" key={courseIndex}>
                         {courseObj.map((courseOrObj, courseOrIndex) =>
-                            <div className="text-center" key={courseOrIndex}>
+                            <div className="text-center" onClick={this.handleCourseSelection} key={courseOrIndex}>
                                 {this.getCourseText(courseOrObj)}
                             </div>
                         )}
@@ -36,7 +48,7 @@ export class SemesterBox extends React.Component {
                 )
             } else {
                 return (
-                    <div className="semesterItem text-center" key={courseIndex}>
+                    <div className="semesterItem text-center" onClick={this.handleCourseSelection} key={courseIndex}>
                         {this.getCourseText(courseObj)}
                     </div>
                 );
