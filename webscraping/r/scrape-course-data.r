@@ -26,11 +26,11 @@ i <- 2
 
     # match "course info header" of each course on concordia web site
     # ...something like 'SOEN 555    Systems'
-    course.info.header.regex <- "[A-Z]{4} [0-9]{3}[[:space:]]+?[A-Z][a-z]+."
+    course.info.header.rgx <- "[A-Z]{4} [0-9]{3}[[:space:]]+?[A-Z][a-z]+."
 
-    # split text on empty string before each course.info.header.regex match, convert to data frame
+    # split text on empty string before each course.info.header.rgx match, convert to data frame
     program.courses <- html_text(program.html.string) %>%
-        str_split( paste(sep = "", "(?=(", course.info.header.regex, "))") )
+        str_split( paste(sep = "", "(?=(", course.info.header.rgx, "))") )
 
     # list to data-frame R nonsense
     program.courses <- program.courses %>% .[[1]] %>% .[-1] %>%
@@ -40,23 +40,23 @@ i <- 2
     # some cleaning of the full string of each course extracted for each course
     program.courses[,1] <- str_trim(program.courses[,1]) # trim whitespace of ends of strings
     program.courses[,1] <- str_replace_all(program.courses[,1], "\\s+", " ") # many adjacent whitespaces to single space
-    program.courses[,1] <- str_replace_all(program.courses[,1], "-\n", "")
+    program.courses[,1] <- str_replace_all(program.courses[,1], "-\n", "") # remove shitty manual line-wraps
 
     # some regexes for data extraction from full string
-    course.code.regex <- '[A-Z]{4} [0-9]{3}'
-    course.name.regex <- '[A-Z][a-z][^(]*'
-    credits.regex <- '\\(([0-9](\\.[0-9])?[0-9]?) credits\\)'
-    prereqs.regex <- 'Prerequisite: ([^.]*)'
+    course.code.rgx <- '[A-Z]{4} [0-9]{3}'
+    course.name.rgx <- '[A-Z][a-z][^(]*'
+    credits.rgx <- '\\(([0-9](\\.[0-9])?[0-9]?) credits\\)'
+    prereqs.rgx <- 'Prerequisite: ([^.]*)'
 
     # extracting the regexes to new columns in the program.courses data frame
     program.courses <- program.courses %>% # str_extract only takes first occurence of regex
-        mutate(code = str_extract(program.courses$fullstring, course.code.regex))
+        mutate(code = str_extract(program.courses$fullstring, course.code.rgx))
     program.courses <- program.courses %>%
-        mutate(name = str_extract(program.courses$fullstring, course.name.regex) %>% str_trim)
+        mutate(name = str_extract(program.courses$fullstring, course.name.rgx) %>% str_trim)
     program.courses <- program.courses %>%
-        mutate(credits = str_match(program.courses$fullstring, credits.regex) %>% .[,2])
+        mutate(credits = str_match(program.courses$fullstring, credits.rgx) %>% .[,2])
     program.courses <- program.courses %>%
-        mutate(prereq.string = program.courses$fullstring %>% str_match(prereqs.regex) %>% .[,2])
+        mutate(prereq.string = program.courses$fullstring %>% str_match(prereqs.rgx) %>% .[,2])
     
     # create column 'secondhalf.string', smaller than 'fullstring' to extract more fields from
     program.courses <- program.courses %>%
@@ -64,27 +64,26 @@ i <- 2
                sapply(function(x) x[2]) %>% str_trim)
 
     # some regexes for data extraction from column 'secondhalf.string'
-    lectures.regex <- 'Lectures: ([^.]*)'
-    tutorials.regex <- 'Tutorial: ([^.]*)'
-    laboratory.regex <- 'Laboratory: ([^.]*)'
-    note.regex <- 'NOTE: (.*)'
-    course.description.regex <- '.*?(?=(Lecture|Tutorial|Laboratory|\nNOTE|$))'
+    lectures.rgx <- 'Lectures: ([^.]*)'
+    tutorials.rgx <- 'Tutorial: ([^.]*)'
+    laboratory.rgx <- 'Laboratory: ([^.]*)'
+    note.rgx <- 'NOTE: (.*)'
+    course.description.rgx <- '.*?(?=(Lecture|Tutorial|Laboratory|\nNOTE|$))'
 
     # extracting the regex to new columns in the program.courses data frame
     program.courses <- program.courses %>%
-        mutate(description = program.courses$secondhalf.string %>% str_extract(course.description.regex))
+        mutate(description = program.courses$secondhalf.string %>% str_extract(course.description.rgx))
     program.courses <- program.courses %>%
-        mutate(lecture.hours = program.courses$secondhalf.string %>% str_match(lectures.regex) %>% .[,2])
+        mutate(lecture.hours = program.courses$secondhalf.string %>% str_match(lectures.rgx) %>% .[,2])
     program.courses <- program.courses %>%
-        mutate(tutorial.hours = program.courses$secondhalf.string %>% str_match(tutorials.regex) %>% .[,2])
+        mutate(tutorial.hours = program.courses$secondhalf.string %>% str_match(tutorials.rgx) %>% .[,2])
     program.courses <- program.courses %>% 
-        mutate(lab.hours = program.courses$secondhalf.string %>% str_match(laboratory.regex) %>% .[,2])
+        mutate(lab.hours = program.courses$secondhalf.string %>% str_match(laboratory.rgx) %>% .[,2])
     program.courses <- program.courses %>%
-        mutate(note = program.courses$secondhalf.string %>% str_match(note.regex) %>% .[,2])
+        mutate(note = program.courses$secondhalf.string %>% str_match(note.rgx) %>% .[,2])
 
     #------------------------------------------------------------------------------------
     # BEGIN PARSING PREREQ STRING INTO JSON OBJECT
-    # TODO!!!
     
     # temp variable for prereq strings
     prereq.strings <- program.courses$prereq.string
@@ -95,28 +94,23 @@ i <- 2
     prereq.strings <- gsub("([A-Z]{4} )([0-9]{3}(,| or) )([0-9]{3})", "\\1\\2\\1\\4", prereq.strings)
     prereq.strings <- gsub("([A-Z]{4} )([0-9]{3}(,| or) )([0-9]{3})", "\\1\\2\\1\\4", prereq.strings)
     
-    # some regexes for data extraction from column 'prereq.string'
-    prereqs.split.regex <- '[,;] ' # split on colon
-    coreq.regex <- 'previously or concurrently'
-    course.code.capture <- '([A-Z]{4} [0-9]{3})'
+    # some rgxes for data extraction from column 'prereq.string'
+    prereqs.split.rgx <- '[,;] ' # split on colon
+    coreq.rgx <- 'previously or concurrently'
     
     # parse prereq.string into list object 'rqmts'
-    prereq.strings <- str_split(prereq.strings, prereqs.split.regex) # split to list of vectors
-    lapply(prereq.strings, function(prereq.vector) {
-      # extract just strings that are coreqs
-      which.coreqs <- str_detect(prereq.vector, coreq.regex)
-      coreqs <- prereq.vector[which.coreqs] %>% str_extract_all(course.code.capture)
-      # extract just strings that are prereqs
-      prereqs <- prereq.vector[! which.coreqs] %>% str_extract_all(course.code.capture)
-      list('prereqs' = prereqs, 'coreqs' = coreqs)
+    prereq.strings <- str_split(prereq.strings, prereqs.split.rgx) # split to list of vectors
+    prereq.strings <- lapply(prereq.strings, function(prereq.vector) {
+      which.courses <- str_detect(prereq.vector, course.code.rgx)# extract strings containing course codes
+      which.coreqs <- str_detect(prereq.vector, coreq.rgx)# extract strings containing coreqs
+      # list of coreq course code vectors
+      coreqs <- prereq.vector[which.coreqs & which.courses] %>% str_extract_all(course.code.rgx)
+      # list of prepreq course code vectors
+      prereqs <- prereq.vector[(! which.coreqs) & which.courses] %>% str_extract_all(course.code.rgx)
+      list('prereqs' = prereqs %>% toJSON(), 'coreqs' = coreqs %>% toJSON())
     })
     
-    # some list to JSON testing
-    test <- list('testkey'=list())
-    testJSON <- toJSON(test, pretty=T) # convert to JSON { "testkey": [] }
-    
-    # add rqmts JSON objects as new column 'requirements'
-    program.courses <- mutate(program.courses, requirements = toJSON(rqmts))
+    program.courses <- program.courses %>% mutate(requirements = prereq.strings)
     
     # END PARSING PREREQ STRING INTO JSON OBJECT
     #------------------------------------------------------------------------------------
