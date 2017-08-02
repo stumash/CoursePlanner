@@ -98,15 +98,18 @@ i <- 2
     # some regexes for data extraction from column 'prereq.string'
     prereqs.split.regex <- '[,;] ' # split on colon
     coreq.regex <- 'previously or concurrently'
+    course.code.capture <- '([A-Z]{4} [0-9]{3})'
     
     # parse prereq.string into list object 'rqmts'
     prereq.strings <- str_split(prereq.strings, prereqs.split.regex) # split to list of vectors
     lapply(prereq.strings, function(prereq.vector) {
-      coreqs <- # extract just strings that are coreqs
-      prereqs <-  # extract just strings that are prereqs
-      rqmts <- list('prereqs' = prereqs, 'coreqs' = coreqs)
+      # extract just strings that are coreqs
+      which.coreqs <- str_detect(prereq.vector, coreq.regex)
+      coreqs <- prereq.vector[which.coreqs] %>% str_extract_all(course.code.capture)
+      # extract just strings that are prereqs
+      prereqs <- prereq.vector[! which.coreqs] %>% str_extract_all(course.code.capture)
+      list('prereqs' = prereqs, 'coreqs' = coreqs)
     })
-    str(prereq.strings)
     
     # some list to JSON testing
     test <- list('testkey'=list())
