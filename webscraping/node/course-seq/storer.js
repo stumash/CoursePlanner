@@ -6,23 +6,26 @@ var fs = require("fs");
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var argv = require('minimist')(process.argv.slice(2));
+var Ajv = require('ajv');
+var ajv = new Ajv({
+    "verbose": true,
+    "allErrors": true
+});
 
+var validate = ajv.compile(JSON.parse(fs.readFileSync('../json-schema/recommendedSequence.json', 'utf8')));
 var mongoServerUrl = 'mongodb://138.197.6.26:27017/';
 var devDbName = "courseplannerdb-dev";
 var prodDbName = "courseplannerdb";
 var dbName = (argv.prod) ? prodDbName : devDbName;
 var dbFullUrl = mongoServerUrl + dbName;
 var log = "*** Sequence Validation Log ***<br><br>";
-var emptyRegex =  /^\s*$/;
-
-const SEASON_NAMES = ["fall", "winter", "summer"];
 
 var storeAllSequences = (function (){
 
     console.log("Storing + validating sequence json data");
 
     var seqFolder = './sequences/';
-    var numVerified = 0;
+    var numValidated = 0;
 
     MongoClient.connect(dbFullUrl, function(err, db) {
         assert.equal(null, err);
@@ -38,148 +41,35 @@ var storeAllSequences = (function (){
                     if (err) {
                         throw err;
                     }
-                    validateScrapedSequenceJSON(sequenceJSON, function (isValid, issues) {
-                        numVerified++;
-                        if (!isValid) {
-                            logMessage(file + ": FAIL - ");
-                            logMessage(issues);
-                            foundIssue = true;
-                        } else {
-                            logMessage(file + ": PASS");
 
-                            // write the json to the db
-                            db.collection("courseSequences").update({_id : file.replace(".json","")}, {$set:sequenceJSON}, {upsert: true}, function(err, result) {
-                                assert.equal(err, null);
-                                logMessage("Wrote contents of file: " + file + " to db.");
-                            });
+                    var isSequenceValid = validate(sequenceJSON);
 
+                    numValidated++;
+                    if(!isSequenceValid){
+                        logMessage(file + ": FAIL - ");
+                        logMessage(JSON.stringify(validate.errors, undefined, 4));
+                        foundIssue = true;
+                    } else {
+                        logMessage(file + ": PASS");
+
+                        // write the json to the db
+                        db.collection("courseSequences").update({_id : file.replace(".json","")}, {$set:sequenceJSON}, {upsert: true}, function(err, result) {
+                            assert.equal(err, null);
+                            logMessage("Wrote contents of file: " + file + " to db.");
+                        });
+                    }
+
+                    if (numValidated == files.length) {
+                        db.close();
+                        if(foundIssue){
+                            sendIssueEmail();
                         }
-                        if (numVerified == files.length) {
-                            db.close();
-                            if(foundIssue){
-                                sendIssueEmail();
-                            }
-                        }
-                    });
+                    }
                 });
             });
         });
     });
 })();
-
-function validateScrapedSequenceJSON(sequenceJSON, onComplete){
-
-    var issues = [];
-
-    for(var yIndex = 0; yIndex < sequenceJSON.yearList.length; yIndex++){
-
-        var year = sequenceJSON.yearList[yIndex];
-
-        SEASON_NAMES.forEach((season) => {
-
-            var semester = year[season];
-            if(semester) {
-
-                var courseList = semester.courseList;
-
-                if(semester.isWorkTerm === "false" || semester.isWorkTerm === false){
-
-                    for(var cIndex = 0; cIndex < courseList.length; cIndex++){
-
-                        var locationRef = "(" + season + " of year " + (yIndex + 1) + ", course #" + (cIndex + 1) + ")";
-                        var course = courseList[cIndex];
-
-                        // check if we get an array when we were expecting a plain object. this means that we encountered a list of courses joined by OR
-                        // rather than an individual course.
-                        if(course.length >= 2){
-                            course.forEach(function(course){
-                                var courseIssues = findCourseIssues(course, locationRef);
-                                if(courseIssues.length > 0){
-                                    courseIssues.forEach(function(issue){
-                                        issues.push(issue);
-                                    });
-                                }
-                            });
-                        } else {
-
-                            var courseIssues = findCourseIssues(course, locationRef);
-                            if(courseIssues.length > 0){
-                                courseIssues.forEach(function(issue){
-                                    issues.push(issue);
-                                });
-                            }
-                        }
-                    }
-
-                } else {
-
-                    if(courseList.length > 0){
-                        issues.push("Invalid number of courses in work term (semester " + sIndex + "): " + courseList.length);
-                    }
-
-                }
-            } else {
-                issues.push("Year " + (yIndex + 1) + " is missing season: " + season);
-            }
-
-        });
-    }
-
-    // filter out all undefined values from issues array
-    issues = issues.filter(function( element ) {
-        return element !== undefined;
-    });
-
-    if(issues.length > 0){
-        onComplete(false, issues);
-    } else {
-        onComplete(true);
-    }
-}
-
-// returns list of issues with the courseObject
-function findCourseIssues(course, locationRef){
-    var courseIssues = [];
-
-    if(course.isElective === "false" || course.isElective === false){
-
-        courseIssues.push(validateValueRegex("course code " + locationRef, course.code, /^\w{4}\s{1}\d{3}$/));
-
-        courseIssues.push(validateValueRegex("course elective type " + locationRef, course.electiveType, emptyRegex));
-
-        // commented out as these properties can be derived from our course data db
-        //courseIssues.push(validateValueRegex("course name", course.name, /\w*\s+\w*/));
-        //courseIssues.push(validateValueRegex("course credits " + locationRef, course.credits, /\d+/));
-
-    } else {
-
-        courseIssues.push(validateValueRegex("course code " + locationRef, course.code, emptyRegex));
-
-        courseIssues.push(validateValueRegex("course elective type " + locationRef, course.electiveType, /SCIENCE|GENERAL|PROGRAM/));
-
-    }
-
-    return courseIssues;
-}
-
-function validateValueRegex(propertyName, propertyValue, regex){
-    propertyValue = propertyValue.toUpperCase();
-    var pattern = new RegExp(regex);
-    var res = pattern.test(propertyValue);
-    if(res){
-        return undefined;
-    } else {
-        return "Invalid value for " + propertyName +" property: " + propertyValue;
-    }
-}
-
-function isLetter(str) {
-    return str.length === 1 && str.match(/[a-z]/i);
-}
-
-function isNumeric(str){
-    return /^\d+$/.test(str);
-}
 
 function cleanUp(){
     try {
