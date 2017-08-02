@@ -87,6 +87,7 @@ i <- 2
     
     # temp variable for prereq strings
     prereq.strings <- program.courses$prereq.string
+    prereq.strings[is.na(prereq.strings)] <- "" # replace NA with empty string
     
     #'COMP 222, 333'/'COMP 222 or 333' to 'COMP 222, COMP 333'/'COMP 222 or COMP 333'. 4 times for good measure
     prereq.strings <- gsub("([A-Z]{4} )([0-9]{3}(,| or) )([0-9]{3})", "\\1\\2\\1\\4", prereq.strings)
