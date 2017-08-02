@@ -107,7 +107,7 @@ i <- 2
       coreqs <- prereq.vector[which.coreqs & which.courses] %>% str_extract_all(course.code.rgx)
       # list of prepreq course code vectors
       prereqs <- prereq.vector[(! which.coreqs) & which.courses] %>% str_extract_all(course.code.rgx)
-      list('prereqs' = prereqs %>% toJSON(), 'coreqs' = coreqs %>% toJSON())
+      list('prereqs' = prereqs, 'coreqs' = coreqs)
     })
     
     program.courses <- program.courses %>% mutate(requirements = prereq.strings)
@@ -129,3 +129,5 @@ i <- 2
     file.connection <- file(paste(sep = "_", paste(sep="", "course-info-jsonfiles/", program.names[i]), "document.json"))
     writeLines(prettify(toJSON(program.courses)), file.connection); close(file.connection)
 #}
+
+    
