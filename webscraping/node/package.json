@@ -4,6 +4,7 @@
   "description": "Scrape Concordia website to convert course data and reccomended course sequences to JSON",
   "author": "Tranzones",
   "dependencies": {
+    "ajv": "^5.2.2",
     "cheerio": "^1.0.0-rc.2",
     "minimist": "^1.2.0",
     "mongodb": "^2.2.27",
