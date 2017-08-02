@@ -1,18 +1,18 @@
 'use strict';
 
-var fs = require('fs');
-var request = require('request');
-var cheerio = require('cheerio');
-var assert = require('assert');
-var courseCodeRegex = /\w{4}\s?\d{3}/;
+let fs = require('fs');
+let request = require('request');
+let cheerio = require('cheerio');
+let assert = require('assert');
+let courseCodeRegex = /\w{4}\s?\d{3}/;
 
 const SEASON_NAMES = ["fall", "winter", "summer"];
 
 // pull all html documents from sequenceUrls.json and write to appropriate .json files
-var scrapeAllUrls = (function (){
+let scrapeAllUrls = (function (){
 
-    var outputDir = "./sequences/";
-    var numStarted = 0, numCompleted = 0;
+    let outputDir = "./sequences/";
+    let numStarted = 0, numCompleted = 0;
 
     fs.readFile("./sequenceUrls.json", function (err, data) {
         if (err) {
@@ -20,10 +20,10 @@ var scrapeAllUrls = (function (){
             process.exit(1);
         }
 
-        var sequenceUrls = JSON.parse(data.toString());
+        let sequenceUrls = JSON.parse(data.toString());
 
         // do some logging each time a sequence is finished with
-        var completionCallback = function(){
+        let completionCallback = function(){
             numCompleted++;
             console.log(numCompleted + "/" + numStarted + " file writes completed");
             if(numCompleted == numStarted){
@@ -31,24 +31,24 @@ var scrapeAllUrls = (function (){
             }
         };
 
-        for (var program in sequenceUrls) {
-            var subList = sequenceUrls[program];
-            var options = subList.Options;
+        for (let program in sequenceUrls) {
+            let subList = sequenceUrls[program];
+            let options = subList.Options;
             // in this case, sequenceVariant/optionType will be either September entry, January entry, or Coop
             if(options){
-                for(var optionType in options){
-                    var optionSubList = options[optionType];
-                    for(var sequenceVariant in optionSubList){
-                        var url = optionSubList[sequenceVariant];
-                        var plainFileName = program + "-" + optionType + "-" + sequenceVariant + ".json";
+                for(let optionType in options){
+                    let optionSubList = options[optionType];
+                    for(let sequenceVariant in optionSubList){
+                        let url = optionSubList[sequenceVariant];
+                        let plainFileName = program + "-" + optionType + "-" + sequenceVariant + ".json";
                         numStarted++;
                         scrapeEncsSequenceUrl(url, outputDir, plainFileName, completionCallback);
                     }
                 }
             } else {
-                for(var sequenceVariant in subList){
-                    var url = subList[sequenceVariant];
-                    var plainFileName =  program + "-" + sequenceVariant + ".json";
+                for(let sequenceVariant in subList){
+                    let url = subList[sequenceVariant];
+                    let plainFileName =  program + "-" + sequenceVariant + ".json";
                     numStarted++;
                     scrapeEncsSequenceUrl(url, outputDir, plainFileName, completionCallback);
                 }
@@ -62,32 +62,32 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
 
     request(url, function(error, response, html){
         if(!error){
-            var $ = cheerio.load(html);
+            let $ = cheerio.load(html);
 
-            var semesterList = [];
-            var courseList = [];
-            var currentSeason = "";
-            var hasStartedScraping = false;
-            var minTotalCredits = $(".section.title .section-header").text().match(/\S*\d+\S*/)[0];
+            let semesterList = [];
+            let courseList = [];
+            let currentSeason = "";
+            let hasStartedScraping = false;
+            let minTotalCredits = $(".section.title .section-header").text().match(/\S*\d+\S*/)[0];
 
             $(".concordia-table.table-condensed tbody > tr").each(function(i, el){
-                var $row = $(this);
+                let $row = $(this);
 
                 if(i === 0){
-                    var seasonText = $(this).children().html().toLowerCase();
+                    let seasonText = $(this).children().html().toLowerCase();
                     currentSeason = parseSeason(seasonText);
                 }
 
                 if($row.children().length === 3){
                     $row.each(function(i, el){
-                        var $rowCell = $(this);
-                        var containsBoldText = $rowCell.children()[0].name === "th";
+                        let $rowCell = $(this);
+                        let containsBoldText = $rowCell.children()[0].name === "th";
                         if(!containsBoldText){
-                            var code = "", name = "", isElective = "false", electiveType = "", credits = "", foundACourse = false;
-                            var firstCellText = $rowCell.find("p").text() || $rowCell.find("td").text();
+                            let code = "", name = "", isElective = "false", electiveType = "", credits = "", foundACourse = false;
+                            let firstCellText = $rowCell.find("p").text() || $rowCell.find("td").text();
                             firstCellText = firstCellText.toLowerCase().trim();
-                            var pattern = new RegExp(/\bor\b/);
-                            var courseCodeValue = $($rowCell.children()[0]).text().replace(/\r?\n|\r/g, " ").trim().toLowerCase();
+                            let pattern = new RegExp(/\bor\b/);
+                            let courseCodeValue = $($rowCell.children()[0]).text().replace(/\r?\n|\r/g, " ").trim().toLowerCase();
 
                             if(firstCellText.indexOf("work term") >= 0){
                                 semesterList.push({
@@ -96,10 +96,10 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
                                     "isWorkTerm": "true"
                                 });
                             } else if(pattern.test(courseCodeValue)){
-                                var orList = courseCodeValue.split(/\bor\b/);
-                                var orCourseList = [];
+                                let orList = courseCodeValue.split(/\bor\b/);
+                                let orCourseList = [];
                                 orList.forEach(function(courseCode){
-                                    var isElec = "false", elecType = "";
+                                    let isElec = "false", elecType = "";
                                     if(firstCellText.indexOf("basic science") >= 0){
                                         courseCode = "";
                                         isElec = "true";
@@ -181,9 +181,9 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
                 });
             }
 
-            var yearList = toYearList(semesterList);
+            let yearList = toYearList(semesterList);
 
-            var sequenceObject = {
+            let sequenceObject = {
                 "sourceUrl": url,
                 "minTotalCredits" : minTotalCredits,
                 "yearList" : yearList
@@ -208,7 +208,7 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
 // converts a list of semesters into a list of years, ensuring that each year has a fall, winter and summer semester object
 function toYearList(semesterList){
 
-    var yearList = [];
+    let yearList = [];
 
     const noCourseSemester = {
         "courseList": [],
@@ -216,7 +216,7 @@ function toYearList(semesterList){
     };
 
     // first, fill in missing semesters
-    var filledSemesterList = fillMissingSemesters(semesterList);
+    let filledSemesterList = fillMissingSemesters(semesterList);
 
     // second, form year objects and add them to year list
     for(let year = 1; year <= (Math.ceil(filledSemesterList.length/3)); year++){
@@ -237,7 +237,7 @@ function toYearList(semesterList){
 
 // Take an array of semester objects and add in any missing semesters
 function fillMissingSemesters(semesterList){
-    for(var i = 0; i < semesterList.length; i++){
+    for(let i = 0; i < semesterList.length; i++){
 
         let expectedSeason = SEASON_NAMES[i%3];
 
@@ -253,8 +253,8 @@ function fillMissingSemesters(semesterList){
 }
 
 function addMiddleSpaceIfNeeded(courseCode){
-    var pattern = new RegExp(/^\w{4}\d{3}$/);
-    var res = pattern.test(courseCode.trim());
+    let pattern = new RegExp(/^\w{4}\d{3}$/);
+    let res = pattern.test(courseCode.trim());
     if(res){
         // add space where it needs to go
         return courseCode.substr(0, 4) + " " + courseCode.substr(4);
@@ -264,7 +264,7 @@ function addMiddleSpaceIfNeeded(courseCode){
 }
 
 function extractCourseCode(courseCodeStr){
-    var test = courseCodeStr.match(courseCodeRegex);
+    let test = courseCodeStr.match(courseCodeRegex);
     return (test) ? test[0] : "";
 }
 

@@ -10,26 +10,26 @@
 /**
  * imports
  */
-var fs = require('fs');
-var assert = require('assert');
-var MongoClient = require('mongodb').MongoClient;
-var argv = require('minimist')(process.argv.slice(2));
+let fs = require('fs');
+let assert = require('assert');
+let MongoClient = require('mongodb').MongoClient;
+let argv = require('minimist')(process.argv.slice(2));
 
 /**
  * constants
  */
 const DIR = '../../r/course-info-jsonfiles/';
 const jsonFilenameRegex = /_document.json/;//filter by filename
-var mongoServerUrl = 'mongodb://138.197.6.26:27017/';
-var devDbName = "courseplannerdb-dev";
-var prodDbName = "courseplannerdb";
-var dbName = (argv.prod) ? prodDbName : devDbName;
-var dbFullUrl = mongoServerUrl + dbName;
+let mongoServerUrl = 'mongodb://138.197.6.26:27017/';
+let devDbName = "courseplannerdb-dev";
+let prodDbName = "courseplannerdb";
+let dbName = (argv.prod) ? prodDbName : devDbName;
+let dbFullUrl = mongoServerUrl + dbName;
 
 /**
  * main method
  */
-var storeAllCourses = (function() {
+let storeAllCourses = (function() {
 
     console.log("Storing course data in database...");
 
@@ -37,17 +37,17 @@ var storeAllCourses = (function() {
         assert.equal(null, err);
         console.log("Connected successfully to db server");
 
-        var filesPushed = 0, totalFiles = 0;
+        let filesPushed = 0, totalFiles = 0;
 
         // read all files in Rscript output folder and push to DB
         fs.readdir(DIR, function (err, files) {
-            var allDocuments = files.filter(function(filename){
+            let allDocuments = files.filter(function(filename){
                 return jsonFilenameRegex.test(filename);
             });
             allDocuments.forEach(function (file) {
                 totalFiles++;
                 fs.readFile(DIR + file, "utf-8", function (err, fileContent) {
-                    var courseJSON = JSON.parse(fileContent);
+                    let courseJSON = JSON.parse(fileContent);
                     if (err) {
                         throw err;
                     }

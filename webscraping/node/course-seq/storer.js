@@ -1,48 +1,48 @@
 'use strict';
 
-var nodemailer = require('nodemailer');
-var remove = require("remove");
-var fs = require("fs");
-var MongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
-var argv = require('minimist')(process.argv.slice(2));
-var Ajv = require('ajv');
-var ajv = new Ajv({
+let nodemailer = require('nodemailer');
+let remove = require("remove");
+let fs = require("fs");
+let MongoClient = require('mongodb').MongoClient;
+let assert = require('assert');
+let argv = require('minimist')(process.argv.slice(2));
+let Ajv = require('ajv');
+let ajv = new Ajv({
     "verbose": true,
     "allErrors": true
 });
 
-var validate = ajv.compile(JSON.parse(fs.readFileSync('../json-schema/recommendedSequence.json', 'utf8')));
-var mongoServerUrl = 'mongodb://138.197.6.26:27017/';
-var devDbName = "courseplannerdb-dev";
-var prodDbName = "courseplannerdb";
-var dbName = (argv.prod) ? prodDbName : devDbName;
-var dbFullUrl = mongoServerUrl + dbName;
-var log = "*** Sequence Validation Log ***<br><br>";
+let validate = ajv.compile(JSON.parse(fs.readFileSync('../json-schema/recommendedSequence.json', 'utf8')));
+let mongoServerUrl = 'mongodb://138.197.6.26:27017/';
+let devDbName = "courseplannerdb-dev";
+let prodDbName = "courseplannerdb";
+let dbName = (argv.prod) ? prodDbName : devDbName;
+let dbFullUrl = mongoServerUrl + dbName;
+let log = "*** Sequence Validation Log ***<br><br>";
 
-var storeAllSequences = (function (){
+let storeAllSequences = (function (){
 
     console.log("Storing + validating sequence json data");
 
-    var seqFolder = './sequences/';
-    var numValidated = 0;
+    let seqFolder = './sequences/';
+    let numValidated = 0;
 
     MongoClient.connect(dbFullUrl, function(err, db) {
         assert.equal(null, err);
         console.log("Connected successfully to db server");
 
-        var foundIssue = false;
+        let foundIssue = false;
 
         // read all files in sequence folder and pass them through the validator
         fs.readdir(seqFolder, function (err, files) {
             files.forEach(function (file) {
                 fs.readFile(seqFolder + file, "utf-8", function (err, fileContent) {
-                    var sequenceJSON = JSON.parse(fileContent);
+                    let sequenceJSON = JSON.parse(fileContent);
                     if (err) {
                         throw err;
                     }
 
-                    var isSequenceValid = validate(sequenceJSON);
+                    let isSequenceValid = validate(sequenceJSON);
 
                     numValidated++;
                     if(!isSequenceValid){
@@ -87,11 +87,11 @@ function logMessage(message){
 
 function sendIssueEmail(){
 
-    var message = "The course sequence scraper encountered errors in its most recent execution (" + new Date().toString() + ")\n" +
+    let message = "The course sequence scraper encountered errors in its most recent execution (" + new Date().toString() + ")\n" +
                     " Below are the logs from the scrape attempt:<br><br>";
     message += log;
 
-    var transporter = nodemailer.createTransport({
+    let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
         secure: true, // secure:true for port 465, secure:false for port 587
@@ -101,7 +101,7 @@ function sendIssueEmail(){
         }
     });
 
-    var mailOptions = {
+    let mailOptions = {
         from: '"Course Planner Debug" <concordiacourseplanner@gmail.com>', // sender address
         to: 'davidhuculak5@gmail.com, petergranitski@gmail.com , stumash1@gmail.com', // list of receivers
         subject: 'Course Planner has encountered an issue', // Subject line
