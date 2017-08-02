@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Orbitron');
 
-/* Styling for SemesterTable */
+/* Root styling */
 
-.semesterTable {
-    margin-top: 4px;
+#react-root {
+    padding-top: 15px;
 }
+
+/* Styling for SemesterTable */
 
 .semesterTable tr > td:first-of-type {
     vertical-align: middle;
@@ -35,7 +37,8 @@
 .semesterItem {
     max-width: 150px;
     margin: 6px auto;
-    border: 1px solid black;
+    border-radius: 5px;
+    border: 1px solid #CCCCCC;
     cursor: pointer;
 }
 
@@ -51,13 +54,8 @@
     vertical-align: middle;
 }
 
-/* Styling for ControlCenter */
+/* Styling for IOPanel */
 
-.controlCenter > div > div {
-    padding: 4px;
-}
-
-.controlCenter > div > div > div {
-    height: 100%;
-    border: 1px solid black;
+.logoContainer {
+    font: bold 20px orbitron;
 }

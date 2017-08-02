@@ -1,7 +1,7 @@
 import React from "react";
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
-import {ControlCenter} from "./controlCenter";
+import {IOPanel} from "./ioPanel";
 import {DEFAULT_PROGRAM} from "./util";
 
 /*
@@ -18,13 +18,17 @@ export class MainPage extends React.Component {
             "courseSequenceObject" : {
                 "isLoading" : true
             },
-            "chosenProgram" : localStorage.getItem("chosenProgram") || DEFAULT_PROGRAM
+            "chosenProgram" : localStorage.getItem("chosenProgram") || DEFAULT_PROGRAM,
+            "allSequences" : [],
+            "selectedCourseInfo" : {}
         };
         this.updateChosenProgram = this.updateChosenProgram.bind(this);
+        this.loadCourseInfo = this.loadCourseInfo.bind(this);
     }
 
     componentDidMount() {
         this.loadCourseSequenceObject();
+        this.loadAllSequences();
     }
 
     updateChosenProgram(newChosenProgram){
@@ -38,6 +42,28 @@ export class MainPage extends React.Component {
         // Must use the callback param of setState to ensure the chosenProgram is changed in time
         this.setState({"chosenProgram": newChosenProgram}, this.loadCourseSequenceObject);
     }
+
+    render() {
+        return (
+            <div className="row">
+                <div className="col-sm-3 col-xs-12">
+                    <IOPanel courseInfo={this.state.selectedCourseInfo} allSequences={this.state.allSequences} chosenProgram={this.state.chosenProgram} onChangeChosenProgram={this.updateChosenProgram}/>
+                </div>
+                {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
+                <div className="col-sm-9 hidden-xs">
+                    <SemesterTable onSelectCourse={this.loadCourseInfo} courseSequenceObject={this.state.courseSequenceObject}/>
+                </div>
+                <div className="col-xs-12 visible-xs">
+                    <SemesterList onSelectCourse={this.loadCourseInfo} courseSequenceObject={this.state.courseSequenceObject}/>
+                </div>
+            </div>
+        );
+    }
+
+
+    /*
+    *  Backend API calls:
+    */
 
     // Load chosen sequence via backend request if we don't find one that's already saved
     loadCourseSequenceObject(){
@@ -55,7 +81,7 @@ export class MainPage extends React.Component {
                 url: "coursesequences",
                 data: JSON.stringify(requestBody),
                 success: (response) => {
-                    courseSequenceObject = JSON.parse(response).response;
+                    let courseSequenceObject = JSON.parse(response).response;
                     this.setState({"courseSequenceObject" : courseSequenceObject});
                     localStorage.setItem("savedSequence", JSON.stringify(courseSequenceObject));
                 }
@@ -66,20 +92,25 @@ export class MainPage extends React.Component {
         }
     }
 
-    render() {
-        return (
-            <div className="row">
-                <div className="col-sm-3 col-xs-12">
-                    <ControlCenter onChangeChosenProgram={this.updateChosenProgram} chosenProgram={this.state.chosenProgram}/>
-                </div>
-                {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
-                <div className="col-sm-9 hidden-xs">
-                    <SemesterTable courseSequenceObject={this.state.courseSequenceObject}/>
-                </div>
-                <div className="col-xs-12 visible-xs">
-                    <SemesterList courseSequenceObject={this.state.courseSequenceObject}/>
-                </div>
-            </div>
-        );
+    loadAllSequences(){
+        $.ajax({
+            type: "GET",
+            url: "allsequences",
+            success: (response) => {
+                this.setState({"allSequences" : JSON.parse(response)});
+            }
+        });
     }
+
+    loadCourseInfo(courseCode){
+        $.ajax({
+            type: "POST",
+            url: "courseinfo",
+            data: JSON.stringify({"code" : courseCode}),
+            success: (response) => {
+                this.setState({"selectedCourseInfo" : JSON.parse(response)});
+            }
+        });
+    }
+
 }
