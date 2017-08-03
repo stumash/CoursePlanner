@@ -71,6 +71,14 @@
     font: bold 20px orbitron;
 }
 
+.programSelect, .export {
+    margin-bottom: 20px;
+}
+
+.export a {
+    cursor: pointer;
+}
+
 /* Styling for loading icon */
 
 .glyphicon-spin {

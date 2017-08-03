@@ -1,4 +1,5 @@
 import React from "react";
+import {EXPORT_TYPES} from "./util";
 
 /*
  *  Rectangular area which contains widgets/views relevant to user input and output
@@ -71,16 +72,35 @@ export class IOPanel extends React.Component {
                         {this.renderCourseInfo()}
                     </div>
                 </div>
-                <div className="courseInfoPanel panel panel-default">
-                    <div className="panel-heading">Sequence Validation</div>
+                <div className="validationResultsPanel panel panel-default">
+                    <div className="panel-heading">Validation Results</div>
                     <div className="panel-body">
                         Sequence is valid
                     </div>
                 </div>
-                <div className="">
+                <div className="programSelect">
                     {this.renderSelectionBox()}
+                </div>
+                <div className="export btn-group">
+                    <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Export <span className="caret"></span>
+                    </button>
+                    <ul className="dropdown-menu">
+                        {EXPORT_TYPES.map((exportType) =>
+                            <li key={exportType}><a onClick={() => this.exportSequence(exportType)}>to {exportType}</a></li>
+                        )}
+                    </ul>
                 </div>
             </div>
         );
     }
+
+    /*
+    *  Backend API calls:
+    */
+
+    exportSequence(exportType){
+        console.log("Should export to " + exportType);
+    }
+
 }

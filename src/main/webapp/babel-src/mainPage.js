@@ -60,7 +60,6 @@ export class MainPage extends React.Component {
         );
     }
 
-
     /*
     *  Backend API calls:
     */
