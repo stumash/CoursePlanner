@@ -65,17 +65,3 @@ MECH-Sept.json: final fall semester repeated 2 times;
 
 
 ----------------------------------------------------------------------
-
-
-For PR, find examples for:
-
-OR courses, (alternative) courses (SOEN-Games-Coop will work),
-* courses, + courses.
-
-Also, demonstrate issue of final semester for INDU and MECH sequences.
-
-
-
-
-
-

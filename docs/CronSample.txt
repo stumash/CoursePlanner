@@ -1,1 +1,3 @@
-0 0 * * * sh /home/david/CoursePlanner/webscraping/scrapeTheWeb.sh
+Adding the following line to the crontab would result in the production database getting updated once every 24 hours.
+
+0 0 * * * sh /opt/cp-webscraping/scrapeTheWeb.sh --prod
