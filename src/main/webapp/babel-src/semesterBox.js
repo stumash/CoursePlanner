@@ -40,7 +40,7 @@ export class SemesterBox extends React.Component {
                 return (
                     <div className="semesterItem courseOrBlock" key={courseIndex}>
                         {courseObj.map((courseOrObj, courseOrIndex) =>
-                            <div className="text-center" onClick={this.handleCourseSelection} key={courseOrIndex}>
+                            <div className="text-center" title={courseObj.name} onClick={this.handleCourseSelection} key={courseOrIndex}>
                                 {this.getCourseText(courseOrObj)}
                             </div>
                         )}
@@ -48,7 +48,7 @@ export class SemesterBox extends React.Component {
                 )
             } else {
                 return (
-                    <div className="semesterItem text-center" onClick={this.handleCourseSelection} key={courseIndex}>
+                    <div className="semesterItem text-center" title={courseObj.name} onClick={this.handleCourseSelection} key={courseIndex}>
                         {this.getCourseText(courseObj)}
                     </div>
                 );
