@@ -19,7 +19,7 @@ export class SemesterBox extends React.Component {
     }
 
     handleCourseSelection(event){
-        this.props.onSelectCourse(event.target.innerHTML.substring(0,8));
+        this.props.onSelectCourse($(event.currentTarget).find(".courseCode").text());
     }
 
     renderCourseList(){
@@ -40,28 +40,33 @@ export class SemesterBox extends React.Component {
                 return (
                     <div className="semesterItem courseOrBlock" key={courseIndex}>
                         {courseObj.map((courseOrObj, courseOrIndex) =>
-                            <div className="text-center" title={courseObj.name} onClick={this.handleCourseSelection} key={courseOrIndex}>
-                                {this.getCourseText(courseOrObj)}
+                            <div key={courseOrIndex}>
+                                {this.renderCourse(courseOrObj)}
                             </div>
                         )}
                     </div>
                 )
             } else {
                 return (
-                    <div className="semesterItem text-center" title={courseObj.name} onClick={this.handleCourseSelection} key={courseIndex}>
-                        {this.getCourseText(courseObj)}
+                    <div className="semesterItem" key={courseIndex}>
+                        {this.renderCourse(courseObj)}
                     </div>
                 );
             }
         });
     }
 
-    getCourseText(courseObj){
-        if(courseObj.isElective === "false"){
-            return courseObj.code + ", " + courseObj.credits;
-        } else {
-            return courseObj.electiveType + " Elective";
-        }
+    renderCourse(courseObj){
+        return (
+            <div className="course" title={courseObj.name} onClick={this.handleCourseSelection}>
+                <div className="courseCode">
+                    { (courseObj.isElective === "false") ? courseObj.code : (courseObj.electiveType + " Elective") }
+                </div>
+                <div className="courseCredits">
+                    { (courseObj.isElective === "false") ? courseObj.credits : "3" }
+                </div>
+            </div>
+        );
     }
 
     render() {

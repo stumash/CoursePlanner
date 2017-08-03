@@ -46,7 +46,17 @@ export class IOPanel extends React.Component {
     }
 
     renderCourseInfo(){
-        return <pre>{(this.props.courseInfo.code) ? JSON.stringify(this.props.courseInfo, undefined, 2) : "Click on or search for a course to display its info"}</pre>;
+
+        if(this.props.courseInfo.isLoading){
+            return <span className="glyphicon glyphicon-refresh glyphicon-spin"></span>;
+        }
+
+        return (
+            <pre>
+                {(this.props.courseInfo.code) ? JSON.stringify(this.props.courseInfo, undefined, 2) :
+                                                "Click on or search for a course to display its info"}
+            </pre>
+        );
     }
 
     render() {

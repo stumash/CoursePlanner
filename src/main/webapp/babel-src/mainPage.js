@@ -92,6 +92,7 @@ export class MainPage extends React.Component {
         }
     }
 
+    // This function gets called only once, when the page loads
     loadAllSequences(){
         $.ajax({
             type: "GET",
@@ -103,6 +104,9 @@ export class MainPage extends React.Component {
     }
 
     loadCourseInfo(courseCode){
+        this.setState({"selectedCourseInfo" : {
+            "isLoading" : true
+        }});
         $.ajax({
             type: "POST",
             url: "courseinfo",
