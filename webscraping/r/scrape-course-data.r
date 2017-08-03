@@ -6,7 +6,7 @@ library(readr) # read and write tables
 library(jsonlite) # df to json conversion, json prettify
 
 # all (url, css-selector) pairs to scrape from
-urls.and.css.selectors <- read_lines("courseinfo-data-sources.txt")
+urls.and.css.selectors <- read_lines("course-info-data-sources.txt")
 num.scrapes <- length(urls.and.css.selectors) / 3
 
 # store the 3-tuples (program.name, url, css.selector) in three vectors
@@ -15,8 +15,7 @@ urls          <- urls.and.css.selectors[seq(from = 2, to = length(urls.and.css.s
 css.selectors <- urls.and.css.selectors[seq(from = 3, to = length(urls.and.css.selectors), by = 3)]
 rm(urls.and.css.selectors)
 
-#for(i in 1:num.scrapes) {
-i <- 2
+for(i in 1:num.scrapes) {
     # print(i)
     # print(program.name[i])
 
@@ -89,11 +88,10 @@ i <- 2
     prereq.strings <- program.courses$prereq.string
     prereq.strings[is.na(prereq.strings)] <- "" # replace NA with empty string
     
-    #'COMP 222, 333'/'COMP 222 or 333' to 'COMP 222, COMP 333'/'COMP 222 or COMP 333'. 4 times for good measure
-    prereq.strings <- gsub("([A-Z]{4} )([0-9]{3}(,| or) )([0-9]{3})", "\\1\\2\\1\\4", prereq.strings)
-    prereq.strings <- gsub("([A-Z]{4} )([0-9]{3}(,| or) )([0-9]{3})", "\\1\\2\\1\\4", prereq.strings)
-    prereq.strings <- gsub("([A-Z]{4} )([0-9]{3}(,| or) )([0-9]{3})", "\\1\\2\\1\\4", prereq.strings)
-    prereq.strings <- gsub("([A-Z]{4} )([0-9]{3}(,| or) )([0-9]{3})", "\\1\\2\\1\\4", prereq.strings)
+    #e.g. 'COMP 222, 333' to 'COMP 222, COMP 333' and 'COMP 222 or 333' to 'COMP 222 or COMP 333'
+    for (j in 1:4) { # 4 times for good measure
+      prereq.strings <- gsub("([A-Z]{4} )([0-9]{3}(,| or) )([0-9]{3})", "\\1\\2\\1\\4", prereq.strings)
+    }
     
     # some rgxes for data extraction from column 'prereq.string'
     prereqs.split.rgx <- '[,;] ' # split on colon
@@ -129,6 +127,4 @@ i <- 2
     writeLines(prettify(toJSON(full.course.strings)), file.connection); close(file.connection)
     file.connection <- file(paste(sep = "_", paste(sep="", "course-info-jsonfiles/", program.names[i]), "document.json"))
     writeLines(prettify(toJSON(program.courses)), file.connection); close(file.connection)
-#}
-
-    
+}
