@@ -55,7 +55,7 @@
 
     <servlet-mapping>
         <servlet-name>SequenceNamesList</servlet-name>
-        <url-pattern>/sequencelist</url-pattern>
+        <url-pattern>/allsequences</url-pattern>
     </servlet-mapping>
 
     <servlet>

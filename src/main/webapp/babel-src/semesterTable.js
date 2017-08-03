@@ -5,7 +5,7 @@ import {SEASON_NAMES_PRETTY} from "./util";
 
 /*
  *  Table which contains all courses of current sequence
- *  This view is to be displayed for larger screens (>=sm)
+ *  Alternative to the SemesterList view. To be displayed for larger screens (>=sm)
  *
  *  Expects props:
  *
@@ -25,7 +25,7 @@ export class SemesterTable extends React.Component {
                     <td className="text-center">{(yearIndex + 1)}</td>
                     {SEASON_NAMES.map((season) =>
                         <td key={season}>
-                            <SemesterBox semester={yearList[yearIndex][season]}/>
+                            <SemesterBox onSelectCourse={this.props.onSelectCourse} semester={yearList[yearIndex][season]}/>
                         </td>
                     )}
                 </tr>
