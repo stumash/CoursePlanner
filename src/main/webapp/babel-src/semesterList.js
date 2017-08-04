@@ -19,28 +19,29 @@ export class SemesterList extends React.Component {
 
     generateListBody(){
 
-        if(!this.props.courseSequenceObject.isLoading){
-
-            const yearList = this.props.courseSequenceObject.yearList;
-
-            return yearList.map((year, yearIndex) =>
-                SEASON_NAMES.map((season, seasonIndex) =>
-                    <div className="semesterListItem col-xs-12" key={season + "" + yearIndex}>
-                        <div className="semesterID text-center col-xs-8 col-xs-offset-2">{SEASON_NAMES_PRETTY[seasonIndex] + " " + (yearIndex + 1)}</div>
-                        <SemesterBox yearIndex={yearIndex}
-                                     season={season}
-                                     semester={yearList[yearIndex][season]}
-                                     onSelectCourse={this.props.onSelectCourse}
-                                     onOrListSelection={this.props.onOrListSelection}/>
-                    </div>
-                )
-            );
+        if(this.props.courseSequenceObject.isLoading){
+            return <span className="bigLoadingSpinner glyphicon glyphicon-refresh glyphicon-spin"></span>;
         }
+
+        const yearList = this.props.courseSequenceObject.yearList;
+
+        return yearList.map((year, yearIndex) =>
+            SEASON_NAMES.map((season, seasonIndex) =>
+                <div className="semesterListItem col-xs-12" key={season + "" + yearIndex}>
+                    <div className="semesterID text-center col-xs-8 col-xs-offset-2">{SEASON_NAMES_PRETTY[seasonIndex] + " " + (yearIndex + 1)}</div>
+                    <SemesterBox yearIndex={yearIndex}
+                                 season={season}
+                                 semester={yearList[yearIndex][season]}
+                                 onSelectCourse={this.props.onSelectCourse}
+                                 onOrListSelection={this.props.onOrListSelection}/>
+                </div>
+            )
+        );
     }
 
     render() {
         return (
-            <div className="semesterList">
+            <div className="semesterList text-center">
                 {this.generateListBody()}
             </div>
         );

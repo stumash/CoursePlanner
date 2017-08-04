@@ -19,6 +19,7 @@
     border-radius: 5px;
     display: inline-block;
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .semesterListItem:first-of-type {
@@ -117,10 +118,21 @@
 
 /* Styling for loading icon */
 
+.smallLoadingSpinner {
+    font-size: 22px;
+    padding: 8px;
+}
+
+.bigLoadingSpinner {
+    font-size: 50px;
+    padding: 50px;
+}
+
 .glyphicon-spin {
     -webkit-animation: spin 1000ms infinite linear;
     animation: spin 1000ms infinite linear;
 }
+
 @-webkit-keyframes spin {
     0% {
         -webkit-transform: rotate(0deg);
@@ -131,6 +143,7 @@
         transform: rotate(359deg);
     }
 }
+
 @keyframes spin {
     0% {
         -webkit-transform: rotate(0deg);

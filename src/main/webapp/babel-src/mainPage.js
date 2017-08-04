@@ -109,28 +109,33 @@ export class MainPage extends React.Component {
     // Load chosen sequence via backend request if we don't find one that's already saved
     loadCourseSequenceObject(){
 
-        let courseSequenceObject = JSON.parse(localStorage.getItem("savedSequence"));
+        // set the courseSequenceObject to loading state then load its data
+        this.setState({"courseSequenceObject" : {
+            "isLoading": true
+        }}, () => {
+            let courseSequenceObject = JSON.parse(localStorage.getItem("savedSequence"));
 
-        if(courseSequenceObject === null){
+            if(courseSequenceObject === null){
 
-            let requestBody = {
-                "sequenceID": this.state.chosenProgram
-            };
+                let requestBody = {
+                    "sequenceID": this.state.chosenProgram
+                };
 
-            $.ajax({
-                type: "POST",
-                url: "coursesequences",
-                data: JSON.stringify(requestBody),
-                success: (response) => {
-                    let courseSequenceObject = JSON.parse(response).response;
-                    this.setState({"courseSequenceObject" : courseSequenceObject});
-                    localStorage.setItem("savedSequence", JSON.stringify(courseSequenceObject));
-                }
-            });
+                $.ajax({
+                    type: "POST",
+                    url: "coursesequences",
+                    data: JSON.stringify(requestBody),
+                    success: (response) => {
+                        let courseSequenceObject = JSON.parse(response).response;
+                        this.setState({"courseSequenceObject" : courseSequenceObject});
+                        localStorage.setItem("savedSequence", JSON.stringify(courseSequenceObject));
+                    }
+                });
 
-        } else {
-            this.setState({"courseSequenceObject" : courseSequenceObject});
-        }
+            } else {
+                this.setState({"courseSequenceObject" : courseSequenceObject});
+            }
+        });
     }
 
     // This function gets called only once, when the page loads

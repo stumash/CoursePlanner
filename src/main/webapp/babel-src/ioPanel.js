@@ -50,7 +50,7 @@ export class IOPanel extends React.Component {
     renderCourseInfo(){
 
         if(this.props.courseInfo.isLoading){
-            return <span className="glyphicon glyphicon-refresh glyphicon-spin"></span>;
+            return <div className="text-center"><span className="smallLoadingSpinner glyphicon glyphicon-refresh glyphicon-spin"></span></div>;
         }
 
         return (

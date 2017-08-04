@@ -19,25 +19,26 @@ export class SemesterTable extends React.Component {
 
     generateTableBody(){
 
-        if(!this.props.courseSequenceObject.isLoading){
-
-            const yearList = this.props.courseSequenceObject.yearList;
-
-            return yearList.map((year, yearIndex) =>
-                <tr key={yearIndex}>
-                    <td className="text-center">{(yearIndex + 1)}</td>
-                    {SEASON_NAMES.map((season) =>
-                        <td key={season}>
-                            <SemesterBox yearIndex={yearIndex}
-                                         season={season}
-                                         semester={yearList[yearIndex][season]}
-                                         onSelectCourse={this.props.onSelectCourse}
-                                         onOrListSelection={this.props.onOrListSelection}/>
-                        </td>
-                    )}
-                </tr>
-            );
+        if(this.props.courseSequenceObject.isLoading){
+            return <tr><td className="text-center" colSpan="4"><span className="bigLoadingSpinner glyphicon glyphicon-refresh glyphicon-spin"></span></td></tr>;
         }
+
+        const yearList = this.props.courseSequenceObject.yearList;
+
+        return yearList.map((year, yearIndex) =>
+            <tr key={yearIndex}>
+                <td className="text-center">{(yearIndex + 1)}</td>
+                {SEASON_NAMES.map((season) =>
+                    <td key={season}>
+                        <SemesterBox yearIndex={yearIndex}
+                                     season={season}
+                                     semester={yearList[yearIndex][season]}
+                                     onSelectCourse={this.props.onSelectCourse}
+                                     onOrListSelection={this.props.onOrListSelection}/>
+                    </td>
+                )}
+            </tr>
+        );
     }
 
     generateTableHead(){
