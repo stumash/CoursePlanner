@@ -11,6 +11,9 @@ import {SEASON_NAMES_PRETTY} from "./util";
  *
  *  courseSequenceObject - the json object which contains all necessary data for the sequence we want to display
  *
+ *  onSelectCourse - see MainPage.loadCourseInfo
+ *  onOrListSelection - see MainPage.setOrListCourseSelected
+ *
 */
 export class SemesterTable extends React.Component {
 
@@ -25,7 +28,11 @@ export class SemesterTable extends React.Component {
                     <td className="text-center">{(yearIndex + 1)}</td>
                     {SEASON_NAMES.map((season) =>
                         <td key={season}>
-                            <SemesterBox onSelectCourse={this.props.onSelectCourse} semester={yearList[yearIndex][season]}/>
+                            <SemesterBox yearIndex={yearIndex}
+                                         season={season}
+                                         semester={yearList[yearIndex][season]}
+                                         onSelectCourse={this.props.onSelectCourse}
+                                         onOrListSelection={this.props.onOrListSelection}/>
                         </td>
                     )}
                 </tr>

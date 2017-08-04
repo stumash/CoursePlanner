@@ -11,6 +11,9 @@ import {SEASON_NAMES_PRETTY} from "./util";
  *
  *  courseSequenceObject - the json object which contains all necessary data for the sequence we want to display
  *
+ *  onSelectCourse - see MainPage.loadCourseInfo
+ *  onOrListSelection - see MainPage.setOrListCourseSelected
+ *
  */
 export class SemesterList extends React.Component {
 
@@ -24,7 +27,11 @@ export class SemesterList extends React.Component {
                 SEASON_NAMES.map((season, seasonIndex) =>
                     <div className="semesterListItem col-xs-12" key={season + "" + yearIndex}>
                         <div className="semesterID text-center col-xs-8 col-xs-offset-2">{SEASON_NAMES_PRETTY[seasonIndex] + " " + (yearIndex + 1)}</div>
-                        <SemesterBox onSelectCourse={this.props.onSelectCourse} semester={yearList[yearIndex][season]}/>
+                        <SemesterBox yearIndex={yearIndex}
+                                     season={season}
+                                     semester={yearList[yearIndex][season]}
+                                     onSelectCourse={this.props.onSelectCourse}
+                                     onOrListSelection={this.props.onOrListSelection}/>
                     </div>
                 )
             );
@@ -33,7 +40,7 @@ export class SemesterList extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="semesterList">
                 {this.generateListBody()}
             </div>
         );
