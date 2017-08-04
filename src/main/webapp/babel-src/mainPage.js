@@ -2,7 +2,7 @@ import React from "react";
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
 import {IOPanel} from "./ioPanel";
-import {DEFAULT_PROGRAM} from "./util";
+import {DEFAULT_PROGRAM, saveAs} from "./util";
 
 /*
  *  Root component of our main page
@@ -21,13 +21,15 @@ export class MainPage extends React.Component {
             },
             "chosenProgram" : localStorage.getItem("chosenProgram") || DEFAULT_PROGRAM,
             "allSequences" : [],
-            "selectedCourseInfo" : {}
+            "selectedCourseInfo" : {},
+            "loadingExport": false
         };
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
         this.updateChosenProgram = this.updateChosenProgram.bind(this);
         this.loadCourseInfo = this.loadCourseInfo.bind(this);
         this.setOrListCourseSelected = this.setOrListCourseSelected.bind(this);
+        this.exportSequence = this.exportSequence.bind(this);
     }
 
     componentDidMount() {
@@ -85,7 +87,9 @@ export class MainPage extends React.Component {
                     <IOPanel courseInfo={this.state.selectedCourseInfo}
                              allSequences={this.state.allSequences}
                              chosenProgram={this.state.chosenProgram}
-                             onChangeChosenProgram={this.updateChosenProgram}/>
+                             loadingExport={this.state.loadingExport}
+                             onChangeChosenProgram={this.updateChosenProgram}
+                             exportSequence={this.exportSequence}/>
                 </div>
                 {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
                 <div className="col-sm-9 hidden-xs">
@@ -156,15 +160,42 @@ export class MainPage extends React.Component {
     loadCourseInfo(courseCode){
         this.setState({"selectedCourseInfo" : {
             "isLoading" : true
-        }});
-        $.ajax({
-            type: "POST",
-            url: "courseinfo",
-            data: JSON.stringify({"code" : courseCode}),
-            success: (response) => {
-                this.setState({"selectedCourseInfo" : JSON.parse(response)});
-            }
+        }}, () => {
+            $.ajax({
+                type: "POST",
+                url: "courseinfo",
+                data: JSON.stringify({"code" : courseCode}),
+                success: (response) => {
+                    this.setState({"selectedCourseInfo" : JSON.parse(response)});
+                }
+            });
         });
     }
 
+    /*
+     *  function to call in the event that the user wishes to export their current sequence
+     *      param exportType - string which indicates what file type to export to
+     */
+    exportSequence(exportType){
+        this.setState({
+            "loadingExport": true
+        }, () =>{
+            $.ajax({
+                type: "POST",
+                url: "export",
+                data: JSON.stringify({"yearList" : this.state.courseSequenceObject.yearList}),
+                success: (response) => {
+
+                    let downloadUrl = JSON.parse(response).exportPath;
+                    if(exportType === "MD" || exportType === "TXT"){
+                        downloadUrl = downloadUrl.replace("pdf", "md");
+                    }
+
+                    saveAs(downloadUrl, "MySequence." + exportType.toLowerCase());
+
+                    this.setState({"loadingExport" : false});
+                }
+            });
+        });
+    }
 }

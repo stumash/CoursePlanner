@@ -58,7 +58,7 @@ public class SequenceExporter extends CPServlet {
 
         StringBuilder builder = new StringBuilder();
 
-        builder.append("# My Course Sequence\n\n");
+        builder.append("# My Course Sequence\r\n\r\n");
 
         for (int yearIndex = 0; yearIndex < yearList.length(); yearIndex++) {
 
@@ -74,10 +74,10 @@ public class SequenceExporter extends CPServlet {
 
                 String prettySeason = ((season.charAt(0) + "").toUpperCase()) + season.substring(1);
 
-                builder.append("### " + prettySeason + " " + (yearIndex + 1) + ((isWorkTerm) ? " (Work Term)" : "") + "\n\n");
+                builder.append("### " + prettySeason + " " + (yearIndex + 1) + ((isWorkTerm) ? " (Work Term)" : "") + "\r\n\r\n");
 
                 if (courseList.length() == 0) {
-                    builder.append("- No Courses\n");
+                    builder.append("- No Courses\r\n");
                 }
 
                 // loop through course list and fill missing info for each course
@@ -106,7 +106,7 @@ public class SequenceExporter extends CPServlet {
                         logger.warn("Found unusual value inside course sequence. Expected a course object but found: " + entry.toString());
                     }
                 }
-                builder.append("\n");
+                builder.append("\r\n");
             }
         }
         return builder.toString();
@@ -114,9 +114,9 @@ public class SequenceExporter extends CPServlet {
 
     private String courseObjectToString(JSONObject course) throws JSONException{
         if(course.getBoolean("isElective")){
-            return ("- " + course.getString("electiveType") + " Elective\n");
+            return ("- " + course.getString("electiveType") + " Elective\r\n");
         } else {
-            return ("- " + course.getString("code") + ", " + course.getString("name") + ", " + course.getString("credits") + " Credits\n");
+            return ("- " + course.getString("code") + ", " + course.getString("name") + ", " + course.getString("credits") + " Credits\r\n");
         }
     }
 
