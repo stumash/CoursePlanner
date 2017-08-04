@@ -1,3 +1,4 @@
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -6,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.ArrayList;
 
 public class SequenceExporter extends CPServlet {
 
@@ -21,58 +21,103 @@ public class SequenceExporter extends CPServlet {
     {
         logger.info("---------User requested a sequence export---------");
 
-        ArrayList<Semester> semesters = grabSemestersFromRequest(request);
+        JSONObject requestObject = getRequestJson(request);
 
-        String semesterAsMarkdown = semesterListToMarkdownString(semesters);
+        JSONObject responseObject = new JSONObject();
+        try{
 
-        //create a funky-unique filename in case of concurrent file access issues (multiple users trying to export at once)
-        long time = System.currentTimeMillis();
-        long threadId = Thread.currentThread().getId();
-        String fileName = time + "-" + threadId;
+            JSONArray yearList = requestObject.getJSONArray("yearList");
 
-        generatePDF(semesterAsMarkdown, fileName);
+            String semesterAsMarkdown = yearListToMarkdownString(yearList);
 
-        JSONObject responseJson = new JSONObject();
+            logger.info("Generated the following markdown:");
 
-        try {
-            responseJson.put("exportPath",appProperties.getProperty("exportsDirectory")+"/"+fileName+".pdf");
+            logger.info(semesterAsMarkdown);
+
+            //create a funky-unique filename in case of multiple users trying to export at once
+            long time = System.currentTimeMillis();
+            long threadId = Thread.currentThread().getId();
+            String fileName = time + "-" + threadId;
+
+            generatePDF(semesterAsMarkdown, fileName);
+
+            responseObject.put("exportPath",appProperties.getProperty("exportsDirectory")+"/"+fileName+".pdf");
+
         } catch (JSONException e) {
-            logger.error("JSONException occured");
-            e.printStackTrace();
+            logger.error(e.toString());
+            throw new IOException("Encountered JSON error when trying to export");
         }
 
         PrintWriter out = response.getWriter();
 
-        logger.info("Responding with: " + responseJson.toString());
-        out.println(responseJson.toString());
+        logger.info("Responding with: " + responseObject.toString());
+        out.println(responseObject.toString());
     }
 
-    private String semesterListToMarkdownString(ArrayList<Semester> semesters) {
+    private String yearListToMarkdownString(JSONArray yearList) throws JSONException {
+
         StringBuilder builder = new StringBuilder();
 
         builder.append("# My Course Sequence\n\n");
 
-        int year = 0;
-        for (int i = 0; i < semesters.size(); i++) {
-            if (i % 3 == 0) {
-                year++;
-            }
-            Semester semester = semesters.get(i);
-            builder.append("### " + semester.getSeason() + " " + year + "\n\n");
-            if (semester.isWorkTerm()) {
-                builder.append("- Work Term\n");
-            } else {
-                for (Course course : semester.getCourses()) {
-                    if (course.isElective()) {
-                        builder.append("- " + course.getElectiveType() + " Elective\n");
+        for (int yearIndex = 0; yearIndex < yearList.length(); yearIndex++) {
+
+            JSONObject year = yearList.getJSONObject(yearIndex);
+
+            String[] seasons = {"fall", "winter", "summer"};
+
+            for (String season : seasons) {
+
+                JSONObject semester = year.getJSONObject(season);
+                boolean isWorkTerm = semester.getBoolean("isWorkTerm");
+                JSONArray courseList = semester.getJSONArray("courseList");
+
+                String prettySeason = ((season.charAt(0) + "").toUpperCase()) + season.substring(1);
+
+                builder.append("### " + prettySeason + " " + (yearIndex + 1) + ((isWorkTerm) ? " (Work Term)" : "") + "\n\n");
+
+                if (courseList.length() == 0) {
+                    builder.append("- No Courses\n");
+                }
+
+                // loop through course list and fill missing info for each course
+                for (int i = 0; i < courseList.length(); i++) {
+
+                    Object entry = courseList.get(i);
+
+                    if (entry instanceof JSONObject) {
+
+                        // found a simple course
+                        builder.append(courseObjectToString((JSONObject) entry));
+
+                    } else if (entry instanceof JSONArray) {
+
+                        // found a list of courses (OR)
+                        JSONArray orList = (JSONArray) entry;
+
+                        for (int j = 0; j < orList.length(); j++) {
+                            JSONObject course = (JSONObject) orList.get(j);
+                            boolean isSelected = course.has("isSelected") && course.getBoolean("isSelected");
+                            if (isSelected) {
+                                builder.append(courseObjectToString(course));
+                            }
+                        }
                     } else {
-                        builder.append("- " + course.getCode() + ", " + course.getName() + ", " + course.getCredits() + " Credits\n");
+                        logger.warn("Found unusual value inside course sequence. Expected a course object but found: " + entry.toString());
                     }
                 }
+                builder.append("\n");
             }
-            builder.append("\n");
         }
         return builder.toString();
+    }
+
+    private String courseObjectToString(JSONObject course) throws JSONException{
+        if(course.getBoolean("isElective")){
+            return ("- " + course.getString("electiveType") + " Elective\n");
+        } else {
+            return ("- " + course.getString("code") + ", " + course.getString("name") + ", " + course.getString("credits") + " Credits\n");
+        }
     }
 
     // generate a pdf file in EXPORTS_DIR folder with name {fileName}.pdf
