@@ -14,12 +14,21 @@
 
 /* Styling for SemesterList */
 
+.semesterList {
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
 .semesterListItem:first-of-type {
     border-top: none;
 }
 
 .semesterListItem {
-    border-top: 1px solid black;
+    border-top: 1px solid #DDDDDD;
+    border-bottom: none;
 }
 
 .semesterListItem .courseList {
@@ -35,27 +44,113 @@
 /* Styling for SemesterBox */
 
 .semesterItem {
-    max-width: 150px;
+    width: 160px;
     margin: 6px auto;
     border-radius: 5px;
     border: 1px solid #CCCCCC;
-    cursor: pointer;
 }
 
-.semesterItem:hover {
+.course:hover {
     background-color: #E6E6E6;
 }
 
-.semesterItem:active {
+.course:active {
     background-color: #D3D3D3;
+}
+
+.courseChoiceItem {
+    border: none;
+}
+
+.courseChoiceItem .input-group-addon {
+    padding: 0px;
+    width: 100%;
+    background-color: transparent;
+    color: #333333;
+}
+
+.courseChoiceItem .semesterItem {
+    padding: 0px;
+}
+
+.courseChoiceItem button {
+    padding: 0px 8px;
+    background-color: transparent;
+}
+
+.courseChoiceItem button:hover, .courseChoiceItem button:active {
+    background-color: inherit;
+}
+
+.courseChoiceItem .caret {
+    margin-bottom: 2px;
 }
 
 .noCoursesIndicator, .workTermIndicator {
     vertical-align: middle;
 }
 
+.course {
+    display: flex;
+    padding: 0px 8px;
+    cursor: pointer;
+}
+
+.courseCode {
+    margin-right: auto;
+}
+
+.courseCredits {}
+
 /* Styling for IOPanel */
 
 .logoContainer {
     font: bold 20px orbitron;
+}
+
+.programSelect, .export {
+    margin-bottom: 20px;
+}
+
+.export a {
+    cursor: pointer;
+}
+
+/* Styling for loading icon */
+
+.smallLoadingSpinner {
+    font-size: 22px;
+    padding: 8px;
+}
+
+.bigLoadingSpinner {
+    font-size: 50px;
+    padding: 50px;
+}
+
+.glyphicon-spin {
+    -webkit-animation: spin 1000ms infinite linear;
+    animation: spin 1000ms infinite linear;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
 }
