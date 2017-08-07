@@ -18,6 +18,8 @@ export const UI_STRINGS = {
     "WORK_TERM": "Work Term",
     "NO_COURSES": "No Courses",
 
+    "COURSE_SEARCH_BUTTON": "Display info for course",
+
     "COURSE_INFO_HEADER": "Course Info",
     "COURSE_INFO_HINT": "Click on or search for a course to display its info",
 

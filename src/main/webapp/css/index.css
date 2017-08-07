@@ -104,16 +104,42 @@
 
 /* Styling for IOPanel */
 
+.ioPanel > div {
+    margin-bottom: 20px;
+}
+
+.ioPanel pre {
+    max-height: 250px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
 .logoContainer {
     font: bold 20px orbitron;
 }
 
-.programSelect, .export {
-    margin-bottom: 20px;
+.courseSearch .glyphicon-search {
+    font-size: 16px;
+    top: 2px;
 }
 
 .export a {
     cursor: pointer;
+}
+
+/* Styling for SearchBox */
+
+ul.ui-autocomplete {
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.ui-menu-item .ui-state-active {
+    background-color: #E6E6E6;
+    color: black;
+    border: none;
+    margin: 0px;
 }
 
 /* Styling for loading icon */
