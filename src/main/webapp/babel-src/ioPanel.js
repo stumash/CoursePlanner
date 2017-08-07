@@ -44,7 +44,7 @@ export class IOPanel extends React.Component {
         } else {
             return (
                 <select className="form-control" onChange={this.handleSequenceSelection} disabled="disabled">
-                    <option>{UI_STRINGS.PROGRAM_LIST_LOADING}</option>
+                    <option>{UI_STRINGS.LIST_LOADING}</option>
                 </select>
             );
         }

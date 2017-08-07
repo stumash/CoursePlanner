@@ -26,10 +26,10 @@ export const UI_STRINGS = {
 
     "EXPORT_BTN_TEXT": "Export",
 
-    "PROGRAM_LIST_LOADING": "Loading...",
-
     "ORLIST_CHOICE_TOOLTIP": "Choose course from list of options",
-    "ORLIST_NONE_SELECTED": "None Selected"
+
+    "LIST_LOADING": "Loading...",
+    "LIST_NONE_SELECTED": "None Selected"
 
 };
 

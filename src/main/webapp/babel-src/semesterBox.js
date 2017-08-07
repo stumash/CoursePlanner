@@ -100,7 +100,7 @@ export class SemesterBox extends React.Component {
         });
 
         return (selectedCourse) ? this.renderCourse(selectedCourse, this.handleCourseSelection) :
-                                  <div title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP}>{UI_STRINGS.ORLIST_NONE_SELECTED}</div>;
+                                  <div title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP}>{UI_STRINGS.LIST_NONE_SELECTED}</div>;
     }
 
     renderCourse(courseObj, clickHandler){
