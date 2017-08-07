@@ -38,28 +38,46 @@ public abstract class CPServlet extends HttpServlet {
         }
     }
 
-    Object grabPropertyFromRequest(String key, HttpServletRequest request) throws IOException {
+    JSONObject getRequestJson(HttpServletRequest request) throws IOException{
         StringBuffer jb = new StringBuffer();
         String line;
         Object propertyValue = null;
         JSONObject requestJson;
-        ArrayList<Semester> semesters = new ArrayList<Semester>();
         try {
             BufferedReader reader = request.getReader();
             while ((line = reader.readLine()) != null) {
                 jb.append(line);
             }
+            reader.close();
         } catch (Exception e) {
             e.printStackTrace();
             throw new IOException("Error reading from request string");
         }
         try {
+            logger.info("raw request String:");
+            logger.info(jb.toString());
+            logger.info("end raw request String");
             requestJson =  new JSONObject(jb.toString());
-            propertyValue = requestJson.get(key);
         } catch (JSONException e) {
             e.printStackTrace();
             throw new IOException("Error parsing JSON request string : " + jb.toString());
         }
+        return requestJson;
+    }
+
+    // This function can only be called once per request. It should be replaced by above method getRequestJson
+    Object grabPropertyFromRequest(String key, HttpServletRequest request) throws IOException {
+
+        Object propertyValue = null;
+        JSONObject requestJson = getRequestJson(request);
+
+        try {
+            propertyValue = requestJson.get(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw new IOException("Error grabbing JSON property from request : " + requestJson.toString());
+        }
+
         return  propertyValue;
     }
 

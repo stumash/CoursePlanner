@@ -13,7 +13,10 @@ import {UI_STRINGS} from "./util";
  *
  *  courseInfo - json object containing the info of a course - directly pulled from DB
  *
+ *  loadingExport - boolean which tells us if were currently waiting for an export to finish
+ *
  *  onChangeChosenProgram - see MainPage.updateChosenProgram
+ *  exportSequence - see MainPage.exportSequence
  *
  */
 export class IOPanel extends React.Component {
@@ -41,7 +44,7 @@ export class IOPanel extends React.Component {
         } else {
             return (
                 <select className="form-control" onChange={this.handleSequenceSelection} disabled="disabled">
-                    <option>{UI_STRINGS.PROGRAM_LIST_LOADING}</option>
+                    <option>{UI_STRINGS.LIST_LOADING}</option>
                 </select>
             );
         }
@@ -88,20 +91,12 @@ export class IOPanel extends React.Component {
                     </button>
                     <ul className="dropdown-menu">
                         {EXPORT_TYPES.map((exportType) =>
-                            <li key={exportType}><a onClick={() => this.exportSequence(exportType)}>to {exportType}</a></li>
+                            <li key={exportType}><a onClick={() => this.props.exportSequence(exportType)}>to {exportType}</a></li>
                         )}
                     </ul>
+                    {this.props.loadingExport && <span className="smallLoadingSpinner glyphicon glyphicon-refresh glyphicon-spin"></span>}
                 </div>
             </div>
         );
     }
-
-    /*
-    *  Backend API calls:
-    */
-
-    exportSequence(exportType){
-        console.log("Should export to " + exportType);
-    }
-
 }
