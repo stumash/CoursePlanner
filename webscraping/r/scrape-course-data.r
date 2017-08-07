@@ -73,11 +73,11 @@ for(i in 1:num.scrapes) {
     program.courses <- program.courses %>%
         mutate(description = program.courses$secondhalf.string %>% str_extract(course.description.rgx))
     program.courses <- program.courses %>%
-        mutate(lecture.hours = program.courses$secondhalf.string %>% str_match(lectures.rgx) %>% .[,2])
+        mutate(lectureHours = program.courses$secondhalf.string %>% str_match(lectures.rgx) %>% .[,2])
     program.courses <- program.courses %>%
-        mutate(tutorial.hours = program.courses$secondhalf.string %>% str_match(tutorials.rgx) %>% .[,2])
+        mutate(tutorialHours = program.courses$secondhalf.string %>% str_match(tutorials.rgx) %>% .[,2])
     program.courses <- program.courses %>% 
-        mutate(lab.hours = program.courses$secondhalf.string %>% str_match(laboratory.rgx) %>% .[,2])
+        mutate(labHours = program.courses$secondhalf.string %>% str_match(laboratory.rgx) %>% .[,2])
     program.courses <- program.courses %>%
         mutate(note = program.courses$secondhalf.string %>% str_match(note.rgx) %>% .[,2])
 
