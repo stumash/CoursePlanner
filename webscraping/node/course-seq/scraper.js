@@ -8,6 +8,33 @@ let courseCodeRegex = /\w{4}\s?\d{3}/;
 
 const SEASON_NAMES = ["fall", "winter", "summer"];
 
+let programs = {
+    "SOEN": "Software Engineering",
+    "COMP": "Computer Science",
+    "BLDG": "Building Engineering",
+    "CIVI": "Civil Engineering",
+    "INDU": "Industrial Engineering",
+    "MECH": "Mechanical Engineering"
+};
+
+let programOptions = {
+    "General": "General Program",
+    "Games": "Computer Games",
+    "Realtime": "Real-time, Embedded and Avionics Software ",
+    "Web": "Web Services and Applications",
+    "Apps": "Computer Applications",
+    "CompSys": "Computer Systems",
+    "InfoSys": "Information Systems",
+    "Stats": "Mathematics and Statistics",
+    "SoftSys": "Software Systems"
+};
+
+let entryTypes = {
+    "Sept": "September",
+    "Jan": "January",
+    "Coop": "Coop September"
+};
+
 // pull all html documents from sequenceUrls.json and write to appropriate .json files
 let scrapeAllUrls = (function (){
 
@@ -184,6 +211,7 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
             let yearList = toYearList(semesterList);
 
             let sequenceObject = {
+                "prettyName": prettifySequenceID(plainFileName.replace(".json", "")),
                 "sourceUrl": url,
                 "minTotalCredits" : minTotalCredits,
                 "yearList" : yearList
@@ -277,6 +305,19 @@ function parseSeason(season){
         return "summer";
     }
     return undefined;
+}
+
+function prettifySequenceID(sequenceID){
+    let descriptors = sequenceID.split("-");
+
+    if(descriptors.length === 2){
+        return (programs[descriptors[0]] + ", " + entryTypes[descriptors[1]] + " entry");
+    }
+    if(descriptors.length === 3){
+        return(programs[descriptors[0]] + ", " + programOptions[descriptors[1]] + " option, " + entryTypes[descriptors[2]] + " entry");
+    }
+
+    return "";
 }
 
 module.exports.scrapeSingleUrl = function(url, onComplete){

@@ -4,6 +4,11 @@
     "description": "A sequence of semesters corresponding to a given program as recommended by Concordia University",
     "type": "object",
     "properties": {
+        "prettyName": {
+            "description": "User friendly name of the program + option relevant to this recommended sequence",
+            "type": "string",
+            "pattern": "\\w+"
+        },
         "sourceUrl": {
             "description": "A visitable web url from which the contents of the sequence were inferred",
             "type": "string",
