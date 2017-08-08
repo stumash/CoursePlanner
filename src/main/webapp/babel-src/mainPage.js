@@ -29,6 +29,7 @@ export class MainPage extends React.Component {
         this.updateChosenProgram = this.updateChosenProgram.bind(this);
         this.loadCourseInfo = this.loadCourseInfo.bind(this);
         this.setOrListCourseSelected = this.setOrListCourseSelected.bind(this);
+        this.toggleWorkTerm = this.toggleWorkTerm.bind(this);
         this.exportSequence = this.exportSequence.bind(this);
     }
 
@@ -80,6 +81,28 @@ export class MainPage extends React.Component {
         });
     }
 
+    /*
+     *  function to call in the event that the user toggles whether a semester is a work term or not
+     *      param yearIndex - index of the year of the semester
+     *      param season - the season of the semester
+     */
+    toggleWorkTerm(yearIndex, season){
+        this.setState((prevState) => {
+
+            // updated isWorkTerm property of semester in question
+            let isWorkTerm = prevState.courseSequenceObject.yearList[yearIndex][season].isWorkTerm;
+            prevState.courseSequenceObject.yearList[yearIndex][season].isWorkTerm = (isWorkTerm === "true") ? "false" : "true";
+
+            // save change to local storage
+            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+
+            // set new state based on changes
+            return {
+                "courseSequenceObject": prevState.courseSequenceObject
+            };
+        });
+    }
+
     render() {
         return (
             <div className="row">
@@ -95,12 +118,14 @@ export class MainPage extends React.Component {
                 <div className="col-sm-9 hidden-xs">
                     <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
                                    onSelectCourse={this.loadCourseInfo}
-                                   onOrListSelection={this.setOrListCourseSelected}/>
+                                   onOrListSelection={this.setOrListCourseSelected}
+                                   onToggleWorkTerm={this.toggleWorkTerm}/>
                 </div>
                 <div className="col-xs-12 visible-xs">
                     <SemesterList courseSequenceObject={this.state.courseSequenceObject}
                                   onSelectCourse={this.loadCourseInfo}
-                                  onOrListSelection={this.setOrListCourseSelected}/>
+                                  onOrListSelection={this.setOrListCourseSelected}
+                                  onToggleWorkTerm={this.toggleWorkTerm}/>
                 </div>
             </div>
         );

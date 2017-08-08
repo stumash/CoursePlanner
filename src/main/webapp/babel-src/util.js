@@ -16,6 +16,7 @@ export const UI_STRINGS = {
     "SITE_NAME": "Conu Course Planner",
 
     "WORK_TERM": "Work Term",
+    "IS_WORK_TERM": " is work term?",
     "NO_COURSES": "No Courses",
 
     "COURSE_INFO_HEADER": "Course Info",

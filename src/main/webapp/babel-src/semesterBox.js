@@ -14,6 +14,7 @@ import {UI_STRINGS} from "./util";
  *
  *  onSelectCourse - see MainPage.loadCourseInfo
  *  onOrListSelection - see MainPage.setOrListCourseSelected
+ *  onToggleWorkTerm - see MainPage.toggleWorkTerm
  *
  */
 export class SemesterBox extends React.Component {
@@ -24,6 +25,7 @@ export class SemesterBox extends React.Component {
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
         this.handleCourseSelection = this.handleCourseSelection.bind(this);
         this.handleOrListSelection = this.handleOrListSelection.bind(this);
+        this.handleWorkTermToggle = this.handleWorkTermToggle.bind(this);
     }
 
     handleCourseSelection(event){
@@ -34,14 +36,13 @@ export class SemesterBox extends React.Component {
         this.props.onOrListSelection(coursePosition);
     }
 
+    handleWorkTermToggle(){
+        this.props.onToggleWorkTerm(this.props.yearIndex, this.props.season);
+    }
+
     renderCourseList(){
 
         let courseList = this.props.semester.courseList || [];
-        let isWorkTerm = this.props.semester.isWorkTerm || "false";
-
-        if(isWorkTerm !== "false") {
-            return <div className="workTermIndicator text-center">{UI_STRINGS.WORK_TERM}</div>;
-        }
 
         if(courseList.length === 0) {
             return <div className="noCoursesIndicator text-center">{UI_STRINGS.NO_COURSES}</div>;
@@ -116,10 +117,22 @@ export class SemesterBox extends React.Component {
         );
     }
 
+    renderCheckBox(){
+        return <input type="checkbox"
+                      title={UI_STRINGS.IS_WORK_TERM}
+                      value="isWorkTerm"
+                      onChange={this.handleWorkTermToggle}
+                      defaultChecked={(this.props.semester.isWorkTerm === "true")}/>;
+
+    }
+
     render() {
         return (
-            <div className={"semesterBox"}>
+            <div className="semesterBox">
                 <div className="row">
+                    <div className="isWorkTerm col-xs-12">
+                        {this.renderCheckBox()}
+                    </div>
                     <div className="courseList col-xs-10 col-xs-offset-1">
                         {this.renderCourseList()}
                     </div>

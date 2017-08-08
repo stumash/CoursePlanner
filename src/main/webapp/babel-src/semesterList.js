@@ -13,6 +13,7 @@ import {SEASON_NAMES_PRETTY} from "./util";
  *
  *  onSelectCourse - see MainPage.loadCourseInfo
  *  onOrListSelection - see MainPage.setOrListCourseSelected
+ *  onToggleWorkTerm - see MainPage.toggleWorkTerm
  *
  */
 export class SemesterList extends React.Component {
@@ -33,7 +34,8 @@ export class SemesterList extends React.Component {
                                  season={season}
                                  semester={yearList[yearIndex][season]}
                                  onSelectCourse={this.props.onSelectCourse}
-                                 onOrListSelection={this.props.onOrListSelection}/>
+                                 onOrListSelection={this.props.onOrListSelection}
+                                 onToggleWorkTerm={this.props.onToggleWorkTerm}/>
                 </div>
             )
         );
