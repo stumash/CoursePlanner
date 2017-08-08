@@ -34,7 +34,7 @@
             "minItems": 3
         }
     },
-    "required": [ "sourceUrl", "minTotalCredits", "yearList" ],
+    "required": [ "prettyName", "sourceUrl", "minTotalCredits", "yearList" ],
     "additionalProperties": false,
     "definitions": {
         "semester": {
