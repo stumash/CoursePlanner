@@ -43,6 +43,12 @@
 
 /* Styling for SemesterBox */
 
+.semesterBox input {
+    margin-left: 4px;
+    height: 16px;
+    width: 16px;
+}
+
 .semesterItem {
     width: 160px;
     margin: 6px auto;
