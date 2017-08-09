@@ -112,7 +112,8 @@ export class MainPage extends React.Component {
                              chosenProgram={this.state.chosenProgram}
                              loadingExport={this.state.loadingExport}
                              onChangeChosenProgram={this.updateChosenProgram}
-                             exportSequence={this.exportSequence}/>
+                             exportSequence={this.exportSequence}
+                             onSearchCourse={this.loadCourseInfo}/>
                 </div>
                 {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
                 <div className="col-sm-9 hidden-xs">

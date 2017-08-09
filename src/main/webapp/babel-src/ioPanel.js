@@ -1,6 +1,7 @@
 import React from "react";
 import {EXPORT_TYPES} from "./util";
 import {UI_STRINGS} from "./util";
+import {SearchBox} from "./searchBox";
 
 /*
  *  Rectangular area which contains widgets/views relevant to user input and output
@@ -17,6 +18,7 @@ import {UI_STRINGS} from "./util";
  *
  *  onChangeChosenProgram - see MainPage.updateChosenProgram
  *  exportSequence - see MainPage.exportSequence
+ *  onSearchCourse - see MainPage.loadCourseInfo
  *
  */
 export class IOPanel extends React.Component {
@@ -26,10 +28,15 @@ export class IOPanel extends React.Component {
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
         this.handleSequenceSelection = this.handleSequenceSelection.bind(this);
+        this.onClickSearchButton = this.onClickSearchButton.bind(this);
     }
 
     handleSequenceSelection(event){
         this.props.onChangeChosenProgram(event.currentTarget.value);
+    }
+
+    onClickSearchButton(event){
+        this.props.onSearchCourse($(".courseSearch .searchBox")[0].value.toUpperCase());
     }
 
     renderSelectionBox(){
@@ -66,9 +73,17 @@ export class IOPanel extends React.Component {
 
     render() {
         return (
-            <div className="ioCenter">
+            <div className="ioPanel">
                 <div className="logoContainer panel panel-default text-center">
                     <div className="panel-body">{UI_STRINGS.SITE_NAME}</div>
+                </div>
+                <div className="courseSearch input-group">
+                    <SearchBox onConfirmSearch={this.props.onSearchCourse}/>
+                    <span className="input-group-btn">
+                        <button className="btn btn-default" type="button" onClick={this.onClickSearchButton}>
+                            <span className="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
                 </div>
                 <div className="courseInfoPanel panel panel-default">
                     <div className="panel-heading">{UI_STRINGS.COURSE_INFO_HEADER}</div>
