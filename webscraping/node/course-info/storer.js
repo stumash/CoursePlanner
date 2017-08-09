@@ -18,7 +18,7 @@ let argv = require('minimist')(process.argv.slice(2));
 /**
  * constants
  */
-const DIR = '../../r/course-info-jsonfiles/';
+const DIR = '../../r/course-info-json-files/';
 const jsonFilenameRegex = /_document.json/;//filter by filename
 let mongoServerUrl = 'mongodb://138.197.6.26:27017/';
 let devDbName = "courseplannerdb-dev";

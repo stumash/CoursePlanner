@@ -9,5 +9,5 @@ node_modules/
 /src/main/webapp/bundle.js
 /src/main/webapp/babel-out/
 
-/webscraping/r/course-info-jsonfiles/
+/webscraping/r/course-info-json-files/
 /webscraping/node/course-seq/sequences/
