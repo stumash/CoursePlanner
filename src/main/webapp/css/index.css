@@ -124,11 +124,6 @@
     font: bold 20px orbitron;
 }
 
-.courseSearch .glyphicon-search {
-    font-size: 16px;
-    top: 2px;
-}
-
 .export a {
     cursor: pointer;
 }
