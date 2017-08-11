@@ -208,6 +208,8 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
                 });
             }
 
+            semesterList = fixMechAndIndu(semesterList, plainFileName);
+
             let yearList = toYearList(semesterList);
 
             let sequenceObject = {
@@ -277,6 +279,69 @@ function fillMissingSemesters(semesterList){
         }
 
     }
+    return semesterList;
+}
+
+// perform fix for badly formatted INDU sequences
+function fixMechAndIndu(semesterList, programID){
+
+    let emptyWinter = {
+        "season": "winter",
+        "courseList": [],
+        "isWorkTerm": "false"
+    };
+    let programElective = {
+        "code": "",
+        "isElective": "true",
+        "electiveType": "Program"
+    };
+    let indu490 = {
+        "code": "INDU 490",
+        "isElective": "false",
+        "electiveType": ""
+    };
+    let mech490 = {
+        "code": "MECH 490",
+        "isElective": "false",
+        "electiveType": ""
+    };
+
+    if(programID.includes("INDU")){
+
+        // clear messed up semesters
+        semesterList.pop();
+        if(!programID.includes("Coop")) {
+            semesterList.pop();
+            semesterList.push(emptyWinter);
+        }
+
+        // add 3 electives in final fall and winter semesters
+        for(let i = 0; i < 3; i++){
+            semesterList[semesterList.length-1].courseList.push(programElective);
+            semesterList[semesterList.length-2].courseList.push(programElective);
+        }
+
+        // add INDU 490 in final fall and winter semesters
+        semesterList[semesterList.length-1].courseList.push(indu490);
+        semesterList[semesterList.length-2].courseList.push(indu490);
+    }
+    if(programID.includes("MECH")){
+
+        // clear messed up semesters
+        semesterList.pop();
+        semesterList.push(emptyWinter);
+
+        // add electives: 1 in fall and 3 in winter
+        semesterList[semesterList.length-2].courseList.push(programElective);
+        for(let i = 0; i < 3; i++){
+            semesterList[semesterList.length-1].courseList.push(programElective);
+        }
+
+        // add MECH 490 in fall and winter
+        semesterList[semesterList.length-1].courseList.push(mech490);
+        semesterList[semesterList.length-2].courseList.push(mech490);
+    }
+
     return semesterList;
 }
 
