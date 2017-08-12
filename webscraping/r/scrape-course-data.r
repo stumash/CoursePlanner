@@ -44,8 +44,8 @@ for(i in 1:num.scrapes) {
     # some regexes for data extraction from full string
     course.code.rgx <- '[A-Z]{4} [0-9]{3}'
     course.name.rgx <- '[A-Z][a-z][^(]*'
-    credits.rgx <- '\\(([0-9](\\.[0-9])?[0-9]?) credits\\)'
-    prereqs.rgx <- 'Prerequisite: ([^.]*)'
+    credits.rgx <- '\\(([0-9](\\.[0-9]{1,2})?) credits?\\)'
+    prereqs.rgx <- 'Prerequisite: ([^.]*.)'
 
     # extracting the regexes to new columns in the program.courses data frame
     program.courses <- program.courses %>% # str_extract only takes first occurence of regex
@@ -56,18 +56,19 @@ for(i in 1:num.scrapes) {
         mutate(credits = str_match(program.courses$fullstring, credits.rgx) %>% .[,2])
     program.courses <- program.courses %>%
         mutate(prereq.string = program.courses$fullstring %>% str_match(prereqs.rgx) %>% .[,2])
-    
-    # create column 'secondhalf.string', smaller than 'fullstring' to extract more fields from
-    program.courses <- program.courses %>%
-        mutate(secondhalf.string = program.courses$fullstring %>% str_split('\\. ', n = 2) %>%
-               sapply(function(x) x[2]) %>% str_trim)
 
+    # a regex to grab the 'secondhalf' sub-string of the fullstring. the substring is more convenient for parsing the following fields
+    secondhalf.rgx <- 'credits?\\) (Prerequisite: [^.]+. )?(.*)'
     # some regexes for data extraction from column 'secondhalf.string'
     lectures.rgx <- 'Lectures: ([^.]*)'
     tutorials.rgx <- 'Tutorial: ([^.]*)'
     laboratory.rgx <- 'Laboratory: ([^.]*)'
     note.rgx <- 'NOTE: (.*)'
     course.description.rgx <- '.*?(?=(Lecture|Tutorial|Laboratory|\nNOTE|$))'
+    
+    # create column 'secondhalf.string'
+    program.courses <- program.courses %>%
+      mutate(secondhalf.string = program.courses$fullstring %>% str_match(secondhalf.rgx) %>% .[,3])
 
     # extracting the regex to new columns in the program.courses data frame
     program.courses <- program.courses %>%
@@ -81,8 +82,7 @@ for(i in 1:num.scrapes) {
     program.courses <- program.courses %>%
         mutate(note = program.courses$secondhalf.string %>% str_match(note.rgx) %>% .[,2])
 
-    #------------------------------------------------------------------------------------
-    # BEGIN PARSING PREREQ STRING INTO JSON OBJECT
+    #### BEGIN PARSING PREREQ STRING INTO JSON OBJECT
     
     # temp variable for prereq strings
     prereq.strings <- program.courses$prereq.string
@@ -111,8 +111,7 @@ for(i in 1:num.scrapes) {
     
     program.courses <- program.courses %>% mutate(requirements = prereq.strings)
     
-    # END PARSING PREREQ STRING INTO JSON OBJECT
-    #------------------------------------------------------------------------------------
+    #### END PARSING PREREQ STRING INTO JSON OBJECT
     
     # store and remove redundant data from program.courses data frame
     full.course.strings <- program.courses$fullstring %>% as.data.frame(stringsAsFactors = FALSE)
