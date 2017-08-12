@@ -63,6 +63,9 @@
         "Sept": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-web-svcs.html",
         "Jan": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/jan-web-svcs.html",
         "Coop": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/coop-web-svcs.html"
+      },
+      "CompArts": {
+        "Sept": "https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/sept-comp-arts.html"
       }
     }
   },
