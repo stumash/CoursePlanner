@@ -1,19 +1,24 @@
 /**
  * storer.js description:
- *   After scrape-course-data.r scrapes and outputs json to
- *   the files in webscraping/r/course-info-jsonfiles/, storer.js
- *   takes those jsonfiles and pushes their contents to the database.
- *
- * stumash.js also speaks to people in a bad imperative accent
+ *   take the json output of scrape-course-data.r and validate it
+ *   using json-schema/ajv.  If the json passes validation, store it
+ *   in the mongodb.
  */
 
 /**
  * imports
  */
-let fs = require('fs');
-let assert = require('assert');
+let nodemailer = require('nodemailer');
+let fs = require("fs-extra");
 let MongoClient = require('mongodb').MongoClient;
+let assert = require('assert');
 let argv = require('minimist')(process.argv.slice(2));
+let Ajv = require('ajv');
+let ajv = new Ajv({
+    "verbose": true,
+    "allErrors": true
+});
+
 
 /**
  * constants
