@@ -31,9 +31,9 @@
         "type": "object",
         "properties": {
             "code": { "$ref": "#/definitions/courseCodeString" },
-            "name": { "$ref": "#/definitions/alphaNumPunctString" },
-            "credits": {"type": "string", "pattern": "^[0-9]\\.[0-9]{1,2}$"},
-            "description": { "$ref": "#/definitions/alphaNumPunctString" },
+            "name": {"type": "string"},
+            "credits": {"type": "string", "pattern": "^[0-9](\\.[0-9]{1,2})?$"},
+            "description": {"type": "string"},
             "requirements": {
                 "type": "object",
                 "properties": {
@@ -42,14 +42,13 @@
                 }
 
             },
-            "required": ["code", "name", "credits", "description", "requirements"],
 
-            "lectureHours": { "$ref": "#/definitions/alphaNumPunctString" },
-            "tutorialHours": { "$ref": "#/definitions/alphaNumPunctString" },
-            "labHours": { "$ref": "#/definitions/alphaNumPunctString" },
-            "note": { "$ref": "#/definitions/alphaNumPunctString" },
-
-            "additionalProperties": false
-        }
+            "lectureHours": {"type": "string"},
+            "tutorialHours": {"type": "string"},
+            "labHours": {"type": "string"},
+            "note": {"type": "string"}
+        },
+        "required": ["code", "name", "credits", "description", "requirements"],
+        "additionalProperties": false
     }
 }
