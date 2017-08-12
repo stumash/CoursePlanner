@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Concordia Course Planner",
   "main": "babel-src/index.js",
+  "engines": {
+    "node": ">=6.11.2"
+  },
+  "engineStrict": true,
   "scripts": {
     "babel": "babel src/main/webapp/babel-src -d src/main/webapp/babel-out",
     "browserify": "browserify src/main/webapp/babel-out/ -o src/main/webapp/bundle.js",
