@@ -28,7 +28,9 @@ const programs = {
     "BLDG": "Building Engineering",
     "CIVI": "Civil Engineering",
     "INDU": "Industrial Engineering",
-    "MECH": "Mechanical Engineering"
+    "MECH": "Mechanical Engineering",
+    "COEN": "Computer Engineering",
+    "ELEC": "Electrical Engineering"
 };
 
 const programOptions = {
@@ -41,7 +43,12 @@ const programOptions = {
     "InfoSys": "Information Systems",
     "Stats": "Mathematics and Statistics",
     "SoftSys": "Software Systems",
-    "CompArts": "Computation Arts"
+    "CompArts": "Computation Arts",
+    "NoOption": "No",
+    "Tele": "Telecommunications",
+    "Electronics": "Electronics/VLSI",
+    "Avionics": "Avionics and Control Systems",
+    "Power": "Power and Renewable Energy"
 };
 
 const entryTypes = {
@@ -172,7 +179,7 @@ function scrapeElecCoenUrl(url, headings, outPath){
                 let yearList = toYearList(semesterList);
 
                 let sequenceObject = {
-                    "prettyName": sequence.prettyName,
+                    "prettyName": prettifySequenceID(sequence.id),
                     "sourceUrl": url,
                     "minTotalCredits" : minTotalCredits,
                     "yearList" : yearList
@@ -207,7 +214,6 @@ function splitElecCoenText(pageText, headings){
 
         sequenceTextObjects.push({
             "id": heading.id,
-            "prettyName": heading.heading,
             "sequenceText": sequenceText
         });
 
