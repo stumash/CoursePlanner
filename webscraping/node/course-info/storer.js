@@ -8,22 +8,22 @@ let assert = require('assert')
 let argv = require('minimist')(process.argv.slice(2))
 
 const json_schema_path = 'course-info-json-schema.json'
-const scraped_course_info_folder = '../../r/course-info-json-files'
+const scraped_course_info_folder = '../../r/course-info-jsonfiles'
 const course_info_document_regex = /_document/
 
 let Ajv = require('ajv');
 let ajv = new Ajv({ "verbose": true, "allErrors": true });
 let validate = ajv.compile(JSON.parse(fs.readFileSync(json_schema_path, 'utf8')));
 
-let mongoServerUrl = 'mongodb://138.197.6.26:27017/';
-let devDbName = "courseplannerdb-dev";
-let prodDbName = "courseplannerdb";
-let dbName = (argv.prod) ? prodDbName : devDbName;
-let dbFullUrl = mongoServerUrl + dbName;
+const mongoServerUrl = 'mongodb://138.197.6.26:27017/';
+const devDbName = "courseplannerdb-dev";
+const prodDbName = "courseplannerdb";
+const dbName = (argv.prod) ? prodDbName : devDbName;
+const dbFullUrl = mongoServerUrl + dbName;
 
 let log = "*** Course Info Validation Log ***<br><br>";
 
-let storeAllCourseInfo = (function (){
+const storeAllCourseInfo = (function (){
 
     console.log("Storing + validating sequence json data");
 
@@ -35,7 +35,7 @@ let storeAllCourseInfo = (function (){
 
         let foundIssue = false;
 
-        // read all files in sequence folder and pass them through the validator
+        // read all files in course info folder and pass them through the validator
         fs.readdir(scraped_course_info_folder, function (err, files) {
             files = files.filter(file => course_info_document_regex.test(file))
             files.forEach(function (file) {
@@ -58,9 +58,9 @@ let storeAllCourseInfo = (function (){
                         // write the json to the db
                         courseInfosJSON.forEach(courseInfoJSON => {
                             db.collection("courseData").update({_id : courseInfoJSON.code}, {$set:courseInfoJSON}, {upsert: true}, function(err, result) {
-                                assert.equal(err, null);
-                                logMessage("Wrote contents of file: " + courseInfoJSON.code + " to db.");
-                            });
+                                assert.equal(err, null)
+                                logMessage("Wrote contents of file: " + courseInfoJSON.code + " to db.")
+                            })
                         })
                     }
 
