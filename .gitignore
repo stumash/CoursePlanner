@@ -10,4 +10,5 @@ node_modules/
 /src/main/webapp/babel-out/
 
 /webscraping/r/course-info-json-files/
+/webscraping/r/course-info-jsonfiles/
 /webscraping/node/course-seq/sequences/
