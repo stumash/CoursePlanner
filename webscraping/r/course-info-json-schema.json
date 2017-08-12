@@ -21,7 +21,7 @@
     },
 
     "title": "Course Info Schema",
-    "description": "A set of courses offered at concordia with information",
+    "description": "A set of courses offered at concordia with information about each one.",
 
     "type": "array",
     "uniqueItems": true,
