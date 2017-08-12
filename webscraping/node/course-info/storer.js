@@ -25,11 +25,11 @@ let ajv = new Ajv({
  */
 const DIR = '../../r/course-info-json-files/';
 const jsonFilenameRegex = /_document.json/;//filter by filename
-let mongoServerUrl = 'mongodb://138.197.6.26:27017/';
-let devDbName = "courseplannerdb-dev";
-let prodDbName = "courseplannerdb";
-let dbName = (argv.prod) ? prodDbName : devDbName;
-let dbFullUrl = mongoServerUrl + dbName;
+const mongoServerUrl = 'mongodb://138.197.6.26:27017/';
+const devDbName = "courseplannerdb-dev";
+const prodDbName = "courseplannerdb";
+const dbName = (argv.prod) ? prodDbName : devDbName;
+const dbFullUrl = mongoServerUrl + dbName;
 
 /**
  * main method
