@@ -1,0 +1,89 @@
+{
+    "url": "http://users.encs.concordia.ca/~eceweb/docs/ECE_CourseSequence_2016-2017.htm",
+    "headings": [
+        {
+            "id": "ELEC-NoOption-Sept",
+            "heading": "ELEC Regular Program"
+        },
+        {
+            "id": "ELEC-Tele-Sept",
+            "heading": "Telecommunications Option"
+        },
+        {
+            "id": "ELEC-Electronics-Sept",
+            "heading": "Electronics/VLSI Option"
+        },
+        {
+            "id": "ELEC-Avionics-Sept",
+            "heading": "Avionics and Control Systems"
+        },
+        {
+            "id": "ELEC-Power-Sept",
+            "heading": "Power and Renewable Energy"
+        },
+        {
+            "id": "ELEC-NoOption-Coop",
+            "heading": "ELEC Co-op Program"
+        },
+        {
+            "id": "ELEC-Tele-Coop",
+            "heading": "Telecommunications Option"
+        },
+        {
+            "id": "ELEC-Electronics-Coop",
+            "heading": "Electronics/VLSI Option"
+        },
+        {
+            "id": "ELEC-Avionics-Coop",
+            "heading": "Avionics and Control Systems"
+        },
+        {
+            "id": "ELEC-Power-Coop",
+            "heading": "Power and Renewable Energy"
+        },
+        {
+            "id": "ELEC-NoOption-Jan",
+            "heading": "ELEC Regular Program"
+        },
+        {
+            "id": "ELEC-Tele-Jan",
+            "heading": "Telecommunications Option"
+        },
+        {
+            "id": "ELEC-Electronics-Jan",
+            "heading": "Electronics/VLSI Option"
+        },
+        {
+            "id": "ELEC-Avionics-Jan",
+            "heading": "Avionics and Control Systems"
+        },
+        {
+            "id": "ELEC-Power-Jan",
+            "heading": "Power and Renewable Energy"
+        },
+        {
+            "id": "COEN-NoOption-Sept",
+            "heading": "COEN Regular Program"
+        },
+        {
+            "id": "COEN-Avionics-Sept",
+            "heading": "Avionics and Embedded Systems"
+        },
+        {
+            "id": "COEN-NoOption-Coop",
+            "heading": "COEN Co-op Program"
+        },
+        {
+            "id": "COEN-Avionics-Coop",
+            "heading": "Avionics and Embedded Systems"
+        },
+        {
+            "id": "COEN-NoOption-Jan",
+            "heading": "COEN Regular Program"
+        },
+        {
+            "id": "COEN-Avionics-Jan",
+            "heading": "and Embedded Systems"
+        }
+    ]
+}
