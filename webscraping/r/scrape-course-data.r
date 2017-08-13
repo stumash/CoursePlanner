@@ -116,11 +116,34 @@ for(i in 1:num.scrapes) {
     # store and remove redundant data from program.courses data frame
     full.course.strings <- program.courses$fullstring %>% as.data.frame(stringsAsFactors = FALSE)
     colnames(full.course.strings) <- c("contents")
-    # remove columns 'fullstring' and 'secondhalf.string' from program.courses data frame
+    # remove columns 'fullstring', 'secondhalf.string', and 'prereq.string' from program.courses data frame
     program.courses <- program.courses %>% select(-one_of(c('fullstring')))
     program.courses <- program.courses %>% select(-one_of(c('secondhalf.string')))
     program.courses <- program.courses %>% select(-one_of(c('prereq.string')))
 
+    #### BEGIN REMOVAL OF COURSES IF CERTAIN FIELDS MATCH CERTAIN VALUES
+    
+    # regexes to identify invalid course infos that we don't want to store
+    invalid.course.description1 <- 
+      '^Specific topics for (this|these) course(s?).*Undergraduate Class Schedule.$'
+    
+    courses.invalid.description1 <- str_detect(program.courses$description, invalid.course.description1)
+    courses.invalid.description1[is.na(courses.invalid.description1)] <- FALSE # handle NA values
+    
+    courses.na.description <- is.na(program.courses$description)
+    
+    courses.to.remove <- courses.invalid.description1 | courses.na.description
+    
+    if (sum(courses.to.remove) > 0) {
+      print("due to invalid course properties, not storing:")
+      print(program.courses$code[courses.to.remove])
+    }
+    
+    program.courses <- program.courses %>%
+      filter(!courses.to.remove)
+    
+    #### END REMOVAL OF COURSES IF CERTAIN FIELDS MATCH CERTAIN VALUES
+    
     # store data in JSON-formatted files
     file.connection <- file(paste(sep = "_", paste(sep="", "course-info-jsonfiles/", program.names[i]), "full-course-info.json"))
     writeLines(prettify(toJSON(full.course.strings)), file.connection); close(file.connection)
