@@ -4,6 +4,7 @@
 /.idea/
 /target/
 node_modules/
+package-lock.json
 
 /src/main/webapp/sequences/
 /src/main/webapp/bundle.js
