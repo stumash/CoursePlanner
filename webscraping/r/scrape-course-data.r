@@ -59,16 +59,16 @@ for(i in 1:num.scrapes) {
 
     # a regex to grab the 'secondhalf' sub-string of the fullstring. the substring is more convenient for parsing the following fields
     secondhalf.rgx <- 'credits?\\) (Prerequisite: [^.]+. )?(.*)'
+    # create column 'secondhalf.string'
+    program.courses <- program.courses %>%
+      mutate(secondhalf.string = program.courses$fullstring %>% str_match(secondhalf.rgx) %>% .[,3])
+
     # some regexes for data extraction from column 'secondhalf.string'
     lectures.rgx <- 'Lectures: ([^.]*)'
     tutorials.rgx <- 'Tutorial: ([^.]*)'
     laboratory.rgx <- 'Laboratory: ([^.]*)'
     note.rgx <- 'NOTE: (.*)'
     course.description.rgx <- '.*?(?=(Lecture|Tutorial|Laboratory|\nNOTE|$))'
-    
-    # create column 'secondhalf.string'
-    program.courses <- program.courses %>%
-      mutate(secondhalf.string = program.courses$fullstring %>% str_match(secondhalf.rgx) %>% .[,3])
 
     # extracting the regex to new columns in the program.courses data frame
     program.courses <- program.courses %>%
@@ -77,26 +77,25 @@ for(i in 1:num.scrapes) {
         mutate(lectureHours = program.courses$secondhalf.string %>% str_match(lectures.rgx) %>% .[,2])
     program.courses <- program.courses %>%
         mutate(tutorialHours = program.courses$secondhalf.string %>% str_match(tutorials.rgx) %>% .[,2])
-    program.courses <- program.courses %>% 
+    program.courses <- program.courses %>%
         mutate(labHours = program.courses$secondhalf.string %>% str_match(laboratory.rgx) %>% .[,2])
     program.courses <- program.courses %>%
         mutate(note = program.courses$secondhalf.string %>% str_match(note.rgx) %>% .[,2])
 
     #### BEGIN PARSING PREREQ STRING INTO JSON OBJECT
-    
     # temp variable for prereq strings
     prereq.strings <- program.courses$prereq.string
     prereq.strings[is.na(prereq.strings)] <- "" # replace NA with empty string
-    
+
     #e.g. 'COMP 222, 333' to 'COMP 222, COMP 333' and 'COMP 222 or 333' to 'COMP 222 or COMP 333'
     for (j in 1:4) { # 4 times for good measure
       prereq.strings <- gsub("([A-Z]{4} )([0-9]{3}(,| or) )([0-9]{3})", "\\1\\2\\1\\4", prereq.strings)
     }
-    
+
     # some rgxes for data extraction from column 'prereq.string'
     prereqs.split.rgx <- '[,;] ' # split on colon
     coreq.rgx <- 'previously or concurrently'
-    
+
     # parse prereq.string into list object 'rqmts'
     prereq.strings <- str_split(prereq.strings, prereqs.split.rgx) # split to list of vectors
     prereq.strings <- lapply(prereq.strings, function(prereq.vector) {
@@ -108,11 +107,10 @@ for(i in 1:num.scrapes) {
       prereqs <- prereq.vector[(! which.coreqs) & which.courses] %>% str_extract_all(course.code.rgx)
       list('prereqs' = prereqs, 'coreqs' = coreqs)
     })
-    
+
     program.courses <- program.courses %>% mutate(requirements = prereq.strings)
-    
     #### END PARSING PREREQ STRING INTO JSON OBJECT
-    
+
     # store and remove redundant data from program.courses data frame
     full.course.strings <- program.courses$fullstring %>% as.data.frame(stringsAsFactors = FALSE)
     colnames(full.course.strings) <- c("contents")
@@ -122,28 +120,26 @@ for(i in 1:num.scrapes) {
     program.courses <- program.courses %>% select(-one_of(c('prereq.string')))
 
     #### BEGIN REMOVAL OF COURSES IF CERTAIN FIELDS MATCH CERTAIN VALUES
-    
     # regexes to identify invalid course infos that we don't want to store
-    invalid.course.description1 <- 
+    invalid.course.description1 <-
       '^Specific topics for (this|these) course(s?).*Undergraduate Class Schedule.$'
-    
+
     courses.invalid.description1 <- str_detect(program.courses$description, invalid.course.description1)
     courses.invalid.description1[is.na(courses.invalid.description1)] <- FALSE # handle NA values
-    
+
     courses.na.description <- is.na(program.courses$description)
-    
+
     courses.to.remove <- courses.invalid.description1 | courses.na.description
-    
+
     if (sum(courses.to.remove) > 0) {
       print("due to invalid course properties, not storing:")
       print(program.courses$code[courses.to.remove])
     }
-    
+
     program.courses <- program.courses %>%
       filter(!courses.to.remove)
-    
     #### END REMOVAL OF COURSES IF CERTAIN FIELDS MATCH CERTAIN VALUES
-    
+
     # store data in JSON-formatted files
     file.connection <- file(paste(sep = "_", paste(sep="", "course-info-jsonfiles/", program.names[i]), "full-course-info.json"))
     writeLines(prettify(toJSON(full.course.strings)), file.connection); close(file.connection)
