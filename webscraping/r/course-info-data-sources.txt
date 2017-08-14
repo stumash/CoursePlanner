@@ -169,4 +169,3 @@ http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-550.ht
 WSDB
 http://www.concordia.ca/academics/undergraduate/calendar/current/sec31/31-560.html
 #content-main > div > div > div.span8.ordinal-group-1 > div.parsys.content-main > div.parbase.section.wysiwyg > div > p:nth-child(14)
-

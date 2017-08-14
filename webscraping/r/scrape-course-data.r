@@ -45,7 +45,7 @@ for(i in 1:num.scrapes) {
     course.code.rgx <- '[A-Z]{4} [0-9]{3}'
     course.name.rgx <- '[A-Z][a-z][^(]*'
     credits.rgx <- '\\(([0-9](\\.[0-9]{1,2})?) credits?\\)'
-    prereqs.rgx <- 'Prerequisite: ([^.]*.)'
+    prereqs.rgx <- 'Prerequisite: ([^.]*\\.)'
 
     # extracting the regexes to new columns in the program.courses data frame
     program.courses <- program.courses %>% # str_extract only takes first occurence of regex
