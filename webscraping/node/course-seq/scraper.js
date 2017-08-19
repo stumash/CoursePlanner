@@ -4,20 +4,36 @@ let fs = require('fs');
 let request = require('request');
 let cheerio = require('cheerio');
 let assert = require('assert');
-let courseCodeRegex = /\w{4}\s?\d{3}/;
 
 const SEASON_NAMES = ["fall", "winter", "summer"];
+const outputDir = "./sequences/";
 
-let programs = {
+const courseCodeRegex = /\w{4}\s?\d{3}/;
+const minTotalCreditsRegex = /\S*\d+\S*/;
+const seasonRegex = /fall|winter|summer/i;
+const workTermRegex = /work term/i;
+const orListRegex = /\bor\b/i;
+const genElectiveRegex = /general/i;
+const nextLineSkipRegex = /gen_ed|coen050/i;
+const scienceElectiveRegex = /basic science/i;
+const programElectiveRegex = /elective/i;
+const garbageLineRegex = /^\*|^note:|^suggested|^engineering writing test|^refer/i;
+
+const commonSequenceSelector = ".c-accordion.toggable";
+const elecCoenSequenceSelector = ".WordSection1";
+
+const programs = {
     "SOEN": "Software Engineering",
     "COMP": "Computer Science",
     "BLDG": "Building Engineering",
     "CIVI": "Civil Engineering",
     "INDU": "Industrial Engineering",
-    "MECH": "Mechanical Engineering"
+    "MECH": "Mechanical Engineering",
+    "COEN": "Computer Engineering",
+    "ELEC": "Electrical Engineering"
 };
 
-let programOptions = {
+const programOptions = {
     "General": "General Program",
     "Games": "Computer Games",
     "Realtime": "Real-time, Embedded and Avionics Software ",
@@ -26,10 +42,16 @@ let programOptions = {
     "CompSys": "Computer Systems",
     "InfoSys": "Information Systems",
     "Stats": "Mathematics and Statistics",
-    "SoftSys": "Software Systems"
+    "SoftSys": "Software Systems",
+    "CompArts": "Computation Arts",
+    "NoOption": "No",
+    "Tele": "Telecommunications",
+    "Electronics": "Electronics/VLSI",
+    "Avionics": "Avionics and Control Systems",
+    "Power": "Power and Renewable Energy"
 };
 
-let entryTypes = {
+const entryTypes = {
     "Sept": "September",
     "Jan": "January",
     "Coop": "Coop September"
@@ -38,8 +60,9 @@ let entryTypes = {
 // pull all html documents from sequenceUrls.json and write to appropriate .json files
 let scrapeAllUrls = (function (){
 
-    let outputDir = "./sequences/";
     let numStarted = 0, numCompleted = 0;
+
+    console.log("\n** Scraping commonly-formatted sequences from sequenceUrls.json **\n");
 
     fs.readFile("./sequenceUrls.json", function (err, data) {
         if (err) {
@@ -50,11 +73,13 @@ let scrapeAllUrls = (function (){
         let sequenceUrls = JSON.parse(data.toString());
 
         // do some logging each time a sequence is finished with
-        let completionCallback = function(){
+        let completionCallback = function(plainFileName){
             numCompleted++;
-            console.log(numCompleted + "/" + numStarted + " file writes completed");
+            console.log("Done writing file: " + plainFileName + " (" + numCompleted + "/" + numStarted + ")");
             if(numCompleted == numStarted){
-                console.log("All file writes have been completed.");
+
+                console.log("\n** Scraping weirdly-formatted sequences from elecCoenHeadings.json **\n");
+                startElecCoenScrape();
             }
         };
 
@@ -73,9 +98,9 @@ let scrapeAllUrls = (function (){
                     }
                 }
             } else {
-                for(let sequenceVariant in subList){
+                for (let sequenceVariant in subList) {
                     let url = subList[sequenceVariant];
-                    let plainFileName =  program + "-" + sequenceVariant + ".json";
+                    let plainFileName = program + "-" + sequenceVariant + ".json";
                     numStarted++;
                     scrapeEncsSequenceUrl(url, outputDir, plainFileName, completionCallback);
                 }
@@ -84,6 +109,19 @@ let scrapeAllUrls = (function (){
     });
 })();
 
+function startElecCoenScrape(){
+    fs.readFile("./elecCoenHeadings.json", function (err, data) {
+        if (err) {
+            console.error("ERROR reading elecCoenHeadings.json");
+            process.exit(1);
+        }
+
+        let elecCoen = JSON.parse(data.toString());
+        scrapeElecCoenUrl(elecCoen.url, elecCoen.headings, outputDir);
+
+    });
+}
+
 // pull html document from url and write to appropriate .json files
 function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
 
@@ -91,122 +129,11 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
         if(!error){
             let $ = cheerio.load(html);
 
-            let semesterList = [];
-            let courseList = [];
-            let currentSeason = "";
-            let hasStartedScraping = false;
-            let minTotalCredits = $(".section.title .section-header").text().match(/\S*\d+\S*/)[0];
+            let minTotalCredits = $(".section.title .section-header").text().match(minTotalCreditsRegex)[0];
 
-            $(".concordia-table.table-condensed tbody > tr").each(function(i, el){
-                let $row = $(this);
+            let semesterList = sequenceTextToSemesterList($(commonSequenceSelector).text());
 
-                if(i === 0){
-                    let seasonText = $(this).children().html().toLowerCase();
-                    currentSeason = parseSeason(seasonText);
-                }
-
-                if($row.children().length === 3){
-                    $row.each(function(i, el){
-                        let $rowCell = $(this);
-                        let containsBoldText = $rowCell.children()[0].name === "th";
-                        if(!containsBoldText){
-                            let code = "", name = "", isElective = "false", electiveType = "", credits = "", foundACourse = false;
-                            let firstCellText = $rowCell.find("p").text() || $rowCell.find("td").text();
-                            firstCellText = firstCellText.toLowerCase().trim();
-                            let pattern = new RegExp(/\bor\b/);
-                            let courseCodeValue = $($rowCell.children()[0]).text().replace(/\r?\n|\r/g, " ").trim().toLowerCase();
-
-                            if(firstCellText.indexOf("work term") >= 0){
-                                semesterList.push({
-                                    "season": currentSeason,
-                                    "courseList": courseList,
-                                    "isWorkTerm": "true"
-                                });
-                            } else if(pattern.test(courseCodeValue)){
-                                let orList = courseCodeValue.split(/\bor\b/);
-                                let orCourseList = [];
-                                orList.forEach(function(courseCode){
-                                    let isElec = "false", elecType = "";
-                                    if(firstCellText.indexOf("basic science") >= 0){
-                                        courseCode = "";
-                                        isElec = "true";
-                                        elecType = "Science";
-                                    } else if(courseCode.indexOf("general") >= 0){
-                                        courseCode = "";
-                                        isElec = "true";
-                                        elecType = "General";
-                                    } else if(courseCode.indexOf("elective") >= 0){
-                                        courseCode = "";
-                                        isElec = "true";
-                                        elecType = "Program";
-                                    } else {
-                                        courseCode = extractCourseCode(courseCode);
-                                    }
-                                    courseCode = addMiddleSpaceIfNeeded(courseCode);
-                                    orCourseList.push({
-                                        "code": courseCode.trim().toUpperCase(),
-                                        "isElective": isElec.trim(),
-                                        "electiveType": elecType.trim()
-                                    });
-                                });
-                                courseList.push(orCourseList);
-                            } else if(firstCellText.indexOf("basic science") >= 0){
-                                isElective = "true";
-                                electiveType = "Science";
-                                foundACourse = true;
-                            } else if(firstCellText.indexOf("general") >= 0){
-                                isElective = "true";
-                                electiveType = "General";
-                                foundACourse = true;
-                            } else if(firstCellText.indexOf("elective") >= 0){
-                                isElective = "true";
-                                electiveType = "Program";
-                                foundACourse = true;
-                            } else {
-                                // add a course to the course list
-                                code = extractCourseCode($($rowCell.children()[0]).text());
-                                foundACourse = true;
-                            }
-                            if(foundACourse && (code.trim().length > 0) || electiveType.trim().length > 0){
-                                code = addMiddleSpaceIfNeeded(code);
-                                courseList.push({
-                                    "code": code.trim().toUpperCase(),
-                                    "isElective": isElective.trim(),
-                                    "electiveType": electiveType.trim()
-                                });
-                            }
-                        }
-                    });
-                } else if(/work term [i]+/g.test($row.children().text().toLowerCase())){
-                    semesterList.push({
-                        "season": currentSeason,
-                        "courseList": courseList,
-                        "isWorkTerm": "true"
-                    });
-                }else if($row.children().text().toLowerCase().indexOf("year") >= 0){
-                    if(hasStartedScraping){
-                        if(courseList.length > 0){
-                            semesterList.push({
-                                "season": currentSeason,
-                                "courseList": courseList,
-                                "isWorkTerm": "false"
-                            });
-                        }
-                        courseList = [];
-                        currentSeason = parseSeason($row.children().text().toLowerCase());
-                    }
-                    hasStartedScraping = true;
-                }
-            });
-
-            // add residual semester if there is one
-            if(courseList.length > 0){
-                semesterList.push({
-                    "season": currentSeason,
-                    "courseList": courseList,
-                    "isWorkTerm": "false"
-                });
-            }
+            semesterList = fixMechAndIndu(semesterList, plainFileName);
 
             let yearList = toYearList(semesterList);
 
@@ -217,20 +144,233 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
                 "yearList" : yearList
             };
 
-            console.log("Finished scraping from url: " + url);
-
             fs.writeFile(outPath + plainFileName, JSON.stringify(sequenceObject, null, 4), function(err){
                 if(err){
                     console.error("ERROR writing to a file: " + plainFileName);
                     process.exit(1);
                 } else {
-                    console.log("Done writing file: " + plainFileName);
-                    onComplete && onComplete();
+                    onComplete && onComplete(plainFileName);
                 }
             });
 
         }
     });
+}
+
+function scrapeElecCoenUrl(url, headings, outPath){
+
+    request(url, function(error, response, html){
+        if(!error){
+            let $ = cheerio.load(html);
+
+            let pageText = $(elecCoenSequenceSelector).text();
+
+            let sequenceTextObjects = splitElecCoenText(pageText, headings);
+
+            let numCompleted = 0;
+
+            sequenceTextObjects.forEach((sequence, sequenceIndex) => {
+
+                let semesterList = sequenceTextToSemesterList(sequence.sequenceText);
+
+                // assume 120 credits for engineering
+                let minTotalCredits = "120";
+
+                let yearList = toYearList(semesterList);
+
+                let sequenceObject = {
+                    "prettyName": prettifySequenceID(sequence.id),
+                    "sourceUrl": url,
+                    "minTotalCredits" : minTotalCredits,
+                    "yearList" : yearList
+                };
+
+                fs.writeFile(outPath + sequence.id + ".json", JSON.stringify(sequenceObject, null, 4), function(err){
+                    if(err){
+                        console.error("ERROR writing to a file: " + sequence.id);
+                        process.exit(1);
+                    } else {
+                        numCompleted++;
+                        console.log("Done writing file: " + sequence.id + ".json (" + numCompleted + "/" + (sequenceTextObjects.length) + ")");
+                    }
+                });
+            });
+        }
+    });
+}
+
+function splitElecCoenText(pageText, headings){
+
+    let sequenceTextObjects = [];
+    let lastHeadingIndex = pageText.indexOf("ELEC Regular, September Entry");
+
+    headings.forEach((heading, headingIndex) => {
+
+        let currentHeadingIndex = pageText.indexOf(heading.heading, lastHeadingIndex);
+        let nextHeadingIndex = (headingIndex !== headings.length - 1) ? pageText.indexOf(headings[headingIndex + 1].heading, currentHeadingIndex) : pageText.length - 1;
+        let sequenceText = pageText.substring(currentHeadingIndex, nextHeadingIndex);
+
+        lastHeadingIndex = nextHeadingIndex;
+
+        sequenceTextObjects.push({
+            "id": heading.id,
+            "sequenceText": sequenceText
+        });
+
+    });
+
+    return sequenceTextObjects;
+}
+
+function sequenceTextToSemesterList(sequenceText){
+
+    let semesterList = [];
+
+    let inOrList = false;
+
+    let currentSeason = "";
+    let currentCourseList = [];
+    let currentIsWorkTerm = "false";
+
+    let allLines = sequenceText.split("\n");
+    for(let lineIndex = 0; lineIndex < allLines.length; lineIndex++){
+        let line = allLines[lineIndex].trim();
+        if(line.length > 0 && !(line.match(garbageLineRegex))){
+            let seasonMatch = line.match(seasonRegex);
+            if(seasonMatch){
+
+                // flush list
+                if(currentSeason.length > 0){
+                    semesterList.push({
+                        "season": currentSeason,
+                        "courseList": currentCourseList,
+                        "isWorkTerm": currentIsWorkTerm
+                    });
+                }
+
+                // change season and restart
+                currentSeason = seasonMatch[0].toLowerCase();
+                currentCourseList = [];
+                currentIsWorkTerm = "false";
+
+            } else {
+
+                // force skip the next line if the current line format calls for it
+                if(line.match(nextLineSkipRegex)){
+                    lineIndex++;
+                }
+
+                let workTermMatch = line.match(workTermRegex);
+                if(workTermMatch){
+                    currentIsWorkTerm = "true";
+                }
+
+                let courseItem = extractCourseObject(line);
+
+                if(courseItem){
+
+                    let orListMatch = line.match(orListRegex);
+
+                    if(orListMatch){
+
+                        let singleLineOrList = line.split(orListRegex);
+
+                        let allValid = true;
+
+                        // check that there are at least two courses
+                        singleLineOrList.forEach((orListItem) => {
+                            if(!extractCourseObject(orListItem)){
+                                allValid = false;
+                            }
+                        });
+
+                        // This orList is on one line
+                        if(singleLineOrList.length > 1 && allValid){
+
+                            let orList = [];
+                            singleLineOrList.forEach((courseText) => {
+                                let courseOrItem = extractCourseObject(courseText);
+                                courseOrItem && orList.push(courseOrItem);
+                            });
+
+                            if(orList.length > 1) {
+                                currentCourseList.push(orList);
+                            }
+                        }
+                        // This is a multi-line orList, so use inOrList boolean
+                        else {
+
+                            if(!inOrList){
+                                currentCourseList.push([]);
+                                inOrList = true;
+                            }
+
+                            if(inOrList){
+                                currentCourseList[currentCourseList.length-1].push(courseItem);
+                            } else {
+                                currentCourseList.push(courseItem);
+                            }
+                        }
+                    }
+                    else {
+                        if(inOrList){
+                            currentCourseList[currentCourseList.length-1].push(courseItem);
+                        }
+                        else {
+                            currentCourseList.push(courseItem);
+                        }
+                        inOrList = orListMatch;
+                    }
+                }
+            }
+        }
+    }
+    // add residual semester
+    semesterList.push({
+        "season": currentSeason,
+        "courseList": currentCourseList,
+        "isWorkTerm": currentIsWorkTerm
+    });
+    return semesterList;
+}
+
+function extractCourseObject(text){
+
+    let genElectiveMatch = text.match(genElectiveRegex);
+    let scienceElectiveMatch = text.match(scienceElectiveRegex);
+    let programElectiveMatch = text.match(programElectiveRegex);
+    let courseMatch = text.match(courseCodeRegex);
+
+    if(scienceElectiveMatch){
+        return {
+            "code": "",
+            "isElective": "true",
+            "electiveType": "Science"
+        };
+    }
+    else if(genElectiveMatch){
+        return {
+            "code": "",
+            "isElective": "true",
+            "electiveType": "General"
+        };
+    }
+    else if(programElectiveMatch){
+        return {
+            "code": "",
+            "isElective": "true",
+            "electiveType": "Program"
+        };
+    }
+    else if(courseMatch){
+        return {
+            "code": addMiddleSpaceIfNeeded(courseMatch[0].toUpperCase()),
+            "isElective": "false",
+            "electiveType": ""
+        };
+    }
+
+    return undefined;
 }
 
 // converts a list of semesters into a list of years, ensuring that each year has a fall, winter and summer semester object
@@ -277,6 +417,69 @@ function fillMissingSemesters(semesterList){
         }
 
     }
+    return semesterList;
+}
+
+// perform fix for badly formatted INDU sequences
+function fixMechAndIndu(semesterList, programID){
+
+    let emptyWinter = {
+        "season": "winter",
+        "courseList": [],
+        "isWorkTerm": "false"
+    };
+    let programElective = {
+        "code": "",
+        "isElective": "true",
+        "electiveType": "Program"
+    };
+    let indu490 = {
+        "code": "INDU 490",
+        "isElective": "false",
+        "electiveType": ""
+    };
+    let mech490 = {
+        "code": "MECH 490",
+        "isElective": "false",
+        "electiveType": ""
+    };
+
+    if(programID.includes("INDU")){
+
+        // clear messed up semesters
+        semesterList.pop();
+        semesterList.pop();
+        if(!programID.includes("Coop")) {
+            semesterList.push(emptyWinter);
+        }
+
+        // add 3 electives in final fall and winter semesters
+        for(let i = 0; i < 3; i++){
+            semesterList[semesterList.length-1].courseList.push(programElective);
+            semesterList[semesterList.length-2].courseList.push(programElective);
+        }
+
+        // add INDU 490 in final fall and winter semesters
+        semesterList[semesterList.length-1].courseList.push(indu490);
+        semesterList[semesterList.length-2].courseList.push(indu490);
+    }
+    if(programID.includes("MECH")){
+
+        // clear messed up semesters
+        semesterList.pop();
+        semesterList.push(emptyWinter);
+
+        // add electives: 1 in fall and 3 in winter
+        semesterList[semesterList.length-2].courseList.push(programElective);
+        for(let i = 0; i < 3; i++){
+            semesterList[semesterList.length-1].courseList.push(programElective);
+        }
+
+        // add MECH 490 in fall and winter
+        semesterList[semesterList.length-1].courseList.push(mech490);
+        semesterList[semesterList.length-2].courseList.push(mech490);
+    }
+
     return semesterList;
 }
 
