@@ -16,7 +16,9 @@ import { ITEM_TYPES } from "./util";
  *
  *  isDraggable - boolean which denotes whether this course item can be dragged around the page
  *
- *  onCourseClick - see MainPage.loadCourseInfo/MainPage.setOrListCourseSelected
+ *  onCourseClick - see MainPage.loadCourseInfo
+ *  onOrCourseClick - see MainPage.setOrListCourseSelected
+ *  onChangeDragState - see MainPage.enableGarbage
  *
  */
 class CourseItem extends React.Component {
@@ -29,7 +31,11 @@ class CourseItem extends React.Component {
     }
 
     handleCourseClick(){
-        this.props.onCourseClick(this.props.coursePosition);
+        if(this.props.coursePosition && this.props.coursePosition.orListIndex >= 0){
+            this.props.onOrCourseClick(this.props.coursePosition);
+        } else {
+            this.props.onCourseClick(this.props.courseObj.code);
+        }
     }
 
     render() {
@@ -47,10 +53,10 @@ class CourseItem extends React.Component {
         return this.props.connectDragSource(
             <div className={"course" + extraClassNames} title={courseObj.name} onClick={this.handleCourseClick}>
                 <div className="courseCode">
-                    { (courseObj.isElective === "false") ? courseObj.code : (courseObj.electiveType + " Elective") }
+                    { (courseObj.isElective === "true") ? (courseObj.electiveType + " Elective") : courseObj.code}
                 </div>
                 <div className="courseCredits">
-                    { (courseObj.isElective === "false") ? courseObj.credits : "3" }
+                    { (courseObj.isElective === "true") ? "3": courseObj.credits }
                 </div>
             </div>
         );
@@ -63,11 +69,16 @@ class CourseItem extends React.Component {
 
 let courseSource = {
     beginDrag(props, monitor, component) {
+
+        props.onChangeDragState && props.onChangeDragState(true);
+
         return {
+            "courseObj": props.courseObj,
             "coursePosition": props.coursePosition
         };
     },
     endDrag(props, monitor, component){
+        props.onChangeDragState && props.onChangeDragState(false);
     },
     canDrag(props, monitor){
         return props.isDraggable;

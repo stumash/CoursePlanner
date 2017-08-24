@@ -2,6 +2,8 @@ import React from "react";
 import {EXPORT_TYPES} from "./util";
 import {UI_STRINGS} from "./util";
 import {SearchBox} from "./searchBox";
+import CourseItem from "./courseItem";
+import GarbageCan from "./garbageCan"
 
 /*
  *  Rectangular area which contains widgets/views relevant to user input and output
@@ -19,6 +21,7 @@ import {SearchBox} from "./searchBox";
  *  onChangeChosenProgram - see MainPage.updateChosenProgram
  *  exportSequence - see MainPage.exportSequence
  *  onSearchCourse - see MainPage.loadCourseInfo
+ *  onRemoveCourse - see MainPage.removeCourse
  *
  */
 export class IOPanel extends React.Component {
@@ -59,15 +62,23 @@ export class IOPanel extends React.Component {
 
     renderCourseInfo(){
 
-        if(this.props.courseInfo.isLoading){
+        let courseInfo = this.props.courseInfo;
+
+        if(courseInfo.isLoading){
             return <div className="text-center"><span className="smallLoadingSpinner glyphicon glyphicon-refresh glyphicon-spin"></span></div>;
         }
 
+        if(!courseInfo.code){
+            return <div className="text-center">{UI_STRINGS.COURSE_INFO_HINT}</div>;
+        }
+
         return (
-            <pre>
-                {(this.props.courseInfo.code) ? JSON.stringify(this.props.courseInfo, undefined, 2) :
-                                                UI_STRINGS.COURSE_INFO_HINT}
-            </pre>
+            <div>
+                <CourseItem courseObj={courseInfo}
+                            isDraggable={true}
+                            onCourseClick={this.props.onSearchCourse}/>
+                <pre>{JSON.stringify(this.props.courseInfo, undefined, 2)}</pre>
+            </div>
         );
     }
 
@@ -75,7 +86,9 @@ export class IOPanel extends React.Component {
         return (
             <div className="ioPanel">
                 <div className="logoContainer panel panel-default text-center">
-                    <div className="panel-body">{UI_STRINGS.SITE_NAME}</div>
+                    <div className="panel-body">
+                        {!this.props.showingGarbage ? <div>{UI_STRINGS.SITE_NAME}</div> : <GarbageCan onRemoveCourse={this.props.onRemoveCourse}/>}
+                    </div>
                 </div>
                 <div className="courseSearch input-group">
                     <SearchBox onConfirmSearch={this.props.onSearchCourse}/>

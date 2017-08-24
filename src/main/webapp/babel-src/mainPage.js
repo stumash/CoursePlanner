@@ -6,7 +6,7 @@ import { DragDropContext } from 'react-dnd';
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
 import {IOPanel} from "./ioPanel";
-import {DEFAULT_PROGRAM, saveAs, generateUniqueKeys} from "./util";
+import {DEFAULT_PROGRAM, saveAs, generateUniqueKey, generateUniqueKeys} from "./util";
 
 /*
  *  Root component of our main page
@@ -26,7 +26,8 @@ class MainPage extends React.Component {
             "chosenProgram" : localStorage.getItem("chosenProgram") || DEFAULT_PROGRAM,
             "allSequences" : [],
             "selectedCourseInfo" : {},
-            "loadingExport": false
+            "loadingExport": false,
+            "showingGarbage": false
         };
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
@@ -35,7 +36,10 @@ class MainPage extends React.Component {
         this.setOrListCourseSelected = this.setOrListCourseSelected.bind(this);
         this.toggleWorkTerm = this.toggleWorkTerm.bind(this);
         this.exportSequence = this.exportSequence.bind(this);
+        this.enableGarbage = this.enableGarbage.bind(this);
         this.moveCourse = this.moveCourse.bind(this);
+        this.addCourse = this.addCourse.bind(this);
+        this.removeCourse = this.removeCourse.bind(this);
     }
 
     componentDidMount() {
@@ -109,7 +113,17 @@ class MainPage extends React.Component {
     }
 
     /*
-     *  function to call in the event that the user drags a course into a new position
+     *  function to call when we want to display the garbage can and allow the user to delete a course
+     *      param enabled - should the garbage can be enabled
+     */
+    enableGarbage(enabled){
+        this.setState({
+            "showingGarbage": enabled
+        });
+    }
+
+    /*
+     *  function to call in the event that the user drags an existing course into a new position
      *      param oldPosition - object indicating the absolute position of the course within the sequence
      *                          required properties: yearIndex, season, courseListIndex
      *      param newPosition - ''
@@ -117,10 +131,9 @@ class MainPage extends React.Component {
     moveCourse(oldPosition, newPosition, onComplete){
         this.setState((prevState) => {
 
-           // let orList = prevState.courseSequenceObject.yearList[coursePosition.yearIndex][coursePosition.season].courseList[coursePosition.courseListIndex];
+            let courseToMove = prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList[oldPosition.courseListIndex];
 
             // remove course from old position and insert at new position
-            let courseToMove = prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList[oldPosition.courseListIndex];
             prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList.splice(oldPosition.courseListIndex, 1);
             prevState.courseSequenceObject.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseToMove);
 
@@ -131,7 +144,53 @@ class MainPage extends React.Component {
             return {
                 "courseSequenceObject": prevState.courseSequenceObject
             };
-        }, onComplete);
+        });
+    }
+
+    /*
+ *  function to call in the event that the user drags a new course into a new position
+ *      param courseObj - object representing the course to be added
+ *      param newPosition - object indicating the new absolute position of the course within the sequence
+ *                          required properties: yearIndex, season, courseListIndex
+ */
+    addCourse(courseObj, newPosition){
+        this.setState((prevState) => {
+
+            // generate a unique key for the course
+            courseObj.id = generateUniqueKey(courseObj, newPosition.season, newPosition.yearIndex, newPosition.courseListIndex, "");
+
+            // insert course at new position
+            prevState.courseSequenceObject.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseObj);
+
+            // save change to local storage
+            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+
+            // set new state based on changes
+            return {
+                "courseSequenceObject": prevState.courseSequenceObject
+            };
+        });
+    }
+
+    /*
+     *  function to call in the event that the user wants to remove a course from the sequence
+     *      param coursePosition - object indicating the new absolute position of the course within the sequence
+     *                             required properties: yearIndex, season, courseListIndex
+     */
+    removeCourse(coursePosition){
+        this.setState((prevState) => {
+
+            // remove course at coursePosition
+            prevState.courseSequenceObject.yearList[coursePosition.yearIndex][coursePosition.season].courseList.splice(coursePosition.courseListIndex, 1);
+
+            // save change to local storage
+            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+
+            // set new state based on changes
+            return {
+                "courseSequenceObject": prevState.courseSequenceObject
+            };
+        });
     }
 
     render() {
@@ -142,9 +201,11 @@ class MainPage extends React.Component {
                              allSequences={this.state.allSequences}
                              chosenProgram={this.state.chosenProgram}
                              loadingExport={this.state.loadingExport}
+                             showingGarbage={this.state.showingGarbage}
                              onChangeChosenProgram={this.updateChosenProgram}
                              exportSequence={this.exportSequence}
-                             onSearchCourse={this.loadCourseInfo}/>
+                             onSearchCourse={this.loadCourseInfo}
+                             onRemoveCourse={this.removeCourse}/>
                 </div>
                 {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
                 <div className="col-sm-9 hidden-xs">
@@ -152,14 +213,18 @@ class MainPage extends React.Component {
                                    onSelectCourse={this.loadCourseInfo}
                                    onOrListSelection={this.setOrListCourseSelected}
                                    onToggleWorkTerm={this.toggleWorkTerm}
-                                   onMoveCourse={this.moveCourse}/>
+                                   onMoveCourse={this.moveCourse}
+                                   onAddCourse={this.addCourse}
+                                   onChangeDragState={this.enableGarbage}/>
                 </div>
                 <div className="col-xs-12 visible-xs">
                     <SemesterList courseSequenceObject={this.state.courseSequenceObject}
                                   onSelectCourse={this.loadCourseInfo}
                                   onOrListSelection={this.setOrListCourseSelected}
                                   onToggleWorkTerm={this.toggleWorkTerm}
-                                  onMoveCourse={this.moveCourse}/>
+                                  onMoveCourse={this.moveCourse}
+                                  onAddCourse={this.addCourse}
+                                  onChangeDragState={this.enableGarbage}/>
                 </div>
             </div>
         );
@@ -215,18 +280,9 @@ class MainPage extends React.Component {
 
     /*
      *  function to call in the event that the user selects a course such as by clicking on it
-     *      param coursePosition - object indicating the absolute position of the course within the sequence
-     *                             required properties: yearIndex, season, courseListIndex
-     *                             optional property: orListIndex
+     *      param courseCode - the code of the chosen course
      */
-    loadCourseInfo(coursePosition){
-
-        let courseObj = this.state.courseSequenceObject.yearList[coursePosition.yearIndex][coursePosition.season].courseList[coursePosition.courseListIndex];
-        if(coursePosition.orListIndex >= 0){
-            courseObj = courseObj[coursePosition.orListIndex];
-        }
-        let courseCode = courseObj.code;
-
+    loadCourseInfo(courseCode){
         this.setState({"selectedCourseInfo" : {
             "isLoading" : true
         }}, () => {

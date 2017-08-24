@@ -136,10 +136,19 @@
     max-height: 250px;
     overflow-x: auto;
     white-space: pre-wrap;
+    margin-top: 20px;
 }
 
 .logoContainer {
     font: bold 20px orbitron;
+}
+
+.logoContainer .panel-body {
+    padding: 0;
+}
+
+.logoContainer .panel-body > div {
+    padding: 15px;
 }
 
 .export a {

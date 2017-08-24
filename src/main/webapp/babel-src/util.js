@@ -84,7 +84,7 @@ export function generateUniqueKeys(yearList){
  *  Form unique ID by combing course code/electiveType with its current position in the yearList
  *  If the course changes its position within the yearList, we do NOT want this id value to change, so we only call this once.
  */
-function generateUniqueKey(courseObj, season, yearIndex, courseListIndex, orListIndex){
+export function generateUniqueKey(courseObj, season, yearIndex, courseListIndex, orListIndex){
     let id = (courseObj.isElective === "true") ? courseObj.electiveType : courseObj.code;
     id += season + yearIndex + courseListIndex + orListIndex;
     return id;
