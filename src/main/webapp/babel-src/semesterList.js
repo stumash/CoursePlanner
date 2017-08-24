@@ -1,5 +1,5 @@
 import React from "react";
-import {SemesterBox} from "./semesterBox";
+import SemesterBox from "./semesterBox";
 import {SEASON_NAMES} from "./util";
 import {SEASON_NAMES_PRETTY} from "./util";
 
@@ -14,6 +14,7 @@ import {SEASON_NAMES_PRETTY} from "./util";
  *  onSelectCourse - see MainPage.loadCourseInfo
  *  onOrListSelection - see MainPage.setOrListCourseSelected
  *  onToggleWorkTerm - see MainPage.toggleWorkTerm
+ *  onMoveCourse - see MainPage.onMoveCourse
  *
  */
 export class SemesterList extends React.Component {
@@ -35,7 +36,8 @@ export class SemesterList extends React.Component {
                                  semester={yearList[yearIndex][season]}
                                  onSelectCourse={this.props.onSelectCourse}
                                  onOrListSelection={this.props.onOrListSelection}
-                                 onToggleWorkTerm={this.props.onToggleWorkTerm}/>
+                                 onToggleWorkTerm={this.props.onToggleWorkTerm}
+                                 onMoveCourse={this.props.onMoveCourse}/>
                 </div>
             )
         );

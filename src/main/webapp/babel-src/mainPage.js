@@ -1,8 +1,12 @@
 import React from "react";
+
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
+
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
 import {IOPanel} from "./ioPanel";
-import {DEFAULT_PROGRAM, saveAs} from "./util";
+import {DEFAULT_PROGRAM, saveAs, generateUniqueKeys} from "./util";
 
 /*
  *  Root component of our main page
@@ -10,7 +14,7 @@ import {DEFAULT_PROGRAM, saveAs} from "./util";
  *  This component loads up the saved/default sequence once it's created
  *
  */
-export class MainPage extends React.Component {
+class MainPage extends React.Component {
 
     constructor(props){
         super(props);
@@ -31,6 +35,7 @@ export class MainPage extends React.Component {
         this.setOrListCourseSelected = this.setOrListCourseSelected.bind(this);
         this.toggleWorkTerm = this.toggleWorkTerm.bind(this);
         this.exportSequence = this.exportSequence.bind(this);
+        this.moveCourse = this.moveCourse.bind(this);
     }
 
     componentDidMount() {
@@ -103,6 +108,32 @@ export class MainPage extends React.Component {
         });
     }
 
+    /*
+     *  function to call in the event that the user drags a course into a new position
+     *      param oldPosition - object indicating the absolute position of the course within the sequence
+     *                          required properties: yearIndex, season, courseListIndex
+     *      param newPosition - ''
+     */
+    moveCourse(oldPosition, newPosition, onComplete){
+        this.setState((prevState) => {
+
+           // let orList = prevState.courseSequenceObject.yearList[coursePosition.yearIndex][coursePosition.season].courseList[coursePosition.courseListIndex];
+
+            // remove course from old position and insert at new position
+            let courseToMove = prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList[oldPosition.courseListIndex];
+            prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList.splice(oldPosition.courseListIndex, 1);
+            prevState.courseSequenceObject.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseToMove);
+
+            // save change to local storage
+            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+
+            // set new state based on changes
+            return {
+                "courseSequenceObject": prevState.courseSequenceObject
+            };
+        }, onComplete);
+    }
+
     render() {
         return (
             <div className="row">
@@ -120,13 +151,15 @@ export class MainPage extends React.Component {
                     <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
                                    onSelectCourse={this.loadCourseInfo}
                                    onOrListSelection={this.setOrListCourseSelected}
-                                   onToggleWorkTerm={this.toggleWorkTerm}/>
+                                   onToggleWorkTerm={this.toggleWorkTerm}
+                                   onMoveCourse={this.moveCourse}/>
                 </div>
                 <div className="col-xs-12 visible-xs">
                     <SemesterList courseSequenceObject={this.state.courseSequenceObject}
                                   onSelectCourse={this.loadCourseInfo}
                                   onOrListSelection={this.setOrListCourseSelected}
-                                  onToggleWorkTerm={this.toggleWorkTerm}/>
+                                  onToggleWorkTerm={this.toggleWorkTerm}
+                                  onMoveCourse={this.moveCourse}/>
                 </div>
             </div>
         );
@@ -157,6 +190,7 @@ export class MainPage extends React.Component {
                     data: JSON.stringify(requestBody),
                     success: (response) => {
                         let courseSequenceObject = JSON.parse(response).response;
+                        courseSequenceObject.yearList = generateUniqueKeys(courseSequenceObject.yearList);
                         this.setState({"courseSequenceObject" : courseSequenceObject});
                         localStorage.setItem("savedSequence", JSON.stringify(courseSequenceObject));
                     }
@@ -181,9 +215,18 @@ export class MainPage extends React.Component {
 
     /*
      *  function to call in the event that the user selects a course such as by clicking on it
-     *      param courseCode - the code of the chosen course
+     *      param coursePosition - object indicating the absolute position of the course within the sequence
+     *                             required properties: yearIndex, season, courseListIndex
+     *                             optional property: orListIndex
      */
-    loadCourseInfo(courseCode){
+    loadCourseInfo(coursePosition){
+
+        let courseObj = this.state.courseSequenceObject.yearList[coursePosition.yearIndex][coursePosition.season].courseList[coursePosition.courseListIndex];
+        if(coursePosition.orListIndex >= 0){
+            courseObj = courseObj[coursePosition.orListIndex];
+        }
+        let courseCode = courseObj.code;
+
         this.setState({"selectedCourseInfo" : {
             "isLoading" : true
         }}, () => {
@@ -225,3 +268,5 @@ export class MainPage extends React.Component {
         });
     }
 }
+
+export default DragDropContext(HTML5Backend)(MainPage);
