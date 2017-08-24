@@ -39,7 +39,7 @@ export class SemesterList extends React.Component {
                                  onOrListSelection={this.props.onOrListSelection}
                                  onToggleWorkTerm={this.props.onToggleWorkTerm}
                                  onMoveCourse={this.props.onMoveCourse}
-                                 onAddCourse={this.props.addCourse}
+                                 onAddCourse={this.props.onAddCourse}
                                  onChangeDragState={this.props.onChangeDragState}/>
                 </div>
             )
