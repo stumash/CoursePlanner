@@ -6,7 +6,7 @@
             "type": "string",
             "pattern": "^[A-Z]{4} [0-9]{3,4}$"
         },
-        "arrayOfNonEmptyArrayOfCourseCodeStrings": {
+        "arrayOfCourseCodeOrLists": {
             "type": "array",
             "items": {
                 "type": "array",
@@ -16,7 +16,11 @@
         },
         "alphaNumPunctString": {
             "type": "string",
-            "pattern": "^[\\w ,.()-:;]+$"
+            "pattern": "^[\\wöéÉèÈ ,'“”‘’\"--­‐‑‒–—/.:;?()]+$"
+        },
+        "posNumRoundedToHundredths": {
+            "type": "string",
+            "pattern": "^[0-9](\\.[0-9]{1,2})?$"
         }
     },
 
@@ -31,14 +35,14 @@
         "type": "object",
         "properties": {
             "code": { "$ref": "#/definitions/courseCodeString" },
-            "name": {"type": "string"},
-            "credits": {"type": "string", "pattern": "^[0-9](\\.[0-9]{1,2})?$"},
+            "name": { "$ref": "#/definitions/alphaNumPunctString"},
+            "credits": {"$ref": "#/definitions/posNumRoundedToHundredths"},
             "description": {"type": "string"},
             "requirements": {
                 "type": "object",
                 "properties": {
-                    "prereqs": { "$ref": "#/definitions/arrayOfNonEmptyArrayOfCourseCodeStrings" },
-                    "coreqs": { "$ref": "#/definitions/arrayOfNonEmptyArrayOfCourseCodeStrings" }
+                    "prereqs": { "$ref": "#/definitions/arrayOfCourseCodeOrLists" },
+                    "coreqs": { "$ref": "#/definitions/arrayOfCourseCodeOrLists" }
                 }
 
             },
