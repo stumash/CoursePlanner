@@ -15,8 +15,7 @@ urls          <- urls.and.css.selectors[seq(from = 2, to = length(urls.and.css.s
 css.selectors <- urls.and.css.selectors[seq(from = 3, to = length(urls.and.css.selectors), by = 3)]
 rm(urls.and.css.selectors)
 
-# for(i in 1:num.scrapes) {
-    i <- which(program.names == "HIST")
+for(i in 1:num.scrapes) {
     # print(i)
     # print(program.name[i])
 
@@ -25,8 +24,8 @@ rm(urls.and.css.selectors)
         html_node(css = css.selectors[i]) # extract desired DOM
 
     # match "course info header" of each course on concordia web site
-    # ...something like 'SOEN 555    Systems'
-    course.info.header.rgx <- "[A-Z]{4} [0-9]{3}[[:space:]]+?[A-Z][a-z]+."
+    # ...something like 'SOEN 555    Systems'. Might have a '(also listed as AAAA 1111)' before the course name.
+    course.info.header.rgx <- "[A-Z]{4} [0-9]{3}[[:space:]]+?(\\(also listed as [^)]*\\))?[A-Z][a-z]+."
 
     # split text on empty string before each course.info.header.rgx match, convert to data frame
     program.courses <- html_text(program.html.string) %>%
