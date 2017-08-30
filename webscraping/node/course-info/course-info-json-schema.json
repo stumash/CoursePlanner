@@ -16,7 +16,7 @@
         },
         "alphaNumPunctString": {
             "type": "string",
-            "pattern": "^[\\wüöòëéÉèÈ ,'“”‘’\"--­‐‑‒–—/.:;?§()]+$"
+            "pattern": "^[\\wñüúáàíÎöóòëéÉèÈ ,'“”‘’\"--­‐‑‒–—/.:;?§()\\[\\]]+$"
         },
         "posNumRoundedToHundredths": {
             "type": "string",
