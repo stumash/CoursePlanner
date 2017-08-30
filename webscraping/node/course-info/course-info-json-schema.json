@@ -16,7 +16,7 @@
         },
         "alphaNumPunctString": {
             "type": "string",
-            "pattern": "^[\\wöéÉèÈ ,'“”‘’\"--­‐‑‒–—/.:;?()]+$"
+            "pattern": "^[\\wüöòëéÉèÈ ,'“”‘’\"--­‐‑‒–—/.:;?§()]+$"
         },
         "posNumRoundedToHundredths": {
             "type": "string",
@@ -37,7 +37,7 @@
             "code": { "$ref": "#/definitions/courseCodeString" },
             "name": { "$ref": "#/definitions/alphaNumPunctString"},
             "credits": {"$ref": "#/definitions/posNumRoundedToHundredths"},
-            "description": {"type": "string"},
+            "description": { "$ref": "#/definitions/alphaNumPunctString"},
             "requirements": {
                 "type": "object",
                 "properties": {
