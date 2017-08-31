@@ -82,7 +82,6 @@ for(i in 1:num.scrapes) {
         mutate(labHours = program.courses$secondhalf.string %>% str_match(laboratory.rgx) %>% .[,2])
     program.courses <- program.courses %>%
         mutate(note = program.courses$secondhalf.string %>% str_match(note.rgx) %>% .[,2])
-    program.courses$description
 
     #### BEGIN PARSING PREREQ STRING INTO JSON OBJECT
     # temp variable for prereq strings
