@@ -29,7 +29,7 @@ const storeAllCourseInfo = (function (){
 
     let numValidated = 0;
 
-    justUseCallback(dbFullUrl, function(err, db) {
+    MongoClient.connect(dbFullUrl, function(err, db) {
         assert.equal(null, err);
         console.log("Connected successfully to db server");
 
@@ -57,15 +57,15 @@ const storeAllCourseInfo = (function (){
 
                         // write the json to the db
                         courseInfosJSON.forEach(courseInfoJSON => {
-                            //db.collection("courseData").update({_id : courseInfoJSON.code}, {$set:courseInfoJSON}, {upsert: true}, function(err, result) {
-                                //assert.equal(err, null)
+                            db.collection("courseData").update({_id : courseInfoJSON.code}, {$set:courseInfoJSON}, {upsert: true}, function(err, result) {
+                                assert.equal(err, null)
                                 logMessage("Wrote contents of file: " + courseInfoJSON.code + " to db.")
-                            //})
+                            })
                         })
                     }
 
                     if (numValidated == files.length) {
-                        //db.close();
+                        db.close();
                         if(foundIssue){
                             //sendIssueEmail();
                         }
@@ -110,8 +110,4 @@ function sendIssueEmail(){
         }
         console.log('Message %s sent: %s', info.messageId, info.response);
     });
-}
-
-function justUseCallback(param, cb) {
-    cb()
 }
