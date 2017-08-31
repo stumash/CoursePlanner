@@ -10,6 +10,7 @@
     "mongodb": "^2.2.27",
     "nodemailer": "^4.0.1",
     "remove": "^0.1.5",
+    "fs-extra": "^4.0.1",
     "request": "^2.81.0"
   }
 }
