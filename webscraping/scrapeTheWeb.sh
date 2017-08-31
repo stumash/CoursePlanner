@@ -14,7 +14,6 @@ rm -r $webscrapedir/node/course-seq/sequences; mkdir $webscrapedir/node/course-s
 cd "$webscrapedir/node/course-seq"
 
 # Make sure any new dependencies are installed
-
 npm install
 
 # run scraper for course sequences
