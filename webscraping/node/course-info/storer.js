@@ -67,7 +67,7 @@ const storeAllCourseInfo = (function (){
                     if (numValidated == files.length) {
                         db.close();
                         if(foundIssue){
-                            //sendIssueEmail();
+                            sendIssueEmail();
                         }
                     }
                 });
