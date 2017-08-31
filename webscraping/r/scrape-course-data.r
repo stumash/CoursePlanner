@@ -24,8 +24,8 @@ for(i in 1:num.scrapes) {
         html_node(css = css.selectors[i]) # extract desired DOM
 
     # match "course info header" of each course on concordia web site
-    # ...something like 'SOEN 555    Systems'
-    course.info.header.rgx <- "[A-Z]{4} [0-9]{3}[[:space:]]+?[A-Z][a-z]+."
+    # ...something like 'SOEN 555    Systems'. Might have a '(also listed as AAAA 1111)' before the course name.
+    course.info.header.rgx <- "[A-Z]{4} [0-9]{3}[[:space:]]+?(\\(also listed as [^)]*\\))?[A-Z][a-z]+."
 
     # split text on empty string before each course.info.header.rgx match, convert to data frame
     program.courses <- html_text(program.html.string) %>%
@@ -64,15 +64,16 @@ for(i in 1:num.scrapes) {
       mutate(secondhalf.string = program.courses$fullstring %>% str_match(secondhalf.rgx) %>% .[,3])
 
     # some regexes for data extraction from column 'secondhalf.string'
-    lectures.rgx <- 'Lectures: ([^.]*)'
-    tutorials.rgx <- 'Tutorial: ([^.]*)'
-    laboratory.rgx <- 'Laboratory: ([^.]*)'
-    note.rgx <- 'NOTE: (.*)'
-    course.description.rgx <- '.*?(?=(Lecture|Tutorial|Laboratory|\nNOTE|$))'
+    lectures.rgx <- 'Lectures: ([^.]*)' # Everything following 'Lectures ' up until first '.'
+    tutorials.rgx <- 'Tutorial: ([^.]*)' # Everything following 'Tutorial ' up until first '.'
+    laboratory.rgx <- 'Laboratory: ([^.]*)' # Everything following 'Laboratory ' up until first '.'
+    note.rgx <- 'NOTE: (.*)' # Everything following 'NOTE: ' up until first '.'
+    # Everything up until any of 'Lecture','Tutorial','Laboratory','NOTE', or <end of string>. Whichever comes first.
+    course.description.rgx <- '(.*?)(Lecture|Tutorial|Laboratory|NOTE|$)'
 
     # extracting the regex to new columns in the program.courses data frame
     program.courses <- program.courses %>%
-        mutate(description = program.courses$secondhalf.string %>% str_extract(course.description.rgx))
+        mutate(description = program.courses$secondhalf.string %>% str_match(course.description.rgx) %>% .[,2])
     program.courses <- program.courses %>%
         mutate(lectureHours = program.courses$secondhalf.string %>% str_match(lectures.rgx) %>% .[,2])
     program.courses <- program.courses %>%
