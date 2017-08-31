@@ -1,13 +1,13 @@
 *.iml
 *.class
 .Rhistory
-/.idea/
-/target/
+.idea/
+target/
 node_modules/
 package-lock.json
 
+scraped-json/
 /src/main/webapp/sequences/
 /src/main/webapp/bundle.js
 /src/main/webapp/babel-out/
 
-**/scraped-json/*
