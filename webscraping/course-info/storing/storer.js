@@ -8,7 +8,7 @@ let assert = require('assert')
 let argv = require('minimist')(process.argv.slice(2))
 
 const json_schema_path = 'course-info-json-schema.json'
-const scraped_course_info_folder = '../../r/course-info-jsonfiles'
+const scraped_course_info_folder = '../scraped-json'
 const course_info_document_regex = /_document/
 
 let Ajv = require('ajv');

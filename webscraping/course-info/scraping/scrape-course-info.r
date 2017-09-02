@@ -142,8 +142,8 @@ for(i in 1:num.scrapes) {
     #### END REMOVAL OF COURSES IF CERTAIN FIELDS MATCH CERTAIN VALUES
 
     # store data in JSON-formatted files
-    file.connection <- file(paste(sep = "_", paste(sep="", "course-info-jsonfiles/", program.names[i]), "full-course-info.json"))
+    file.connection <- file(paste(sep = "_", paste(sep="", "../scraped-json/", program.names[i]), "full-course-info.json"))
     writeLines(prettify(toJSON(full.course.strings)), file.connection); close(file.connection)
-    file.connection <- file(paste(sep = "_", paste(sep="", "course-info-jsonfiles/", program.names[i]), "document.json"))
+    file.connection <- file(paste(sep = "_", paste(sep="", "../scraped-json/", program.names[i]), "document.json"))
     writeLines(prettify(toJSON(program.courses)), file.connection); close(file.connection)
 }
