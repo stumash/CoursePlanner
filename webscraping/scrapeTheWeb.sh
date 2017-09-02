@@ -22,15 +22,15 @@ node scraper.js
 # run storer for course sequences
 node storer.js "${1}"
 
-# Course Data:
+# Course Info:
 
 # delete and remake the directory to hold scraped course-info json files
-rm -r $webscrapedir/r/course-info-jsonfiles; mkdir $webscrapedir/r/course-info-jsonfiles
+rm -r $webscrapedir/course-info/scraped-json; mkdir $webscrapedir/course-info/scraped-json
 
 # run scraper for course data
-cd "$webscrapedir/r"
-Rscript scrape-course-data.r
+cd "$webscrapedir/course-info/scraping"
+Rscript scrape-course-info.r
 
 # run storer for course data
-cd "$webscrapedir/node/course-info"
+cd "$webscrapedir/course-info/storing"
 node storer.js "${1}"
