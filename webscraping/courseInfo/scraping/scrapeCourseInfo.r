@@ -6,7 +6,7 @@ library(readr) # read and write tables
 library(jsonlite) # df to json conversion, json prettify
 
 # all (url, css-selector) pairs to scrape from
-urls.and.css.selectors <- read_lines("course-info-data-sources.txt")
+urls.and.css.selectors <- read_lines("courseInfoDataSources.txt")
 num.scrapes <- length(urls.and.css.selectors) / 3
 
 # store the 3-tuples (program.name, url, css.selector) in three vectors
@@ -142,8 +142,8 @@ for(i in 1:num.scrapes) {
     #### END REMOVAL OF COURSES IF CERTAIN FIELDS MATCH CERTAIN VALUES
 
     # store data in JSON-formatted files
-    file.connection <- file(paste(sep = "_", paste(sep="", "../scraped-json/", program.names[i]), "full-course-info.json"))
+    file.connection <- file(paste(sep = "_", paste(sep="", "../scrapedJson/", program.names[i]), "fullCourseInfo.json"))
     writeLines(prettify(toJSON(full.course.strings)), file.connection); close(file.connection)
-    file.connection <- file(paste(sep = "_", paste(sep="", "../scraped-json/", program.names[i]), "document.json"))
+    file.connection <- file(paste(sep = "_", paste(sep="", "../scrapedJson/", program.names[i]), "document.json"))
     writeLines(prettify(toJSON(program.courses)), file.connection); close(file.connection)
 }

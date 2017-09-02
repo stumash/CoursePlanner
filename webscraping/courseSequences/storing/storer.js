@@ -1,32 +1,31 @@
-'use strict'
+'use strict';
 
-let nodemailer = require('nodemailer')
-let remove = require("remove")
-let fs = require("fs")
-let MongoClient = require('mongodb').MongoClient
-let assert = require('assert')
-let argv = require('minimist')(process.argv.slice(2))
+const nodemailer = require('nodemailer');
+const remove = require("remove");
+const fs = require("fs");
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+const argv = require('minimist')(process.argv.slice(2));
+const Ajv = require('ajv');
+const ajv = new Ajv({
+    "verbose": true,
+    "allErrors": true
+});
 
-const json_schema_path = 'course-info-json-schema.json'
-const scraped_course_info_folder = '../scraped-json'
-const course_info_document_regex = /_document/
-
-let Ajv = require('ajv');
-let ajv = new Ajv({ "verbose": true, "allErrors": true });
-let validate = ajv.compile(JSON.parse(fs.readFileSync(json_schema_path, 'utf8')));
-
+const validate = ajv.compile(JSON.parse(fs.readFileSync('courseSequenceSchema.json', 'utf8')));
 const mongoServerUrl = 'mongodb://138.197.6.26:27017/';
 const devDbName = "courseplannerdb-dev";
 const prodDbName = "courseplannerdb";
 const dbName = (argv.prod) ? prodDbName : devDbName;
 const dbFullUrl = mongoServerUrl + dbName;
 
-let log = "*** Course Info Validation Log ***<br><br>";
+let log = "*** Sequence Validation Log ***<br><br>";
 
-const storeAllCourseInfo = (function (){
+const storeAllSequences = (function (){
 
     console.log("Storing + validating sequence json data");
 
+    let seqFolder = '../scrapedJson/';
     let numValidated = 0;
 
     MongoClient.connect(dbFullUrl, function(err, db) {
@@ -35,17 +34,16 @@ const storeAllCourseInfo = (function (){
 
         let foundIssue = false;
 
-        // read all files in course info folder and pass them through the validator
-        fs.readdir(scraped_course_info_folder, function (err, files) {
-            files = files.filter(file => course_info_document_regex.test(file))
+        // read all files in sequence folder and pass them through the validator
+        fs.readdir(seqFolder, function (err, files) {
             files.forEach(function (file) {
-                fs.readFile(scraped_course_info_folder + '/' + file, "utf-8", function (err, fileContent) {
+                fs.readFile(seqFolder + file, "utf-8", function (err, fileContent) {
+                    let sequenceJSON = JSON.parse(fileContent);
                     if (err) {
                         throw err;
                     }
-                    let courseInfosJSON = JSON.parse(fileContent);
 
-                    let isSequenceValid = validate(courseInfosJSON);
+                    let isSequenceValid = validate(sequenceJSON);
 
                     numValidated++;
                     if(!isSequenceValid){
@@ -56,12 +54,10 @@ const storeAllCourseInfo = (function (){
                         logMessage(file + ": PASS");
 
                         // write the json to the db
-                        courseInfosJSON.forEach(courseInfoJSON => {
-                            db.collection("courseData").update({_id : courseInfoJSON.code}, {$set:courseInfoJSON}, {upsert: true}, function(err, result) {
-                                assert.equal(err, null)
-                                logMessage("Wrote contents of file: " + courseInfoJSON.code + " to db.")
-                            })
-                        })
+                        db.collection("courseSequences").update({_id : file.replace(".json","")}, {$set:sequenceJSON}, {upsert: true}, function(err, result) {
+                            assert.equal(err, null);
+                            logMessage("Wrote contents of file: " + file + " to db.");
+                        });
                     }
 
                     if (numValidated == files.length) {
@@ -76,6 +72,15 @@ const storeAllCourseInfo = (function (){
     });
 })();
 
+function cleanUp(){
+    try {
+        remove.removeSync("../scrapedJson");
+        logMessage("cleaned up sequences dir");
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 function logMessage(message){
     console.log(message);
     log += message + "<br>"
@@ -83,7 +88,7 @@ function logMessage(message){
 
 function sendIssueEmail(){
 
-    let message = "The course info scraper encountered errors in its most recent execution (" + new Date().toString() + ")\n" +
+    let message = "The course sequence scraper encountered errors in its most recent execution (" + new Date().toString() + ")\n" +
                     " Below are the logs from the scrape attempt:<br><br>";
     message += log;
 

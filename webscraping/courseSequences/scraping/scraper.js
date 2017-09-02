@@ -6,7 +6,7 @@ const cheerio = require('cheerio');
 const assert = require('assert');
 
 const SEASON_NAMES = ["fall", "winter", "summer"];
-const outputDir = "../scraped-json/";
+const outputDir = "../scrapedJson/";
 
 const courseCodeRegex = /\w{4}\s?\d{3}/;
 const minTotalCreditsRegex = /\S*\d+\S*/;

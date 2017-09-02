@@ -10,28 +10,28 @@ popd > /dev/null
 # Course Sequences:
 
 # delete and remake the directory to hold scraped course sequence json files
-rm -r $webscrapedir/course-seq/scraped-json; mkdir $webscrapedir/course-seq/scraped-json
+rm -r $webscrapedir/courseSequences/scrapedJson; mkdir $webscrapedir/courseSequences/scrapedJson
 
 # Make sure any new dependencies are installed
 npm install
 
 # run scraper for course sequences
-cd $webscrapedir/course-seq/scraping
+cd $webscrapedir/courseSequences/scraping
 node scraper.js
 
 # run storer for course sequences
-cd $webscrapedir/course-seq/storing
+cd $webscrapedir/courseSequences/storing
 node storer.js "${1}"
 
 # Course Info:
 
 # delete and remake the directory to hold scraped course-info json files
-rm -r $webscrapedir/course-info/scraped-json; mkdir $webscrapedir/course-info/scraped-json
+rm -r $webscrapedir/courseInfo/scrapedJson; mkdir $webscrapedir/courseInfo/scrapedJson
 
 # run scraper for course data
-cd "$webscrapedir/course-info/scraping"
-Rscript scrape-course-info.r
+cd "$webscrapedir/courseInfo/scraping"
+Rscript scrapeCourseInfo.r
 
 # run storer for course data
-cd "$webscrapedir/course-info/storing"
+cd "$webscrapedir/courseInfo/storing"
 node storer.js "${1}"

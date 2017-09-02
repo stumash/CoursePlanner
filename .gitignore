@@ -6,7 +6,7 @@
 node_modules/
 package-lock.json
 
-scraped-json/
+scrapedJson/
 /src/main/webapp/sequences/
 /src/main/webapp/bundle.js
 /src/main/webapp/babel-out/
