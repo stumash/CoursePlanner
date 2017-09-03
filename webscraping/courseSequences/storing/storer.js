@@ -1,30 +1,31 @@
 'use strict';
 
-let nodemailer = require('nodemailer');
-let remove = require("remove");
-let fs = require("fs");
-let MongoClient = require('mongodb').MongoClient;
-let assert = require('assert');
-let argv = require('minimist')(process.argv.slice(2));
-let Ajv = require('ajv');
-let ajv = new Ajv({
+const nodemailer = require('nodemailer');
+const remove = require("remove");
+const fs = require("fs");
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+const argv = require('minimist')(process.argv.slice(2));
+const Ajv = require('ajv');
+const ajv = new Ajv({
     "verbose": true,
     "allErrors": true
 });
 
-let validate = ajv.compile(JSON.parse(fs.readFileSync('../json-schema/recommendedSequence.json', 'utf8')));
-let mongoServerUrl = 'mongodb://138.197.6.26:27017/';
-let devDbName = "courseplannerdb-dev";
-let prodDbName = "courseplannerdb";
-let dbName = (argv.prod) ? prodDbName : devDbName;
-let dbFullUrl = mongoServerUrl + dbName;
+const validate = ajv.compile(JSON.parse(fs.readFileSync('courseSequenceSchema.json', 'utf8')));
+const mongoServerUrl = 'mongodb://138.197.6.26:27017/';
+const devDbName = "courseplannerdb-dev";
+const prodDbName = "courseplannerdb";
+const dbName = (argv.prod) ? prodDbName : devDbName;
+const dbFullUrl = mongoServerUrl + dbName;
+
 let log = "*** Sequence Validation Log ***<br><br>";
 
-let storeAllSequences = (function (){
+const storeAllSequences = (function (){
 
     console.log("Storing + validating sequence json data");
 
-    let seqFolder = './sequences/';
+    let seqFolder = '../scrapedJson/';
     let numValidated = 0;
 
     MongoClient.connect(dbFullUrl, function(err, db) {
@@ -73,7 +74,7 @@ let storeAllSequences = (function (){
 
 function cleanUp(){
     try {
-        remove.removeSync("./sequences");
+        remove.removeSync("../scrapedJson");
         logMessage("cleaned up sequences dir");
     } catch (err) {
         console.error(err);

@@ -77,6 +77,3 @@ function getAllCoursesFromSequence(sequence){
     });
     return courses;
 }
-
-
-

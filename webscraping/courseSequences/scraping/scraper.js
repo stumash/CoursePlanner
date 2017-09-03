@@ -1,12 +1,12 @@
 'use strict';
 
-let fs = require('fs');
-let request = require('request');
-let cheerio = require('cheerio');
-let assert = require('assert');
+const fs = require('fs');
+const request = require('request');
+const cheerio = require('cheerio');
+const assert = require('assert');
 
 const SEASON_NAMES = ["fall", "winter", "summer"];
-const outputDir = "./sequences/";
+const outputDir = "../scrapedJson/";
 
 const courseCodeRegex = /\w{4}\s?\d{3}/;
 const minTotalCreditsRegex = /\S*\d+\S*/;
