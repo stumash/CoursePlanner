@@ -4,7 +4,7 @@
 
 # parse arguments and handle bad arguments
 if [ $# -ge 1 ] && [ $# -le 2 ] # if there >=1 and <=2 args
-then 
+then
     # parse the first argument, either a dev's name or the string "prod"
     if [ "${1}" == "prod" ]
     then
