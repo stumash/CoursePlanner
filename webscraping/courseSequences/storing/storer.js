@@ -48,7 +48,7 @@ const storeAllSequences = (function (){
                     numValidated++;
                     if(!isSequenceValid){
                         logMessage(file + ": FAIL - ");
-                        logMessage(JSON.stringify(validate.errors, undefined, 4));
+                        logMessage('<pre>' + JSON.stringify(validate.errors, undefined, 4) + '</pre>');
                         foundIssue = true;
                     } else {
                         logMessage(file + ": PASS");
@@ -88,7 +88,7 @@ function logMessage(message){
 
 function sendIssueEmail(){
 
-    let message = "The course sequence scraper encountered errors in its most recent execution (" + new Date().toString() + ")\n" +
+    let message = "The course sequence scraper encountered errors in its most recent execution (" + new Date().toString() + ")<br>" +
                     " Below are the logs from the scrape attempt:<br><br>";
     message += log;
 
