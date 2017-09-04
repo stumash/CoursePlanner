@@ -33,7 +33,7 @@ let garbageCanTarget = {
     hover(props, monitor, component) {
     },
     drop(props, monitor, component){
-        props.onRemoveCourse(monitor.getItem().coursePosition);
+        props.onRemoveCourse(monitor.getItem().position);
     }
 };
 

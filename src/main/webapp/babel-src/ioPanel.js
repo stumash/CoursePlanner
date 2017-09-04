@@ -2,7 +2,7 @@ import React from "react";
 import {EXPORT_TYPES} from "./util";
 import {UI_STRINGS} from "./util";
 import {SearchBox} from "./searchBox";
-import CourseItem from "./courseItem";
+import Course from "./course";
 import GarbageCan from "./garbageCan"
 
 /*
@@ -74,9 +74,9 @@ export class IOPanel extends React.Component {
 
         return (
             <div>
-                <CourseItem courseObj={courseInfo}
-                            isDraggable={true}
-                            onCourseClick={this.props.onSearchCourse}/>
+                <Course courseObj={courseInfo}
+                        isDraggable={true}
+                        onCourseClick={this.props.onSearchCourse}/>
                 <pre>{JSON.stringify(this.props.courseInfo, undefined, 2)}</pre>
             </div>
         );

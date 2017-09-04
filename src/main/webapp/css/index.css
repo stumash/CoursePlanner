@@ -74,48 +74,48 @@
     background-color: #D3D3D3;
 }
 
-.course.beingDragged {
+.beingDragged {
     /*border-color: red;*/
     opacity: 0;
 }
 
-.course.grabbable {
+.grabbable {
     cursor: move; /* fallback if grab cursor is unsupported */
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
 }
 
-.courseChoiceItem {
+.orList {
     width: 160px;
     border: none;
     margin: 6px auto;
 }
 
-.courseChoiceItem .course {
+.orList .course {
     margin: 0;
     border: none;
     border-radius: initial;
     width: auto;
 }
 
-.courseChoiceItem .input-group-addon {
+.orList .input-group-addon {
     padding: 0px;
     width: 100%;
     background-color: transparent;
     color: #333333;
 }
 
-.courseChoiceItem button {
+.orList button {
     padding: 0px 8px;
     background-color: transparent;
 }
 
-.courseChoiceItem button:hover, .courseChoiceItem button:active {
+.orList button:hover, .orList button:active {
     background-color: inherit;
 }
 
-.courseChoiceItem .caret {
+.orList .caret {
     margin-bottom: 2px;
 }
 

@@ -1,6 +1,7 @@
 import React from "react";
-import { UI_STRINGS, ITEM_TYPES } from "./util";
-import CourseItem from "./courseItem";
+import { UI_STRINGS, ITEM_TYPES, renderCourseDiv } from "./util";
+import Course from "./course";
+import OrList from "./orList";
 import { DropTarget } from 'react-dnd';
 
 /*
@@ -44,19 +45,28 @@ class SemesterBox extends React.Component {
         }
 
         return courseList.map((courseObj, courseIndex) => {
+            let position = {
+                "yearIndex": this.props.yearIndex,
+                "season": this.props.season,
+                "courseListIndex": courseIndex
+            };
             if(courseObj.length > 0){
+                let courseList = courseObj;
+                return (
+                    <OrList courseList={courseList}
+                            position={position}
+                            isDraggable={true}
+                            onOrListSelection={this.props.onOrListSelection}
+                            onCourseClick={this.props.onSelectCourse}
+                            onChangeDragState={this.props.onChangeDragState}
+                            key={courseList.map(courseObj => courseObj.id).join()}/>
+                );
                 return this.renderOrList(courseObj, courseIndex);
             } else {
-                let coursePosition = {
-                    "yearIndex": this.props.yearIndex,
-                    "season": this.props.season,
-                    "courseListIndex": courseIndex,
-                };
                 return (
-                    <CourseItem courseObj={courseObj}
-                                coursePosition={coursePosition}
+                    <Course courseObj={courseObj}
+                                position={position}
                                 isDraggable={true}
-                                onMoveCourse={this.props.onMoveCourse}
                                 onCourseClick={this.props.onSelectCourse}
                                 onChangeDragState={this.props.onChangeDragState}
                                 key={courseObj.id}/>
@@ -65,74 +75,6 @@ class SemesterBox extends React.Component {
         });
     }
 
-    renderOrList(orList, courseListIndex){
-        return (
-            <div className="courseChoiceItem input-group" key={orList.map(courseObj => courseObj.id).join()}>
-                <div className="input-group-btn">
-                    <button className="btn btn-default dropdown-toggle" title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP} type="button"  data-toggle="dropdown">
-                        <span className="caret"></span>
-                    </button>
-                    <ul className="dropdown-menu">
-                        {orList.map((courseObj, courseIndex) =>
-                            <li key={courseObj.id}>
-                                <CourseItem courseObj={courseObj}
-                                            coursePosition={{
-                                                "yearIndex": this.props.yearIndex,
-                                                "season": this.props.season,
-                                                "courseListIndex": courseListIndex,
-                                                "orListIndex": courseIndex
-                                            }}
-                                            isDraggable={false}
-                                            onOrCourseClick={this.props.onOrListSelection}/>
-                            </li>
-                        )}
-                    </ul>
-                </div>
-                <div className="input-group-addon">
-                    {this.renderSelectedOrCourse(orList, courseListIndex)}
-                </div>
-            </div>
-        );
-    }
-
-    renderSelectedOrCourse(orList, courseListIndex){
-
-        let selectedCourse = undefined;
-        let selectedIndex = -1;
-
-        orList.forEach((courseObj, orListIndex) => {
-            if(courseObj.isSelected){
-                selectedCourse = courseObj;
-                selectedIndex = orListIndex;
-            }
-        });
-
-        let coursePosition = {
-            "yearIndex": this.props.yearIndex,
-            "season": this.props.season,
-            "courseListIndex": courseListIndex,
-            "orListIndex": selectedIndex
-        };
-
-        return (!selectedCourse) ? <div title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP}>{UI_STRINGS.LIST_NONE_SELECTED}</div> :
-                                   <CourseItem courseObj={selectedCourse}
-                                               coursePosition={coursePosition}
-                                               isDraggable={false}
-                                               onCourseClick={this.props.onSelectCourse}/>;
-    }
-
-    renderCourse(courseObj, clickHandler){
-        return (
-            <div className="course" title={courseObj.name} onClick={clickHandler}>
-                <div className="courseCode">
-                    { (courseObj.isElective === "false") ? courseObj.code : (courseObj.electiveType + " Elective") }
-                </div>
-                <div className="courseCredits">
-                    { (courseObj.isElective === "false") ? courseObj.credits : "3" }
-                </div>
-            </div>
-        );
-    }
 
     renderCheckBox(){
         return <input type="checkbox"
@@ -168,39 +110,40 @@ let semesterTarget = {
     },
     canDrop(props, monitor){
 
-        let semesterContainsCourse = false;
-
-        for(let i = 0; i < props.semester.courseList.length; i++){
-            let tCourse = props.semester.courseList[i];
-            if(tCourse.code && tCourse.code === monitor.getItem().courseObj.code){
-                semesterContainsCourse = true;
-            }
+        if(monitor.getItem().position && monitor.getItem().position.season === props.season && monitor.getItem().position.yearIndex === props.yearIndex){
+            return false;
         }
 
-        return !semesterContainsCourse;
+        let canDrop = true;
+
+        if (monitor.getItemType() === ITEM_TYPES.COURSE) {
+
+            for(let i = 0; i < props.semester.courseList.length; i++){
+                let tCourse = props.semester.courseList[i];
+                if(tCourse.code && tCourse.code === monitor.getItem().courseObj.code){
+                    canDrop = false;
+                }
+            }
+
+        }
+
+        return canDrop;
     },
     drop(props, monitor, component){
 
-        let draggedCourse = monitor.getItem();
+        let draggedItem = monitor.getItem();
 
-        let newCoursePosition = {
+        let newPosition = {
             "yearIndex": props.yearIndex,
             "season": props.season,
             "courseListIndex": 0
         };
 
-        if(draggedCourse.coursePosition) {
-
-            if(draggedCourse.coursePosition.season === props.season && draggedCourse.coursePosition.yearIndex === props.yearIndex){
-                return;
-            }
-
-            // we dropped an existing course into a new semester, move the course into it.
-            props.onMoveCourse(draggedCourse.coursePosition, newCoursePosition);
-
+        // no course position means the course was dragged from the IOPanel
+        if(!draggedItem.position){
+            props.onAddCourse(draggedItem.courseObj, newPosition);
         } else {
-            // no course position means the course was dragged from the IOPanel
-            props.onAddCourse(draggedCourse.courseObj, newCoursePosition);
+            props.onMoveCourse(draggedItem.position, newPosition);
         }
     }
 };
@@ -212,4 +155,4 @@ function collectTarget(connect, monitor) {
     };
 }
 
-export default DropTarget(ITEM_TYPES.COURSE, semesterTarget, collectTarget)(SemesterBox);
+export default DropTarget([ITEM_TYPES.COURSE, ITEM_TYPES.OR_LIST], semesterTarget, collectTarget)(SemesterBox);

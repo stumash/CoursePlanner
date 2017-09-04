@@ -128,7 +128,7 @@ class MainPage extends React.Component {
      *                          required properties: yearIndex, season, courseListIndex
      *      param newPosition - ''
      */
-    moveCourse(oldPosition, newPosition, onComplete){
+    moveCourse(oldPosition, newPosition){
         this.setState((prevState) => {
 
             let courseToMove = prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList[oldPosition.courseListIndex];
@@ -148,11 +148,11 @@ class MainPage extends React.Component {
     }
 
     /*
- *  function to call in the event that the user drags a new course into a new position
- *      param courseObj - object representing the course to be added
- *      param newPosition - object indicating the new absolute position of the course within the sequence
- *                          required properties: yearIndex, season, courseListIndex
- */
+     *  function to call in the event that the user drags a new course into a new position
+     *      param courseObj - object representing the course to be added
+     *      param newPosition - object indicating the new absolute position of the course within the sequence
+     *                          required properties: yearIndex, season, courseListIndex
+     */
     addCourse(courseObj, newPosition){
         this.setState((prevState) => {
 
