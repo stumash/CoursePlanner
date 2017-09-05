@@ -217,7 +217,7 @@ class MainPage extends React.Component {
                                    onAddCourse={this.addCourse}
                                    onChangeDragState={this.enableGarbage}/>
                 </div>
-                <div className="col-xs-12 hidden-md hidden-lg">
+                <div className="col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
                     <SemesterList courseSequenceObject={this.state.courseSequenceObject}
                                   onSelectCourse={this.loadCourseInfo}
                                   onOrListSelection={this.setOrListCourseSelected}

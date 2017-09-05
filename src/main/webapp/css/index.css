@@ -4,6 +4,7 @@
 
 #react-root {
     padding-top: 15px;
+    font-size: 14px;
 }
 
 /* Styling for SemesterTable */
@@ -13,6 +14,60 @@
 }
 
 /* Styling for SemesterList */
+
+@media (max-width: 991px) {
+
+    #react-root,
+    .semesterList .orList .input-group-addon,
+    .semesterList .orList .dropdown-menu,
+    .ioPanel .export button,
+    .ioPanel .export .dropdown-menu,
+    .ioPanel .programSelect select,
+    .ioPanel .courseSearch input,
+    .ioPanel .courseSearch button,
+    .logoContainer .panel-body > div,
+    .ui-menu-item-wrapper {
+        font-size: 30px;
+    }
+
+    .ioPanel .programSelect select,
+    .ioPanel .courseSearch input,
+    .ioPanel .courseSearch button {
+        height: 48px;
+    }
+
+    .semesterList .course,
+    .semesterList .orList,
+    .semesterList .orList .dropdown-menu .course,
+    .ioPanel .course {
+        width: 300px;
+    }
+
+    .semesterList div:not(.input-group-addon) > .course,
+    .semesterList .orList,
+    .semesterList .orList button,
+    .semesterList .orList .dropdown-menu .course,
+    .ioPanel .course{
+        height: 66px;
+    }
+
+    .semesterList div:not(.input-group-addon) > .course,
+    .semesterList .orList .dropdown-menu .course,
+    .ioPanel .course{
+        padding-top: 12px;
+    }
+
+    .semesterList .orList .input-group-addon .course {
+        height: 64px;
+        padding-top: 18px;
+    }
+
+    .semesterList input[type="checkbox"] {
+        height: 30px;
+        width: 30px;
+    }
+}
+
 
 .semesterList {
     border: 1px solid #DDDDDD;
@@ -75,7 +130,6 @@
 }
 
 .beingDragged {
-    /*border-color: red;*/
     opacity: 0;
 }
 
@@ -104,6 +158,11 @@
     width: 100%;
     background-color: transparent;
     color: #333333;
+}
+
+.orList .input-group-addon .course {
+    height: 20px;
+    padding-top: 3px;
 }
 
 .orList button {
@@ -149,6 +208,10 @@
 
 .logoContainer .panel-body > div {
     padding: 15px;
+}
+
+.ioPanel .programSelect select {
+    color: #333;
 }
 
 .export a {
