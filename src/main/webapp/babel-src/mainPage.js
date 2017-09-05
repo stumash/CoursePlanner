@@ -196,7 +196,7 @@ class MainPage extends React.Component {
     render() {
         return (
             <div className="row">
-                <div className="col-sm-3 col-xs-12">
+                <div className="col-md-3 col-sm-12">
                     <IOPanel courseInfo={this.state.selectedCourseInfo}
                              allSequences={this.state.allSequences}
                              chosenProgram={this.state.chosenProgram}
@@ -208,7 +208,7 @@ class MainPage extends React.Component {
                              onRemoveCourse={this.removeCourse}/>
                 </div>
                 {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
-                <div className="col-sm-9 hidden-xs">
+                <div className="col-sm-9 hidden-xs hidden-sm">
                     <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
                                    onSelectCourse={this.loadCourseInfo}
                                    onOrListSelection={this.setOrListCourseSelected}
@@ -217,7 +217,7 @@ class MainPage extends React.Component {
                                    onAddCourse={this.addCourse}
                                    onChangeDragState={this.enableGarbage}/>
                 </div>
-                <div className="col-xs-12 visible-xs">
+                <div className="col-xs-12 hidden-md hidden-lg">
                     <SemesterList courseSequenceObject={this.state.courseSequenceObject}
                                   onSelectCourse={this.loadCourseInfo}
                                   onOrListSelection={this.setOrListCourseSelected}
