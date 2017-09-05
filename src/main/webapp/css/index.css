@@ -43,13 +43,23 @@
 
 /* Styling for SemesterBox */
 
+.semesterBox {
+    min-height: 125px;
+}
+
 .semesterBox input {
     margin-left: 4px;
     height: 16px;
     width: 16px;
 }
+.noCoursesIndicator, .workTermIndicator {
+    vertical-align: middle;
+}
 
-.semesterItem {
+.course {
+    display: flex;
+    padding: 0px 8px;
+    cursor: pointer;
     width: 160px;
     margin: 6px auto;
     border-radius: 5px;
@@ -64,43 +74,51 @@
     background-color: #D3D3D3;
 }
 
-.courseChoiceItem {
-    border: none;
+.beingDragged {
+    /*border-color: red;*/
+    opacity: 0;
 }
 
-.courseChoiceItem .input-group-addon {
+.grabbable {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+.orList {
+    width: 160px;
+    border: none;
+    margin: 6px auto;
+}
+
+.orList .course {
+    margin: 0;
+    border: none;
+    border-radius: initial;
+    width: auto;
+}
+
+.orList .input-group-addon {
     padding: 0px;
     width: 100%;
     background-color: transparent;
     color: #333333;
 }
 
-.courseChoiceItem .semesterItem {
-    padding: 0px;
-}
-
-.courseChoiceItem button {
+.orList button {
     padding: 0px 8px;
     background-color: transparent;
 }
 
-.courseChoiceItem button:hover, .courseChoiceItem button:active {
+.orList button:hover, .orList button:active {
     background-color: inherit;
 }
 
-.courseChoiceItem .caret {
+.orList .caret {
     margin-bottom: 2px;
 }
 
-.noCoursesIndicator, .workTermIndicator {
-    vertical-align: middle;
-}
-
-.course {
-    display: flex;
-    padding: 0px 8px;
-    cursor: pointer;
-}
 
 .courseCode {
     margin-right: auto;
@@ -118,10 +136,19 @@
     max-height: 250px;
     overflow-x: auto;
     white-space: pre-wrap;
+    margin-top: 20px;
 }
 
 .logoContainer {
     font: bold 20px orbitron;
+}
+
+.logoContainer .panel-body {
+    padding: 0;
+}
+
+.logoContainer .panel-body > div {
+    padding: 15px;
 }
 
 .export a {
@@ -180,4 +207,12 @@ ul.ui-autocomplete {
         -webkit-transform: rotate(359deg);
         transform: rotate(359deg);
     }
+}
+
+/* Styling for DND test */
+
+.dndTestItem {
+    border: 1px solid black;
+    margin: 4px;
+    padding: 4px;
 }
