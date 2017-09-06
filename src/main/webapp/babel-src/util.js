@@ -20,7 +20,7 @@ export const ITEM_TYPES = {
 // All hardcoded pieces of text which are directly displayed to the user
 export const UI_STRINGS = {
 
-    "SITE_NAME": "Conu Course Planner",
+    "SITE_NAME": "ConU Course Planner",
 
     "WORK_TERM": "Work Term",
     "IS_WORK_TERM": " is work term?",

@@ -82,13 +82,19 @@ echo ""
 
 # transfer the built project onto the VM
 # this will trigger Tomcat to reload the site content
-deployToServerCommand="scp ./target/courseplanner.war david@138.197.6.26:/opt/tomcat/webapps/courseplanner${devname}.war"
-echo "copying .war file to server..."
-if eval $deployToServerCommand $verbose # run the deployment command and react to exit code
+deployToServerCommand="scp ./target/courseplanner.war david@138.197.6.26:/opt/tomcat/webapps/"
+if $prod
 then
-    echo "copying courseplanner${devname}.war to server successful at: $(date)"
+    finalWarName="ROOT.war"
 else
-    echo "copying courseplanner${devname}.war to server failed at: $(date)"
+    finalWarName="courseplanner${devname}.war"
+fi
+echo "copying .war file to server..."
+if eval $deployToServerCommand$finalWarName $verbose # run the deployment command and react to exit code
+then
+    echo "copying ${finalWarName} to server successful at: $(date)"
+else
+    echo "copying ${finalWarName} to server failed at: $(date)"
     echo "deploy.sh failed"
     exit 1
 fi
