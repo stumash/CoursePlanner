@@ -1,15 +1,15 @@
-'use strict'
+'use strict';
 
-let nodemailer = require('nodemailer')
-let remove = require("remove")
-let fs = require("fs")
-let MongoClient = require('mongodb').MongoClient
-let assert = require('assert')
-let argv = require('minimist')(process.argv.slice(2))
+let nodemailer = require('nodemailer');
+let remove = require("remove");
+let fs = require("fs");
+let MongoClient = require('mongodb').MongoClient;
+let assert = require('assert');
+let argv = require('minimist')(process.argv.slice(2));
 
-const json_schema_path = 'courseInfoSchema.json'
-const scraped_course_info_folder = '../scrapedJson'
-const course_info_document_regex = /_document/
+const json_schema_path = 'courseInfoSchema.json';
+const scraped_course_info_folder = '../scrapedJson';
+const course_info_document_regex = /_document/;
 
 let Ajv = require('ajv');
 let ajv = new Ajv({ "verbose": true, "allErrors": true });
@@ -37,7 +37,7 @@ const storeAllCourseInfo = (function (){
 
         // read all files in course info folder and pass them through the validator
         fs.readdir(scraped_course_info_folder, function (err, files) {
-            files = files.filter(file => course_info_document_regex.test(file))
+            files = files.filter(file => course_info_document_regex.test(file));
             files.forEach(function (file) {
                 fs.readFile(scraped_course_info_folder + '/' + file, "utf-8", function (err, fileContent) {
                     if (err) {
@@ -58,13 +58,13 @@ const storeAllCourseInfo = (function (){
                         // write the json to the db
                         courseInfosJSON.forEach(courseInfoJSON => {
                             db.collection("courseData").update({_id : courseInfoJSON.code}, {$set:courseInfoJSON}, {upsert: true}, function(err, result) {
-                                assert.equal(err, null)
+                                assert.equal(err, null);
                                 logMessage("Wrote contents of file: " + courseInfoJSON.code + " to db.")
                             })
                         })
                     }
 
-                    if (numValidated == files.length) {
+                    if (numValidated === files.length) {
                         db.close();
                         if(foundIssue){
                             sendIssueEmail();
