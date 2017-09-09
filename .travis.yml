@@ -5,7 +5,7 @@ before_script:
 - sudo apt-get install maven
 - npm install
 
-script: ./scripts/buildApp.sh prod --verbose
+script: devname="" prod=true verbose="" ./scripts/buildApp.sh
 
 addons:
   ssh_known_hosts: conucourseplanner.online
@@ -20,7 +20,7 @@ before_deploy:
 deploy:
   provider: script
   skip_cleanup: true
-  script: ./scripts/deployApp.sh prod --verbose && ./scripts/deployScraper.sh
+  script: devname="" prod=true verbose="" ./scripts/deployApp.sh && ./scripts/deployScraper.sh
   on:
     branch: master
 
