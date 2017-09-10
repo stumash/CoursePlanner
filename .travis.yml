@@ -1,6 +1,4 @@
-sudo: enabled
-
-install: sudo ./scripts/provision.sh
+install: sudo ./scripts/travisInstall.sh
 
 script: devname="" prod=true verbose="" ./scripts/buildApp.sh
 
