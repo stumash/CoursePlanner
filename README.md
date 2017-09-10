@@ -1,5 +1,7 @@
+[![Build Status](https://travis-ci.org/stumash/CoursePlanner.svg?branch=travisTest)](https://travis-ci.org/stumash/CoursePlanner)
+
 # Curriculum Sequence Builder
-ConU Hacks Winter 2017 project.  Start to finish in 24 hrs.  Still under construction.
+ConU Hacks Winter 2017 project.  Still under construction.
 
 ### Project Goals
 
