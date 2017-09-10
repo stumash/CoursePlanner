@@ -1,6 +1,3 @@
-before_script:
-- npm install
-
 script: devname="" prod=true verbose="" ./scripts/buildApp.sh
 
 addons:
