@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # install node and npm
 #sudo apt-get install node.js
 #sudo apt-get install npm
