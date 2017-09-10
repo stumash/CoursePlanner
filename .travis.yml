@@ -1,8 +1,4 @@
 before_script:
-- sudo apt-get install nodejs
-- sudo apt-get install npm
-- sudo apt-get install default-jdk
-- sudo apt-get install maven
 - npm install
 
 script: devname="" prod=true verbose="" ./scripts/buildApp.sh
