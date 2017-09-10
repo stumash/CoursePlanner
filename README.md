@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/stumash/CoursePlanner.svg?branch=travisTest)](https://travis-ci.org/stumash/CoursePlanner)
+[![Build Status](https://travis-ci.org/stumash/CoursePlanner.svg?branch=master)](https://travis-ci.org/stumash/CoursePlanner)
 
 # Curriculum Sequence Builder
 ConU Hacks Winter 2017 project.  Still under construction.
