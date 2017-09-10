@@ -1,4 +1,5 @@
-install: sudo ./scripts/travisInstall.sh
+install:
+- npm install
 
 script: devname="" prod=true verbose="" ./scripts/buildApp.sh
 
