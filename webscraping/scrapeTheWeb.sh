@@ -26,7 +26,10 @@ node storer.js "${1}"
 # Course Info:
 
 # delete and remake the directory to hold scraped course-info json files
-rm -r $webscrapedir/courseInfo/scrapedJson; mkdir $webscrapedir/courseInfo/scrapedJson
+rm -r $webscrapedir/courseInfo/scrapedJson; mkdir $webscrapedir/courseInfo/scrapedJson;
+
+# copy manually entered course json file into scrapedJson to be stored by storer.js
+cp $webscrapedir/courseInfo/storing/manualEntry.json $webscrapedir/courseInfo/scrapedJson/manualEntry_document.json
 
 # run scraper for course data
 cd "$webscrapedir/courseInfo/scraping"

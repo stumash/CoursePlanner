@@ -1,8 +1,12 @@
 import React from "react";
+
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
+
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
 import {IOPanel} from "./ioPanel";
-import {DEFAULT_PROGRAM, saveAs} from "./util";
+import {DEFAULT_PROGRAM, saveAs, generateUniqueKey, generateUniqueKeys} from "./util";
 
 /*
  *  Root component of our main page
@@ -10,7 +14,7 @@ import {DEFAULT_PROGRAM, saveAs} from "./util";
  *  This component loads up the saved/default sequence once it's created
  *
  */
-export class MainPage extends React.Component {
+class MainPage extends React.Component {
 
     constructor(props){
         super(props);
@@ -22,7 +26,8 @@ export class MainPage extends React.Component {
             "chosenProgram" : localStorage.getItem("chosenProgram") || DEFAULT_PROGRAM,
             "allSequences" : [],
             "selectedCourseInfo" : {},
-            "loadingExport": false
+            "loadingExport": false,
+            "showingGarbage": false
         };
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
@@ -31,6 +36,10 @@ export class MainPage extends React.Component {
         this.setOrListCourseSelected = this.setOrListCourseSelected.bind(this);
         this.toggleWorkTerm = this.toggleWorkTerm.bind(this);
         this.exportSequence = this.exportSequence.bind(this);
+        this.enableGarbage = this.enableGarbage.bind(this);
+        this.moveCourse = this.moveCourse.bind(this);
+        this.addCourse = this.addCourse.bind(this);
+        this.removeCourse = this.removeCourse.bind(this);
     }
 
     componentDidMount() {
@@ -103,30 +112,119 @@ export class MainPage extends React.Component {
         });
     }
 
+    /*
+     *  function to call when we want to display the garbage can and allow the user to delete a course
+     *      param enabled - should the garbage can be enabled
+     */
+    enableGarbage(enabled){
+        this.setState({
+            "showingGarbage": enabled
+        });
+    }
+
+    /*
+     *  function to call in the event that the user drags an existing course into a new position
+     *      param oldPosition - object indicating the absolute position of the course within the sequence
+     *                          required properties: yearIndex, season, courseListIndex
+     *      param newPosition - ''
+     */
+    moveCourse(oldPosition, newPosition){
+        this.setState((prevState) => {
+
+            let courseToMove = prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList[oldPosition.courseListIndex];
+
+            // remove course from old position and insert at new position
+            prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList.splice(oldPosition.courseListIndex, 1);
+            prevState.courseSequenceObject.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseToMove);
+
+            // save change to local storage
+            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+
+            // set new state based on changes
+            return {
+                "courseSequenceObject": prevState.courseSequenceObject
+            };
+        });
+    }
+
+    /*
+     *  function to call in the event that the user drags a new course into a new position
+     *      param courseObj - object representing the course to be added
+     *      param newPosition - object indicating the new absolute position of the course within the sequence
+     *                          required properties: yearIndex, season, courseListIndex
+     */
+    addCourse(courseObj, newPosition){
+        this.setState((prevState) => {
+
+            // generate a unique key for the course
+            courseObj.id = generateUniqueKey(courseObj, newPosition.season, newPosition.yearIndex, newPosition.courseListIndex, "");
+
+            // insert course at new position
+            prevState.courseSequenceObject.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseObj);
+
+            // save change to local storage
+            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+
+            // set new state based on changes
+            return {
+                "courseSequenceObject": prevState.courseSequenceObject
+            };
+        });
+    }
+
+    /*
+     *  function to call in the event that the user wants to remove a course from the sequence
+     *      param coursePosition - object indicating the new absolute position of the course within the sequence
+     *                             required properties: yearIndex, season, courseListIndex
+     */
+    removeCourse(coursePosition){
+        this.setState((prevState) => {
+
+            // remove course at coursePosition
+            prevState.courseSequenceObject.yearList[coursePosition.yearIndex][coursePosition.season].courseList.splice(coursePosition.courseListIndex, 1);
+
+            // save change to local storage
+            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+
+            // set new state based on changes
+            return {
+                "courseSequenceObject": prevState.courseSequenceObject
+            };
+        });
+    }
+
     render() {
         return (
             <div className="row">
-                <div className="col-sm-3 col-xs-12">
+                <div className="col-md-3 col-sm-12">
                     <IOPanel courseInfo={this.state.selectedCourseInfo}
                              allSequences={this.state.allSequences}
                              chosenProgram={this.state.chosenProgram}
                              loadingExport={this.state.loadingExport}
+                             showingGarbage={this.state.showingGarbage}
                              onChangeChosenProgram={this.updateChosenProgram}
                              exportSequence={this.exportSequence}
-                             onSearchCourse={this.loadCourseInfo}/>
+                             onSearchCourse={this.loadCourseInfo}
+                             onRemoveCourse={this.removeCourse}/>
                 </div>
                 {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
-                <div className="col-sm-9 hidden-xs">
+                <div className="col-sm-9 hidden-xs hidden-sm">
                     <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
                                    onSelectCourse={this.loadCourseInfo}
                                    onOrListSelection={this.setOrListCourseSelected}
-                                   onToggleWorkTerm={this.toggleWorkTerm}/>
+                                   onToggleWorkTerm={this.toggleWorkTerm}
+                                   onMoveCourse={this.moveCourse}
+                                   onAddCourse={this.addCourse}
+                                   onChangeDragState={this.enableGarbage}/>
                 </div>
-                <div className="col-xs-12 visible-xs">
+                <div className="col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
                     <SemesterList courseSequenceObject={this.state.courseSequenceObject}
                                   onSelectCourse={this.loadCourseInfo}
                                   onOrListSelection={this.setOrListCourseSelected}
-                                  onToggleWorkTerm={this.toggleWorkTerm}/>
+                                  onToggleWorkTerm={this.toggleWorkTerm}
+                                  onMoveCourse={this.moveCourse}
+                                  onAddCourse={this.addCourse}
+                                  onChangeDragState={this.enableGarbage}/>
                 </div>
             </div>
         );
@@ -157,6 +255,7 @@ export class MainPage extends React.Component {
                     data: JSON.stringify(requestBody),
                     success: (response) => {
                         let courseSequenceObject = JSON.parse(response).response;
+                        courseSequenceObject.yearList = generateUniqueKeys(courseSequenceObject.yearList);
                         this.setState({"courseSequenceObject" : courseSequenceObject});
                         localStorage.setItem("savedSequence", JSON.stringify(courseSequenceObject));
                     }
@@ -225,3 +324,5 @@ export class MainPage extends React.Component {
         });
     }
 }
+
+export default DragDropContext(HTML5Backend)(MainPage);

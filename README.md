@@ -1,5 +1,9 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+[![Build Status](https://travis-ci.org/stumash/CoursePlanner.svg?branch=master)](https://travis-ci.org/stumash/CoursePlanner)
+
 # Curriculum Sequence Builder
-ConU Hacks Winter 2017 project.  Start to finish in 24 hrs.  Still under construction.
+ConU Hacks Winter 2017 project.  Still under construction.
 
 ### Project Goals
 

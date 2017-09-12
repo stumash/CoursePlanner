@@ -1,0 +1,24 @@
+install:
+- npm install
+
+script: devname="" prod=true verbose="" ./scripts/buildApp.sh
+
+addons:
+  ssh_known_hosts: conucourseplanner.online
+
+before_deploy:
+- openssl aes-256-cbc -K $encrypted_9e8a53003a26_key -iv $encrypted_9e8a53003a26_iv
+  -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+- eval "$(ssh-agent -s)"
+- chmod 600 /tmp/deploy_rsa
+- ssh-add /tmp/deploy_rsa
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: devname="" prod=true verbose="" ./scripts/deployApp.sh && ./scripts/deployScraper.sh
+  on:
+    branch: master
+
+notifications:
+  email: false

@@ -4,6 +4,7 @@
 
 #react-root {
     padding-top: 15px;
+    font-size: 14px;
 }
 
 /* Styling for SemesterTable */
@@ -43,13 +44,23 @@
 
 /* Styling for SemesterBox */
 
+.semesterBox {
+    min-height: 125px;
+}
+
 .semesterBox input {
     margin-left: 4px;
     height: 16px;
     width: 16px;
 }
+.noCoursesIndicator, .workTermIndicator {
+    vertical-align: middle;
+}
 
-.semesterItem {
+.course {
+    display: flex;
+    padding: 0px 8px;
+    cursor: pointer;
     width: 160px;
     margin: 6px auto;
     border-radius: 5px;
@@ -64,43 +75,55 @@
     background-color: #D3D3D3;
 }
 
-.courseChoiceItem {
-    border: none;
+.beingDragged {
+    opacity: 0;
 }
 
-.courseChoiceItem .input-group-addon {
+.grabbable {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+.orList {
+    width: 160px;
+    border: none;
+    margin: 6px auto;
+}
+
+.orList .course {
+    margin: 0;
+    border: none;
+    border-radius: initial;
+    width: auto;
+}
+
+.orList .input-group-addon {
     padding: 0px;
     width: 100%;
     background-color: transparent;
     color: #333333;
 }
 
-.courseChoiceItem .semesterItem {
-    padding: 0px;
+.orList .input-group-addon .course {
+    height: 20px;
+    padding-top: 3px;
 }
 
-.courseChoiceItem button {
+.orList button {
     padding: 0px 8px;
     background-color: transparent;
 }
 
-.courseChoiceItem button:hover, .courseChoiceItem button:active {
+.orList button:hover, .orList button:active {
     background-color: inherit;
 }
 
-.courseChoiceItem .caret {
+.orList .caret {
     margin-bottom: 2px;
 }
 
-.noCoursesIndicator, .workTermIndicator {
-    vertical-align: middle;
-}
-
-.course {
-    display: flex;
-    padding: 0px 8px;
-    cursor: pointer;
-}
 
 .courseCode {
     margin-right: auto;
@@ -118,10 +141,23 @@
     max-height: 250px;
     overflow-x: auto;
     white-space: pre-wrap;
+    margin-top: 20px;
 }
 
 .logoContainer {
     font: bold 20px orbitron;
+}
+
+.logoContainer .panel-body {
+    padding: 0;
+}
+
+.logoContainer .panel-body > div {
+    padding: 15px;
+}
+
+.ioPanel .programSelect select {
+    color: #333;
 }
 
 .export a {
@@ -179,5 +215,60 @@ ul.ui-autocomplete {
     100% {
         -webkit-transform: rotate(359deg);
         transform: rotate(359deg);
+    }
+}
+
+/* Special styling for small screens */
+
+@media (max-width: 991px) {
+
+    #react-root,
+    .semesterList .orList .input-group-addon,
+    .semesterList .orList .dropdown-menu,
+    .ioPanel .export button,
+    .ioPanel .export .dropdown-menu,
+    .ioPanel .programSelect select,
+    .ioPanel .courseSearch input,
+    .ioPanel .courseSearch button,
+    .logoContainer .panel-body > div,
+    .ui-menu-item-wrapper {
+        font-size: 30px;
+    }
+
+    .ioPanel .programSelect select,
+    .ioPanel .courseSearch input,
+    .ioPanel .courseSearch button {
+        height: 48px;
+    }
+
+    .semesterList .course,
+    .semesterList .orList,
+    .semesterList .orList .dropdown-menu .course,
+    .ioPanel .course {
+        width: 300px;
+    }
+
+    .semesterList div:not(.input-group-addon) > .course,
+    .semesterList .orList,
+    .semesterList .orList button,
+    .semesterList .orList .dropdown-menu .course,
+    .ioPanel .course{
+        height: 66px;
+    }
+
+    .semesterList div:not(.input-group-addon) > .course,
+    .semesterList .orList .dropdown-menu .course,
+    .ioPanel .course{
+        padding-top: 12px;
+    }
+
+    .semesterList .orList .input-group-addon .course {
+        height: 64px;
+        padding-top: 18px;
+    }
+
+    .semesterList input[type="checkbox"] {
+        height: 30px;
+        width: 30px;
     }
 }
