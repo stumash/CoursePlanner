@@ -10,5 +10,14 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SequenceValidator extends DBServlet {
+public class SequenceValidator extends CPServlet {
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        JSONObject courseSequenceObject = getRequestJson(req);
+
+        logger.info(courseSequenceObject);
+    }
+
 }
