@@ -1,0 +1,34 @@
+// sequence validator server response
+{
+	"isValid": boolean,
+	"issues": array
+}
+
+// issue object
+{
+	"type": "courseDuplicate|creditCount|prerequisite|corequisite|etc",
+	"data": object
+}
+
+// courseDuplicate issue data object
+{
+	"courseCode": string
+}
+
+// creditCount issue data object
+{
+	"required": string,
+	"actual": string 
+}
+
+// prerequisite issue data object
+{
+	"culpritCourseCode": string,
+	"missingCourseCodes": array
+}
+
+// corequisite issue data object
+{
+	"culpritCourseCode": string,
+	"missingCourseCodes": array
+}
