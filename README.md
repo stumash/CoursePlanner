@@ -17,7 +17,7 @@ A website for helping to design your curriculum sequence.  The 3 main features a
 
 ### Take a Look
 
-Visit the page at: http://138.197.6.26/courseplanner
+Visit the page at: http://conucourseplanner.online
 
 ## Credits:
 
