@@ -107,26 +107,15 @@ public class SequenceProvider extends DBServlet {
             filter.put("_id", courseObject.getString("code"));
             Document dbResult = (Document) courseData.find(filter).first();
 
-            JSONObject dbCourseDoc;
-            if(dbResult != null) {
-                dbCourseDoc = new JSONObject(dbResult.toJson());
-            } else {
-                dbCourseDoc = new JSONObject("{}");
-            }
-
-            try{
-                courseObject.put("name", dbCourseDoc.getString("name"));
-            } catch(JSONException e){
-                logger.warn("Error grabbing name for course: " + courseObject.getString("code"));
-                courseObject.put("name", "UNKNOWN");
-            }
-
-            try{
-                courseObject.put("credits", dbCourseDoc.getString("credits"));
-            } catch(JSONException e){
-                logger.warn("Error grabbing credits for course: " + courseObject.getString("code"));
-                courseObject.put("credits", "0");
-            }
+	    if(dbResult == null){
+		logger.info("got null db result for course: " + courseObject.getString("code"));
+		courseObject.put("name", "UNKNOWN");
+		courseObject.put("credits", "0");
+	    } else {
+  		for (String courseKey : dbResult.keySet()) {
+			courseObject.put(courseKey, dbResult.get(courseKey));
+	    	}
+	    }
         }
         return courseObject;
     }
