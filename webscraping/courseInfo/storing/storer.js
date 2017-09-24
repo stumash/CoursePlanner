@@ -1,5 +1,6 @@
 'use strict';
 
+let f = require('util').format;
 let nodemailer = require('nodemailer');
 let remove = require("remove");
 let fs = require("fs");
@@ -15,11 +16,16 @@ let Ajv = require('ajv');
 let ajv = new Ajv({ "verbose": true, "allErrors": true });
 let validate = ajv.compile(JSON.parse(fs.readFileSync(json_schema_path, 'utf8')));
 
-const mongoServerUrl = 'mongodb://138.197.6.26:27017/';
+// parse password from args or display error message
+if(argv._.length < 1 || !argv._[0]){
+    return console.error("storer.js takes one required argument: the password for the tranzoneAdmin account on the DB");
+}
+const username = encodeURIComponent("tranzoneAdmin");
+const password = encodeURIComponent(argv._[0]);
 const devDbName = "courseplannerdb-dev";
 const prodDbName = "courseplannerdb";
 const dbName = (argv.prod) ? prodDbName : devDbName;
-const dbFullUrl = mongoServerUrl + dbName;
+const dbFullUrl = f('mongodb://%s:%s@conucourseplanner.online:27017/%s?authSource=admin', username, password, dbName);
 
 let log = "*** Course Info Validation Log ***<br><br>";
 
@@ -37,6 +43,10 @@ const storeAllCourseInfo = (function (){
 
         // read all files in course info folder and pass them through the validator
         fs.readdir(scraped_course_info_folder, function (err, files) {
+            if(files.length < 1){
+                db.close();
+                return console.error("WARNING: storer found no files in scrapedJson/");
+            }
             files = files.filter(file => course_info_document_regex.test(file));
             files.forEach(function (file) {
                 fs.readFile(scraped_course_info_folder + '/' + file, "utf-8", function (err, fileContent) {
