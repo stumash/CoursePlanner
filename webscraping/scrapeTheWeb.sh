@@ -21,7 +21,7 @@ node scraper.js
 
 # run storer for course sequences
 cd $webscrapedir/courseSequences/storing
-node storer.js "${1}"
+node storer.js "$@"
 
 # Course Info:
 
@@ -37,4 +37,4 @@ Rscript scrapeCourseInfo.r
 
 # run storer for course data
 cd "$webscrapedir/courseInfo/storing"
-node storer.js "${1}"
+node storer.js "$@"
