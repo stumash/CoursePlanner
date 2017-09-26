@@ -8,6 +8,8 @@ import {SemesterList} from "./semesterList";
 import {IOPanel} from "./ioPanel";
 import {DEFAULT_PROGRAM, saveAs, generateUniqueKey, generateUniqueKeys} from "./util";
 
+let _ = require('underscore');
+
 /*
  *  Root component of our main page
  *
@@ -47,6 +49,13 @@ class MainPage extends React.Component {
         this.loadAllSequences();
     }
 
+    componentDidUpdate(prevProps, prevState){
+        if(!_.isEqual(prevState.courseSequenceObject, this.state.courseSequenceObject) && !this.state.courseSequenceObject.isLoading){
+            // save change to local storage
+            localStorage.setItem("savedSequence", JSON.stringify(this.state.courseSequenceObject));
+        }
+    }
+
     /*
      *  function to call in the event that the user selects a new program of study
      *      param newChosenProgram - the name of the chosen program (e.g. SOEN-General-Coop);
@@ -57,7 +66,7 @@ class MainPage extends React.Component {
         // remember the program selected by the user
         localStorage.setItem("chosenProgram", newChosenProgram);
         // clear the saved sequence to force a reloading of the user's chosen program
-        // (INSERT CONFIRM BOX HERE - MAKE SURE USER DOESN'T LOSE THEIR WORK BY ACCIDENTALLY CHANGING PROGRAMS)
+        // TODO: (INSERT CONFIRM BOX HERE - MAKE SURE USER DOESN'T LOSE THEIR WORK BY ACCIDENTALLY CHANGING PROGRAMS)
         localStorage.removeItem("savedSequence");
 
         // Must use the callback param of setState to ensure the chosenProgram is changed in time
@@ -72,20 +81,19 @@ class MainPage extends React.Component {
     setOrListCourseSelected(coursePosition){
         this.setState((prevState) => {
 
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
+
             // update isSelected property of items in orList in question
-            let orList = prevState.courseSequenceObject.yearList[coursePosition.yearIndex][coursePosition.season].courseList[coursePosition.courseListIndex];
+            let orList = courseSequenceObjectCopy.yearList[coursePosition.yearIndex][coursePosition.season].courseList[coursePosition.courseListIndex];
 
             orList = orList.map((courseObj, orListIndex) => {
                 courseObj.isSelected = (orListIndex === coursePosition.orListIndex);
                 return courseObj;
             });
 
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
-
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
     }
@@ -98,16 +106,15 @@ class MainPage extends React.Component {
     toggleWorkTerm(yearIndex, season){
         this.setState((prevState) => {
 
-            // updated isWorkTerm property of semester in question
-            let isWorkTerm = prevState.courseSequenceObject.yearList[yearIndex][season].isWorkTerm;
-            prevState.courseSequenceObject.yearList[yearIndex][season].isWorkTerm = (isWorkTerm === "true") ? "false" : "true";
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
 
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+            // updated isWorkTerm property of semester in question
+            let isWorkTerm = courseSequenceObjectCopy.yearList[yearIndex][season].isWorkTerm;
+            courseSequenceObjectCopy.yearList[yearIndex][season].isWorkTerm = (isWorkTerm === "true") ? "false" : "true";
 
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
     }
@@ -131,18 +138,17 @@ class MainPage extends React.Component {
     moveCourse(oldPosition, newPosition){
         this.setState((prevState) => {
 
-            let courseToMove = prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList[oldPosition.courseListIndex];
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
+
+            let courseToMove = courseSequenceObjectCopy.yearList[oldPosition.yearIndex][oldPosition.season].courseList[oldPosition.courseListIndex];
 
             // remove course from old position and insert at new position
-            prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList.splice(oldPosition.courseListIndex, 1);
-            prevState.courseSequenceObject.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseToMove);
-
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+            courseSequenceObjectCopy.yearList[oldPosition.yearIndex][oldPosition.season].courseList.splice(oldPosition.courseListIndex, 1);
+            courseSequenceObjectCopy.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseToMove);
 
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
     }
@@ -159,15 +165,14 @@ class MainPage extends React.Component {
             // generate a unique key for the course
             courseObj.id = generateUniqueKey(courseObj, newPosition.season, newPosition.yearIndex, newPosition.courseListIndex, "");
 
-            // insert course at new position
-            prevState.courseSequenceObject.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseObj);
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
 
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+            // insert course at new position
+            courseSequenceObjectCopy.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseObj);
 
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
     }
@@ -180,15 +185,14 @@ class MainPage extends React.Component {
     removeCourse(coursePosition){
         this.setState((prevState) => {
 
-            // remove course at coursePosition
-            prevState.courseSequenceObject.yearList[coursePosition.yearIndex][coursePosition.season].courseList.splice(coursePosition.courseListIndex, 1);
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
 
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+            // remove course at coursePosition
+            courseSequenceObjectCopy.yearList[coursePosition.yearIndex][coursePosition.season].courseList.splice(coursePosition.courseListIndex, 1);
 
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
     }
