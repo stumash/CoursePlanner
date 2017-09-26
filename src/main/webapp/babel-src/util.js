@@ -10,6 +10,7 @@ export const SEASON_NAMES_PRETTY = ["Fall", "Winter", "Summer"];
 export const SEASON_NAMES = SEASON_NAMES_PRETTY.map((season) => season.toLowerCase());
 export const DEFAULT_PROGRAM = "SOEN-General-Coop";
 export const EXPORT_TYPES = ["PDF", "MD", "TXT"];
+export const MAX_UNDO_HISTORY_LENGTH = 100;
 
 // Item types used for DND
 export const ITEM_TYPES = {

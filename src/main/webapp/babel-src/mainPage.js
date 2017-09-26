@@ -6,7 +6,7 @@ import { DragDropContext } from 'react-dnd';
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
 import {IOPanel} from "./ioPanel";
-import {DEFAULT_PROGRAM, saveAs, generateUniqueKey, generateUniqueKeys} from "./util";
+import {DEFAULT_PROGRAM, MAX_UNDO_HISTORY_LENGTH, saveAs, generateUniqueKey, generateUniqueKeys} from "./util";
 
 let _ = require('underscore');
 
@@ -42,17 +42,41 @@ class MainPage extends React.Component {
         this.moveCourse = this.moveCourse.bind(this);
         this.addCourse = this.addCourse.bind(this);
         this.removeCourse = this.removeCourse.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     componentDidMount() {
         this.loadCourseSequenceObject();
         this.loadAllSequences();
+        this.courseSequenceHistory = {
+            "history": [],
+            "currentPosition": -1
+        };
+        this.preventHistoryUpdate = false;
     }
 
     componentDidUpdate(prevProps, prevState){
         if(!_.isEqual(prevState.courseSequenceObject, this.state.courseSequenceObject) && !this.state.courseSequenceObject.isLoading){
             // save change to local storage
             localStorage.setItem("savedSequence", JSON.stringify(this.state.courseSequenceObject));
+
+            if(!this.preventHistoryUpdate){
+                // add deep copy of item to history
+                this.courseSequenceHistory.currentPosition++;
+                this.courseSequenceHistory.history = this.courseSequenceHistory.history.slice(0, this.courseSequenceHistory.currentPosition);
+                this.courseSequenceHistory.history.push(JSON.parse(JSON.stringify(this.state.courseSequenceObject)));
+                if(this.courseSequenceHistory.history.length > MAX_UNDO_HISTORY_LENGTH){
+                    this.courseSequenceHistory.currentPosition--;
+                    this.courseSequenceHistory.history.shift();
+                }
+            }
+            this.preventHistoryUpdate = false;
+
+            console.group("Sequence Object History");
+            console.log("history length:", this.courseSequenceHistory.history.length);
+            console.log("current history position:", this.courseSequenceHistory.currentPosition);
+            console.log("pointing at:", this.courseSequenceHistory.history[this.courseSequenceHistory.currentPosition].yearList);
+            console.groupEnd();
         }
     }
 
@@ -197,9 +221,39 @@ class MainPage extends React.Component {
         });
     }
 
+    /*
+     *  event handler for key presses
+     */
+    handleKeyPress(keyDownEvent){
+        if(keyDownEvent.keyCode === 90 && keyDownEvent.ctrlKey){
+            let changedCurrentPosition = false;
+            if(keyDownEvent.shiftKey){
+                // do a redo op
+                if(this.courseSequenceHistory.currentPosition < this.courseSequenceHistory.history.length - 1){
+                    this.courseSequenceHistory.currentPosition++;
+                    changedCurrentPosition = true;
+                }
+            } else {
+                // do an undo op
+                if(this.courseSequenceHistory.currentPosition > 0){
+                    this.courseSequenceHistory.currentPosition--;
+                    changedCurrentPosition = true;
+                }
+            }
+            if(changedCurrentPosition){
+                // prevent the componentDidUpdate method from updating our undo history
+                this.preventHistoryUpdate = true;
+                // update state
+                this.setState({
+                    "courseSequenceObject": this.courseSequenceHistory.history[this.courseSequenceHistory.currentPosition]
+                });
+            }
+        }
+    }
+
     render() {
         return (
-            <div className="row">
+            <div className="row" tabIndex="1" onKeyDown={this.handleKeyPress}>
                 <div className="col-md-3 col-sm-12">
                     <IOPanel courseInfo={this.state.selectedCourseInfo}
                              allSequences={this.state.allSequences}

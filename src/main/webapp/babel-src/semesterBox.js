@@ -81,7 +81,7 @@ class SemesterBox extends React.Component {
                       title={UI_STRINGS.IS_WORK_TERM}
                       value="isWorkTerm"
                       onChange={this.handleWorkTermToggle}
-                      defaultChecked={(this.props.semester.isWorkTerm === "true")}/>;
+                      checked={(this.props.semester.isWorkTerm === "true")}/>;
 
     }
 
