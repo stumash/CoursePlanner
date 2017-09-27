@@ -1,1 +1,335 @@
-[]
+﻿[  
+    {  
+        "code":"FFAR 250",
+        "name":"Keywords: Reading the Arts Across the Disciplines",
+        "credits":"6",
+        "lectureHours":"three hours per week",
+        "description":"This course offers students with first-year standing in the Faculty of Fine Arts a broad introduction to ideas and aesthetics in the visual and performing arts in Canada. It focuses on key concepts shaping and shaped by artistic production and reception in all artistic disciplines. Students deepen their understanding of the cultural significance and the debate that occurs around keywords across the disciplines. Over the year, students extend their powers of reading, writing, and critical thinking in lectures and tutorials.",
+        "note":"This course is a BFA Degree requirement, and it is strongly recommended that students take it as part of their first year course selection.  The course will provide a wide ranging introduction to the visual and performing arts in the contemporary world. Emphasis will be placed on the interrelationships that exist among the arts, and the continuing impact of the past on the present. Much attention will be given to the contemporary arts in Canada and ever increasing cross-cultural awarenesses. Please note you MUST attend the lecture and tutorial in which you are registered.  All lectures will start the week of September 5, 2017.  Tutorials with a number (1) will meet for the first time the week of September 11, 2017, and every second week thereafter.  Tutorials with a number (2) will meet for the first time the week of September 18, 2017, and every second week thereafter. NOTE: The tutorial for this section will be taught in ENGLISH.",
+        "requirements":{  
+            "prereqs":[  
+
+            ],
+            "coreqs":[  
+
+            ]
+        }
+    },
+    {  
+        "code":"CART 255",
+        "name":"New Media Theory",
+        "credits":"3",
+        "lectureHours":"four hours per week",
+        "description":"This course is a critical introduction to new media theory focusing on issues of interaction, inscription, representation, code, reproduction, spectacle, control, body and resistance. Students develop tools to undertake a critical analysis of media and technology and their social, political, economic, and cultural ramifications.",
+        "requirements":{  
+            "prereqs":[  
+
+            ],
+            "coreqs":[  
+
+            ]
+        }
+    },
+    {  
+        "code":"CART 214",
+        "name":"A New Media Theory",
+        "credits":"3",
+        "lectureHours":"four hours per week",
+        "description":"Key themes of visual communication are explored in the context of computation arts. This studio course considers design elements such as line, pattern, shape, texture, interpretation of space, surface, perspective, dimension, repetition, randomness, colour and colour spaces, typography, drawing from observation, layout and composition and conceptualization. This class is predominantly non-digital and discusses the relationships between analog and digital approaches.",
+        "note":"Students who have received credit for CART 254 may not take this course for credit.",
+        "requirements":{  
+            "prereqs":[  
+
+            ],
+            "coreqs":[  
+
+            ]
+        }
+    },
+    {  
+        "code":"COMM 225",
+        "name":"Production and Operations Management",
+        "credits":"3",
+        "lectureHours":"three hours per week",
+        "description":"This course is an introduction to contemporary operational issues and techniques in the manufacturing and service sectors. Among the topics covered are operations strategy, forecasting, materials' management, total quality management, time-based competition, and minimal manufacturing. Mathematical modelling in resource allocation is also introduced. Cases and computer-aided quantitative tools for decision-making are used throughout the course with an emphasis on the interactions between production/operations management and other business disciplines.",
+        "requirements":{  
+            "prereqs":[  
+                [  
+                    "COMM 210"
+                ],
+                [  
+                    "COMM 212"
+                ],
+                [  
+                    "COMM 215"
+                ]
+            ],
+            "coreqs":[  
+
+            ]
+        }
+    },
+    {  
+        "code":"CART 211",
+        "name":"Creative Computing and Network Culture",
+        "credits":"3",
+        "lectureHours":"four hours per week",
+        "description":"This course gives a broad introduction to the fundamentals of creative computing and network culture. Through readings and practical examples, students explore the histories of the Internet, computing, and interactivity as well as gain knowledge of fundamental technical tools used for creating network-based media.",
+        "note":"Students who have received credit for DFAR 251 or CART 251 may not take this course for credit.",
+        "requirements":{  
+            "prereqs":[  
+
+            ],
+            "coreqs":[  
+
+            ]
+        }
+    },
+    {  
+        "code":"COMM 222",
+        "name":"Organizational Behaviour and Theory",
+        "credits":"3",
+        "lectureHours":"three hours per week",
+        "description":"This course is designed to provide students with an opportunity to study individual behaviour in formal organizations. Through theoretical case and experiential approaches, the focus of instruction progressively moves through individual, group and organizational levels of analysis. Topics in the course include perception, learning, personality, motivation, leadership, group behaviour, and organizational goals and structure.",
+        "requirements":{  
+            "prereqs":[  
+                [  
+                    "COMM 210"
+                ],
+                [  
+                    "COMM 212"
+                ]
+            ],
+            "coreqs":[  
+
+            ]
+        }
+    },
+    {  
+        "code":"CART 212",
+        "name":"Digital Media Studio I",
+        "credits":"3",
+        "lectureHours":"four hours per week",
+        "description":"This studio-based course focuses on the production of dynamic and interactive audio/visual media. Students develop proficiency in generating original audio and visual material as well as exposure to current digital media software. Concurrent with gaining knowledge of existing tools for production, students create a high-quality studio work for portfolio inclusion.",
+        "note":"Students who have received credit for DFAR 252 or CART 252 may not take this course for credit.",
+        "requirements":{  
+            "prereqs":[  
+                [  
+                    "CART 211"
+                ]
+            ],
+            "coreqs":[  
+
+            ]
+        }
+    },
+    {  
+        "code":"CART 411",
+        "name":"Project Studio I",
+        "credits":"3",
+        "lectureHours":"four hours per week",
+        "description":"In this studio and theory course, students integrate skills with objects, narratives, and environments. They refine both critical and practical management skills in team-based projects.",
+        "note":"Students who have received credit for CART 451 may not take this course for credit. Students in the Specialization in Computation Arts must complete CART 253.",
+        "requirements":{  
+            "prereqs":[  
+                [  
+                    "CART 253"
+                ],
+                [  
+                    "CART 351"
+                ]
+            ],
+            "coreqs":[  
+
+            ]
+        }
+    },
+    {  
+        "code":"ACCO 220",
+        "name":"Financial and Managerial Accounting",
+        "credits":"3",
+        "lectureHours":"three hours per week",
+        "description":"This course provides an introduction to accounting principles underlying the preparation of financial reports with an emphasis on the relationship between accounting information and production decisions. It examines the relationship between costs, production volume, and profit, as well as the practical benefits of standard costs for planning and control purposes. The role of accounting information in various manufacturing decisions is also highlighted.",
+        "note":"This course is useful for Engineering students. Students in or entering the B.Comm or B.Admin program will not receive credit for this course. JMSB students may not take this course for credit. Students who have received credit for ACCO 230, 240, COMM 217 or 305 may not take this course for credit.",
+        "requirements":{  
+            "prereqs":[  
+
+            ],
+            "coreqs":[  
+
+            ]
+        }
+    },
+    {  
+        "code":"COMM 223",
+        "name":"Marketing Management I",
+        "credits":"3",
+        "lectureHours":"three hours per week",
+        "description":"This survey course introduces students to the key concepts in marketing. Topics covered include marketing strategy, buyer behaviour, and the impact of technology on the discipline. The course also explores the important role that marketing plays in advancing society.",
+        "note":"Students who have received credit for COMM 224 or MARK 201 may not take this course for credit.",
+        "requirements":{  
+            "prereqs":[  
+                [  
+                    "COMM 210"
+                ]
+            ],
+            "coreqs":[  
+                [  
+                    "COMM 212"
+                ]
+            ]
+        }
+    },
+    {  
+        "code":"BLDG 471",
+        "name":"HVAC System Design",
+        "credits":"4",
+        "lectureHours":"three hours per week",
+        "labHours":"two hours per week",
+        "description":"Principles of HVAC system design and analysis; sustainable design issues and impact on environment; component and system selection criteria including room air distribution, fans and air circulation, humidifying and dehumidifying processes, piping and ducting design. Air quality standards. Control systems and techniques; operational economics; computer applications.",
+        "requirements":{  
+            "prereqs":[  
+                [  
+                    "BLDG 371"
+                ]
+            ],
+            "coreqs":[  
+                [  
+                    "BLDG 476"
+                ]
+            ]
+        }
+    },
+    {  
+        "code":"CART 351",
+        "name":"Networks and Navigation",
+        "credits":"3",
+        "lectureHours":"four hours per week",
+        "description":"In this studio course, students develop interactive projects that take advantage of networked data, redefine online communities, and experiment with new communication structures. The perceptual and aesthetic aspects of digital media are addressed in relation to the technical skill sets required for navigating and understanding the possibilities and limits of networked environments.",
+        "note":"Students in the Specialization in Computation Arts must complete CART 253.",
+        "requirements":{  
+            "prereqs":[  
+                [  
+                    "CART 211"
+                ],
+                [  
+                    "CART 212"
+                ],
+                [  
+                    "CART 253"
+                ]
+            ],
+            "coreqs":[  
+
+            ]
+        }
+    },
+    {  
+        "code":"CART 412",
+        "name":"Project Studio II",
+        "credits":"3",
+        "lectureHours":"four hours per week",
+        "description":"An advanced studio and theory course in which students integrate skills with objects, narratives, and environments. They refine both critical and practical management skills in team-based projects.",
+        "note":"Students who have received credit for CART 452 may not take this course for credit.",
+        "requirements":{  
+            "prereqs":[  
+                [  
+                    "CART 411"
+                ]
+            ],
+            "coreqs":[  
+
+            ]
+        }
+    },
+    {  
+        "code":"COMM 210",
+        "name":"Contemporary Business Thinking",
+        "credits":"3",
+        "lectureHours":"three hours per week",
+        "description":"This course presents a broad survey of the world of business and aims to incite students to develop a critical perspective on business literature. Students explore foundational business writings and evaluate the central ideas for scope, relevance, and managerial utility. The course also fosters students’ inclination to keep well informed about contemporary issues in organizations and business.",
+        "note":"It is recommended that part-time students complete this course, along with COMM 212, as early in their program as possible.",
+        "requirements":{  
+            "prereqs":[  
+
+            ],
+            "coreqs":[  
+                [  
+                    "COMM 212"
+                ],
+                [  
+                    "ECON 201",
+                    "ECON 203"
+                ]
+            ]
+        }
+    },
+    {  
+        "code":"COMM 308",
+        "name":"Introduction to Finance",
+        "credits":"3",
+        "lectureHours":"three hours per week",
+        "description":"This course provides a general understanding of the fundamental concepts of finance theory as they apply to the firm's long-run and short-run financing, and investment decisions. Building on the objective of firm value maximization, students become familiar with the conceptual issues underlying risk and return relationships and their measurements, as well as the valuation of financial securities. They also learn the concept of cost of capital, its measurement, and the techniques of capital budgeting as practised by today's managers. Students are introduced to the basic issues surrounding the firm's short-term and long-term funding decisions and its ability to pay dividends.",
+        "requirements":{  
+            "prereqs":[  
+                [  
+                    "COMM 217"
+                ]
+            ],
+            "coreqs":[  
+                [  
+                    "COMM 220"
+                ]
+            ]
+        }
+    },
+    {  
+        "code":"COEN 451",
+        "name":"VLSI Circuit Design",
+        "credits":"4",
+        "lectureHours":"three hours per week",
+        "description":"Analysis and design of electronic circuits using Very Large Scale Integration (VLSI) technologies. Physical design of MOS digital circuits. CMOS circuit schematic and layout. CMOS processing technology, design rules and CAD issues. Physical layers and parasitic elements of CMOS circuits. Characterization and performance evaluation. Constraints on speed, power dissipation and silicon space consumption. Design and implementation of CMOS logic structures, interconnections and I/O structures. Circuit design project using a specified CMOS technology.",
+        "note":"Students who have received credit for ENCS 454 may not take this course for credit. Laboratory: 30 hours total.",
+        "requirements":{  
+            "prereqs":[  
+                [  
+                    "COEN 212"
+                ],
+                [  
+                    "ELEC 311"
+                ]
+            ],
+            "coreqs":[  
+
+            ]
+        }
+    },
+    {  
+        "code":"MECH 490",
+        "name":"CAPSTONE MECHANICAL ENGINEERING DESIGN PROJECT",
+        "credits":"4",
+        "lectureHours":"one hour per week",
+        "labHours":"three hours per week",
+        "description":"A supervised design, simulation or experimental capstone design project including a preliminary project proposal with complete project plan and a technical report at the end of the fall term; a final report by the group and presentation at the end of the winter term.",
+        "note":"Students will work in groups under direct supervision of a faculty member.",
+        "requirements":{  
+            "prereqs":[  
+                [  
+                    "ENCS 282"
+                ],
+                [  
+                    "ENGR 301"
+                ],
+                [  
+                    "MECH 344"
+                ],
+                [  
+                    "MECH 390"
+                ]
+            ],
+            "coreqs":[  
+
+            ]
+        }
+    }
+]
