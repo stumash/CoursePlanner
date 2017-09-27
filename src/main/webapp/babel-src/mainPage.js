@@ -8,7 +8,7 @@ import {SemesterList} from "./semesterList";
 import {IOPanel} from "./ioPanel";
 import {DEFAULT_PROGRAM, MAX_UNDO_HISTORY_LENGTH, saveAs, generateUniqueKey, generateUniqueKeys} from "./util";
 
-let _ = require('underscore');
+let _ = require("underscore");
 
 /*
  *  Root component of our main page
