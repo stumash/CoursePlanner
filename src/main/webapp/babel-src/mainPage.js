@@ -57,6 +57,7 @@ class MainPage extends React.Component {
 
     componentDidUpdate(prevProps, prevState){
         if(!_.isEqual(prevState.courseSequenceObject, this.state.courseSequenceObject) && !this.state.courseSequenceObject.isLoading){
+            
             // save change to local storage
             localStorage.setItem("savedSequence", JSON.stringify(this.state.courseSequenceObject));
 
@@ -71,12 +72,6 @@ class MainPage extends React.Component {
                 }
             }
             this.preventHistoryUpdate = false;
-
-            console.group("Sequence Object History");
-            console.log("history length:", this.courseSequenceHistory.history.length);
-            console.log("current history position:", this.courseSequenceHistory.currentPosition);
-            console.log("pointing at:", this.courseSequenceHistory.history[this.courseSequenceHistory.currentPosition].yearList);
-            console.groupEnd();
         }
     }
 
@@ -253,7 +248,7 @@ class MainPage extends React.Component {
 
     render() {
         return (
-            <div className="row" tabIndex="1" onKeyDown={this.handleKeyPress}>
+            <div className="mainPage row" tabIndex="1" onKeyDown={this.handleKeyPress}>
                 <div className="col-md-3 col-sm-12">
                     <IOPanel courseInfo={this.state.selectedCourseInfo}
                              allSequences={this.state.allSequences}
