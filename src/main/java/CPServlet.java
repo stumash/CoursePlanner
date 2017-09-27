@@ -3,6 +3,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.apache.commons.io.IOUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -39,28 +40,16 @@ public abstract class CPServlet extends HttpServlet {
     }
 
     JSONObject getRequestJson(HttpServletRequest request) throws IOException{
-        StringBuffer jb = new StringBuffer();
-        String line;
-        Object propertyValue = null;
         JSONObject requestJson;
-        try {
-            BufferedReader reader = request.getReader();
-            while ((line = reader.readLine()) != null) {
-                jb.append(line);
-            }
-            reader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new IOException("Error reading from request string");
-        }
+	String requestString = IOUtils.toString(request.getReader());
         try {
             logger.info("raw request String:");
-            logger.info(jb.toString());
+            logger.info(requestString);
             logger.info("end raw request String");
-            requestJson =  new JSONObject(jb.toString());
+            requestJson =  new JSONObject(requestString);
         } catch (JSONException e) {
             e.printStackTrace();
-            throw new IOException("Error parsing JSON request string : " + jb.toString());
+            throw new IOException("Error parsing JSON request string : " + requestString);
         }
         return requestJson;
     }
