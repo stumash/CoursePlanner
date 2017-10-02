@@ -7,8 +7,8 @@ import { DragDropContext } from 'react-dnd';
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
 import {IOPanel} from "./ioPanel";
-import CourseDragPreview from "./courseDragPreview";
-import {DEFAULT_PROGRAM, saveAs, generateUniqueKey, generateUniqueKeys} from "./util";
+import DragPreview from "./dragPreview";
+import {DEFAULT_PROGRAM, AUTO_SCROLL_PAGE_PORTION, AUTO_SCROLL_DELAY, AUTO_SCROLL_STEP, generateUniqueKey, generateUniqueKeys} from "./util";
 
 
 /*
@@ -46,11 +46,18 @@ class MainPage extends React.Component {
         this.removeCourse = this.removeCourse.bind(this);
         this.changeDragState = this.changeDragState.bind(this);
         this.enableTextSelection = this.enableTextSelection.bind(this);
+        this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.handleTouchMove = this.handleTouchMove.bind(this);
+        this.performAutoScroll = this.performAutoScroll.bind(this);
+        this.scrollPage = this.scrollPage.bind(this);
     }
 
     componentDidMount() {
         this.loadCourseSequenceObject();
         this.loadAllSequences();
+        this.isDragging = false;
+        this.shouldScroll = false;
+        this.scrollDirection = 0;
     }
 
     /*
@@ -60,6 +67,7 @@ class MainPage extends React.Component {
     changeDragState(isDragging){
         this.enableTextSelection(!isDragging);
         this.enableGarbage(isDragging);
+        this.isDragging = isDragging;
     }
 
     /*
@@ -228,11 +236,57 @@ class MainPage extends React.Component {
             };
         });
     }
+    
+    handleTouchMove(touchMoveEvent){
+        this.performAutoScroll(touchMoveEvent.changedTouches[0].clientY, touchMoveEvent.view.innerHeight);
+    }
+    
+    handleMouseMove(mouseMoveEvent){
+        this.performAutoScroll(mouseMoveEvent.clientY, mouseMoveEvent.view.innerHeight);
+    }
+    
+    performAutoScroll(y, pageHeight){
+      if(this.isDragging) {
+        let scrollAreaHeight = pageHeight * AUTO_SCROLL_PAGE_PORTION;
+
+        if(y > scrollAreaHeight && y < pageHeight - scrollAreaHeight){
+          this.shouldScroll = false;
+          return;
+        }
+
+        // don't call scrollPage if it's already running
+        if(this.shouldScroll){
+          return;
+        }
+
+        if (y <= scrollAreaHeight) {
+          this.scrollDirection = -1;
+          this.shouldScroll = true;
+          this.scrollPage();
+        }
+        if (y >= pageHeight - scrollAreaHeight) {
+          this.scrollDirection = 1;
+          this.shouldScroll = true;
+          this.scrollPage();
+        }
+      } else {
+        this.shouldScroll = false;
+      }
+    }
+    
+    scrollPage(){
+        setTimeout(() => {
+            window.scrollBy(0, this.scrollDirection * AUTO_SCROLL_STEP);
+            if(this.shouldScroll){
+                this.scrollPage();
+            }
+        }, AUTO_SCROLL_DELAY);
+    }
 
     render() {
 
         return (
-            <div className={"row" + (this.state.allowingTextSelection ? "" : " textSelectionOff")}>
+            <div className={"row" + (this.state.allowingTextSelection ? "" : " textSelectionOff")} onMouseMove={this.handleMouseMove} onTouchMove={this.handleTouchMove}>
                 <div className="col-md-3 col-sm-12">
                     <IOPanel courseInfo={this.state.selectedCourseInfo}
                              allSequences={this.state.allSequences}
@@ -263,7 +317,8 @@ class MainPage extends React.Component {
                                   onAddCourse={this.addCourse}
                                   onChangeDragState={this.changeDragState}/>
                 </div>
-                <CourseDragPreview/>
+                {/* Drag Preview will become visible when dragging occurs */}
+                <DragPreview/>
             </div>
         );
     }

@@ -2,10 +2,6 @@
 
 /* Root styling */
 
-html, body, #react-root, #react-root > div {
-    height: 100%;
-}
-
 #react-root {
     padding-top: 15px;
     font-size: 14px;

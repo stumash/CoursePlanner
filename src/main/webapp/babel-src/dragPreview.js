@@ -39,7 +39,7 @@ function getItemStyles(props) {
     };
 }
 
-class CourseDragPreview extends React.Component {
+class DragPreview extends React.Component {
 
     renderItem(type, item) {
         switch (type) {
@@ -71,4 +71,4 @@ class CourseDragPreview extends React.Component {
     }
 }
 
-export default DragLayer(collect)(CourseDragPreview);
+export default DragLayer(collect)(DragPreview);
