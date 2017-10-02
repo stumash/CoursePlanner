@@ -46,13 +46,34 @@ export const UI_STRINGS = {
 /*
  *  Special object used by react-dnd to register a drag source
  */
-export const dragSource = {
+export const courseDragSource = {
     beginDrag(props, monitor, component) {
 
         props.onChangeDragState && props.onChangeDragState(true);
 
         return {
             "courseObj": props.courseObj,
+            "position": props.position
+        };
+    },
+    endDrag(props, monitor, component){
+        props.onChangeDragState && props.onChangeDragState(false);
+    },
+    canDrag(props, monitor){
+        return props.isDraggable;
+    }
+};
+
+/*
+ *  Special object used by react-dnd to register a drag source
+ */
+export const orListDragSource = {
+    beginDrag(props, monitor, component) {
+
+        props.onChangeDragState && props.onChangeDragState(true);
+
+        return {
+            "courseList": props.courseList,
             "position": props.position
         };
     },
@@ -124,6 +145,37 @@ export function generateUniqueKey(courseObj, season, yearIndex, courseListIndex,
 }
 
 
+
+export function renderOrListDiv(courseList, extraClassNames, position, clickHandler, listClickHandler){
+    return (
+        <div className={"orList input-group" + extraClassNames}>
+            <div className="input-group-btn">
+                <button className="btn btn-default dropdown-toggle" title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP} type="button"  data-toggle="dropdown">
+                    <span className="caret"></span>
+                </button>
+                <ul className="dropdown-menu">
+                    {courseList.map((courseObj, courseIndex) =>
+                        <li key={courseObj.id}>
+                            {renderCourseDiv(courseObj, "", () => {
+                                listClickHandler({
+                                    "yearIndex": position.yearIndex,
+                                    "season": position.season,
+                                    "courseListIndex": position.courseListIndex,
+                                    "orListIndex": courseIndex
+                                });
+                            })}
+                        </li>
+                    )}
+                </ul>
+            </div>
+            <div className="input-group-addon">
+                {renderSelectedOrCourse(courseList, clickHandler)}
+            </div>
+        </div>
+    );
+}
+
+
 /*
  *  Render a div which represents a course.
  *      extraClassNames: string which contains a list of class names separated by spaces
@@ -139,4 +191,27 @@ export function renderCourseDiv(courseObj, extraClassNames, clickHandler){
             </div>
         </div>
     );
+}
+
+function renderSelectedOrCourse(courseList, clickHandler){
+
+    let selectedCourse = undefined;
+    let selectedIndex = -1;
+
+    courseList.forEach((courseObj, orListIndex) => {
+        if(courseObj.isSelected){
+            selectedCourse = courseObj;
+            selectedIndex = orListIndex;
+        }
+    });
+
+    return (!selectedCourse) ? <div title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP}>{UI_STRINGS.LIST_NONE_SELECTED}</div> :
+        renderCourseDiv(selectedCourse, "", () => clickHandler(selectedCourse.code));
+}
+
+function scrollDownForever() {
+    setTimeout(function(){
+        window.scrollBy(0, 1);
+        scrollDownForever();
+    }, 33);
 }

@@ -1,12 +1,15 @@
 import React from "react";
 
-import HTML5Backend from 'react-dnd-html5-backend';
+// import TouchBackend from 'react-dnd-html5-backend';
+import { default as TouchBackend } from 'react-dnd-touch-backend';
 import { DragDropContext } from 'react-dnd';
 
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
 import {IOPanel} from "./ioPanel";
+import CourseDragPreview from "./courseDragPreview";
 import {DEFAULT_PROGRAM, saveAs, generateUniqueKey, generateUniqueKeys} from "./util";
+
 
 /*
  *  Root component of our main page
@@ -27,7 +30,8 @@ class MainPage extends React.Component {
             "allSequences" : [],
             "selectedCourseInfo" : {},
             "loadingExport": false,
-            "showingGarbage": false
+            "showingGarbage": false,
+            "allowingTextSelection": true
         };
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
@@ -40,11 +44,43 @@ class MainPage extends React.Component {
         this.moveCourse = this.moveCourse.bind(this);
         this.addCourse = this.addCourse.bind(this);
         this.removeCourse = this.removeCourse.bind(this);
+        this.changeDragState = this.changeDragState.bind(this);
+        this.enableTextSelection = this.enableTextSelection.bind(this);
     }
 
     componentDidMount() {
         this.loadCourseSequenceObject();
         this.loadAllSequences();
+    }
+
+    /*
+     *  function to call when the users starts or stops dragging any item
+     *      param isDragging - true if the user is dragging something
+     */
+    changeDragState(isDragging){
+        this.enableTextSelection(!isDragging);
+        this.enableGarbage(isDragging);
+    }
+
+    /*
+     *  function to call to disable text selection on the page
+     *  it is used to fix an issue in firefox where text on the page gets highlighted while dragging a course
+     *      param enabled - should the garbage can be enabled
+     */
+    enableTextSelection(enabled){
+        this.setState({
+            "allowingTextSelection": enabled
+        });
+    }
+
+    /*
+     *  function to call when we want to display the garbage can and allow the user to delete a course
+     *      param enabled - should the garbage can be enabled
+     */
+    enableGarbage(enabled){
+        this.setState({
+            "showingGarbage": enabled
+        });
     }
 
     /*
@@ -194,8 +230,9 @@ class MainPage extends React.Component {
     }
 
     render() {
+
         return (
-            <div className="row">
+            <div className={"row" + (this.state.allowingTextSelection ? "" : " textSelectionOff")}>
                 <div className="col-md-3 col-sm-12">
                     <IOPanel courseInfo={this.state.selectedCourseInfo}
                              allSequences={this.state.allSequences}
@@ -215,7 +252,7 @@ class MainPage extends React.Component {
                                    onToggleWorkTerm={this.toggleWorkTerm}
                                    onMoveCourse={this.moveCourse}
                                    onAddCourse={this.addCourse}
-                                   onChangeDragState={this.enableGarbage}/>
+                                   onChangeDragState={this.changeDragState}/>
                 </div>
                 <div className="col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
                     <SemesterList courseSequenceObject={this.state.courseSequenceObject}
@@ -224,8 +261,9 @@ class MainPage extends React.Component {
                                   onToggleWorkTerm={this.toggleWorkTerm}
                                   onMoveCourse={this.moveCourse}
                                   onAddCourse={this.addCourse}
-                                  onChangeDragState={this.enableGarbage}/>
+                                  onChangeDragState={this.changeDragState}/>
                 </div>
+                <CourseDragPreview/>
             </div>
         );
     }
@@ -325,4 +363,4 @@ class MainPage extends React.Component {
     }
 }
 
-export default DragDropContext(HTML5Backend)(MainPage);
+export default DragDropContext(TouchBackend({enableMouseEvents: true}))(MainPage);
