@@ -1,6 +1,6 @@
 import React from "react";
 import { DragSource } from 'react-dnd';
-import { ITEM_TYPES, renderCourseDiv, dragSource, collectSource } from "./util";
+import { ITEM_TYPES, renderCourseDiv, courseDragSource, collectSource } from "./util";
 
 /*
  *  Box which represents one single course;  can be made draggable vis isDraggable.
@@ -45,4 +45,4 @@ class Course extends React.Component {
     }
 }
 
-export default DragSource(ITEM_TYPES.COURSE, dragSource, collectSource)(Course);
+export default DragSource(ITEM_TYPES.COURSE, courseDragSource, collectSource)(Course);

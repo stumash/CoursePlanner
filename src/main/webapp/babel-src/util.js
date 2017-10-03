@@ -6,11 +6,15 @@
  */
 import React from "react";
 
+// Regular old constants
 export const SEASON_NAMES_PRETTY = ["Fall", "Winter", "Summer"];
 export const SEASON_NAMES = SEASON_NAMES_PRETTY.map((season) => season.toLowerCase());
 export const DEFAULT_PROGRAM = "SOEN-General-Coop";
 export const EXPORT_TYPES = ["PDF", "MD", "TXT"];
 export const MAX_UNDO_HISTORY_LENGTH = 100;
+export const AUTO_SCROLL_PAGE_PORTION = 0.1; // auto scroll on the top and bottom 10% of screen
+export const AUTO_SCROLL_STEP = 10;
+export const AUTO_SCROLL_DELAY = 20;
 
 // Item types used for DND
 export const ITEM_TYPES = {
@@ -47,13 +51,34 @@ export const UI_STRINGS = {
 /*
  *  Special object used by react-dnd to register a drag source
  */
-export const dragSource = {
+export const courseDragSource = {
     beginDrag(props, monitor, component) {
 
         props.onChangeDragState && props.onChangeDragState(true);
 
         return {
             "courseObj": props.courseObj,
+            "position": props.position
+        };
+    },
+    endDrag(props, monitor, component){
+        props.onChangeDragState && props.onChangeDragState(false);
+    },
+    canDrag(props, monitor){
+        return props.isDraggable;
+    }
+};
+
+/*
+ *  Special object used by react-dnd to register a drag source
+ */
+export const orListDragSource = {
+    beginDrag(props, monitor, component) {
+
+        props.onChangeDragState && props.onChangeDragState(true);
+
+        return {
+            "courseList": props.courseList,
             "position": props.position
         };
     },
@@ -75,8 +100,10 @@ export function collectSource(connect, monitor) {
     };
 }
 
-// convenience function that allows you to save the file contained at location uri to disk of client machine
-// currently used for downloading exported PDF file
+/*
+ *  Convenience function that allows you to save the file contained at location uri to disk of client machine
+ *  currently used for downloading exported PDF file
+ */
 export function saveAs(uri, filename) {
     var link = document.createElement('a');
     if (typeof link.download === 'string') {
@@ -124,6 +151,39 @@ export function generateUniqueKey(courseObj, season, yearIndex, courseListIndex,
     return id;
 }
 
+/*
+ *  Render a div which represents an orList of courses.
+ *      extraClassNames: string with a leading space which contains a list of class names separated by spaces
+ */
+export function renderOrListDiv(courseList, extraClassNames, position, clickHandler, listClickHandler){
+    return (
+        <div className={"orList input-group" + extraClassNames}>
+            <div className="input-group-btn">
+                <button className="btn btn-default dropdown-toggle" title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP} type="button"  data-toggle="dropdown">
+                    <span className="caret"></span>
+                </button>
+                <ul className="dropdown-menu">
+                    {courseList.map((courseObj, courseIndex) =>
+                        <li key={courseObj.id}>
+                            {renderCourseDiv(courseObj, "", () => {
+                                listClickHandler({
+                                    "yearIndex": position.yearIndex,
+                                    "season": position.season,
+                                    "courseListIndex": position.courseListIndex,
+                                    "orListIndex": courseIndex
+                                });
+                            })}
+                        </li>
+                    )}
+                </ul>
+            </div>
+            <div className="input-group-addon">
+                {renderSelectedOrCourse(courseList, clickHandler)}
+            </div>
+        </div>
+    );
+}
+
 
 /*
  *  Render a div which represents a course.
@@ -140,4 +200,20 @@ export function renderCourseDiv(courseObj, extraClassNames, clickHandler){
             </div>
         </div>
     );
+}
+
+function renderSelectedOrCourse(courseList, clickHandler){
+
+    let selectedCourse = undefined;
+    let selectedIndex = -1;
+
+    courseList.forEach((courseObj, orListIndex) => {
+        if(courseObj.isSelected){
+            selectedCourse = courseObj;
+            selectedIndex = orListIndex;
+        }
+    });
+
+    return (!selectedCourse) ? <div title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP}>{UI_STRINGS.LIST_NONE_SELECTED}</div> :
+                               renderCourseDiv(selectedCourse, "", () => clickHandler(selectedCourse.code));
 }

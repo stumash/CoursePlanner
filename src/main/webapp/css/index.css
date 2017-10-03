@@ -227,8 +227,8 @@ ul.ui-autocomplete {
 @media (max-width: 991px) {
 
     #react-root,
-    .semesterList .orList .input-group-addon,
-    .semesterList .orList .dropdown-menu,
+    #react-root .orList .input-group-addon,
+    #react-root .orList .dropdown-menu,
     .ioPanel .export button,
     .ioPanel .export .dropdown-menu,
     .ioPanel .programSelect select,
@@ -245,34 +245,53 @@ ul.ui-autocomplete {
         height: 48px;
     }
 
-    .semesterList .course,
-    .semesterList .orList,
-    .semesterList .orList .dropdown-menu .course,
+    .course,
+    #react-root .orList,
+    #react-root .orList .dropdown-menu .course,
     .ioPanel .course {
         width: 300px;
     }
 
-    .semesterList div:not(.input-group-addon) > .course,
-    .semesterList .orList,
-    .semesterList .orList button,
-    .semesterList .orList .dropdown-menu .course,
+    #react-root div:not(.input-group-addon) > .course,
+    #react-root .orList,
+    #react-root .orList button,
+    #react-root .orList .dropdown-menu .course,
     .ioPanel .course{
         height: 66px;
     }
+    #react-root .orList button {
+        width: 35px;
+    }
 
-    .semesterList div:not(.input-group-addon) > .course,
-    .semesterList .orList .dropdown-menu .course,
+    #react-root div:not(.input-group-addon) > .course,
+    #react-root .orList .dropdown-menu .course,
     .ioPanel .course{
         padding-top: 12px;
     }
 
-    .semesterList .orList .input-group-addon .course {
+    #react-root .orList .input-group-addon .course {
         height: 64px;
         padding-top: 18px;
     }
 
-    .semesterList input[type="checkbox"] {
+    #react-root input[type="checkbox"] {
         height: 30px;
         width: 30px;
     }
+}
+
+/* Special styling for DND */
+
+.dragPreview {
+    margin: 0;
+}
+
+.textSelectionOff {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
