@@ -244,7 +244,12 @@ class MainPage extends React.Component {
     handleMouseMove(mouseMoveEvent){
         this.performAutoScroll(mouseMoveEvent.clientY, mouseMoveEvent.view.innerHeight);
     }
-    
+
+    /*
+     *  function which decides whether or not the page should scroll based on the position of the user's cursor
+     *      param y - number indicating the y coordinate of the user's cursor, where the top of the page is y = 0
+     *      param pageHeight - number indicating the total height of the page in pixels
+     */
     performAutoScroll(y, pageHeight){
       if(this.isDragging) {
         let scrollAreaHeight = pageHeight * AUTO_SCROLL_PAGE_PORTION;
@@ -273,7 +278,10 @@ class MainPage extends React.Component {
         this.shouldScroll = false;
       }
     }
-    
+
+    /*
+     *  recursive function which continuously scrolls up or down the page until this.shouldScroll becomes false
+     */
     scrollPage(){
         setTimeout(() => {
             window.scrollBy(0, this.scrollDirection * AUTO_SCROLL_STEP);
@@ -284,7 +292,6 @@ class MainPage extends React.Component {
     }
 
     render() {
-
         return (
             <div className={"row" + (this.state.allowingTextSelection ? "" : " textSelectionOff")} onMouseMove={this.handleMouseMove} onTouchMove={this.handleTouchMove}>
                 <div className="col-md-3 col-sm-12">

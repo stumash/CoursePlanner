@@ -99,8 +99,10 @@ export function collectSource(connect, monitor) {
     };
 }
 
-// convenience function that allows you to save the file contained at location uri to disk of client machine
-// currently used for downloading exported PDF file
+/*
+ *  Convenience function that allows you to save the file contained at location uri to disk of client machine
+ *  currently used for downloading exported PDF file
+ */
 export function saveAs(uri, filename) {
     var link = document.createElement('a');
     if (typeof link.download === 'string') {
@@ -148,8 +150,10 @@ export function generateUniqueKey(courseObj, season, yearIndex, courseListIndex,
     return id;
 }
 
-
-
+/*
+ *  Render a div which represents an orList of courses.
+ *      extraClassNames: string with a leading space which contains a list of class names separated by spaces
+ */
 export function renderOrListDiv(courseList, extraClassNames, position, clickHandler, listClickHandler){
     return (
         <div className={"orList input-group" + extraClassNames}>
@@ -210,12 +214,5 @@ function renderSelectedOrCourse(courseList, clickHandler){
     });
 
     return (!selectedCourse) ? <div title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP}>{UI_STRINGS.LIST_NONE_SELECTED}</div> :
-        renderCourseDiv(selectedCourse, "", () => clickHandler(selectedCourse.code));
-}
-
-function scrollDownForever() {
-    setTimeout(function(){
-        window.scrollBy(0, 1);
-        scrollDownForever();
-    }, 33);
+                               renderCourseDiv(selectedCourse, "", () => clickHandler(selectedCourse.code));
 }
