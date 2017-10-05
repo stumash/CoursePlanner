@@ -1,14 +1,22 @@
 import React from "react";
 
-// import TouchBackend from 'react-dnd-html5-backend';
 import { default as TouchBackend } from 'react-dnd-touch-backend';
 import { DragDropContext } from 'react-dnd';
+let _ = require("underscore");
 
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
 import {IOPanel} from "./ioPanel";
 import DragPreview from "./dragPreview";
-import {DEFAULT_PROGRAM, AUTO_SCROLL_PAGE_PORTION, AUTO_SCROLL_DELAY, AUTO_SCROLL_STEP, generateUniqueKey, generateUniqueKeys} from "./util";
+
+import { DEFAULT_PROGRAM,
+         MAX_UNDO_HISTORY_LENGTH,
+         AUTO_SCROLL_PAGE_PORTION,
+         AUTO_SCROLL_DELAY,
+         AUTO_SCROLL_STEP,
+         generateUniqueKey,
+         generateUniqueKeys,
+         saveAs } from "./util";
 
 
 /*
@@ -46,18 +54,44 @@ class MainPage extends React.Component {
         this.removeCourse = this.removeCourse.bind(this);
         this.changeDragState = this.changeDragState.bind(this);
         this.enableTextSelection = this.enableTextSelection.bind(this);
-        this.handleMouseMove = this.handleMouseMove.bind(this);
-        this.handleTouchMove = this.handleTouchMove.bind(this);
         this.performAutoScroll = this.performAutoScroll.bind(this);
         this.scrollPage = this.scrollPage.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.handleTouchMove = this.handleTouchMove.bind(this);
     }
 
     componentDidMount() {
         this.loadCourseSequenceObject();
         this.loadAllSequences();
+        this.courseSequenceHistory = {
+            "history": [],
+            "currentPosition": -1
+        };
+        this.preventHistoryUpdate = false;
         this.isDragging = false;
         this.shouldScroll = false;
         this.scrollDirection = 0;
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(!_.isEqual(prevState.courseSequenceObject, this.state.courseSequenceObject) && !this.state.courseSequenceObject.isLoading){
+            
+            // save change to local storage
+            localStorage.setItem("savedSequence", JSON.stringify(this.state.courseSequenceObject));
+
+            if(!this.preventHistoryUpdate){
+                // add deep copy of item to history
+                this.courseSequenceHistory.currentPosition++;
+                this.courseSequenceHistory.history = this.courseSequenceHistory.history.slice(0, this.courseSequenceHistory.currentPosition);
+                this.courseSequenceHistory.history.push(JSON.parse(JSON.stringify(this.state.courseSequenceObject)));
+                if(this.courseSequenceHistory.history.length > MAX_UNDO_HISTORY_LENGTH){
+                    this.courseSequenceHistory.currentPosition--;
+                    this.courseSequenceHistory.history.shift();
+                }
+            }
+            this.preventHistoryUpdate = false;
+        }
     }
 
     /*
@@ -101,7 +135,7 @@ class MainPage extends React.Component {
         // remember the program selected by the user
         localStorage.setItem("chosenProgram", newChosenProgram);
         // clear the saved sequence to force a reloading of the user's chosen program
-        // (INSERT CONFIRM BOX HERE - MAKE SURE USER DOESN'T LOSE THEIR WORK BY ACCIDENTALLY CHANGING PROGRAMS)
+        // TODO: (INSERT CONFIRM BOX HERE - MAKE SURE USER DOESN'T LOSE THEIR WORK BY ACCIDENTALLY CHANGING PROGRAMS)
         localStorage.removeItem("savedSequence");
 
         // Must use the callback param of setState to ensure the chosenProgram is changed in time
@@ -116,20 +150,19 @@ class MainPage extends React.Component {
     setOrListCourseSelected(coursePosition){
         this.setState((prevState) => {
 
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
+
             // update isSelected property of items in orList in question
-            let orList = prevState.courseSequenceObject.yearList[coursePosition.yearIndex][coursePosition.season].courseList[coursePosition.courseListIndex];
+            let orList = courseSequenceObjectCopy.yearList[coursePosition.yearIndex][coursePosition.season].courseList[coursePosition.courseListIndex];
 
             orList = orList.map((courseObj, orListIndex) => {
                 courseObj.isSelected = (orListIndex === coursePosition.orListIndex);
                 return courseObj;
             });
 
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
-
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
     }
@@ -142,16 +175,15 @@ class MainPage extends React.Component {
     toggleWorkTerm(yearIndex, season){
         this.setState((prevState) => {
 
-            // updated isWorkTerm property of semester in question
-            let isWorkTerm = prevState.courseSequenceObject.yearList[yearIndex][season].isWorkTerm;
-            prevState.courseSequenceObject.yearList[yearIndex][season].isWorkTerm = (isWorkTerm === "true") ? "false" : "true";
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
 
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+            // updated isWorkTerm property of semester in question
+            let isWorkTerm = courseSequenceObjectCopy.yearList[yearIndex][season].isWorkTerm;
+            courseSequenceObjectCopy.yearList[yearIndex][season].isWorkTerm = (isWorkTerm === "true") ? "false" : "true";
 
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
     }
@@ -175,18 +207,17 @@ class MainPage extends React.Component {
     moveCourse(oldPosition, newPosition){
         this.setState((prevState) => {
 
-            let courseToMove = prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList[oldPosition.courseListIndex];
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
+
+            let courseToMove = courseSequenceObjectCopy.yearList[oldPosition.yearIndex][oldPosition.season].courseList[oldPosition.courseListIndex];
 
             // remove course from old position and insert at new position
-            prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList.splice(oldPosition.courseListIndex, 1);
-            prevState.courseSequenceObject.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseToMove);
-
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+            courseSequenceObjectCopy.yearList[oldPosition.yearIndex][oldPosition.season].courseList.splice(oldPosition.courseListIndex, 1);
+            courseSequenceObjectCopy.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseToMove);
 
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
     }
@@ -202,16 +233,17 @@ class MainPage extends React.Component {
 
             // generate a unique key for the course
             courseObj.id = generateUniqueKey(courseObj, newPosition.season, newPosition.yearIndex, newPosition.courseListIndex, "");
+            courseObj.isElective = "false";
+            courseObj.electiveType = "";
+
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
 
             // insert course at new position
-            prevState.courseSequenceObject.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseObj);
-
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+            courseSequenceObjectCopy.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseObj);
 
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
     }
@@ -224,15 +256,14 @@ class MainPage extends React.Component {
     removeCourse(coursePosition){
         this.setState((prevState) => {
 
-            // remove course at coursePosition
-            prevState.courseSequenceObject.yearList[coursePosition.yearIndex][coursePosition.season].courseList.splice(coursePosition.courseListIndex, 1);
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
 
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+            // remove course at coursePosition
+            courseSequenceObjectCopy.yearList[coursePosition.yearIndex][coursePosition.season].courseList.splice(coursePosition.courseListIndex, 1);
 
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
     }
@@ -291,9 +322,43 @@ class MainPage extends React.Component {
         }, AUTO_SCROLL_DELAY);
     }
 
+    /*
+     *  event handler for key presses
+     */
+    handleKeyPress(keyDownEvent){
+        if(keyDownEvent.keyCode === 90 && keyDownEvent.ctrlKey){
+            let changedCurrentPosition = false;
+            if(keyDownEvent.shiftKey){
+                // do a redo op
+                if(this.courseSequenceHistory.currentPosition < this.courseSequenceHistory.history.length - 1){
+                    this.courseSequenceHistory.currentPosition++;
+                    changedCurrentPosition = true;
+                }
+            } else {
+                // do an undo op
+                if(this.courseSequenceHistory.currentPosition > 0){
+                    this.courseSequenceHistory.currentPosition--;
+                    changedCurrentPosition = true;
+                }
+            }
+            if(changedCurrentPosition){
+                // prevent the componentDidUpdate method from updating our undo history
+                this.preventHistoryUpdate = true;
+                // update state
+                this.setState({
+                    "courseSequenceObject": this.courseSequenceHistory.history[this.courseSequenceHistory.currentPosition]
+                });
+            }
+        }
+    }
+
     render() {
         return (
-            <div className={"row" + (this.state.allowingTextSelection ? "" : " textSelectionOff")} onMouseMove={this.handleMouseMove} onTouchMove={this.handleTouchMove}>
+            <div tabIndex="1"
+                 className={"mainPage row" + (this.state.allowingTextSelection ? "" : " textSelectionOff")}
+                 onMouseMove={this.handleMouseMove}
+                 onTouchMove={this.handleTouchMove}
+                 onKeyDown={this.handleKeyPress}>
                 <div className="col-md-3 col-sm-12">
                     <IOPanel courseInfo={this.state.selectedCourseInfo}
                              allSequences={this.state.allSequences}

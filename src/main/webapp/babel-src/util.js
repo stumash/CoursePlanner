@@ -11,6 +11,7 @@ export const SEASON_NAMES_PRETTY = ["Fall", "Winter", "Summer"];
 export const SEASON_NAMES = SEASON_NAMES_PRETTY.map((season) => season.toLowerCase());
 export const DEFAULT_PROGRAM = "SOEN-General-Coop";
 export const EXPORT_TYPES = ["PDF", "MD", "TXT"];
+export const MAX_UNDO_HISTORY_LENGTH = 100;
 export const AUTO_SCROLL_PAGE_PORTION = 0.1; // auto scroll on the top and bottom 10% of screen
 export const AUTO_SCROLL_STEP = 10;
 export const AUTO_SCROLL_DELAY = 20;

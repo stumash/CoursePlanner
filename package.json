@@ -28,6 +28,7 @@
     "react-dnd-touch-backend": "^0.3.15",
     "react-dom": "^15.6.1",
     "uglify-js": "^3.0.25",
-    "uglifyify": "3.0.4"
+    "uglifyify": "3.0.4",
+    "underscore": "^1.8.3"
   }
 }
