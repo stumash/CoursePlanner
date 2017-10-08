@@ -1,17 +1,14 @@
-import org.apache.log4j.LogManager;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.apache.commons.io.IOUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -27,21 +24,13 @@ public abstract class CPServlet extends HttpServlet {
         // set up the logger
         logger = Logger.getLogger(getServletName());
 
-        // load the app properties
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        InputStream input = classLoader.getResourceAsStream("courseplanner.properties");
-        appProperties = new Properties();
-        try{
-            appProperties.load(input);
-        } catch(IOException e){
-            logger.error("Error getting webapp properties");
-            throw new ServletException(e);
-        }
+        // get reference to application-wide mongoclient provided by Servlet Context
+        appProperties = (Properties) config.getServletContext().getAttribute("APP_PROPERTIES");
     }
 
     JSONObject getRequestJson(HttpServletRequest request) throws IOException{
         JSONObject requestJson;
-	String requestString = IOUtils.toString(request.getReader());
+        String requestString = IOUtils.toString(request.getReader());
         try {
             logger.info("raw request String:");
             logger.info(requestString);
@@ -86,10 +75,5 @@ public abstract class CPServlet extends HttpServlet {
         }
 
         return semesters;
-    }
-
-    public void destroy() {
-        LogManager.shutdown();
-        super.destroy();
     }
 }

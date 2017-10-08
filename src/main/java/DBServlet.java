@@ -1,5 +1,4 @@
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
@@ -13,8 +12,8 @@ public abstract class DBServlet extends CPServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
 
-        // set up references to mongo collections
-        MongoClient mongoClient = new MongoClient(new MongoClientURI(appProperties.getProperty("mongoUrl")));
+        // get reference to application-wide mongoclient provided by Servlet Context
+        MongoClient mongoClient = (MongoClient) config.getServletContext().getAttribute("MONGO_CLIENT");
         MongoDatabase db = mongoClient.getDatabase(getDbName());
         courseData = db.getCollection(appProperties.getProperty("courseDataCollectionName"));
         courseSequences = db.getCollection(appProperties.getProperty("courseSequenceCollectionName"));
