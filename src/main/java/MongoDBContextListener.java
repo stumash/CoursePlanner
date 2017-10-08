@@ -46,8 +46,8 @@ public class MongoDBContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        MongoClient mongo = (MongoClient) sce.getServletContext().getAttribute("MONGO_CLIENT");
-        mongo.close();
+        MongoClient mongoClient = (MongoClient) sce.getServletContext().getAttribute("MONGO_CLIENT");
+        mongoClient.close();
         logger.info("MongoClient closed successfully");
         LogManager.shutdown();
     }

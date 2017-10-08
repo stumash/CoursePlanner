@@ -24,7 +24,7 @@ public abstract class CPServlet extends HttpServlet {
         // set up the logger
         logger = Logger.getLogger(getServletName());
 
-        // get reference to application-wide mongoclient provided by Servlet Context
+        // get reference to application-wide app properties provided by Servlet Context
         appProperties = (Properties) config.getServletContext().getAttribute("APP_PROPERTIES");
     }
 
