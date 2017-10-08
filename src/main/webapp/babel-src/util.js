@@ -32,6 +32,7 @@ export const UI_STRINGS = {
     "NO_COURSES": "No Courses",
 
     "COURSE_SEARCH_BUTTON": "Display info for course",
+    "COURSE_SEARCH_FOUND_NONE": "Search returned no results",
 
     "COURSE_INFO_HEADER": "Course Info",
     "COURSE_INFO_HINT": "Click on or search for a course to display its info",
