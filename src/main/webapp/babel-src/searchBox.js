@@ -52,15 +52,17 @@ export class SearchBox extends React.Component {
 
     render() {
         return (
-            <div className="courseSearch input-group">
+            <div>
+                <div className="courseSearch input-group">
+                    <input className="searchBox form-control" onKeyUp={this.handleKeyUp}></input>
+                    {this.state.isFiltering && <span className="filterLoading glyphicon glyphicon-refresh glyphicon-spin"></span>}
+                    <span className="input-group-btn">
+                        <button className="btn btn-default" type="button" onClick={this.onClickSearchButton}>
+                            <span className="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
                 {this.state.isFilterResultEmpty && <div className="noCourses">{UI_STRINGS.COURSE_SEARCH_FOUND_NONE}</div>}
-                <input className="searchBox form-control" onKeyUp={this.handleKeyUp}></input>
-                {this.state.isFiltering && <span className="filterLoading glyphicon glyphicon-refresh glyphicon-spin"></span>}
-                <span className="input-group-btn">
-                    <button className="btn btn-default" type="button" onClick={this.onClickSearchButton}>
-                        <span className="glyphicon glyphicon-search"></span>
-                    </button>
-                </span>
             </div>
         );
     }
