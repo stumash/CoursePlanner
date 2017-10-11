@@ -57,13 +57,28 @@ const entryTypes = {
     "Coop": "Coop September"
 };
 
+let courseCorrectionMap = [];
+
 // pull all html documents from sequenceUrls.json and write to appropriate .json files
-let scrapeAllUrls = (function (){
+let startScrape = (function (){
+    fs.readFile("./courseCorrectionMap.json", function (err, data) {
+        if (err) {
+            console.error("ERROR reading courseCorrectionMap.json");
+            process.exit(1);
+        }
+        
+        courseCorrectionMap = JSON.parse(data.toString());
+        scrapeAllUrls(courseCorrectionMap);
+
+    });
+})();
+
+function scrapeAllUrls(){
 
     let numStarted = 0, numCompleted = 0;
 
     console.log("\n** Scraping commonly-formatted sequences from sequenceUrls.json **\n");
-
+    
     fs.readFile("./sequenceUrls.json", function (err, data) {
         if (err) {
             console.error("ERROR reading sequenceUrls.json");
@@ -81,7 +96,7 @@ let scrapeAllUrls = (function (){
                 console.log("\n** Scraping weirdly-formatted sequences from elecCoenHeadings.json **\n");
                 startElecCoenScrape();
             }
-        };
+        }; 
 
         for (let program in sequenceUrls) {
             let subList = sequenceUrls[program];
@@ -107,7 +122,7 @@ let scrapeAllUrls = (function (){
             }
         }
     });
-})();
+}
 
 function startElecCoenScrape(){
     fs.readFile("./elecCoenHeadings.json", function (err, data) {
@@ -134,6 +149,8 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
             let semesterList = sequenceTextToSemesterList($(commonSequenceSelector).text());
 
             semesterList = fixMechAndIndu(semesterList, plainFileName);
+            
+            semesterList = correctWrongCourses(semesterList, courseCorrectionMap);
 
             let yearList = toYearList(semesterList);
 
@@ -172,6 +189,8 @@ function scrapeElecCoenUrl(url, headings, outPath){
             sequenceTextObjects.forEach((sequence, sequenceIndex) => {
 
                 let semesterList = sequenceTextToSemesterList(sequence.sequenceText);
+
+                semesterList = correctWrongCourses(semesterList, courseCorrectionMap);
 
                 // assume 120 credits for engineering
                 let minTotalCredits = "120";
@@ -483,6 +502,33 @@ function fixMechAndIndu(semesterList, programID){
     return semesterList;
 }
 
+function correctWrongCourses(semesterList, courseCorrectionMap){
+    for(let i = 0; i < semesterList.length; i++){
+        let courseList = semesterList[i].courseList;
+        for(let j = 0; j < courseList.length; j++){
+            let course = courseList[j];
+            if(course.length > 0){
+                for(let k = 0; k < course.length; k++){
+                    let orCourse = course[k];
+                    if(courseCorrectionMap[orCourse.code]){
+                        orCourse.code = courseCorrectionMap[orCourse.code];
+                    }
+                    if(courseCorrectionMap[orCourse.code] === ""){
+                        course.splice(j, 1);
+                    }
+                }
+            }
+            if(courseCorrectionMap[course.code]){
+                course.code = courseCorrectionMap[course.code];
+            }
+            if(courseCorrectionMap[course.code] === ""){
+                courseList.splice(j, 1);
+            }
+        }
+    }
+    return semesterList;
+}
+
 function addMiddleSpaceIfNeeded(courseCode){
     let pattern = new RegExp(/^\w{4}\d{3}$/);
     let res = pattern.test(courseCode.trim());
@@ -492,22 +538,6 @@ function addMiddleSpaceIfNeeded(courseCode){
     } else {
         return courseCode;
     }
-}
-
-function extractCourseCode(courseCodeStr){
-    let test = courseCodeStr.match(courseCodeRegex);
-    return (test) ? test[0] : "";
-}
-
-function parseSeason(season){
-    if(season.indexOf("fall") >= 0){
-        return "fall";
-    } else if(season.indexOf("winter") >= 0){
-        return "winter";
-    } else if(season.indexOf("summer") >= 0){
-        return "summer";
-    }
-    return undefined;
 }
 
 function prettifySequenceID(sequenceID){
