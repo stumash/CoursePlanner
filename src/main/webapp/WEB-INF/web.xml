@@ -11,6 +11,10 @@
         <location>/404.html</location>
     </error-page>
 
+    <listener>
+        <listener-class>MongoDBContextListener</listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>SequenceValidator</servlet-name>
         <servlet-class>SequenceValidator</servlet-class>
