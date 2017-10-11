@@ -183,6 +183,18 @@ ul.ui-autocomplete {
     margin: 0px;
 }
 
+.filterLoading {
+    position: absolute;
+    z-index: 3;
+    right: 48px;
+    top: 8px;
+    font-size: 18px;
+}
+
+.noCourses {
+    padding-left: 12px;
+}
+
 /* Styling for loading icon */
 
 .smallLoadingSpinner {
@@ -220,6 +232,22 @@ ul.ui-autocomplete {
         -webkit-transform: rotate(359deg);
         transform: rotate(359deg);
     }
+}
+
+/* Special styling for DND */
+
+.dragPreview {
+    margin: 0;
+}
+
+.textSelectionOff {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
 
 /* Special styling for small screens */
@@ -278,20 +306,10 @@ ul.ui-autocomplete {
         height: 30px;
         width: 30px;
     }
-}
 
-/* Special styling for DND */
-
-.dragPreview {
-    margin: 0;
-}
-
-.textSelectionOff {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: -moz-none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    user-select: none;
+    .filterLoading {
+        font-size: 28px;
+        top: 10px;
+        right: 70px;
+    }
 }
