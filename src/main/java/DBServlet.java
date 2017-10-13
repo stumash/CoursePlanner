@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 
 public abstract class DBServlet extends CPServlet {
 
-    protected MongoCollection courseData, courseSequences;
+    protected MongoCollection courseInfo, courseSequences;
 
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -15,7 +15,7 @@ public abstract class DBServlet extends CPServlet {
         // get reference to application-wide mongoclient provided by Servlet Context
         MongoClient mongoClient = (MongoClient) config.getServletContext().getAttribute("MONGO_CLIENT");
         MongoDatabase db = mongoClient.getDatabase(getDbName());
-        courseData = db.getCollection(appProperties.getProperty("courseDataCollectionName"));
+        courseInfo = db.getCollection(appProperties.getProperty("courseInfoCollectionName"));
         courseSequences = db.getCollection(appProperties.getProperty("courseSequenceCollectionName"));
     }
 

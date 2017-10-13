@@ -13,7 +13,7 @@ const dbName = (argv.prod) ? prodDbName : devDbName;
 const dbFullUrl = f('mongodb://%s:%s@conucourseplanner.online:27017/%s?authSource=admin', username, password, dbName);
 
 const courseSequencesColName = "courseSequences";
-const courseInfoColName = "courseData";
+const courseInfoColName = "courseInfo";
 
 let displayMissingCourses = (() => {
     MongoClient.connect(dbFullUrl, (err, db) => {
