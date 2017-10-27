@@ -21,12 +21,12 @@ public class SequenceExporter extends CPServlet {
     {
         logger.info("---------User requested a sequence export---------");
 
-        JSONObject requestObject = getRequestJson(request);
+        JSONObject courseSequenceObject = (JSONObject) grabPropertyFromRequest("courseSequenceObject", request);
 
         JSONObject responseObject = new JSONObject();
         try{
 
-            JSONArray yearList = requestObject.getJSONArray("yearList");
+            JSONArray yearList = courseSequenceObject.getJSONArray("yearList");
 
             String semesterAsMarkdown = yearListToMarkdownString(yearList);
 

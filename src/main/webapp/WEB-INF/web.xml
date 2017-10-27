@@ -49,7 +49,7 @@
 
     <servlet-mapping>
         <servlet-name>SequenceProvider</servlet-name>
-        <url-pattern>/coursesequences</url-pattern>
+        <url-pattern>/recommendedsequence</url-pattern>
     </servlet-mapping>
 
     <servlet>
