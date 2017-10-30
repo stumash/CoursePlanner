@@ -29,9 +29,9 @@ public class SequenceProvider extends DBServlet {
 
         if(dbResult != null) {
             String sequenceJsonString = dbResult.toJson();
-            responseString = "{ \"response\": " + fillAllMissingInfo(sequenceJsonString) + "}";
+            responseString = "{ \"courseSequenceObject\": " + fillAllMissingInfo(sequenceJsonString) + "}";
         } else {
-            responseString = "{ \"response\": \"Sequence ID not found\"}";
+            responseString = "{ \"courseSequenceObject\": \"{}\"}";
         }
 
         logger.info("Responding with: " + responseString);

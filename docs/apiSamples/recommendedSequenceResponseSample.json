@@ -1,0 +1,856 @@
+{
+  "courseSequenceObject":{
+    "minTotalCredits":"120",
+    "_id":"SOEN-General-Coop",
+    "yearList":[
+      {
+        "winter":{
+          "isWorkTerm":"false",
+          "courseList":[
+            {
+              "isElective":"false",
+              "labHours":"one hour per week",
+              "_id":"COMP 249",
+              "electiveType":"",
+              "description":"Design of classes. Inheritance. Polymorphism. Static and dynamic binding. Abstract classes. Exception handling. File I/O. Recursion. Interfaces and inner classes. Graphical user interfaces. Generics. Collections and iterators. ",
+              "name":"Object-Oriented Programming II",
+              "credits":"3.5",
+              "tutorialHours":"two hours per week",
+              "code":"COMP 249",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "COMP 248"
+                  ],
+                  [
+                    "MATH 203"
+                  ]
+                ],
+                "coreqs":[
+                  [
+                    "MATH 205"
+                  ]
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"ENGR 233",
+              "electiveType":"",
+              "description":"This course introduces Engineering students to the theory and application of advanced calculus. Functions of several variables, partial derivatives, total and exact differentials, approximations with differentials. Tangent plane and normal line to a surface, directional derivatives, gradient. Double and triple integrals. Polar, cylindrical, and spherical coordinates. Change of variables in double and triple integrals. Vector differential calculus; divergence, curl, curvature, line integrals, Green\u2019s theorem, surface integrals, divergence theorem, applications of divergence theorem, Stokes\u2019 theorem. ",
+              "name":"Applied Advanced Calculus",
+              "credits":"3",
+              "tutorialHours":"two hours per week",
+              "code":"ENGR 233",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "MATH 204"
+                  ],
+                  [
+                    "MATH 205"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "labHours":"two hours per week",
+              "_id":"SOEN 228",
+              "electiveType":"",
+              "description":"Processor structure, Data and Instructions, Instruction Set Processor (ISP) level view of computer hardware, assembly language level use. Memory systems \u2014 RAM and disks, hierarchy of memories. I/O organization, I/O devices and their diversity, their interconnection to CPU and Memory. Communication between computers at the physical level. Networks and computers. ",
+              "name":"System Hardware",
+              "credits":"4",
+              "tutorialHours":"two hours per week",
+              "code":"SOEN 228",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "MATH 203"
+                  ],
+                  [
+                    "MATH 204"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              },
+              "note":"Students who have received credit for COMP 228 may not take this course for credit."
+            },
+            {
+              "isElective":"false",
+              "_id":"SOEN 287",
+              "electiveType":"",
+              "description":"Internet architecture and protocols. Web applications through clients and servers. Markup languages. Client-side programming using scripting languages. Static website contents and dynamic page generation through server-side programming. Preserving state (client-side) in web applications. ",
+              "name":"Web Programming",
+              "credits":"3",
+              "tutorialHours":"two hours per week",
+              "code":"SOEN 287",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "COMP 248"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"true",
+              "electiveType":"Science",
+              "code":""
+            }
+          ]
+        },
+        "fall":{
+          "isWorkTerm":"false",
+          "courseList":[
+            {
+              "isElective":"false",
+              "_id":"COMP 232",
+              "electiveType":"",
+              "description":"Sets. Propositional logic and predicate calculus. Functions and relations. Elements of number theory. Mathematical reasoning. Proof techniques: direct proof, indirect proof, proof by contradiction, proof by induction. ",
+              "name":"Mathematics for Computer Science",
+              "credits":"3",
+              "tutorialHours":"two hours per week",
+              "code":"COMP 232",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "MATH 203"
+                  ],
+                  [
+                    "MATH 204"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              },
+              "note":"Students who have received credit for COMP 238 or COEN 231 may not take this course for credit."
+            },
+            {
+              "isElective":"false",
+              "labHours":"one hour per week",
+              "_id":"COMP 248",
+              "electiveType":"",
+              "description":"Introduction to programming. Basic data types, variables, expressions, assignments, control flow. Classes, objects, methods. Information hiding, public vs. private visibility, data abstraction and encapsulation. References. Arrays. ",
+              "name":"Object-Oriented Programming I",
+              "credits":"3.5",
+              "tutorialHours":"two hours per week",
+              "code":"COMP 248",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+
+                ],
+                "coreqs":[
+                  [
+                    "MATH 204"
+                  ]
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"ENGR 201",
+              "electiveType":"",
+              "description":"Health and safety issues for engineering projects: Quebec and Canadian legislation; safe work practices; general laboratory safety common to all engineering disciplines, and specific laboratory safety pertaining to particular engineering disciplines. Review of the legal framework in Quebec, particularly the Professional Code and the Engineers Act, as well as professional ethics. ",
+              "name":"Professional Practice and Responsibility",
+              "credits":"1.5",
+              "tutorialHours":"one hour per week, alternate weeks",
+              "code":"ENGR 201",
+              "lectureHours":"one and a half hours per week",
+              "requirements":{
+                "prereqs":[
+
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"ENGR 213",
+              "electiveType":"",
+              "description":"This course introduces Engineering students to the theory and application of ordinary differential equations. Definition and terminology, initial-value problems, separable differential equations, linear equations, exact equations, solutions by substitution, linear models, orthogonal trajectories, complex numbers, form of complex numbers: powers and roots, theory: linear equations, homogeneous linear equations with constant coefficients, undetermined coefficients, variation of parameters, Cauchy-Euler equation, reduction of order, linear models: initial value, review of power series, power series solutions, theory, homogeneous linear systems, solution by diagonalisation, non-homogeneous linear systems. Eigenvalues and eigenvectors. ",
+              "name":"Applied Ordinary Differential Equations",
+              "credits":"3",
+              "tutorialHours":"two hours per week",
+              "code":"ENGR 213",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "MATH 205"
+                  ]
+                ],
+                "coreqs":[
+                  [
+                    "MATH 204"
+                  ]
+                ]
+              }
+            },
+            {
+              "isElective":"true",
+              "electiveType":"Science",
+              "code":""
+            }
+          ]
+        },
+        "summer":{
+          "isWorkTerm":"false",
+          "courseList":[
+            {
+              "isElective":"false",
+              "_id":"COMP 348",
+              "electiveType":"",
+              "description":"Survey of programming paradigms: Imperative, functional, and logic programming. Issues in the design and implementation of programming languages. Declaration models: binding, visibility, and scope. Type systems, including static and dynamic typing. Parameter passing mechanisms. Hybrid language design. ",
+              "name":"Principles of Programming Languages",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"COMP 348",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "COMP 249"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"COMP 352",
+              "electiveType":"",
+              "description":"Abstract data types: stacks and queues, trees, priority queues, dictionaries. Data structures: arrays, linked lists, heaps, hash tables, search trees. Design and analysis of algorithms: asymptotic notation, recursive algorithms, searching and sorting, tree traversal, graph algorithms. ",
+              "name":"Data Structures and Algorithms",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"COMP 352",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "COMP 249"
+                  ]
+                ],
+                "coreqs":[
+                  [
+                    "COMP 232"
+                  ]
+                ]
+              },
+              "note":"Students who have received credit for COEN 352 may not take this course for credit."
+            },
+            {
+              "isElective":"false",
+              "_id":"ENCS 282",
+              "electiveType":"",
+              "description":"§71.20.7 by passing the Engineering Writing Test (EWT), or by passing ENCS 272 with a grade of C- or higher. Technical writing form and style. Technical and scientific papers, abstracts, reports. Library research and referencing methods for engineers and computer scientists. Technical communication using information technology: document processing software, computer-assisted presentation, analysis and design of web presentation, choice and use of appropriate tools. Students will prepare an individual major report and make an oral presentation. ",
+              "name":"Technical Writing and Communication",
+              "credits":"3",
+              "tutorialHours":"two hours per week",
+              "code":"ENCS 282",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"ENGR 202",
+              "electiveType":"",
+              "description":"Introduction to the concept of sustainable development and the approaches for achieving it. Relationships with economic, social, and technological development. Methods for evaluating sustainability of engineering projects, including utilization of relevant databases and software. Impact of engi­neering design and industrial development on the environment. Case studies. ",
+              "name":"Sustainable Development and Environmental Stewardship",
+              "credits":"1.5",
+              "code":"ENGR 202",
+              "lectureHours":"one and a half hours per week",
+              "requirements":{
+                "prereqs":[
+
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"true",
+              "electiveType":"General",
+              "code":""
+            }
+          ]
+        }
+      },
+      {
+        "winter":{
+          "isWorkTerm":"false",
+          "courseList":[
+            {
+              "isElective":"false",
+              "labHours":"two hours per week",
+              "_id":"COMP 346",
+              "electiveType":"",
+              "description":"Fundamentals of operating system functionalities, design and implementation. Multiprogramming: processes and threads, context switching, queuing models and scheduling. Interprocess communication and synchronization. Principles of concurrency. Synchronization primitives. Deadlock detection and recovery, prevention and avoidance schemes. Memory management. Device management. File systems. Protection models and schemes. ",
+              "name":"Operating Systems",
+              "credits":"4",
+              "tutorialHours":"one hour per week",
+              "code":"COMP 346",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "COMP 228",
+                    "SOEN 228"
+                  ],
+                  [
+                    "COMP 352"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              },
+              "note":"Students who have received credit for COEN 346 may not take this course for credit."
+            },
+            {
+              "isElective":"false",
+              "labHours":"15 hours total",
+              "_id":"ELEC 275",
+              "electiveType":"",
+              "description":"Fundamentals of electric circuits: Kirchoff\u2019s laws, voltage and current sources, Ohm\u2019s law, series and parallel circuits. Nodal and mesh analysis of DC circuits. Superposition theorem, Thevenin and Norton Equivalents. Use of operational amplifiers. Transient analysis of simple RC, RL and RLC circuits. Steady state analysis: Phasors and impedances, power and power factor. Single and three phase circuits. Magnetic circuits and transformers. Power generation and distribution. ",
+              "name":"Principles of Electrical Engineering",
+              "credits":"3.5",
+              "tutorialHours":"two hours per week",
+              "code":"ELEC 275",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "PHYS 205"
+                  ]
+                ],
+                "coreqs":[
+                  [
+                    "ENGR 213"
+                  ]
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"ENGR 371",
+              "electiveType":"",
+              "description":"Axioms of probability theory. Events. Conditional probability. Bayes theorem. Random variables. Mathematical expectation. Discrete and continuous probability density functions. Transformation of variables. Probabilistic models, statistics, and elements of hypothesis testing (sampling distributions and interval estimation). Introduction to statistical quality control. Applications to engineering problems. ",
+              "name":"Probability and Statistics in Engineering",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"ENGR 371",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "ENGR 213"
+                  ],
+                  [
+                    "ENGR 233"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"SOEN 331",
+              "electiveType":"",
+              "description":"Assertions. Static and dynamic checking. Method specification using preconditions and postconditions. Strengthening and weakening. Design by contract. Hoare logic. Invariants. Class specification using invariants. Software tools for assertion checking and verification. Reliable software development. ",
+              "name":"Introduction to Formal Methods for Software Engineering",
+              "credits":"3",
+              "tutorialHours":"two hours per week",
+              "code":"SOEN 331",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "COMP 232"
+                  ],
+                  [
+                    "COMP 249"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"SOEN 341",
+              "electiveType":"",
+              "description":"Basic principles of software engineering. Introduction to software process models. Activities in each phase, including review activities. Working in teams: organization; stages of formation; roles; conflict resolution. Notations used in software documentation. How to review, revise, and improve software documentation. ",
+              "name":"Software Process",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"SOEN 341",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "COMP 352",
+                    "COEN 352"
+                  ]
+                ],
+                "coreqs":[
+                  [
+                    "ENCS 282"
+                  ]
+                ]
+              },
+              "note":"Students who have received credit for COMP 354 may not take this course for credit."
+            }
+          ]
+        },
+        "fall":{
+          "isWorkTerm":"true",
+          "courseList":[
+
+          ]
+        },
+        "summer":{
+          "isWorkTerm":"true",
+          "courseList":[
+
+          ]
+        }
+      },
+      {
+        "winter":{
+          "isWorkTerm":"false",
+          "courseList":[
+            {
+              "isElective":"false",
+              "_id":"SOEN 344",
+              "electiveType":"",
+              "description":"Architectural activities, roles, and deliverables. Architectural view models. Architectural styles (including client-server, layered, pipes-and-filters, event-based, process control) and frameworks. Architectural analysis and the interplay with requirements elicitation. Notations for expressing architectural designs, structural and behavioural specifications. From architectural design to detailed design. Domain specific architectures and design patterns. Evaluation and performance estimation of designs. Advanced object-oriented design patterns and idioms. ",
+              "name":"Software Architecture and Design II",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"SOEN 344",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "SOEN 343"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"SOEN 345",
+              "electiveType":"",
+              "description":"Testing strategies. Specification-based vs. code-based, black-box vs. white-box, functional vs. structural testing; unit, integration, system, acceptance, and regression testing. Verification vs. validation. Test planning, design and artifacts. Introduction to software reliability and quality assurance. Formal verification methods, oracles; static and dynamic program verification. ",
+              "name":"Software Testing, Verification and Quality Assurance",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"SOEN 345",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+
+                ],
+                "coreqs":[
+                  [
+                    "SOEN 343"
+                  ]
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"SOEN 357",
+              "electiveType":"",
+              "description":"The human side: I/O; memory; and information processing. Interaction: mental models; human error; interaction frameworks and paradigms. Direct manipulation. User interface design: principles; standards; and guidelines. User-centred design: standards and design rationale; heuristic evaluation; iterative design; and prototyping. Task-centred design. Rationalized design: usability engineering; dialogue notations; user models; diagrammatic notations; and textual notations. Evaluation: with the user; without the user; quantitative; and qualitative. Implementation support. Help and documentation. ",
+              "name":"User Interface Design",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"SOEN 357",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "SOEN 341"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "labHours":"three hours per week",
+              "_id":"SOEN 390",
+              "electiveType":"",
+              "description":"Students work in teams to design and implement a software project from requirements provided by the coordinator. Each team will demonstrate the software and prepare adequate documentation for it. In addition, each student will write an individual report. ",
+              "name":"Software Engineering Team Design Project",
+              "credits":"3.5",
+              "tutorialHours":"one hour per week",
+              "code":"SOEN 390",
+              "lectureHours":"two hours per week",
+              "requirements":{
+                "prereqs":[
+
+                ],
+                "coreqs":[
+                  [
+                    "SOEN 344"
+                  ]
+                ]
+              }
+            },
+            {
+              "isElective":"true",
+              "electiveType":"Program",
+              "code":""
+            }
+          ]
+        },
+        "fall":{
+          "isWorkTerm":"false",
+          "courseList":[
+            {
+              "isElective":"false",
+              "_id":"COMP 335",
+              "electiveType":"",
+              "description":"Finite state automata and regular languages. Push-down automata and context-free languages. Pumping lemmas. Applications to parsing. Turing machines. Unde­cidability and decidability. ",
+              "name":"Introduction to Theoretical Computer Science",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"COMP 335",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "COMP 232",
+                    "COEN 231"
+                  ],
+                  [
+                    "COMP 249",
+                    "COEN 244"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"SOEN 342",
+              "electiveType":"",
+              "description":"Requirements engineering. Functional and non-functional requirements. Traceability. Test generation. Formal and informal specifications. Formal specification languages. Reasoning with specifications. Correctness issues. Verification. ",
+              "name":"Software Requirements and Specifications",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"SOEN 342",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "SOEN 341"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"SOEN 343",
+              "electiveType":"",
+              "description":"From requirements to design to implementation. Planned vs. evolutionary design and refactoring. Model-driven design and Unified Modelling Language (UML). Structural and behavioural design descriptions and specifications. General and domain-specific design principles, patterns and idioms. Object-oriented design concepts such as interfaces vs. abstract types, polymorphism, generics, and delegation vs. subclassing. Introduction to software architecture (styles and view models). Design quality. Design rationale. Design methodologies (e.g. based on responsibility assignment). Test-driven development. ",
+              "name":"Software Architecture and Design I",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"SOEN 343",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "SOEN 341"
+                  ]
+                ],
+                "coreqs":[
+                  [
+                    "SOEN 342"
+                  ]
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"SOEN 384",
+              "electiveType":"",
+              "description":"Organization of large software development. Roles of team members, leaders, managers, stakeholders, and users. Tools for monitoring and controlling a schedule. Financial, organizational, human, and computational resources allocation and control. Project and quality reviews, inspections, and walkthroughs. Risk management. Communication and collaboration. Cause and effects of project failure. Project management via the Internet. Quality assurance and control. ",
+              "name":"Management, Measurement and Quality Control",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"SOEN 384",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "ENCS 282"
+                  ],
+                  [
+                    "SOEN 341"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"ENGR 391",
+              "electiveType":"",
+              "description":"Roots of algebraic and transcendental equations; function approximation; numerical differentiation; numerical integration; solution of simultaneous algebraic equations; numerical integration of ordinary differential equations. ",
+              "name":"Numerical Methods in Engineering",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"ENGR 391",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "ENGR 213"
+                  ],
+                  [
+                    "ENGR 233"
+                  ],
+                  [
+                    "COMP 248",
+                    "COEN 243",
+                    "MECH 215",
+                    "BCEE 231"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            }
+          ]
+        },
+        "summer":{
+          "isWorkTerm":"true",
+          "courseList":[
+
+          ]
+        }
+      },
+      {
+        "winter":{
+          "isWorkTerm":"false",
+          "courseList":[
+            {
+              "isElective":"false",
+              "_id":"SOEN 385",
+              "electiveType":"",
+              "description":"Mathematical modelling of dynamical systems; block diagrams; feedback; open and closed loops. Linear differential equations; time domain analysis; free, forced, and total response; steady state and transient response. Laplace transform and inverse transform; second order systems. Transfer functions and stability. Control system design: PID and root locus techniques. Computer simulation of control systems. Applications. ",
+              "name":"Control Systems and Applications",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"SOEN 385",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "ENGR 213"
+                  ],
+                  [
+                    "ENGR 233"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"ENGR 392",
+              "electiveType":"",
+              "description":"Social history of technology and of science including the industrial revolution and modern times. Engineering and scientific creativity, social and environmental problems created by uncontrolled technology, appropriate technology. ",
+              "name":"Impact of Technology on Society",
+              "credits":"3",
+              "code":"ENGR 392",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "ENCS 282"
+                  ],
+                  [
+                    "ENGR 201"
+                  ],
+                  [
+                    "ENGR 202"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "labHours":"two hours per week",
+              "_id":"SOEN 490",
+              "electiveType":"",
+              "description":"Students work in teams of at least four members to construct a significant software application. The class meets at regular intervals. Team members will give a presentation of their contribution to the project. ",
+              "name":"Capstone Software Engineering Design Project",
+              "credits":"4",
+              "code":"SOEN 490",
+              "lectureHours":"one hour per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "SOEN 390"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"true",
+              "electiveType":"Program",
+              "code":""
+            },
+            {
+              "isElective":"true",
+              "electiveType":"Program",
+              "code":""
+            }
+          ]
+        },
+        "fall":{
+          "isWorkTerm":"false",
+          "courseList":[
+            {
+              "isElective":"false",
+              "labHours":"two hours per week",
+              "_id":"SOEN 490",
+              "electiveType":"",
+              "description":"Students work in teams of at least four members to construct a significant software application. The class meets at regular intervals. Team members will give a presentation of their contribution to the project. ",
+              "name":"Capstone Software Engineering Design Project",
+              "credits":"4",
+              "code":"SOEN 490",
+              "lectureHours":"one hour per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "SOEN 390"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"ENGR 301",
+              "electiveType":"",
+              "description":"Introduction to project delivery systems. Principles of project management; role and activity of a manager; enterprise organizational charts; cost estimating; planning and control. Company finances; interest and time value of money; discounted cash flow; evaluation of projects in private and public sectors; depreciation methods; business tax regulations; decision tree; sensitivity analysis. ",
+              "name":"Engineering Management Principles and Economics",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"ENGR 301",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"false",
+              "_id":"SOEN 321",
+              "electiveType":"",
+              "description":"Protocol layers and security protocols. Intranets and extranets. Mobile computing. Electronic commerce. Security architectures in open-network environments. Cryptographic security protocols. Threats, attacks, and vulnerabilities. Security services: confidentiality; authentication; integrity; access control; non-repudiation; and availability. Security mechanisms: encryption; data-integrity mechanisms; digital signatures; keyed hashes; access-control mechanisms; challenge-response authentication; traffic padding; routing control; and notarization. Key-management principles. Distributed and embedded firewalls. Security zones. ",
+              "name":"Information Systems Security",
+              "credits":"3",
+              "tutorialHours":"one hour per week",
+              "code":"SOEN 321",
+              "lectureHours":"three hours per week",
+              "requirements":{
+                "prereqs":[
+                  [
+                    "COMP 346"
+                  ]
+                ],
+                "coreqs":[
+
+                ]
+              }
+            },
+            {
+              "isElective":"true",
+              "electiveType":"Program",
+              "code":""
+            },
+            {
+              "isElective":"true",
+              "electiveType":"Program",
+              "code":""
+            }
+          ]
+        },
+        "summer":{
+          "isWorkTerm":"false",
+          "courseList":[
+
+          ]
+        }
+      }
+    ],
+    "sourceUrl":"https://www.concordia.ca/encs/computer-science-software-engineering/students/course-sequences/co-op-soen-general.html",
+    "prettyName":"Software Engineering, General Program option, Coop September entry"
+  }
+}

@@ -416,10 +416,10 @@ class MainPage extends React.Component {
 
                 $.ajax({
                     type: "POST",
-                    url: "api/coursesequences",
+                    url: "api/recommendedsequence",
                     data: JSON.stringify(requestBody),
                     success: (response) => {
-                        let courseSequenceObject = JSON.parse(response).response;
+                        let courseSequenceObject = JSON.parse(response).courseSequenceObject;
                         courseSequenceObject.yearList = generateUniqueKeys(courseSequenceObject.yearList);
                         this.setState({"courseSequenceObject" : courseSequenceObject});
                         localStorage.setItem("savedSequence", JSON.stringify(courseSequenceObject));
@@ -473,7 +473,7 @@ class MainPage extends React.Component {
             $.ajax({
                 type: "POST",
                 url: "api/export",
-                data: JSON.stringify({"yearList" : this.state.courseSequenceObject.yearList}),
+                data: JSON.stringify({"courseSequenceObject" : this.state.courseSequenceObject}),
                 success: (response) => {
 
                     let downloadUrl = JSON.parse(response).exportPath;
