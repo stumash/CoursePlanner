@@ -105,7 +105,7 @@ public class SequenceProvider extends DBServlet {
 
             Document filter = new Document();
             filter.put("_id", courseObject.getString("code"));
-            Document dbResult = (Document) courseData.find(filter).first();
+            Document dbResult = (Document) courseInfo.find(filter).first();
 
 	    if(dbResult == null){
 		logger.info("got null db result for course: " + courseObject.getString("code"));

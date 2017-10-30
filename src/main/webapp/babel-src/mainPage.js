@@ -416,7 +416,7 @@ class MainPage extends React.Component {
 
                 $.ajax({
                     type: "POST",
-                    url: "recommendedsequence",
+                    url: "api/recommendedsequence",
                     data: JSON.stringify(requestBody),
                     success: (response) => {
                         let courseSequenceObject = JSON.parse(response).courseSequenceObject;
@@ -436,7 +436,7 @@ class MainPage extends React.Component {
     loadAllSequences(){
         $.ajax({
             type: "GET",
-            url: "allsequences",
+            url: "api/allsequences",
             success: (response) => {
                 this.setState({"allSequences" : JSON.parse(response)});
             }
@@ -453,7 +453,7 @@ class MainPage extends React.Component {
         }}, () => {
             $.ajax({
                 type: "POST",
-                url: "courseinfo",
+                url: "api/courseinfo",
                 data: JSON.stringify({"code" : courseCode}),
                 success: (response) => {
                     this.setState({"selectedCourseInfo" : JSON.parse(response)});
@@ -472,7 +472,7 @@ class MainPage extends React.Component {
         }, () =>{
             $.ajax({
                 type: "POST",
-                url: "export",
+                url: "api/export",
                 data: JSON.stringify({"courseSequenceObject" : this.state.courseSequenceObject}),
                 success: (response) => {
 

@@ -67,7 +67,7 @@ const storeAllCourseInfo = (function (){
 
                         // write the json to the db
                         courseInfosJSON.forEach(courseInfoJSON => {
-                            db.collection("courseData").update({_id : courseInfoJSON.code}, {$set:courseInfoJSON}, {upsert: true}, function(err, result) {
+                            db.collection("courseInfo").update({_id : courseInfoJSON.code}, {$set:courseInfoJSON}, {upsert: true}, function(err, result) {
                                 assert.equal(err, null);
                                 logMessage("Wrote contents of file: " + courseInfoJSON.code + " to db.")
                             })

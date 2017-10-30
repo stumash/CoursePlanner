@@ -31,7 +31,7 @@ public class CourseInfoProvider extends DBServlet {
         // find document with specified _id value
         Document filter = new Document();
         filter.put("_id", courseCode);
-        Document dbResult = (Document) courseData.find(filter).first();
+        Document dbResult = (Document) courseInfo.find(filter).first();
 
         if(dbResult != null) {
             return dbResult.toJson();
