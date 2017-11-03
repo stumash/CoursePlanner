@@ -8,6 +8,8 @@ import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
 import {IOPanel} from "./ioPanel";
 import DragPreview from "./dragPreview";
+import {UI_STRINGS} from "./util";
+import GarbageCan from "./garbageCan"
 
 import { DEFAULT_PROGRAM,
          MAX_UNDO_HISTORY_LENGTH,
@@ -355,10 +357,15 @@ class MainPage extends React.Component {
     render() {
         return (
             <div tabIndex="1"
-                 className={"mainPage row" + (this.state.allowingTextSelection ? "" : " textSelectionOff")}
+                 className={"mainPage" + (this.state.allowingTextSelection ? "" : " textSelectionOff")}
                  onMouseMove={this.handleMouseMove}
                  onTouchMove={this.handleTouchMove}
                  onKeyDown={this.handleKeyPress}>
+                <div className="logoContainer panel panel-default text-center">
+                    <div className="panel-body">
+                        {!this.state.showingGarbage ? <div>{UI_STRINGS.SITE_NAME}</div> : <GarbageCan onRemoveCourse={this.removeCourse}/>}
+                    </div>
+                </div>
                 <div className="ioPanelContainer">
                     <IOPanel courseInfo={this.state.selectedCourseInfo}
                              allSequences={this.state.allSequences}
@@ -367,8 +374,7 @@ class MainPage extends React.Component {
                              showingGarbage={this.state.showingGarbage}
                              onChangeChosenProgram={this.updateChosenProgram}
                              exportSequence={this.exportSequence}
-                             onSearchCourse={this.loadCourseInfo}
-                             onRemoveCourse={this.removeCourse}/>
+                             onSearchCourse={this.loadCourseInfo}/>
                 </div>
                 {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
                 <div className="semesterTableContainer hidden-xs hidden-sm">

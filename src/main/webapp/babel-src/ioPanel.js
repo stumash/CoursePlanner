@@ -1,9 +1,7 @@
 import React from "react";
-import {EXPORT_TYPES} from "./util";
-import {UI_STRINGS} from "./util";
+import {EXPORT_TYPES, UI_STRINGS} from "./util";
 import {SearchBox} from "./searchBox";
 import Course from "./course";
-import GarbageCan from "./garbageCan"
 
 /*
  *  Rectangular area which contains widgets/views relevant to user input and output
@@ -21,7 +19,6 @@ import GarbageCan from "./garbageCan"
  *  onChangeChosenProgram - see MainPage.updateChosenProgram
  *  exportSequence - see MainPage.exportSequence
  *  onSearchCourse - see MainPage.loadCourseInfo
- *  onRemoveCourse - see MainPage.removeCourse
  *
  */
 export class IOPanel extends React.Component {
@@ -80,12 +77,25 @@ export class IOPanel extends React.Component {
     render() {
         return (
             <div className="ioPanel">
-                <div className="logoContainer panel panel-default text-center">
-                    <div className="panel-body">
-                        {!this.props.showingGarbage ? <div>{UI_STRINGS.SITE_NAME}</div> : <GarbageCan onRemoveCourse={this.props.onRemoveCourse}/>}
+                <div className="controls row">
+                    <SearchBox onConfirmSearch={this.props.onSearchCourse}/>
+                    <div className="programSelect col-lg-5 col-xs-12">
+                        {this.renderSelectionBox()}
+                    </div>
+                    <div className="exportContainer col-lg-2 col-xs-12">
+                        <div className="export btn-group">
+                            <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                {UI_STRINGS.EXPORT_BTN_TEXT} <span className="caret"></span>
+                            </button>
+                            <ul className="dropdown-menu">
+                                {EXPORT_TYPES.map((exportType) =>
+                                    <li key={exportType}><a onClick={() => this.props.exportSequence(exportType)}>to {exportType}</a></li>
+                                )}
+                            </ul>
+                            {this.props.loadingExport && <span className="smallLoadingSpinner glyphicon glyphicon-refresh glyphicon-spin"></span>}
+                        </div>
                     </div>
                 </div>
-                <SearchBox onConfirmSearch={this.props.onSearchCourse}/>
                 <div className="courseInfoPanel panel panel-default">
                     <div className="panel-heading">{UI_STRINGS.COURSE_INFO_HEADER}</div>
                     <div className="panel-body">
@@ -97,20 +107,6 @@ export class IOPanel extends React.Component {
                     <div className="panel-body">
                         {UI_STRINGS.VALIDATION_SUCCESS_MSG}
                     </div>
-                </div>
-                <div className="programSelect">
-                    {this.renderSelectionBox()}
-                </div>
-                <div className="export btn-group">
-                    <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        {UI_STRINGS.EXPORT_BTN_TEXT} <span className="caret"></span>
-                    </button>
-                    <ul className="dropdown-menu">
-                        {EXPORT_TYPES.map((exportType) =>
-                            <li key={exportType}><a onClick={() => this.props.exportSequence(exportType)}>to {exportType}</a></li>
-                        )}
-                    </ul>
-                    {this.props.loadingExport && <span className="smallLoadingSpinner glyphicon glyphicon-refresh glyphicon-spin"></span>}
                 </div>
             </div>
         );

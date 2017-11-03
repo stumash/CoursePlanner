@@ -52,8 +52,8 @@ export class SearchBox extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="courseSearch input-group">
+            <div className="courseSearch col-lg-5 col-xs-12">
+                <div className="input-group">
                     <input className="searchBox form-control" onKeyUp={this.handleKeyUp}></input>
                     {this.state.isFiltering && <span className="filterLoading glyphicon glyphicon-refresh glyphicon-spin"></span>}
                     <span className="input-group-btn">

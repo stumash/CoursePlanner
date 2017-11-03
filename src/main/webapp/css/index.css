@@ -150,6 +150,8 @@
 
 .logoContainer {
     font: bold 20px orbitron;
+    /*margin-right: 12px;*/
+    /*margin-left: 12px;*/
 }
 
 .logoContainer .panel-body {
@@ -250,11 +252,11 @@ ul.ui-autocomplete {
     user-select: none;
 }
 
-
 .ioPanelContainer {
     display: inline-block;
     position: absolute;
     right: 760px;
+    left: 0px;
     padding: 0px 12px;
 }
 .semesterTableContainer {
@@ -264,7 +266,27 @@ ul.ui-autocomplete {
     right: 0px;
     padding: 0px 12px;
 }
+
+.controls > div {
+    padding-top: 12px;
+}
+
+@media (min-width: 1200px) {
+    .controls > div {
+        padding-top: 0px;
+        margin-right: -12px;
+    }
+}
+
 .semesterListContainer {}
+
+.exportContainer {}
+
+.courseSearch {}
+
+.programSelect select {}
+
+.controls {}
 
 /* Special styling for small screens */
 
