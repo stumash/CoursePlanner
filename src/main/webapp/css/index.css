@@ -250,6 +250,22 @@ ul.ui-autocomplete {
     user-select: none;
 }
 
+
+.ioPanelContainer {
+    display: inline-block;
+    position: absolute;
+    right: 760px;
+    padding: 0px 12px;
+}
+.semesterTableContainer {
+    width: 760px;
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    padding: 0px 12px;
+}
+.semesterListContainer {}
+
 /* Special styling for small screens */
 
 @media (max-width: 991px) {
@@ -312,4 +328,13 @@ ul.ui-autocomplete {
         top: 10px;
         right: 70px;
     }
+    
+    .ioPanelContainer {
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px;
+        right: initial;
+    }
+    
 }

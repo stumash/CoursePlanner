@@ -359,7 +359,7 @@ class MainPage extends React.Component {
                  onMouseMove={this.handleMouseMove}
                  onTouchMove={this.handleTouchMove}
                  onKeyDown={this.handleKeyPress}>
-                <div className="col-md-3 col-sm-12">
+                <div className="ioPanelContainer">
                     <IOPanel courseInfo={this.state.selectedCourseInfo}
                              allSequences={this.state.allSequences}
                              chosenProgram={this.state.chosenProgram}
@@ -371,7 +371,7 @@ class MainPage extends React.Component {
                              onRemoveCourse={this.removeCourse}/>
                 </div>
                 {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
-                <div className="col-sm-9 hidden-xs hidden-sm">
+                <div className="semesterTableContainer hidden-xs hidden-sm">
                     <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
                                    onSelectCourse={this.loadCourseInfo}
                                    onOrListSelection={this.setOrListCourseSelected}
@@ -380,7 +380,7 @@ class MainPage extends React.Component {
                                    onAddCourse={this.addCourse}
                                    onChangeDragState={this.changeDragState}/>
                 </div>
-                <div className="col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
+                <div className="semesterListContainer col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
                     <SemesterList courseSequenceObject={this.state.courseSequenceObject}
                                   onSelectCourse={this.loadCourseInfo}
                                   onOrListSelection={this.setOrListCourseSelected}
