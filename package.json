@@ -12,7 +12,8 @@
     "browserify": "browserify src/main/webapp/babel-out/ -o src/main/webapp/bundle.js",
     "browserify-prod": "browserify src/main/webapp/babel-out/index.js -g [envify --NODE_ENV production] -g uglifyify -p bundle-collapser/plugin | uglifyjs --compress --mangle > src/main/webapp/bundle.js",
     "build-dev": "npm run babel && npm run browserify",
-    "build-prod": "npm run babel && npm run browserify-prod"
+    "build-prod": "npm run babel && npm run browserify-prod",
+    "watch": "watch \"npm run build-dev\" src/main/webapp/babel-src"
   },
   "license": "ISC",
   "devDependencies": {
@@ -29,6 +30,7 @@
     "react-dom": "^15.6.1",
     "uglify-js": "^3.0.25",
     "uglifyify": "3.0.4",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "watch": "^1.0.2"
   }
 }
