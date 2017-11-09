@@ -40,7 +40,7 @@ export const UI_STRINGS = {
     "VALIDATION_HEADER": "Validation Results",
     "VALIDATION_SUCCESS_MSG": "Sequence is valid",
 
-    "EXPORT_BTN_TEXT": "Export",
+    "EXPORT_TEXT": "Export",
 
     "ORLIST_CHOICE_TOOLTIP": "Choose course from list of options",
 

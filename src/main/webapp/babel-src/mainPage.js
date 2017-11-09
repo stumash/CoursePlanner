@@ -3,19 +3,22 @@ import React from "react";
 import { default as TouchBackend } from 'react-dnd-touch-backend';
 import { DragDropContext } from 'react-dnd';
 let _ = require("underscore");
+import AppBar from 'material-ui/AppBar';
 
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
 import {IOPanel} from "./ioPanel";
 import DragPreview from "./dragPreview";
 import {UI_STRINGS} from "./util";
-import GarbageCan from "./garbageCan"
+import GarbageCan from "./garbageCan";
+import {ExportMenu} from "./exportMenu";
 
 import { DEFAULT_PROGRAM,
          MAX_UNDO_HISTORY_LENGTH,
          AUTO_SCROLL_PAGE_PORTION,
          AUTO_SCROLL_DELAY,
          AUTO_SCROLL_STEP,
+         EXPORT_TYPES,
          generateUniqueKey,
          generateUniqueKeys,
          saveAs } from "./util";
@@ -361,42 +364,48 @@ class MainPage extends React.Component {
                  onMouseMove={this.handleMouseMove}
                  onTouchMove={this.handleTouchMove}
                  onKeyDown={this.handleKeyPress}>
-                <div className="logoContainer panel panel-default text-center">
-                    <div className="panel-body">
-                        {!this.state.showingGarbage ? <div>{UI_STRINGS.SITE_NAME}</div> : <GarbageCan onRemoveCourse={this.removeCourse}/>}
+                <AppBar
+                    title={UI_STRINGS.SITE_NAME}
+                    showMenuIconButton={false}
+                    iconElementRight={this.state.showingGarbage ? <GarbageCan onRemoveCourse={this.removeCourse}/> : <ExportMenu onSelect={this.exportSequence}/>}
+                    className="appBar"
+                    style={{
+                        zIndex: "0"
+                    }}
+                />
+                <div className="pageContent">
+                    <div className="ioPanelContainer">
+                        <IOPanel courseInfo={this.state.selectedCourseInfo}
+                                 allSequences={this.state.allSequences}
+                                 chosenProgram={this.state.chosenProgram}
+                                 loadingExport={this.state.loadingExport}
+                                 showingGarbage={this.state.showingGarbage}
+                                 onChangeChosenProgram={this.updateChosenProgram}
+                                 exportSequence={this.exportSequence}
+                                 onSearchCourse={this.loadCourseInfo}/>
                     </div>
+                    {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
+                    <div className="semesterTableContainer hidden-xs hidden-sm">
+                        <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
+                                       onSelectCourse={this.loadCourseInfo}
+                                       onOrListSelection={this.setOrListCourseSelected}
+                                       onToggleWorkTerm={this.toggleWorkTerm}
+                                       onMoveCourse={this.moveCourse}
+                                       onAddCourse={this.addCourse}
+                                       onChangeDragState={this.changeDragState}/>
+                    </div>
+                    <div className="semesterListContainer col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
+                        <SemesterList courseSequenceObject={this.state.courseSequenceObject}
+                                      onSelectCourse={this.loadCourseInfo}
+                                      onOrListSelection={this.setOrListCourseSelected}
+                                      onToggleWorkTerm={this.toggleWorkTerm}
+                                      onMoveCourse={this.moveCourse}
+                                      onAddCourse={this.addCourse}
+                                      onChangeDragState={this.changeDragState}/>
+                    </div>
+                    {/* Drag Preview will become visible when dragging occurs */}
+                    <DragPreview/>
                 </div>
-                <div className="ioPanelContainer">
-                    <IOPanel courseInfo={this.state.selectedCourseInfo}
-                             allSequences={this.state.allSequences}
-                             chosenProgram={this.state.chosenProgram}
-                             loadingExport={this.state.loadingExport}
-                             showingGarbage={this.state.showingGarbage}
-                             onChangeChosenProgram={this.updateChosenProgram}
-                             exportSequence={this.exportSequence}
-                             onSearchCourse={this.loadCourseInfo}/>
-                </div>
-                {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
-                <div className="semesterTableContainer hidden-xs hidden-sm">
-                    <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
-                                   onSelectCourse={this.loadCourseInfo}
-                                   onOrListSelection={this.setOrListCourseSelected}
-                                   onToggleWorkTerm={this.toggleWorkTerm}
-                                   onMoveCourse={this.moveCourse}
-                                   onAddCourse={this.addCourse}
-                                   onChangeDragState={this.changeDragState}/>
-                </div>
-                <div className="semesterListContainer col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
-                    <SemesterList courseSequenceObject={this.state.courseSequenceObject}
-                                  onSelectCourse={this.loadCourseInfo}
-                                  onOrListSelection={this.setOrListCourseSelected}
-                                  onToggleWorkTerm={this.toggleWorkTerm}
-                                  onMoveCourse={this.moveCourse}
-                                  onAddCourse={this.addCourse}
-                                  onChangeDragState={this.changeDragState}/>
-                </div>
-                {/* Drag Preview will become visible when dragging occurs */}
-                <DragPreview/>
             </div>
         );
     }
@@ -497,3 +506,8 @@ class MainPage extends React.Component {
 }
 
 export default DragDropContext(TouchBackend({enableMouseEvents: true}))(MainPage);
+
+
+// {EXPORT_TYPES.map((exportType) =>
+//     <li key={exportType}><a onClick={() => this.props.exportSequence(exportType)}>to {exportType}</a></li>
+// )}

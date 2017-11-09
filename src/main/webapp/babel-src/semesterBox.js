@@ -1,4 +1,5 @@
 import React from "react";
+import Toggle from 'material-ui/Toggle';
 import { UI_STRINGS, ITEM_TYPES, renderCourseDiv } from "./util";
 import Course from "./course";
 import OrList from "./orList";
@@ -77,12 +78,9 @@ class SemesterBox extends React.Component {
 
 
     renderCheckBox(){
-        return <input type="checkbox"
-                      title={UI_STRINGS.IS_WORK_TERM}
-                      value="isWorkTerm"
-                      onChange={this.handleWorkTermToggle}
-                      checked={(this.props.semester.isWorkTerm === "true")}/>;
-
+        return <Toggle onToggle={this.handleWorkTermToggle}
+                       toggled={(this.props.semester.isWorkTerm === "true")}
+                       title={UI_STRINGS.IS_WORK_TERM}/>
     }
 
     render() {

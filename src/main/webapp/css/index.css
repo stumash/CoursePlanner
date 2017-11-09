@@ -3,13 +3,24 @@
 /* Root styling */
 
 #react-root {
-    padding-top: 15px;
     font-size: 14px;
 }
 
 .mainPage:focus {
     outline: none;
 }
+
+.pageContent {
+    padding-top: 15px;
+}
+
+.garbageCan {
+    font-size: 20px;
+    color: white;
+    padding: 10px 20px;
+}
+
+.appBar {}
 
 /* Styling for SemesterTable */
 
@@ -69,6 +80,7 @@
     margin: 6px auto;
     border-radius: 5px;
     border: 1px solid #CCCCCC;
+    background-color: white;
 }
 
 .course:hover {
@@ -265,17 +277,6 @@ ul.ui-autocomplete {
     position: absolute;
     right: 0px;
     padding: 0px 12px;
-}
-
-.controls > div {
-    padding-top: 12px;
-}
-
-@media (min-width: 1200px) {
-    .controls > div {
-        padding-top: 0px;
-        margin-right: -12px;
-    }
 }
 
 .semesterListContainer {}

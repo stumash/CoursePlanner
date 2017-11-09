@@ -1,4 +1,7 @@
 import React from "react";
+import DropDownMenu from "material-ui/DropDownMenu";
+import MenuItem from 'material-ui/MenuItem';
+
 import {EXPORT_TYPES, UI_STRINGS} from "./util";
 import {SearchBox} from "./searchBox";
 import Course from "./course";
@@ -30,26 +33,25 @@ export class IOPanel extends React.Component {
         this.handleSequenceSelection = this.handleSequenceSelection.bind(this);
     }
 
-    handleSequenceSelection(event){
-        this.props.onChangeChosenProgram(event.currentTarget.value);
+    handleSequenceSelection(event, index, value){
+        this.props.onChangeChosenProgram(value);
     }
 
     renderSelectionBox(){
+        
+        let sequences = [];
+
         if(this.props.allSequences.length > 0){
-            return (
-                <select className="form-control" onChange={this.handleSequenceSelection} value={this.props.chosenProgram}>
-                    {this.props.allSequences.map((sequenceName) =>
-                        <option key={sequenceName}>{sequenceName}</option>
-                    )}
-                </select>
-            );
+            sequences = this.props.allSequences.map((sequenceName) => <MenuItem key={sequenceName} value={sequenceName} primaryText={sequenceName} />);
         } else {
-            return (
-                <select className="form-control" onChange={this.handleSequenceSelection} disabled="disabled">
-                    <option>{UI_STRINGS.LIST_LOADING}</option>
-                </select>
-            );
+            sequences = <MenuItem primaryText={UI_STRINGS.LIST_LOADING} />;
         }
+        
+        return (
+            <DropDownMenu value={this.props.chosenProgram} onChange={this.handleSequenceSelection}>
+                {sequences}
+            </DropDownMenu>
+        );
     }
 
     renderCourseInfo(){
@@ -79,22 +81,6 @@ export class IOPanel extends React.Component {
             <div className="ioPanel">
                 <div className="controls row">
                     <SearchBox onConfirmSearch={this.props.onSearchCourse}/>
-                    <div className="programSelect col-lg-5 col-xs-12">
-                        {this.renderSelectionBox()}
-                    </div>
-                    <div className="exportContainer col-lg-2 col-xs-12">
-                        <div className="export btn-group">
-                            <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                {UI_STRINGS.EXPORT_BTN_TEXT} <span className="caret"></span>
-                            </button>
-                            <ul className="dropdown-menu">
-                                {EXPORT_TYPES.map((exportType) =>
-                                    <li key={exportType}><a onClick={() => this.props.exportSequence(exportType)}>to {exportType}</a></li>
-                                )}
-                            </ul>
-                            {this.props.loadingExport && <span className="smallLoadingSpinner glyphicon glyphicon-refresh glyphicon-spin"></span>}
-                        </div>
-                    </div>
                 </div>
                 <div className="courseInfoPanel panel panel-default">
                     <div className="panel-heading">{UI_STRINGS.COURSE_INFO_HEADER}</div>
@@ -107,6 +93,9 @@ export class IOPanel extends React.Component {
                     <div className="panel-body">
                         {UI_STRINGS.VALIDATION_SUCCESS_MSG}
                     </div>
+                </div>
+                <div className="programSelect col-xs-12">
+                    {this.renderSelectionBox()}
                 </div>
             </div>
         );
