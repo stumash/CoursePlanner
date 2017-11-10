@@ -506,8 +506,3 @@ class MainPage extends React.Component {
 }
 
 export default DragDropContext(TouchBackend({enableMouseEvents: true}))(MainPage);
-
-
-// {EXPORT_TYPES.map((exportType) =>
-//     <li key={exportType}><a onClick={() => this.props.exportSequence(exportType)}>to {exportType}</a></li>
-// )}

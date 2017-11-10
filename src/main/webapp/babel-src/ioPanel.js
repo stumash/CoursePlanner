@@ -1,6 +1,10 @@
 import React from "react";
 import DropDownMenu from "material-ui/DropDownMenu";
 import MenuItem from 'material-ui/MenuItem';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {List, ListItem} from 'material-ui/List';
+import Divider from 'material-ui/Divider';
+import FlatButton from 'material-ui/FlatButton';
 
 import {EXPORT_TYPES, UI_STRINGS} from "./util";
 import {SearchBox} from "./searchBox";
@@ -76,24 +80,71 @@ export class IOPanel extends React.Component {
         );
     }
 
+    renderCourseInfoCard(){
+
+        let courseInfo = this.props.courseInfo;
+
+        if(courseInfo.isLoading){
+            return (
+                <Card>
+                    <CardHeader
+                        title={"Course Loading"}
+                        actAsExpander={true}
+                        showExpandableButton={false}
+                    />
+                    <div className="text-center"><span className="smallLoadingSpinner glyphicon glyphicon-refresh glyphicon-spin"></span></div>
+                </Card>
+            );
+        }
+
+        if(!courseInfo.code){
+            return (
+                <Card>
+                    <CardHeader
+                        title={UI_STRINGS.COURSE_INFO_HINT}
+                        showExpandableButton={false}
+                    />
+                </Card>
+            );
+        }
+
+        return (
+            <Card>
+                <CardHeader
+                    title={courseInfo.code}
+                    subtitle={courseInfo.credits + " credits"}
+                    actAsExpander={true}
+                    showExpandableButton={true}
+                />
+                {/*<CardActions>*/}
+                    {/*<FlatButton label="View description" />*/}
+                {/*</CardActions>*/}
+                <CardText expandable={true}>
+                    <h4>Description</h4>
+                    {courseInfo.description}
+                    <h4>Pre-requisites</h4>
+                    <List>{courseInfo.requirements.prereqs.map((prereqList, index) => <ListItem key={index} primaryText={prereqList.join(" or ")} />)}</List>
+                    <h4>Co-requisites</h4>
+                    <List>{courseInfo.requirements.coreqs.map((coreqList, index) => <ListItem key={index} primaryText={coreqList.join(" or ")} />)}</List>
+                </CardText>
+            </Card>
+        );
+    }
+
     render() {
         return (
             <div className="ioPanel">
                 <div className="controls row">
                     <SearchBox onConfirmSearch={this.props.onSearchCourse}/>
                 </div>
-                <div className="courseInfoPanel panel panel-default">
-                    <div className="panel-heading">{UI_STRINGS.COURSE_INFO_HEADER}</div>
-                    <div className="panel-body">
-                        {this.renderCourseInfo()}
-                    </div>
-                </div>
-                <div className="validationResultsPanel panel panel-default">
-                    <div className="panel-heading">{UI_STRINGS.VALIDATION_HEADER}</div>
-                    <div className="panel-body">
-                        {UI_STRINGS.VALIDATION_SUCCESS_MSG}
-                    </div>
-                </div>
+                {this.renderCourseInfoCard()}
+                <Card>
+                    <CardHeader
+                        title={UI_STRINGS.VALIDATION_RESULTS_HINT}
+                        actAsExpander={true}
+                        showExpandableButton={false}
+                    />
+                </Card>
                 <div className="programSelect col-xs-12">
                     {this.renderSelectionBox()}
                 </div>

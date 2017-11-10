@@ -28,7 +28,7 @@ export const UI_STRINGS = {
     "SITE_NAME": "ConU Course Planner",
 
     "WORK_TERM": "Work Term",
-    "IS_WORK_TERM": " is work term?",
+    "IS_WORK_TERM": "is work term?",
     "NO_COURSES": "No Courses",
 
     "COURSE_SEARCH_BUTTON": "Display info for course",
@@ -36,6 +36,7 @@ export const UI_STRINGS = {
 
     "COURSE_INFO_HEADER": "Course Info",
     "COURSE_INFO_HINT": "Click on or search for a course to display its info",
+    "VALIDATION_RESULTS_HINT": "Make changes to your schedule to trigger a validation",
 
     "VALIDATION_HEADER": "Validation Results",
     "VALIDATION_SUCCESS_MSG": "Sequence is valid",

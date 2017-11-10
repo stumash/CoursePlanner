@@ -17,7 +17,7 @@ export class ExportMenu extends React.Component {
             <IconMenu
                 iconButtonElement={<IconButton  iconStyle={{color: "white"}}><MoreVertIcon/></IconButton>}
                 targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
             >
                 <MenuItem
                     primaryText={UI_STRINGS.EXPORT_TEXT}
