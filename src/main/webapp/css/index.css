@@ -149,8 +149,8 @@
 
 /* Styling for IOPanel */
 
-.ioPanel > div {
-    margin-bottom: 20px;
+.ioPanel {
+    height: 100%;
 }
 
 .ioPanel pre {
@@ -160,19 +160,26 @@
     margin-top: 20px;
 }
 
-.logoContainer {
-    font: bold 20px orbitron;
-    /*margin-right: 12px;*/
-    /*margin-left: 12px;*/
+.outputPanel {
+    height: calc(100% - 50px);
+    padding: 3px 15px 3px 3px;
+    overflow-y: auto;
+    overflow-x: visible;
 }
 
-.logoContainer .panel-body {
-    padding: 0;
-}
+/*.logoContainer {*/
+    /*font: bold 20px orbitron;*/
+    /*!*margin-right: 12px;*!*/
+    /*!*margin-left: 12px;*!*/
+/*}*/
 
-.logoContainer .panel-body > div {
-    padding: 15px;
-}
+/*.logoContainer .panel-body {*/
+    /*padding: 0;*/
+/*}*/
+
+/*.logoContainer .panel-body > div {*/
+    /*padding: 15px;*/
+/*}*/
 
 .ioPanel .programSelect select {
     color: #333;
@@ -269,25 +276,44 @@ ul.ui-autocomplete {
     position: absolute;
     right: 760px;
     left: 0px;
-    padding: 0px 12px;
+    padding-left: 15px;
+    max-width: 50%;
+    height: calc(100% - 94px);
+    overflow-y: auto;
+    overflow-x: visible;
 }
 .semesterTableContainer {
-    width: 760px;
+    min-width: 760px;
+    width: 50%;
     display: inline-block;
     position: absolute;
     right: 0px;
-    padding: 0px 12px;
+    padding: 0px 15px;
 }
 
 .semesterListContainer {}
 
 .exportContainer {}
 
-.courseSearch {}
+.courseSearch {
+    height: 30px;
+    margin-bottom: 20px;
+    padding-right: 15px;
+}
 
 .programSelect select {}
 
 .controls {}
+
+.courseDescription {}
+
+.prereqsList {}
+
+.coreqsList {}
+
+.courseInfoCard {
+    margin-bottom: 20px;
+}
 
 /* Special styling for small screens */
 
@@ -301,7 +327,6 @@ ul.ui-autocomplete {
     .ioPanel .programSelect select,
     .ioPanel .courseSearch input,
     .ioPanel .courseSearch button,
-    .logoContainer .panel-body > div,
     .ui-menu-item-wrapper {
         font-size: 30px;
     }
