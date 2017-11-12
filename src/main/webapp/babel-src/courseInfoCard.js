@@ -1,27 +1,30 @@
 import React from "react";
-import {UI_STRINGS} from "./util";
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import {List, ListItem} from 'material-ui/List';
+import CircularProgress from 'material-ui/CircularProgress';
 
+import {UI_STRINGS} from "./util";
+import Course from "./course";
 
 export class CourseInfoCard extends React.Component {
 
     constructor(props){
         super(props);
     }
-    
+
     renderCardHeader(courseInfo) {
-        let title, subtitle, showExpandableButton;
+        let title, subtitle, showExpandableButton, loadingIcon;
 
         if(courseInfo.isLoading){
-            title = "Course Loading";
-            showExpandableButton = false;
+            title = "Getting course info";
+            loadingIcon = <CircularProgress size={25} thickness={2.5} style={{marginLeft: "-8px", marginTop: "-10px"}}/>;
+            showExpandableButton = true;
         } else if(!courseInfo.code){
             title = UI_STRINGS.COURSE_INFO_HINT;
             showExpandableButton = false;
         } else {
-            title = courseInfo.code;
-            subtitle = courseInfo.credits + " credits";
+            title = courseInfo.name + " - " + courseInfo.credits + " credits";
+            subtitle = <Course courseObj={courseInfo} isDraggable={true} onCourseClick={() => undefined}/>;
             showExpandableButton = true;
         }
         
@@ -31,6 +34,8 @@ export class CourseInfoCard extends React.Component {
                     subtitle={subtitle}
                     actAsExpander={true}
                     showExpandableButton={showExpandableButton}
+                    closeIcon={loadingIcon}
+                    openIcon={loadingIcon}
                 />
         );
     }
@@ -41,11 +46,17 @@ export class CourseInfoCard extends React.Component {
             return undefined;
         }
         
-        let description, prerequisites, corequisites;
+        let title, description, prerequisites, corequisites;
+
+        let listItemStyle = {padding: "8px 0", height: "32px", marginLeft: "16px", fontSize: "14px"};
+
+        // title = (
+        //     <CardTitle title={courseInfo.name} subtitle={courseInfo.credits + " credits"} expandable={true} />
+        // );
         
         description = (
             <div className="courseDescription">
-                <h4>Description</h4>
+                <div className="courseInfoHeading">Description</div>
                 {courseInfo.description}
             </div>
         );
@@ -53,8 +64,12 @@ export class CourseInfoCard extends React.Component {
         if(courseInfo.requirements.prereqs.length > 0){
             prerequisites = (
                 <div className="prereqsList">
-                    <h4>Pre-requisites</h4>
-                    <List>{courseInfo.requirements.prereqs.map((prereqList, index) => <ListItem key={index} primaryText={prereqList.join(" or ")} />)}</List>
+                    <div className="courseInfoHeading">Pre-requisites</div>
+                    <List>
+                        {courseInfo.requirements.prereqs.map((prereqList, index) =>
+                            <ListItem primaryText={prereqList.join(" or ")} innerDivStyle={listItemStyle} key={index} />
+                        )}
+                    </List>
                 </div>
             );
         }
@@ -62,14 +77,18 @@ export class CourseInfoCard extends React.Component {
         if(courseInfo.requirements.coreqs.length > 0){
             corequisites = (
                 <div className="coreqsList">
-                    <h4>Co-requisites</h4>
-                    <List>{courseInfo.requirements.coreqs.map((coreqList, index) => <ListItem key={index} primaryText={coreqList.join(" or ")} />)}</List>
+                    <div className="courseInfoHeading">Co-requisites</div>
+                    <List>
+                        {courseInfo.requirements.coreqs.map((coreqList, index) =>
+                            <ListItem primaryText={coreqList.join(" or ")} innerDivStyle={listItemStyle} key={index} />
+                        )}
+                    </List>
                 </div>
             );
         }
         
         return (
-            <CardText expandable={true}>
+            <CardText className="cardText" style={{paddingTop: "0"}} expandable={true}>
                 {description}
                 {prerequisites}
                 {corequisites}
@@ -80,52 +99,10 @@ export class CourseInfoCard extends React.Component {
     render() {
         let courseInfo = this.props.courseInfo;
 
-        // if(courseInfo.isLoading){
-        //     return (
-        //         <Card className="courseInfoCard">
-        //             <CardHeader
-        //                 title={"Course Loading"}
-        //                 actAsExpander={true}
-        //                 showExpandableButton={false}
-        //             />
-        //             <div className="text-center"><span className="smallLoadingSpinner glyphicon glyphicon-refresh glyphicon-spin"></span></div>
-        //         </Card>
-        //     );
-        // }
-        //
-        // if(!courseInfo.code){
-        //     return (
-        //         <Card className="courseInfoCard">
-        //             <CardHeader
-        //                 title={UI_STRINGS.COURSE_INFO_HINT}
-        //                 showExpandableButton={false}
-        //             />
-        //         </Card>
-        //     );
-        // }
-
         return (
             <Card className="courseInfoCard">
                 {this.renderCardHeader(courseInfo)}
-                {/*<CardHeader*/}
-                    {/*title={courseInfo.code}*/}
-                    {/*subtitle={courseInfo.credits + " credits"}*/}
-                    {/*actAsExpander={true}*/}
-                    {/*showExpandableButton={true}*/}
-                {/*/>*/}
-                {/*<CardActions>*/}
-                {/*<FlatButton label="View description" />*/}
-                {/*</CardActions>*/}
                 {this.renderCardText(courseInfo)}
-                {/*<CardText expandable={true}>*/}
-                    {/*<h4>Description</h4>*/}
-                    {/*{courseInfo.description}*/}
-                    {/*<h4>Pre-requisites</h4>*/}
-                    {/*<List>{courseInfo.requirements.prereqs.map((prereqList, index) => <ListItem key={index} primaryText={prereqList.join(" or ")} />)}</List>*/}
-                    {/*<h4>Co-requisites</h4>*/}
-                    {/*<List>{courseInfo.requirements.coreqs.map((coreqList, index) => <ListItem key={index} primaryText={coreqList.join(" or ")} />)}</List>*/}
-                {/*</CardText>*/}
-                {courseInfo.isLoading && <div className="text-center"><span className="smallLoadingSpinner glyphicon glyphicon-refresh glyphicon-spin"></span></div>}
             </Card>
         );
     }
