@@ -6,7 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 
-export class ExportMenu extends React.Component {
+export class AppBarMenu extends React.Component {
 
     constructor(props){
         super(props);
@@ -21,7 +21,11 @@ export class ExportMenu extends React.Component {
             >
                 <MenuItem
                     primaryText={UI_STRINGS.EXPORT_TEXT}
-                    menuItems={EXPORT_TYPES.map(exportType => <MenuItem value={exportType} primaryText={"to " + exportType} onClick={() => this.props.onSelect(exportType)}/>)}
+                    menuItems={EXPORT_TYPES.map(exportType => <MenuItem value={exportType} primaryText={"to " + exportType} onClick={() => this.props.onSelectExport(exportType)}/>)}
+                />
+                <MenuItem
+                    primaryText="Select a new program"
+                    onClick={() => this.props.onSelectProgramChange(undefined)}
                 />
             </IconMenu>
         );

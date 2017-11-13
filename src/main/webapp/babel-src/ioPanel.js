@@ -32,30 +32,30 @@ export class IOPanel extends React.Component {
         super(props);
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
-        this.handleSequenceSelection = this.handleSequenceSelection.bind(this);
+        // this.handleSequenceSelection = this.handleSequenceSelection.bind(this);
     }
 
-    handleSequenceSelection(event, index, value){
-        this.props.onChangeChosenProgram(value);
-    }
+    // handleSequenceSelection(event, index, value){
+    //     this.props.onChangeChosenProgram(value);
+    // }
 
-    renderSelectionBox(){
-        
-        let sequences = [];
-
-        if(this.props.allSequences.length > 0){
-            sequences = this.props.allSequences.map((sequenceName) => <MenuItem key={sequenceName} value={sequenceName} primaryText={sequenceName} />);
-        } else {
-            sequences = <MenuItem primaryText={UI_STRINGS.LIST_LOADING} />;
-        }
-        
-        return (
-            <DropDownMenu value={this.props.chosenProgram} 
-                          onChange={this.handleSequenceSelection}>
-                {sequences}
-            </DropDownMenu>
-        );
-    }
+    // renderSelectionBox(){
+    //
+    //     let sequences = [];
+    //
+    //     if(this.props.allSequences.length > 0){
+    //         sequences = this.props.allSequences.map((sequenceName) => <MenuItem key={sequenceName} value={sequenceName} primaryText={sequenceName} />);
+    //     } else {
+    //         sequences = <MenuItem primaryText={UI_STRINGS.LIST_LOADING} />;
+    //     }
+    //
+    //     return (
+    //         <DropDownMenu value={this.props.chosenProgram}
+    //                       onChange={this.handleSequenceSelection}>
+    //             {sequences}
+    //         </DropDownMenu>
+    //     );
+    // }
 
     render() {
         return (
@@ -64,9 +64,6 @@ export class IOPanel extends React.Component {
                 <div className="outputPanel">
                     <CourseInfoCard courseInfo={this.props.courseInfo}/>
                     <SequenceValidationCard/>
-                    <div className="programSelect">
-                        {this.renderSelectionBox()}
-                    </div>
                 </div>
             </div>
         );

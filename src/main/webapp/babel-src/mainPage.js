@@ -2,12 +2,11 @@ import React from "react";
 
 import { default as TouchBackend } from 'react-dnd-touch-backend';
 import { DragDropContext } from 'react-dnd';
+import {ProgramSelectionDialog} from "./programSelectionDialog";
 let _ = require("underscore");
 import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
 import CircularProgress from 'material-ui/CircularProgress';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
@@ -15,7 +14,7 @@ import {IOPanel} from "./ioPanel";
 import DragPreview from "./dragPreview";
 import {UI_STRINGS} from "./util";
 import GarbageCan from "./garbageCan";
-import {ExportMenu} from "./exportMenu";
+import {AppBarMenu} from "./appBarMenu";
 
 import { DEFAULT_PROGRAM,
          MAX_UNDO_HISTORY_LENGTH,
@@ -43,7 +42,7 @@ class MainPage extends React.Component {
             "courseSequenceObject" : {
                 "isLoading" : true
             },
-            "chosenProgram" : localStorage.getItem("chosenProgram") || DEFAULT_PROGRAM,
+            "chosenProgram" : localStorage.getItem("chosenProgram"),
             "allSequences" : [],
             "selectedCourseInfo" : {},
             "loadingExport": false,
@@ -53,6 +52,7 @@ class MainPage extends React.Component {
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
         this.updateChosenProgram = this.updateChosenProgram.bind(this);
+        this.resetProgram = this.resetProgram.bind(this);
         this.loadCourseInfo = this.loadCourseInfo.bind(this);
         this.setOrListCourseSelected = this.setOrListCourseSelected.bind(this);
         this.toggleWorkTerm = this.toggleWorkTerm.bind(this);
@@ -149,6 +149,10 @@ class MainPage extends React.Component {
 
         // Must use the callback param of setState to ensure the chosenProgram is changed in time
         this.setState({"chosenProgram": newChosenProgram}, this.loadCourseSequenceObject);
+    }
+
+    resetProgram(){
+        this.updateChosenProgram(undefined);
     }
 
     /*
@@ -369,9 +373,10 @@ class MainPage extends React.Component {
                  onTouchMove={this.handleTouchMove}
                  onKeyDown={this.handleKeyPress}>
                 <AppBar
-                    title={UI_STRINGS.SITE_NAME}
+                    title={UI_STRINGS.SITE_NAME + (!this.state.courseSequenceObject.isLoading ? " - " + this.state.courseSequenceObject.prettyName : "")}
                     showMenuIconButton={false}
-                    iconElementRight={this.state.showingGarbage ? <GarbageCan onRemoveCourse={this.removeCourse}/> : <ExportMenu onSelect={this.exportSequence}/>}
+                    iconElementRight={this.state.showingGarbage ? <GarbageCan onRemoveCourse={this.removeCourse}/> : <AppBarMenu onSelectExport={this.exportSequence}
+                                                                                                                                 onSelectProgramChange={this.resetProgram}/>}
                     className="appBar"
                     style={{
                         zIndex: "0"
@@ -380,12 +385,6 @@ class MainPage extends React.Component {
                 <div className="pageContent">
                     <div className="ioPanelContainer">
                         <IOPanel courseInfo={this.state.selectedCourseInfo}
-                                 allSequences={this.state.allSequences}
-                                 chosenProgram={this.state.chosenProgram}
-                                 loadingExport={this.state.loadingExport}
-                                 showingGarbage={this.state.showingGarbage}
-                                 onChangeChosenProgram={this.updateChosenProgram}
-                                 exportSequence={this.exportSequence}
                                  onSearchCourse={this.loadCourseInfo}/>
                     </div>
                     {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
@@ -416,6 +415,7 @@ class MainPage extends React.Component {
                             titleStyle={{textAlign: "center"}}>
                         <CircularProgress size={80} thickness={7} style={{width: "100%", textAlign: "center"}}/>
                     </Dialog>
+                    <ProgramSelectionDialog isOpen={!this.state.chosenProgram} allSequences={this.state.allSequences} onChangeChosenProgram={this.updateChosenProgram}/>
                 </div>
             </div>
         );
@@ -427,6 +427,10 @@ class MainPage extends React.Component {
 
     // Load chosen sequence via backend request if we don't find one that's already saved
     loadCourseSequenceObject(){
+
+        if(!this.state.chosenProgram){
+            return;
+        }
 
         // set the courseSequenceObject to loading state then load its data
         this.setState({"courseSequenceObject" : {
