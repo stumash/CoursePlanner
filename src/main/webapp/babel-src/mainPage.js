@@ -374,16 +374,17 @@ class MainPage extends React.Component {
     }
 
     render() {
-        let programPrettyName = !this.state.courseSequenceObject.isLoading ?
-            " - " + generatePrettyProgramName(this.state.courseSequenceObject.sequenceInfo.program, this.state.courseSequenceObject.sequenceInfo.option, this.state.courseSequenceObject.sequenceInfo.entryType)
-            : "";
+        let sourceUrl = this.state.courseSequenceObject.sourceUrl;
+        let sequenceInfo = this.state.courseSequenceObject.sequenceInfo;
+        let programPrettyName = !this.state.courseSequenceObject.isLoading ? generatePrettyProgramName(sequenceInfo.program, sequenceInfo.option, sequenceInfo.entryType)
+                                                                           : "";
         return (
             <div tabIndex="1"
                  className={"mainPage" + (this.state.allowingTextSelection ? "" : " textSelectionOff")}
                  onMouseMove={this.handleMouseMove}
                  onTouchMove={this.handleTouchMove}
                  onKeyDown={this.handleKeyPress}>
-                <AppBar title={UI_STRINGS.SITE_NAME + programPrettyName}
+                <AppBar title={UI_STRINGS.SITE_NAME}
                         showMenuIconButton={false}
                         className="appBar"
                         style={{zIndex: "0"}}
@@ -401,6 +402,7 @@ class MainPage extends React.Component {
                     </div>
                     {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
                     <div className="semesterTableContainer hidden-xs hidden-sm">
+                        <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
                                        onSelectCourse={this.loadCourseInfo}
                                        onOrListSelection={this.setOrListCourseSelected}
@@ -410,6 +412,7 @@ class MainPage extends React.Component {
                                        onChangeDragState={this.changeDragState}/>
                     </div>
                     <div className="semesterListContainer col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
+                        <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterList courseSequenceObject={this.state.courseSequenceObject}
                                       onSelectCourse={this.loadCourseInfo}
                                       onOrListSelection={this.setOrListCourseSelected}

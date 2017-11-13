@@ -387,6 +387,13 @@ ul.ui-autocomplete {
     padding: 0;
 }
 
+.programPrettyName {
+    padding: 0px 12px 12px 12px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+}
+
 /* Special styling for small screens */
 
 @media (max-width: 991px) {

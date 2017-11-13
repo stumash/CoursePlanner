@@ -28,10 +28,10 @@ export const UI_STRINGS = {
     SITE_NAME: "ConU Course Planner",
 
     PROGRAM_SELECTION_LOADING: "Loading list of recommended sequences",
-    PROGRAM_SELECTION_TITLE: "Select your program",
+    PROGRAM_SELECTION_TITLE: "Welcome to ConU Course Planner!",
     PROGRAM_SELECTION_PROGRAM_TITLE: "Select your program",
     PROGRAM_SELECTION_OPTION_TITLE: "Select your option if available",
-    PROGRAM_SELECTION_ENTRY_TYPE_TITLE: "Select your option if available",
+    PROGRAM_SELECTION_ENTRY_TYPE_TITLE: "Select your entry type",
     PROGRAM_SELECTION_FINAL_MESSAGE: "Your selected program is:",
 
     PROGRAM_SELECTION_CONFIRM_LABEL: "Confirm",

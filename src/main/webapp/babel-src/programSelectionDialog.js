@@ -85,8 +85,9 @@ export class ProgramSelectionDialog extends React.Component {
     }
 
     handleNext() {
+        let shouldSkipOptionStep = this.state.stepIndex === 0 && this.state.dropdownItems.option.length === 1;
         this.setState({
-            stepIndex: this.state.stepIndex + 1,
+            stepIndex: this.state.stepIndex + (shouldSkipOptionStep ? 2 : 1),
             finished: this.state.stepIndex >= 2,
         });
     }
