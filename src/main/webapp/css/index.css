@@ -152,12 +152,15 @@
 }
 
 .orList .input-group-addon > div {
-    height: 24px;
-    padding-top: 6px;
+    height: 22px;
+    padding-top: 5px;
+    border-radius: 4px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .orList button {
-    padding: 2px 8px;
+    padding: 1px 8px;
     background-color: transparent;
 }
 
@@ -190,7 +193,7 @@
 }
 
 .outputPanel {
-    height: calc(100% - 50px);
+    height: calc(100% - 80px);
     padding: 3px 15px 3px 3px;
     overflow-y: auto;
     overflow-x: visible;
@@ -354,7 +357,8 @@ ul.ui-autocomplete {
 .exportContainer {}
 
 .courseSearch {
-    height: 30px;
+    height: 60px;
+    /*height: 80px;*/
     margin-bottom: 20px;
     padding-right: 15px;
 }
