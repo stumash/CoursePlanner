@@ -80,7 +80,7 @@ function scrapeAllUrls(){
             } else {
                 for (let sequenceVariant in subList) {
                     let url = subList[sequenceVariant];
-                    let plainFileName = program + "-" + sequenceVariant + ".json";
+                    let plainFileName = program + "-NoOption-" + sequenceVariant + ".json";
                     numStarted++;
                     scrapeEncsSequenceUrl(url, outputDir, plainFileName, completionCallback);
                 }
@@ -511,8 +511,8 @@ function addMiddleSpaceIfNeeded(courseCode){
 function parseSequenceInfo(sequenceID){
     let sequenceDescriptors = sequenceID.split("-");
     let programID = sequenceDescriptors[0];
-    let optionID = (sequenceDescriptors.length === 3) ? sequenceDescriptors[1] : undefined;
-    let entryTypeID = (sequenceDescriptors.length === 3) ? sequenceDescriptors[2] : sequenceDescriptors[1];
+    let optionID = sequenceDescriptors[1];
+    let entryTypeID = sequenceDescriptors[2];
     return {
         program: programID,
         option: optionID,

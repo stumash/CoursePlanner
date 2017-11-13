@@ -12,7 +12,7 @@
                 "option": {"type": "string", "pattern": "\\w+"},
                 "entryType": {"type": "string", "pattern": "\\w+"}
             },
-            "required": [ "program", "entryType" ],
+            "required": [ "program", "option", "entryType" ],
             "additionalProperties": false
         },
         "sourceUrl": {
