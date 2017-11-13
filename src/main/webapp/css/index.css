@@ -379,6 +379,10 @@ ul.ui-autocomplete {
     margin-bottom: 20px;
 }
 
+.exportSpinner {
+    text-align: center;
+}
+
 .courseInfoCard .smallLoadingSpinner {
     padding: 0;
 }

@@ -51,6 +51,7 @@ export class SearchBox extends React.Component {
                     dataSource={this.state.dataSource}
                     onUpdateInput={this.handleInputChange}
                     listStyle={{maxHeight: "250px", overflow: "auto"}}
+                    style={{marginLeft: "12px"}}
                     onNewRequest={this.handleNewRequest}
                     floatingLabelText={this.state.floatingLabelText}
                 />

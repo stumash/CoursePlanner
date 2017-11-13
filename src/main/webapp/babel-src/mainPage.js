@@ -4,6 +4,10 @@ import { default as TouchBackend } from 'react-dnd-touch-backend';
 import { DragDropContext } from 'react-dnd';
 let _ = require("underscore");
 import AppBar from 'material-ui/AppBar';
+import Dialog from 'material-ui/Dialog';
+import CircularProgress from 'material-ui/CircularProgress';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
@@ -405,6 +409,13 @@ class MainPage extends React.Component {
                     </div>
                     {/* Drag Preview will become visible when dragging occurs */}
                     <DragPreview/>
+                    <Dialog title="Exporting sequence"
+                            modal={true}
+                            open={this.state.loadingExport}
+                            contentStyle={{width: "300px"}}
+                            titleStyle={{textAlign: "center"}}>
+                        <CircularProgress size={80} thickness={7} style={{width: "100%", textAlign: "center"}}/>
+                    </Dialog>
                 </div>
             </div>
         );
