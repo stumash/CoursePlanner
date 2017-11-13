@@ -27,6 +27,18 @@ export const UI_STRINGS = {
 
     SITE_NAME: "ConU Course Planner",
 
+    PROGRAM_SELECTION_LOADING: "Loading list of recommended sequences",
+    PROGRAM_SELECTION_TITLE: "Select your program",
+    PROGRAM_SELECTION_PROGRAM_TITLE: "Select your program",
+    PROGRAM_SELECTION_OPTION_TITLE: "Select your option if available",
+    PROGRAM_SELECTION_ENTRY_TYPE_TITLE: "Select your option if available",
+    PROGRAM_SELECTION_FINAL_MESSAGE: "Your selected program is:",
+
+    PROGRAM_SELECTION_CONFIRM_LABEL: "Confirm",
+    PROGRAM_SELECTION_BACK_LABEL: "Back",
+    PROGRAM_SELECTION_FINISH_LABEL: "Finish",
+    PROGRAM_SELECTION_NEXT_LABEL: "Next",
+
     WORK_TERM: "Work Term",
     IS_WORK_TERM: "is work term?",
     NO_COURSES: "No Courses",
@@ -58,6 +70,48 @@ export const UI_STRINGS = {
     LIST_NONE_SELECTED: "None Selected",
 
 };
+export const PROGRAM_NAMES = {
+    SOEN: "Software Engineering",
+    COMP: "Computer Science",
+    BLDG: "Building Engineering",
+    CIVI: "Civil Engineering",
+    INDU: "Industrial Engineering",
+    MECH: "Mechanical Engineering",
+    COEN: "Computer Engineering",
+    ELEC: "Electrical Engineering"
+};
+
+export const PROGRAM_OPTIONS = {
+    General: "General Program",
+    Games: "Computer Games",
+    Realtime: "Real-time, Embedded and Avionics Software ",
+    Web: "Web Services and Applications",
+    Apps: "Computer Applications",
+    CompSys: "Computer Systems",
+    InfoSys: "Information Systems",
+    Stats: "Mathematics and Statistics",
+    SoftSys: "Software Systems",
+    CompArts: "Computation Arts",
+    NoOption: "None",
+    Tele: "Telecommunications",
+    Electronics: "Electronics/VLSI",
+    Avionics: "Avionics and Control Systems",
+    Power: "Power and Renewable Energy"
+};
+
+export const PROGRAM_ENTRY_TYPES = {
+    Sept: "September",
+    Jan: "January",
+    Coop: "Coop September"
+};
+
+export function generatePrettyProgramName(program, option, entryType){
+    return (
+        PROGRAM_NAMES[program] + ", " +
+        ((option !== "NoOption") ? PROGRAM_OPTIONS[option] + " Option, " : "") +
+        PROGRAM_ENTRY_TYPES[entryType] + " Entry"
+    );
+}
 
 /*
  *  Special object used by react-dnd to register a drag source

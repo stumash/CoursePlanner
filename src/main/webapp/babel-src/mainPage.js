@@ -2,8 +2,7 @@ import React from "react";
 
 import { default as TouchBackend } from 'react-dnd-touch-backend';
 import { DragDropContext } from 'react-dnd';
-import {ProgramSelectionDialog} from "./programSelectionDialog";
-let _ = require("underscore");
+
 import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -13,10 +12,13 @@ import {SequenceValidationCard} from "./sequenceValidationCard";
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
 import DragPreview from "./dragPreview";
-import {UI_STRINGS} from "./util";
+import {UI_STRINGS, generatePrettyProgramName} from "./util";
 import GarbageCan from "./garbageCan";
 import {AppBarMenu} from "./appBarMenu";
 import {SearchBox} from "./searchBox";
+import {ProgramSelectionDialog} from "./programSelectionDialog";
+
+let _ = require("underscore");
 
 import { DEFAULT_PROGRAM,
          MAX_UNDO_HISTORY_LENGTH,
@@ -144,9 +146,9 @@ class MainPage extends React.Component {
     updateChosenProgram(newChosenProgram){
 
         // remember the program selected by the user
-        localStorage.setItem("chosenProgram", newChosenProgram);
+        newChosenProgram ? localStorage.setItem("chosenProgram", newChosenProgram) :
+                           localStorage.removeItem("chosenProgram");
         // clear the saved sequence to force a reloading of the user's chosen program
-        // TODO: (INSERT CONFIRM BOX HERE - MAKE SURE USER DOESN'T LOSE THEIR WORK BY ACCIDENTALLY CHANGING PROGRAMS)
         localStorage.removeItem("savedSequence");
 
         // Must use the callback param of setState to ensure the chosenProgram is changed in time
@@ -155,6 +157,7 @@ class MainPage extends React.Component {
 
     /*
      *  function to call in the event that the user wishes to select a different program of study
+     *  TODO: (INSERT CONFIRM BOX HERE - MAKE SURE USER DOESN'T LOSE THEIR WORK BY ACCIDENTALLY CHANGING PROGRAMS)
      */
     resetProgram(){
         this.updateChosenProgram(undefined);
@@ -371,13 +374,16 @@ class MainPage extends React.Component {
     }
 
     render() {
+        let programPrettyName = !this.state.courseSequenceObject.isLoading ?
+            " - " + generatePrettyProgramName(this.state.courseSequenceObject.sequenceInfo.program, this.state.courseSequenceObject.sequenceInfo.option, this.state.courseSequenceObject.sequenceInfo.entryType)
+            : "";
         return (
             <div tabIndex="1"
                  className={"mainPage" + (this.state.allowingTextSelection ? "" : " textSelectionOff")}
                  onMouseMove={this.handleMouseMove}
                  onTouchMove={this.handleTouchMove}
                  onKeyDown={this.handleKeyPress}>
-                <AppBar title={UI_STRINGS.SITE_NAME + (!this.state.courseSequenceObject.isLoading ? " - " + this.state.courseSequenceObject.prettyName : "")}
+                <AppBar title={UI_STRINGS.SITE_NAME + programPrettyName}
                         showMenuIconButton={false}
                         className="appBar"
                         style={{zIndex: "0"}}
