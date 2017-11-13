@@ -35,7 +35,7 @@
 
 .semesterTableContainer {
     min-width: 760px;
-    width: 50%;
+    width: 70%;
     display: inline-block;
     position: absolute;
     right: 0px;
@@ -220,7 +220,7 @@
     right: 760px;
     left: 0px;
     padding-left: 15px;
-    max-width: 50%;
+    max-width: 30%;
     height: calc(100% - 94px);
     overflow-y: auto;
     overflow-x: visible;

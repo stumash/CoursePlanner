@@ -51,7 +51,7 @@ export const UI_STRINGS = {
 
     COURSE_INFO_HEADING_DESCRIPTION: "Description",
     COURSE_INFO_HEADING_PREREQUISITES: "Pre-requisites",
-    COURSE_INFO_HEADING_COREQUISITES: "Cor-equisites",
+    COURSE_INFO_HEADING_COREQUISITES: "Co-requisites",
 
     COURSE_INFO_HINT: "Click on or search for a course to display its info",
     VALIDATION_RESULTS_HINT: "Make changes to your schedule to trigger a validation",
