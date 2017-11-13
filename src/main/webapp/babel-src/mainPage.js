@@ -8,13 +8,15 @@ import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
 import CircularProgress from 'material-ui/CircularProgress';
 
+import {CourseInfoCard} from "./courseInfoCard";
+import {SequenceValidationCard} from "./sequenceValidationCard";
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
-import {IOPanel} from "./ioPanel";
 import DragPreview from "./dragPreview";
 import {UI_STRINGS} from "./util";
 import GarbageCan from "./garbageCan";
 import {AppBarMenu} from "./appBarMenu";
+import {SearchBox} from "./searchBox";
 
 import { DEFAULT_PROGRAM,
          MAX_UNDO_HISTORY_LENGTH,
@@ -151,6 +153,9 @@ class MainPage extends React.Component {
         this.setState({"chosenProgram": newChosenProgram}, this.loadCourseSequenceObject);
     }
 
+    /*
+     *  function to call in the event that the user wishes to select a different program of study
+     */
     resetProgram(){
         this.updateChosenProgram(undefined);
     }
@@ -372,20 +377,21 @@ class MainPage extends React.Component {
                  onMouseMove={this.handleMouseMove}
                  onTouchMove={this.handleTouchMove}
                  onKeyDown={this.handleKeyPress}>
-                <AppBar
-                    title={UI_STRINGS.SITE_NAME + (!this.state.courseSequenceObject.isLoading ? " - " + this.state.courseSequenceObject.prettyName : "")}
-                    showMenuIconButton={false}
-                    iconElementRight={this.state.showingGarbage ? <GarbageCan onRemoveCourse={this.removeCourse}/> : <AppBarMenu onSelectExport={this.exportSequence}
-                                                                                                                                 onSelectProgramChange={this.resetProgram}/>}
-                    className="appBar"
-                    style={{
-                        zIndex: "0"
-                    }}
-                />
+                <AppBar title={UI_STRINGS.SITE_NAME + (!this.state.courseSequenceObject.isLoading ? " - " + this.state.courseSequenceObject.prettyName : "")}
+                        showMenuIconButton={false}
+                        className="appBar"
+                        style={{zIndex: "0"}}
+                        iconElementRight={this.state.showingGarbage ? <GarbageCan onRemoveCourse={this.removeCourse}/> : <AppBarMenu onSelectExport={this.exportSequence}
+                                                                                                                                     onSelectProgramChange={this.resetProgram}/>}/>
                 <div className="pageContent">
                     <div className="ioPanelContainer">
-                        <IOPanel courseInfo={this.state.selectedCourseInfo}
-                                 onSearchCourse={this.loadCourseInfo}/>
+                        <div className="ioPanel">
+                            <SearchBox onConfirmSearch={this.loadCourseInfo}/>
+                            <div className="outputPanel">
+                                <CourseInfoCard courseInfo={this.state.selectedCourseInfo}/>
+                                <SequenceValidationCard/>
+                            </div>
+                        </div>
                     </div>
                     {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
                     <div className="semesterTableContainer hidden-xs hidden-sm">
@@ -408,14 +414,16 @@ class MainPage extends React.Component {
                     </div>
                     {/* Drag Preview will become visible when dragging occurs */}
                     <DragPreview/>
-                    <Dialog title="Exporting sequence"
+                    <Dialog title={UI_STRINGS.EXPORTING_SEQUENCE}
                             modal={true}
                             open={this.state.loadingExport}
                             contentStyle={{width: "300px"}}
                             titleStyle={{textAlign: "center"}}>
                         <CircularProgress size={80} thickness={7} style={{width: "100%", textAlign: "center"}}/>
                     </Dialog>
-                    <ProgramSelectionDialog isOpen={!this.state.chosenProgram} allSequences={this.state.allSequences} onChangeChosenProgram={this.updateChosenProgram}/>
+                    <ProgramSelectionDialog isOpen={!this.state.chosenProgram}
+                                            allSequences={this.state.allSequences}
+                                            onChangeChosenProgram={this.updateChosenProgram}/>
                 </div>
             </div>
         );

@@ -6,7 +6,6 @@ import {UI_STRINGS} from "./util";
 
 /*
  *  Text input which is used to filter/search through course codes in DB
- *  Uses JQuery to display autocomplete dropdown list
  *
  *  Expects props:
  *
@@ -21,7 +20,7 @@ export class SearchBox extends React.Component {
         this.state = {
             "isFiltering": false,
             "dataSource": [],
-            "floatingLabelText": "Course search"
+            "floatingLabelText": UI_STRINGS.DEFAULT_SEARCH_LABEL
         };
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
@@ -45,15 +44,14 @@ export class SearchBox extends React.Component {
     render() {
         return (
             <div className="courseSearch">
-                <AutoComplete
-                    hintText="Search for a course code"
-                    filter={AutoComplete.noFilter}
-                    dataSource={this.state.dataSource}
-                    onUpdateInput={this.handleInputChange}
-                    listStyle={{maxHeight: "250px", overflow: "auto"}}
-                    style={{marginLeft: "12px"}}
-                    onNewRequest={this.handleNewRequest}
-                    floatingLabelText={this.state.floatingLabelText}
+                <AutoComplete hintText={UI_STRINGS.COURSE_SEARCH_HINT}
+                              filter={AutoComplete.noFilter}
+                              dataSource={this.state.dataSource}
+                              onUpdateInput={this.handleInputChange}
+                              listStyle={{maxHeight: "250px", overflow: "auto"}}
+                              style={{marginLeft: "12px"}}
+                              onNewRequest={this.handleNewRequest}
+                              floatingLabelText={this.state.floatingLabelText}
                 />
                 {this.state.isFiltering && <CircularProgress size={25} thickness={2.5} style={{paddingLeft: "12px"}}/>}
             </div>
@@ -72,16 +70,12 @@ export class SearchBox extends React.Component {
             data: JSON.stringify({"filter" : query}),
             success: (res) => {
                 let response = JSON.parse(res);
+                let floatingLabelText = (query.length > 0 && response.length === 0) ? UI_STRINGS.COURSE_SEARCH_FOUND_NONE : UI_STRINGS.DEFAULT_SEARCH_LABEL;
                 let newDataSource = [];
-                let floatingLabelText = "Course search";
-                if(query.length > 0 && response.length === 0){
-                    floatingLabelText = UI_STRINGS.COURSE_SEARCH_FOUND_NONE;
-                } else {
-                    response.forEach((courseCode) => {
-                        newDataSource.push({text: courseCode, value: courseCode});
-                    });
-                }
-                this.setState({ "isFiltering": false, dataSource: newDataSource, floatingLabelText: floatingLabelText});
+                response.forEach((courseCode) => {
+                    newDataSource.push({text: courseCode, value: courseCode});
+                });
+                this.setState({"isFiltering": false, dataSource: newDataSource, floatingLabelText: floatingLabelText});
             }
         });
     }

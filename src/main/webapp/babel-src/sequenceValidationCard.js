@@ -1,8 +1,19 @@
 import React from "react";
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 import {List, ListItem} from 'material-ui/List';
 
+import { UI_STRINGS } from "./util";
 
+/*
+ *  Material UI Card which displays the results of the most recent sequence validation
+ *
+ *  For now this is just a mock-up
+ *
+ *  Expects props:
+ *
+ *  n/a
+ *
+ */
 export class SequenceValidationCard extends React.Component {
 
     constructor(props){
@@ -12,11 +23,9 @@ export class SequenceValidationCard extends React.Component {
     render() {
         return (
             <Card>
-                <CardHeader
-                    title="Sequence contains issues"
-                    actAsExpander={true}
-                    showExpandableButton={true}
-                />
+                <CardHeader title={UI_STRINGS.VALIDATION_FAILURE_MSG}
+                            actAsExpander={true}
+                            showExpandableButton={true}/>
                 <CardText expandable={true}>
                     <List>
                         <ListItem primaryText="Issue 1" />

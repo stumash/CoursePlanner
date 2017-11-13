@@ -1,7 +1,7 @@
 import React from "react";
 import Toggle from 'material-ui/Toggle';
 
-import { UI_STRINGS, ITEM_TYPES, renderCourseDiv } from "./util";
+import { UI_STRINGS, ITEM_TYPES } from "./util";
 import Course from "./course";
 import OrList from "./orList";
 import { DropTarget } from 'react-dnd';

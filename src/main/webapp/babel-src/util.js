@@ -18,35 +18,44 @@ export const AUTO_SCROLL_DELAY = 20;
 
 // Item types used for DND
 export const ITEM_TYPES = {
-    "COURSE": "Course",
-    "OR_LIST": "OrList"
+    COURSE: "Course",
+    OR_LIST: "OrList"
 };
 
 // All hardcoded pieces of text which are directly displayed to the user
 export const UI_STRINGS = {
 
-    "SITE_NAME": "ConU Course Planner",
+    SITE_NAME: "ConU Course Planner",
 
-    "WORK_TERM": "Work Term",
-    "IS_WORK_TERM": "is work term?",
-    "NO_COURSES": "No Courses",
+    WORK_TERM: "Work Term",
+    IS_WORK_TERM: "is work term?",
+    NO_COURSES: "No Courses",
 
-    "COURSE_SEARCH_BUTTON": "Display info for course",
-    "COURSE_SEARCH_FOUND_NONE": "Search returned no results",
+    DEFAULT_SEARCH_LABEL: "Course search",
+    COURSE_SEARCH_HINT: "Search for a course code",
+    COURSE_SEARCH_FOUND_NONE: "Search returned no results",
 
-    "COURSE_INFO_HEADER": "Course Info",
-    "COURSE_INFO_HINT": "Click on or search for a course to display its info",
-    "VALIDATION_RESULTS_HINT": "Make changes to your schedule to trigger a validation",
+    COURSE_INFO_LOADING: "Getting course info",
 
-    "VALIDATION_HEADER": "Validation Results",
-    "VALIDATION_SUCCESS_MSG": "Sequence is valid",
+    COURSE_INFO_HEADING_DESCRIPTION: "Description",
+    COURSE_INFO_HEADING_PREREQUISITES: "Pre-requisites",
+    COURSE_INFO_HEADING_COREQUISITES: "Cor-equisites",
 
-    "EXPORT_TEXT": "Export",
+    COURSE_INFO_HINT: "Click on or search for a course to display its info",
+    VALIDATION_RESULTS_HINT: "Make changes to your schedule to trigger a validation",
 
-    "ORLIST_CHOICE_TOOLTIP": "Choose course from list of options",
+    VALIDATION_FAILURE_MSG: "Sequence contains issues",
+    VALIDATION_SUCCESS_MSG: "Sequence is valid",
 
-    "LIST_LOADING": "Loading...",
-    "LIST_NONE_SELECTED": "None Selected"
+    EXPORT_TEXT: "Export",
+    EXPORTING_SEQUENCE: "Exporting sequence",
+
+    SELECT_NEW_PROGRAM: "Select a new program",
+
+    ORLIST_CHOICE_TOOLTIP: "Choose course from list of options",
+
+    LIST_LOADING: "Loading...",
+    LIST_NONE_SELECTED: "None Selected",
 
 };
 

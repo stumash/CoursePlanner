@@ -24,7 +24,6 @@ export class ProgramSelectionDialog extends React.Component {
         this.setState({
             chosenProgram: value
         });
-        // this.props.onChangeChosenProgram(value);
     }
 
     handleClick() {
@@ -51,7 +50,7 @@ export class ProgramSelectionDialog extends React.Component {
     render() {
         return (
             <Dialog title="Select your program"
-                    actions={<FlatButton label="Confirm" primary={true} onClick={this.handleClick}/>}
+                    actions={<FlatButton label="Confirm" primary={true} onClick={this.handleClick} disabled={!this.state.chosenProgram}/>}
                     modal={true}
                     open={this.props.isOpen}
                     contentStyle={{width: "inherit"}}
