@@ -376,7 +376,7 @@ class MainPage extends React.Component {
     render() {
         let sourceUrl = this.state.courseSequenceObject.sourceUrl;
         let sequenceInfo = this.state.courseSequenceObject.sequenceInfo;
-        let programPrettyName = !this.state.courseSequenceObject.isLoading ? generatePrettyProgramName(sequenceInfo.program, sequenceInfo.option, sequenceInfo.entryType)
+        let programPrettyName = (sequenceInfo && !this.state.courseSequenceObject.isLoading) ? generatePrettyProgramName(sequenceInfo.program, sequenceInfo.option, sequenceInfo.entryType)
                                                                            : "";
         return (
             <div tabIndex="1"
