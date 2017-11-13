@@ -106,11 +106,12 @@ export const PROGRAM_ENTRY_TYPES = {
     Coop: "Coop September"
 };
 
-export function generatePrettyProgramName(program, option, entryType){
+export function generatePrettyProgramName(program, option, entryType, minTotalCredits){
     return (
         PROGRAM_NAMES[program] + ", " +
         ((option !== "NoOption") ? PROGRAM_OPTIONS[option] + " Option, " : "") +
-        PROGRAM_ENTRY_TYPES[entryType] + " Entry"
+        PROGRAM_ENTRY_TYPES[entryType] + " Entry" +
+        (minTotalCredits ?  " (" + minTotalCredits + " credits)" : "")
     );
 }
 
