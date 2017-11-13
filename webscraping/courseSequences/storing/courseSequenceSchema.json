@@ -4,10 +4,16 @@
     "description": "A sequence of semesters corresponding to a given program as recommended by Concordia University",
     "type": "object",
     "properties": {
-        "prettyName": {
-            "description": "User friendly name of the program + option relevant to this recommended sequence",
-            "type": "string",
-            "pattern": "\\w+"
+        "sequenceInfo": {
+            "description": "Auxiliary info related to the sequence",
+            "type": "object",
+            "properties": {
+                "program": {"type": "string", "pattern": "\\w+"},
+                "option": {"type": "string", "pattern": "\\w+"},
+                "entryType": {"type": "string", "pattern": "\\w+"}
+            },
+            "required": [ "program", "entryType" ],
+            "additionalProperties": false
         },
         "sourceUrl": {
             "description": "A visitable web url from which the contents of the sequence were inferred",
@@ -34,7 +40,7 @@
             "minItems": 3
         }
     },
-    "required": [ "prettyName", "sourceUrl", "minTotalCredits", "yearList" ],
+    "required": [ "sequenceInfo", "sourceUrl", "minTotalCredits", "yearList" ],
     "additionalProperties": false,
     "definitions": {
         "semester": {

@@ -22,41 +22,6 @@ const garbageLineRegex = /^\*|^note:|^suggested|^engineering writing test|^refer
 const commonSequenceSelector = ".c-accordion.toggable";
 const elecCoenSequenceSelector = ".WordSection1";
 
-const programs = {
-    "SOEN": "Software Engineering",
-    "COMP": "Computer Science",
-    "BLDG": "Building Engineering",
-    "CIVI": "Civil Engineering",
-    "INDU": "Industrial Engineering",
-    "MECH": "Mechanical Engineering",
-    "COEN": "Computer Engineering",
-    "ELEC": "Electrical Engineering"
-};
-
-const programOptions = {
-    "General": "General Program",
-    "Games": "Computer Games",
-    "Realtime": "Real-time, Embedded and Avionics Software ",
-    "Web": "Web Services and Applications",
-    "Apps": "Computer Applications",
-    "CompSys": "Computer Systems",
-    "InfoSys": "Information Systems",
-    "Stats": "Mathematics and Statistics",
-    "SoftSys": "Software Systems",
-    "CompArts": "Computation Arts",
-    "NoOption": "No",
-    "Tele": "Telecommunications",
-    "Electronics": "Electronics/VLSI",
-    "Avionics": "Avionics and Control Systems",
-    "Power": "Power and Renewable Energy"
-};
-
-const entryTypes = {
-    "Sept": "September",
-    "Jan": "January",
-    "Coop": "Coop September"
-};
-
 let courseCorrectionMap = [];
 
 // pull all html documents from sequenceUrls.json and write to appropriate .json files
@@ -146,16 +111,17 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
 
             let minTotalCredits = $(".section.title .section-header").text().match(minTotalCreditsRegex)[0];
 
+            let sequenceInfo = parseSequenceInfo(plainFileName.replace(".json", ""));
+
             let semesterList = sequenceTextToSemesterList($(commonSequenceSelector).text());
 
             semesterList = fixMechAndIndu(semesterList, plainFileName);
-            
             semesterList = correctWrongCourses(semesterList, courseCorrectionMap);
 
             let yearList = toYearList(semesterList);
 
             let sequenceObject = {
-                "prettyName": prettifySequenceID(plainFileName.replace(".json", "")),
+                "sequenceInfo": sequenceInfo,
                 "sourceUrl": url,
                 "minTotalCredits" : minTotalCredits,
                 "yearList" : yearList
@@ -188,6 +154,8 @@ function scrapeElecCoenUrl(url, headings, outPath){
 
             sequenceTextObjects.forEach((sequence, sequenceIndex) => {
 
+                let sequenceInfo = parseSequenceInfo(sequence.id);
+
                 let semesterList = sequenceTextToSemesterList(sequence.sequenceText);
 
                 semesterList = correctWrongCourses(semesterList, courseCorrectionMap);
@@ -198,7 +166,7 @@ function scrapeElecCoenUrl(url, headings, outPath){
                 let yearList = toYearList(semesterList);
 
                 let sequenceObject = {
-                    "prettyName": prettifySequenceID(sequence.id),
+                    "sequenceInfo": sequenceInfo,
                     "sourceUrl": url,
                     "minTotalCredits" : minTotalCredits,
                     "yearList" : yearList
@@ -540,17 +508,16 @@ function addMiddleSpaceIfNeeded(courseCode){
     }
 }
 
-function prettifySequenceID(sequenceID){
-    let descriptors = sequenceID.split("-");
-
-    if(descriptors.length === 2){
-        return (programs[descriptors[0]] + ", " + entryTypes[descriptors[1]] + " entry");
-    }
-    if(descriptors.length === 3){
-        return(programs[descriptors[0]] + ", " + programOptions[descriptors[1]] + " option, " + entryTypes[descriptors[2]] + " entry");
-    }
-
-    return "";
+function parseSequenceInfo(sequenceID){
+    let sequenceDescriptors = sequenceID.split("-");
+    let programID = sequenceDescriptors[0];
+    let optionID = (sequenceDescriptors.length === 3) ? sequenceDescriptors[1] : undefined;
+    let entryTypeID = (sequenceDescriptors.length === 3) ? sequenceDescriptors[2] : sequenceDescriptors[1];
+    return {
+        program: programID,
+        option: optionID,
+        entryType: entryTypeID
+    };
 }
 
 module.exports.scrapeSingleUrl = function(url, onComplete){
