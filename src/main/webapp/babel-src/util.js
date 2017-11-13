@@ -64,6 +64,7 @@ export const UI_STRINGS = {
 
     SELECT_NEW_PROGRAM: "Select a new program",
 
+    ELECTIVE_COURSE_TOOLTIP: "Replace me with a real course!",
     ORLIST_CHOICE_TOOLTIP: "Choose course from list of options",
 
     LIST_LOADING: "Loading...",
@@ -255,8 +256,10 @@ export function renderOrListDiv(courseList, extraClassNames, position, clickHand
  *      extraClassNames: string which contains a list of class names separated by spaces
  */
 export function renderCourseDiv(courseObj, extraClassNames, clickHandler){
+    let tooltip = courseObj.name || UI_STRINGS.ELECTIVE_COURSE_TOOLTIP;
+    let onClick = courseObj.isElective === "true" ? () => {} : clickHandler;
     return (
-        <div className={"course" + extraClassNames} title={courseObj.name} onClick={clickHandler}>
+        <div className={"course" + extraClassNames} title={courseObj.name || UI_STRINGS.ELECTIVE_COURSE_TOOLTIP} onClick={onClick}>
             <div className="courseCode">
                 { (courseObj.isElective === "true") ? (courseObj.electiveType + " Elective") : courseObj.code}
             </div>
