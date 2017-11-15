@@ -32,6 +32,10 @@ public class MongoDBContextListener implements ServletContextListener {
             throw new RuntimeException(message);
         }
 
+//        logger.info("pushBackSize: " + System.getProperty("org.apache.pdfbox.baseParser.pushBackSize"));
+
+        System.setProperty("org.apache.pdfbox.baseParser.pushBackSize", "130000");
+
         // add the app properties to the servlet context
         sce.getServletContext().setAttribute("APP_PROPERTIES", appProperties);
 
