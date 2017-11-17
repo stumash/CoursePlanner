@@ -40,6 +40,13 @@ public class SequenceExporter extends CPServlet {
         JSONObject requestObject = getRequestJson(request);
         JSONObject responseObject = new JSONObject();
         
+        String programName = "";
+        try {
+            programName = requestObject.getString("programName");
+        } catch (JSONException e){
+            logger.warn("Optional request property programName is not defined");
+        }
+        
         try {
             JSONObject courseSequenceObject = requestObject.getJSONObject("courseSequenceObject");
             String exportType = requestObject.getString("exportType");
@@ -49,9 +56,9 @@ public class SequenceExporter extends CPServlet {
             boolean exportSucceeded = false;
 
             if(exportType.equals(EXPORT_TYPE_LIST)){
-                exportSucceeded = exportToList(fileName, yearList);
+                exportSucceeded = exportToList(fileName, programName, yearList);
             } else if(exportType.equals(EXPORT_TYPE_TABLE)){
-                exportSucceeded = exportToTable(fileName, yearList);
+                exportSucceeded = exportToTable(fileName, programName, yearList);
             }
 
             if(exportSucceeded){
@@ -78,18 +85,18 @@ public class SequenceExporter extends CPServlet {
         return time + "-" + threadId;
     }
 
-    private boolean exportToTable(String fileName, JSONArray yearList) throws JSONException, IOException {
+    private boolean exportToTable(String fileName, String programName, JSONArray yearList) throws JSONException, IOException {
 
-        String semesterAsHtml = yearListToHtmlString(yearList);
+        String semesterAsHtml = yearListToHtmlString(programName, yearList);
         String filePathNoExtension = EXPORTS_DIR + fileName;
         String commandString = "wkhtmltopdf " + filePathNoExtension + ".html " + filePathNoExtension + ".pdf";
 
         return writeFile(filePathNoExtension + ".html", semesterAsHtml) && runCommand(commandString);
     }
 
-    private boolean exportToList(String fileName, JSONArray yearList) throws JSONException {
+    private boolean exportToList(String fileName, String programName, JSONArray yearList) throws JSONException {
 
-        String semesterAsMarkdown = yearListToMarkdownString(yearList);
+        String semesterAsMarkdown = yearListToMarkdownString(programName, yearList);
         String filePathNoExtension = EXPORTS_DIR + fileName;
         String commandString = "pandoc " + filePathNoExtension + ".md -o " + filePathNoExtension + ".pdf";
 
@@ -146,11 +153,13 @@ public class SequenceExporter extends CPServlet {
     
     /* Beefy StringBuilder functions */
 
-    private String yearListToMarkdownString(JSONArray yearList) throws JSONException {
+    private String yearListToMarkdownString(String programName, JSONArray yearList) throws JSONException {
 
         StringBuilder builder = new StringBuilder();
 
         builder.append("# My Proposed Sequence" + LINE_ENDING + LINE_ENDING);
+        
+        builder.append("## " + programName + LINE_ENDING + LINE_ENDING);
 
         for (int yearIndex = 0; yearIndex < yearList.length(); yearIndex++) {
 
@@ -205,11 +214,16 @@ public class SequenceExporter extends CPServlet {
     }
 
     // replace {tableRows} in html template with generated html rows
-    private String yearListToHtmlString(JSONArray yearList) throws JSONException, IOException {
+    private String yearListToHtmlString(String programName, JSONArray yearList) throws JSONException, IOException {
+        
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         File sequenceTableFile = new File(classLoader.getResource("sequenceTableTemplate.html").getFile());
         String sequenceTableTemplateAsString = FileUtils.readFileToString(sequenceTableFile, Charset.defaultCharset());
-        return sequenceTableTemplateAsString.replace("{tableRows}", yearListToHtmlRows(yearList));
+
+        sequenceTableTemplateAsString = sequenceTableTemplateAsString.replace("{programName}", "<h3>" + programName + "</h3>" + LINE_ENDING);
+        sequenceTableTemplateAsString = sequenceTableTemplateAsString.replace("{tableRows}", yearListToHtmlRows(yearList));
+        
+        return sequenceTableTemplateAsString;
     }
     
     private String yearListToHtmlRows(JSONArray yearList) throws JSONException {

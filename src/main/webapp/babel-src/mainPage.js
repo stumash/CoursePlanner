@@ -515,19 +515,29 @@ class MainPage extends React.Component {
      *      param exportType - string which indicates what file type to export to
      */
     exportSequence(exportType){
+        
         let requestExportType = "";
         if(exportType === EXPORT_TYPES.EXPORT_TYPE_LIST_PDF || exportType === EXPORT_TYPES.EXPORT_TYPE_LIST_MD){
             requestExportType = "list";
         } else if(exportType === EXPORT_TYPES.EXPORT_TYPE_TABLE_PDF || exportType === EXPORT_TYPES.EXPORT_TYPE_TABLE_HTML){
             requestExportType = "table";
         }
+
+        let sequenceInfo = this.state.courseSequenceObject.sequenceInfo;
+        let minTotalCredits = this.state.courseSequenceObject.minTotalCredits;
+        let programName = generatePrettyProgramName(sequenceInfo.program, sequenceInfo.option, sequenceInfo.entryType, minTotalCredits);
+        
         this.setState({
             "loadingExport": true
         }, () =>{
             $.ajax({
                 type: "POST",
                 url: "api/export",
-                data: JSON.stringify({"courseSequenceObject" : this.state.courseSequenceObject, "exportType": requestExportType}),
+                data: JSON.stringify({
+                    courseSequenceObject : this.state.courseSequenceObject, 
+                    exportType: requestExportType,
+                    programName: programName
+                }),
                 success: (response) => {
 
                     let downloadUrl = JSON.parse(response).exportPath;

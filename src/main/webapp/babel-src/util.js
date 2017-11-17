@@ -70,6 +70,7 @@ export const UI_STRINGS = {
     LIST_NONE_SELECTED: "None Selected",
 
 };
+
 export const PROGRAM_NAMES = {
     SOEN: "Software Engineering",
     COMP: "Computer Science",
