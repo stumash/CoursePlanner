@@ -105,7 +105,6 @@ export const PROGRAM_ENTRY_TYPES = {
     Coop: "Coop September"
 };
 
-// values are correspond to value of exportType property of export server request
 export const EXPORT_TYPES = {
     EXPORT_TYPE_TABLE_PDF: "PDF (table)",
     EXPORT_TYPE_TABLE_HTML: "HTML (table)",

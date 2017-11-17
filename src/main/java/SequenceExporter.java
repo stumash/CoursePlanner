@@ -10,6 +10,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.charset.Charset;
 
+/* 
+* Exports a courseSequenceObject to pdf. Supports two formats: table and list
+* 
+* For table: servlet will produce two downloadable files: one html and one pdf
+* For list: servlet will produce two downloadable files: one markdown and one pdf
+* 
+* responds with the relative path of the generated pdf file
+* 
+* */
 public class SequenceExporter extends CPServlet {
 
     private String EXPORTS_DIR;
