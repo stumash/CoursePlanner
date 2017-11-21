@@ -55,9 +55,10 @@ public class SequenceValidator extends CPServlet {
         // semesters (0, 1, 2) are year 1, semesters (3, 4, 5) are year 2, etc.
         HashMap<String, Integer> cc2sn = new HashMap<>();
 
-        // construct cc2sn on first pass through cso
         JSONArray yearList = cso.getJSONArray("yearList");
         if (yearList.length() == 0) throw new Exception("empty yearList");
+
+        // construct cc2sn on first pass through cso
         for (int yearIdx = 0; yearIdx < yearList.length(); yearIdx++)
         {
             JSONObject year = (JSONObject) yearList.get(yearIdx);
@@ -67,7 +68,6 @@ public class SequenceValidator extends CPServlet {
             JSONObject summer = (JSONObject) year.get("summer");
 
             JSONObject[] semsInYear = {fall, winter, summer};
-
             for (int semsInYearIdx = 0; semsInYearIdx < semsInYear.length; semsInYearIdx++)
             {
                 JSONArray coursesInSem = (JSONArray) semsInYear[semsInYearIdx].get("courseList");
@@ -81,7 +81,27 @@ public class SequenceValidator extends CPServlet {
             }
         }
 
-        // TODO: validate
+        // for each course in order, make sure prereqs and coreqs are first
+        for (int yearIdx = 0; yearIdx < yearList.length(); yearIdx++)
+        {
+            JSONObject year = (JSONObject) yearList.get(yearIdx);
+
+            JSONObject fall   = (JSONObject) year.get("fall");
+            JSONObject winter = (JSONObject) year.get("winter");
+            JSONObject summer = (JSONObject) year.get("summer");
+
+            JSONObject[] semsInYear = {fall, winter, summer};
+            for (int semsInYearIdx = 0; semsInYearIdx < semsInYear.length; semsInYearIdx++)
+            {
+                JSONArray coursesInSem = (JSONArray) semsInYear[semsInYearIdx].get("courseList");
+                for (int i = 0; i < coursesInSem.length(); i++)
+                {
+                    JSONObject course = (JSONObject) coursesInSem.get(i);
+
+                    // TODO: check prereqs, check coreqs
+                }
+            }
+        }
         return null;
     }
 }
