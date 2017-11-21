@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class SequenceValidator extends CPServlet {
 
-    private static HashMap<String,CourseInfo> courseInfoMap;
+    private static final int SEMESTERS_PER_YEAR = 3;
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException
@@ -31,7 +31,11 @@ public class SequenceValidator extends CPServlet {
             validationResults = validateSequence(courseSequenceObject).toString();
         } catch(Exception e){
             JSONObject validationResultsJsonObj = new JSONObject();
-            validationResultsJsonObj.put("error", ExceptionUtils.getStackTrace(e));
+
+            try { // have to put a try, but no real chance of failure
+                validationResultsJsonObj.put("error", ExceptionUtils.getStackTrace(e));
+            } catch(JSONException jsonExc){ jsonExc.printStackTrace(); }
+
             validationResults = validationResultsJsonObj.toString();
         }
 
@@ -47,15 +51,37 @@ public class SequenceValidator extends CPServlet {
     private JSONObject validateSequence(JSONObject cso)
     throws Exception
     {
-        HashMap<String, Integer> course2semester = new HashMap<>();
-        JSONArray yearlist = cso.getJSONArray("yearlist");
-        int semesterNum = -1;
+        // map course code to semester number (semesters are 'numbered' 0, 1, 2, 3, 4, ...)
+        // semesters (0, 1, 2) are year 1, semesters (3, 4, 5) are year 2, etc.
+        HashMap<String, Integer> cc2sn = new HashMap<>();
 
-        for (JSONObject year : (JSONObject) yearlist) {
-            semesterNum++;
+        // construct cc2sn on first pass through cso
+        JSONArray yearList = cso.getJSONArray("yearList");
+        if (yearList.length() == 0) throw new Exception("empty yearList");
+        for (int yearIdx = 0; yearIdx < yearList.length(); yearIdx++)
+        {
+            JSONObject year = (JSONObject) yearList.get(yearIdx);
 
-            //TODO
+            JSONObject fall   = (JSONObject) year.get("fall");
+            JSONObject winter = (JSONObject) year.get("winter");
+            JSONObject summer = (JSONObject) year.get("summer");
+
+            JSONObject[] semsInYear = {fall, winter, summer};
+
+            for (int semsInYearIdx = 0; semsInYearIdx < semsInYear.length; semsInYearIdx++)
+            {
+                JSONArray coursesInSem = (JSONArray) semsInYear[semsInYearIdx].get("courseList");
+                for (int i = 0; i < coursesInSem.length(); i++)
+                {
+                    JSONObject course = (JSONObject) coursesInSem.get(i);
+                    String courseCode = (String) course.get("code");
+
+                    cc2sn.put(courseCode, yearIdx + semsInYearIdx);
+                }
+            }
         }
+
+        // TODO: validate
         return null;
     }
 }
