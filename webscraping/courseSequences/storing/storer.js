@@ -1,5 +1,6 @@
 'use strict';
 
+const f = require('util').format;
 const nodemailer = require('nodemailer');
 const remove = require("remove");
 const fs = require("fs");
@@ -11,13 +12,18 @@ const ajv = new Ajv({
     "verbose": true,
     "allErrors": true
 });
-
 const validate = ajv.compile(JSON.parse(fs.readFileSync('courseSequenceSchema.json', 'utf8')));
-const mongoServerUrl = 'mongodb://138.197.6.26:27017/';
+
+// parse password from args or display error message
+if(argv._.length < 1 || !argv._[0]){
+    return console.error("storer.js takes one required argument: the password for the tranzoneAdmin account on the DB");
+}
+const username = encodeURIComponent("tranzoneAdmin");
+const password = encodeURIComponent(argv._[0]);
 const devDbName = "courseplannerdb-dev";
 const prodDbName = "courseplannerdb";
 const dbName = (argv.prod) ? prodDbName : devDbName;
-const dbFullUrl = mongoServerUrl + dbName;
+const dbFullUrl = f('mongodb://%s:%s@conucourseplanner.online:27017/%s?authSource=admin', username, password, dbName);
 
 let log = "*** Sequence Validation Log ***<br><br>";
 
@@ -36,6 +42,10 @@ const storeAllSequences = (function (){
 
         // read all files in sequence folder and pass them through the validator
         fs.readdir(seqFolder, function (err, files) {
+            if(files.length < 1){
+                db.close();
+                return console.error("WARNING: storer found no files in scrapedJson/");
+            }
             files.forEach(function (file) {
                 fs.readFile(seqFolder + file, "utf-8", function (err, fileContent) {
                     let sequenceJSON = JSON.parse(fileContent);

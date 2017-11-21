@@ -1,4 +1,4 @@
-import org.apache.log4j.LogManager;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -8,9 +8,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -26,41 +24,21 @@ public abstract class CPServlet extends HttpServlet {
         // set up the logger
         logger = Logger.getLogger(getServletName());
 
-        // load the app properties
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        InputStream input = classLoader.getResourceAsStream("courseplanner.properties");
-        appProperties = new Properties();
-        try{
-            appProperties.load(input);
-        } catch(IOException e){
-            logger.error("Error getting webapp properties");
-            throw new ServletException(e);
-        }
+        // get reference to application-wide app properties provided by Servlet Context
+        appProperties = (Properties) config.getServletContext().getAttribute("APP_PROPERTIES");
     }
 
     JSONObject getRequestJson(HttpServletRequest request) throws IOException{
-        StringBuffer jb = new StringBuffer();
-        String line;
-        Object propertyValue = null;
         JSONObject requestJson;
-        try {
-            BufferedReader reader = request.getReader();
-            while ((line = reader.readLine()) != null) {
-                jb.append(line);
-            }
-            reader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new IOException("Error reading from request string");
-        }
+        String requestString = IOUtils.toString(request.getReader());
         try {
             logger.info("raw request String:");
-            logger.info(jb.toString());
+            logger.info(requestString);
             logger.info("end raw request String");
-            requestJson =  new JSONObject(jb.toString());
+            requestJson =  new JSONObject(requestString);
         } catch (JSONException e) {
             e.printStackTrace();
-            throw new IOException("Error parsing JSON request string : " + jb.toString());
+            throw new IOException("Error parsing JSON request string : " + requestString);
         }
         return requestJson;
     }
@@ -97,10 +75,5 @@ public abstract class CPServlet extends HttpServlet {
         }
 
         return semesters;
-    }
-
-    public void destroy() {
-        LogManager.shutdown();
-        super.destroy();
     }
 }

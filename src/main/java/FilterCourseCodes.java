@@ -31,7 +31,7 @@ public class FilterCourseCodes extends DBServlet {
         CourseCodeBlock resultsProcessor = new CourseCodeBlock();
 
         filter.put("_id", regex);
-        courseData.find(filter).limit(MAX_RESULTS).forEach(resultsProcessor);
+        courseInfo.find(filter).limit(MAX_RESULTS).forEach(resultsProcessor);
 
         responseString = resultsProcessor.getResults();
 

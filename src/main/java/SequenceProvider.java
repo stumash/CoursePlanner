@@ -29,9 +29,9 @@ public class SequenceProvider extends DBServlet {
 
         if(dbResult != null) {
             String sequenceJsonString = dbResult.toJson();
-            responseString = "{ \"response\": " + fillAllMissingInfo(sequenceJsonString) + "}";
+            responseString = "{ \"courseSequenceObject\": " + fillAllMissingInfo(sequenceJsonString) + "}";
         } else {
-            responseString = "{ \"response\": \"Sequence ID not found\"}";
+            responseString = "{ \"courseSequenceObject\": \"{}\"}";
         }
 
         logger.info("Responding with: " + responseString);
@@ -105,28 +105,17 @@ public class SequenceProvider extends DBServlet {
 
             Document filter = new Document();
             filter.put("_id", courseObject.getString("code"));
-            Document dbResult = (Document) courseData.find(filter).first();
+            Document dbResult = (Document) courseInfo.find(filter).first();
 
-            JSONObject dbCourseDoc;
-            if(dbResult != null) {
-                dbCourseDoc = new JSONObject(dbResult.toJson());
-            } else {
-                dbCourseDoc = new JSONObject("{}");
-            }
-
-            try{
-                courseObject.put("name", dbCourseDoc.getString("name"));
-            } catch(JSONException e){
-                logger.warn("Error grabbing name for course: " + courseObject.getString("code"));
-                courseObject.put("name", "UNKNOWN");
-            }
-
-            try{
-                courseObject.put("credits", dbCourseDoc.getString("credits"));
-            } catch(JSONException e){
-                logger.warn("Error grabbing credits for course: " + courseObject.getString("code"));
-                courseObject.put("credits", "0");
-            }
+	    if(dbResult == null){
+		logger.info("got null db result for course: " + courseObject.getString("code"));
+		courseObject.put("name", "UNKNOWN");
+		courseObject.put("credits", "0");
+	    } else {
+  		for (String courseKey : dbResult.keySet()) {
+			courseObject.put(courseKey, dbResult.get(courseKey));
+	    	}
+	    }
         }
         return courseObject;
     }

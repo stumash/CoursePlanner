@@ -1,0 +1,100 @@
+{
+  "courseSequenceObject":{
+    "yearList":[
+      {
+        "winter":{
+          "isWorkTerm":"false",
+          "courseList":[
+            {
+              "isElective":"false",
+              "electiveType":"",
+              "name":"Object-Oriented Programming II",
+              "credits":"3.5",
+              "code":"COMP 249"
+            },
+            {
+              "isElective":"true",
+              "electiveType":"Science",
+              "code":""
+            }
+          ]
+        },
+        "fall":{
+          "isWorkTerm":"false",
+          "courseList":[
+            {
+              "isElective":"false",
+              "electiveType":"",
+              "name":"Object-Oriented Programming I",
+              "credits":"3.5",
+              "code":"COMP 248"
+            },
+            {
+              "isElective":"false",
+              "electiveType":"",
+              "name":"Professional Practice and Responsibility",
+              "credits":"1.5",
+              "code":"ENGR 201"
+            }
+          ]
+        },
+        "summer":{
+          "isWorkTerm":"true",
+          "courseList":[
+
+          ]
+        }
+      },
+      {
+        "winter":{
+          "isWorkTerm":"false",
+          "courseList":[
+            {
+              "isElective":"false",
+              "electiveType":"",
+              "name":"Capstone Software Engineering Design Project",
+              "credits":"4",
+              "code":"SOEN 490"
+            },
+            [
+              {
+                "isElective":"false",
+                "electiveType":"",
+                "name":"Advanced Game Development",
+                "credits":"4",
+                "code":"COMP 476",
+                "isSelected":false
+              },
+              {
+                "isElective":"false",
+                "electiveType":"",
+                "name":"Advanced Program Design with C++",
+                "credits":"4",
+                "code":"COMP 345",
+                "isSelected":true
+              },
+              {
+                "isElective":"true",
+                "electiveType":"Program",
+                "code":"",
+                "isSelected":false
+              }
+            ]
+          ]
+        },
+        "fall":{
+          "isWorkTerm":"false",
+          "courseList":[
+
+          ]
+        },
+        "summer":{
+          "isWorkTerm":"false",
+          "courseList":[
+
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -11,13 +11,17 @@
         <location>/404.html</location>
     </error-page>
 
+    <listener>
+        <listener-class>MongoDBContextListener</listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>SequenceValidator</servlet-name>
         <servlet-class>SequenceValidator</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SequenceValidator</servlet-name>
-        <url-pattern>/validate</url-pattern>
+        <url-pattern>/api/validate</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -26,7 +30,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>CourseInfoProvider</servlet-name>
-        <url-pattern>/courseinfo</url-pattern>
+        <url-pattern>/api/courseinfo</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -35,7 +39,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>SequenceExporter</servlet-name>
-        <url-pattern>/export</url-pattern>
+        <url-pattern>/api/export</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -45,7 +49,7 @@
 
     <servlet-mapping>
         <servlet-name>SequenceProvider</servlet-name>
-        <url-pattern>/coursesequences</url-pattern>
+        <url-pattern>/api/recommendedsequence</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -55,7 +59,7 @@
 
     <servlet-mapping>
         <servlet-name>SequenceNamesList</servlet-name>
-        <url-pattern>/allsequences</url-pattern>
+        <url-pattern>/api/allsequences</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -65,7 +69,7 @@
 
     <servlet-mapping>
         <servlet-name>FilterCourseCodes</servlet-name>
-        <url-pattern>/filtercoursecodes</url-pattern>
+        <url-pattern>/api/filtercoursecodes</url-pattern>
     </servlet-mapping>
 
 </web-app>

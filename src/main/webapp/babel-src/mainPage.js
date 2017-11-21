@@ -1,12 +1,23 @@
 import React from "react";
 
-import HTML5Backend from 'react-dnd-html5-backend';
+import { default as TouchBackend } from 'react-dnd-touch-backend';
 import { DragDropContext } from 'react-dnd';
+let _ = require("underscore");
 
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
 import {IOPanel} from "./ioPanel";
-import {DEFAULT_PROGRAM, saveAs, generateUniqueKey, generateUniqueKeys} from "./util";
+import DragPreview from "./dragPreview";
+
+import { DEFAULT_PROGRAM,
+         MAX_UNDO_HISTORY_LENGTH,
+         AUTO_SCROLL_PAGE_PORTION,
+         AUTO_SCROLL_DELAY,
+         AUTO_SCROLL_STEP,
+         generateUniqueKey,
+         generateUniqueKeys,
+         saveAs } from "./util";
+
 
 /*
  *  Root component of our main page
@@ -27,7 +38,8 @@ class MainPage extends React.Component {
             "allSequences" : [],
             "selectedCourseInfo" : {},
             "loadingExport": false,
-            "showingGarbage": false
+            "showingGarbage": false,
+            "allowingTextSelection": true
         };
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
@@ -40,11 +52,77 @@ class MainPage extends React.Component {
         this.moveCourse = this.moveCourse.bind(this);
         this.addCourse = this.addCourse.bind(this);
         this.removeCourse = this.removeCourse.bind(this);
+        this.changeDragState = this.changeDragState.bind(this);
+        this.enableTextSelection = this.enableTextSelection.bind(this);
+        this.performAutoScroll = this.performAutoScroll.bind(this);
+        this.scrollPage = this.scrollPage.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.handleTouchMove = this.handleTouchMove.bind(this);
     }
 
     componentDidMount() {
         this.loadCourseSequenceObject();
         this.loadAllSequences();
+        this.courseSequenceHistory = {
+            "history": [],
+            "currentPosition": -1
+        };
+        this.preventHistoryUpdate = false;
+        this.isDragging = false;
+        this.shouldScroll = false;
+        this.scrollDirection = 0;
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(!_.isEqual(prevState.courseSequenceObject, this.state.courseSequenceObject) && !this.state.courseSequenceObject.isLoading){
+            
+            // save change to local storage
+            localStorage.setItem("savedSequence", JSON.stringify(this.state.courseSequenceObject));
+
+            if(!this.preventHistoryUpdate){
+                // add deep copy of item to history
+                this.courseSequenceHistory.currentPosition++;
+                this.courseSequenceHistory.history = this.courseSequenceHistory.history.slice(0, this.courseSequenceHistory.currentPosition);
+                this.courseSequenceHistory.history.push(JSON.parse(JSON.stringify(this.state.courseSequenceObject)));
+                if(this.courseSequenceHistory.history.length > MAX_UNDO_HISTORY_LENGTH){
+                    this.courseSequenceHistory.currentPosition--;
+                    this.courseSequenceHistory.history.shift();
+                }
+            }
+            this.preventHistoryUpdate = false;
+        }
+    }
+
+    /*
+     *  function to call when the users starts or stops dragging any item
+     *      param isDragging - true if the user is dragging something
+     */
+    changeDragState(isDragging){
+        this.enableTextSelection(!isDragging);
+        this.enableGarbage(isDragging);
+        this.isDragging = isDragging;
+    }
+
+    /*
+     *  function to call to disable text selection on the page
+     *  it is used to fix an issue in firefox where text on the page gets highlighted while dragging a course
+     *      param enabled - should the garbage can be enabled
+     */
+    enableTextSelection(enabled){
+        this.setState({
+            "allowingTextSelection": enabled
+        });
+    }
+
+    /*
+     *  function to call when we want to display the garbage can and allow the user to delete a course
+     *      param enabled - should the garbage can be enabled
+     */
+    enableGarbage(enabled){
+        this.setState({
+            "showingGarbage": enabled
+        });
     }
 
     /*
@@ -57,7 +135,7 @@ class MainPage extends React.Component {
         // remember the program selected by the user
         localStorage.setItem("chosenProgram", newChosenProgram);
         // clear the saved sequence to force a reloading of the user's chosen program
-        // (INSERT CONFIRM BOX HERE - MAKE SURE USER DOESN'T LOSE THEIR WORK BY ACCIDENTALLY CHANGING PROGRAMS)
+        // TODO: (INSERT CONFIRM BOX HERE - MAKE SURE USER DOESN'T LOSE THEIR WORK BY ACCIDENTALLY CHANGING PROGRAMS)
         localStorage.removeItem("savedSequence");
 
         // Must use the callback param of setState to ensure the chosenProgram is changed in time
@@ -72,20 +150,19 @@ class MainPage extends React.Component {
     setOrListCourseSelected(coursePosition){
         this.setState((prevState) => {
 
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
+
             // update isSelected property of items in orList in question
-            let orList = prevState.courseSequenceObject.yearList[coursePosition.yearIndex][coursePosition.season].courseList[coursePosition.courseListIndex];
+            let orList = courseSequenceObjectCopy.yearList[coursePosition.yearIndex][coursePosition.season].courseList[coursePosition.courseListIndex];
 
             orList = orList.map((courseObj, orListIndex) => {
                 courseObj.isSelected = (orListIndex === coursePosition.orListIndex);
                 return courseObj;
             });
 
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
-
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
     }
@@ -98,16 +175,15 @@ class MainPage extends React.Component {
     toggleWorkTerm(yearIndex, season){
         this.setState((prevState) => {
 
-            // updated isWorkTerm property of semester in question
-            let isWorkTerm = prevState.courseSequenceObject.yearList[yearIndex][season].isWorkTerm;
-            prevState.courseSequenceObject.yearList[yearIndex][season].isWorkTerm = (isWorkTerm === "true") ? "false" : "true";
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
 
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+            // updated isWorkTerm property of semester in question
+            let isWorkTerm = courseSequenceObjectCopy.yearList[yearIndex][season].isWorkTerm;
+            courseSequenceObjectCopy.yearList[yearIndex][season].isWorkTerm = (isWorkTerm === "true") ? "false" : "true";
 
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
     }
@@ -131,18 +207,17 @@ class MainPage extends React.Component {
     moveCourse(oldPosition, newPosition){
         this.setState((prevState) => {
 
-            let courseToMove = prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList[oldPosition.courseListIndex];
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
+
+            let courseToMove = courseSequenceObjectCopy.yearList[oldPosition.yearIndex][oldPosition.season].courseList[oldPosition.courseListIndex];
 
             // remove course from old position and insert at new position
-            prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList.splice(oldPosition.courseListIndex, 1);
-            prevState.courseSequenceObject.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseToMove);
-
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+            courseSequenceObjectCopy.yearList[oldPosition.yearIndex][oldPosition.season].courseList.splice(oldPosition.courseListIndex, 1);
+            courseSequenceObjectCopy.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseToMove);
 
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
     }
@@ -158,16 +233,17 @@ class MainPage extends React.Component {
 
             // generate a unique key for the course
             courseObj.id = generateUniqueKey(courseObj, newPosition.season, newPosition.yearIndex, newPosition.courseListIndex, "");
+            courseObj.isElective = "false";
+            courseObj.electiveType = "";
+
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
 
             // insert course at new position
-            prevState.courseSequenceObject.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseObj);
-
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+            courseSequenceObjectCopy.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseObj);
 
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
     }
@@ -180,22 +256,109 @@ class MainPage extends React.Component {
     removeCourse(coursePosition){
         this.setState((prevState) => {
 
-            // remove course at coursePosition
-            prevState.courseSequenceObject.yearList[coursePosition.yearIndex][coursePosition.season].courseList.splice(coursePosition.courseListIndex, 1);
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
 
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(prevState.courseSequenceObject));
+            // remove course at coursePosition
+            courseSequenceObjectCopy.yearList[coursePosition.yearIndex][coursePosition.season].courseList.splice(coursePosition.courseListIndex, 1);
 
             // set new state based on changes
             return {
-                "courseSequenceObject": prevState.courseSequenceObject
+                "courseSequenceObject": courseSequenceObjectCopy
             };
         });
+    }
+    
+    handleTouchMove(touchMoveEvent){
+        this.performAutoScroll(touchMoveEvent.changedTouches[0].clientY, touchMoveEvent.view.innerHeight);
+    }
+    
+    handleMouseMove(mouseMoveEvent){
+        this.performAutoScroll(mouseMoveEvent.clientY, mouseMoveEvent.view.innerHeight);
+    }
+
+    /*
+     *  function which decides whether or not the page should scroll based on the position of the user's cursor
+     *      param y - number indicating the y coordinate of the user's cursor, where the top of the page is y = 0
+     *      param pageHeight - number indicating the total height of the page in pixels
+     */
+    performAutoScroll(y, pageHeight){
+      if(this.isDragging) {
+        let scrollAreaHeight = pageHeight * AUTO_SCROLL_PAGE_PORTION;
+
+        if(y > scrollAreaHeight && y < pageHeight - scrollAreaHeight){
+          this.shouldScroll = false;
+          return;
+        }
+
+        // don't call scrollPage if it's already running
+        if(this.shouldScroll){
+          return;
+        }
+
+        if (y <= scrollAreaHeight) {
+          this.scrollDirection = -1;
+          this.shouldScroll = true;
+          this.scrollPage();
+        }
+        if (y >= pageHeight - scrollAreaHeight) {
+          this.scrollDirection = 1;
+          this.shouldScroll = true;
+          this.scrollPage();
+        }
+      } else {
+        this.shouldScroll = false;
+      }
+    }
+
+    /*
+     *  recursive function which continuously scrolls up or down the page until this.shouldScroll becomes false
+     */
+    scrollPage(){
+        setTimeout(() => {
+            window.scrollBy(0, this.scrollDirection * AUTO_SCROLL_STEP);
+            if(this.shouldScroll){
+                this.scrollPage();
+            }
+        }, AUTO_SCROLL_DELAY);
+    }
+
+    /*
+     *  event handler for key presses
+     */
+    handleKeyPress(keyDownEvent){
+        if(keyDownEvent.keyCode === 90 && keyDownEvent.ctrlKey){
+            let changedCurrentPosition = false;
+            if(keyDownEvent.shiftKey){
+                // do a redo op
+                if(this.courseSequenceHistory.currentPosition < this.courseSequenceHistory.history.length - 1){
+                    this.courseSequenceHistory.currentPosition++;
+                    changedCurrentPosition = true;
+                }
+            } else {
+                // do an undo op
+                if(this.courseSequenceHistory.currentPosition > 0){
+                    this.courseSequenceHistory.currentPosition--;
+                    changedCurrentPosition = true;
+                }
+            }
+            if(changedCurrentPosition){
+                // prevent the componentDidUpdate method from updating our undo history
+                this.preventHistoryUpdate = true;
+                // update state
+                this.setState({
+                    "courseSequenceObject": this.courseSequenceHistory.history[this.courseSequenceHistory.currentPosition]
+                });
+            }
+        }
     }
 
     render() {
         return (
-            <div className="row">
+            <div tabIndex="1"
+                 className={"mainPage row" + (this.state.allowingTextSelection ? "" : " textSelectionOff")}
+                 onMouseMove={this.handleMouseMove}
+                 onTouchMove={this.handleTouchMove}
+                 onKeyDown={this.handleKeyPress}>
                 <div className="col-md-3 col-sm-12">
                     <IOPanel courseInfo={this.state.selectedCourseInfo}
                              allSequences={this.state.allSequences}
@@ -215,7 +378,7 @@ class MainPage extends React.Component {
                                    onToggleWorkTerm={this.toggleWorkTerm}
                                    onMoveCourse={this.moveCourse}
                                    onAddCourse={this.addCourse}
-                                   onChangeDragState={this.enableGarbage}/>
+                                   onChangeDragState={this.changeDragState}/>
                 </div>
                 <div className="col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
                     <SemesterList courseSequenceObject={this.state.courseSequenceObject}
@@ -224,8 +387,10 @@ class MainPage extends React.Component {
                                   onToggleWorkTerm={this.toggleWorkTerm}
                                   onMoveCourse={this.moveCourse}
                                   onAddCourse={this.addCourse}
-                                  onChangeDragState={this.enableGarbage}/>
+                                  onChangeDragState={this.changeDragState}/>
                 </div>
+                {/* Drag Preview will become visible when dragging occurs */}
+                <DragPreview/>
             </div>
         );
     }
@@ -251,10 +416,10 @@ class MainPage extends React.Component {
 
                 $.ajax({
                     type: "POST",
-                    url: "coursesequences",
+                    url: "api/recommendedsequence",
                     data: JSON.stringify(requestBody),
                     success: (response) => {
-                        let courseSequenceObject = JSON.parse(response).response;
+                        let courseSequenceObject = JSON.parse(response).courseSequenceObject;
                         courseSequenceObject.yearList = generateUniqueKeys(courseSequenceObject.yearList);
                         this.setState({"courseSequenceObject" : courseSequenceObject});
                         localStorage.setItem("savedSequence", JSON.stringify(courseSequenceObject));
@@ -271,7 +436,7 @@ class MainPage extends React.Component {
     loadAllSequences(){
         $.ajax({
             type: "GET",
-            url: "allsequences",
+            url: "api/allsequences",
             success: (response) => {
                 this.setState({"allSequences" : JSON.parse(response)});
             }
@@ -288,7 +453,7 @@ class MainPage extends React.Component {
         }}, () => {
             $.ajax({
                 type: "POST",
-                url: "courseinfo",
+                url: "api/courseinfo",
                 data: JSON.stringify({"code" : courseCode}),
                 success: (response) => {
                     this.setState({"selectedCourseInfo" : JSON.parse(response)});
@@ -307,8 +472,8 @@ class MainPage extends React.Component {
         }, () =>{
             $.ajax({
                 type: "POST",
-                url: "export",
-                data: JSON.stringify({"yearList" : this.state.courseSequenceObject.yearList}),
+                url: "api/export",
+                data: JSON.stringify({"courseSequenceObject" : this.state.courseSequenceObject}),
                 success: (response) => {
 
                     let downloadUrl = JSON.parse(response).exportPath;
@@ -325,4 +490,4 @@ class MainPage extends React.Component {
     }
 }
 
-export default DragDropContext(HTML5Backend)(MainPage);
+export default DragDropContext(TouchBackend({enableMouseEvents: true}))(MainPage);

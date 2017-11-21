@@ -1,16 +1,19 @@
 'use strict';
 
-let MongoClient = require('mongodb').MongoClient;
-let assert = require('assert');
-let argv = require('minimist')(process.argv.slice(2));
+const f = require('util').format;
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+const argv = require('minimist')(process.argv.slice(2));
 
-let mongoServerUrl = 'mongodb://138.197.6.26:27017/';
-let devDbName = "courseplannerdb-dev";
-let prodDbName = "courseplannerdb";
-let courseSequencesColName = "courseSequences";
-let courseInfoColName = "courseData";
-let dbName = (argv.prod) ? prodDbName : devDbName;
-let dbFullUrl = mongoServerUrl + dbName;
+const username = encodeURIComponent("username");
+const password = encodeURIComponent("password");
+const devDbName = "courseplannerdb-dev";
+const prodDbName = "courseplannerdb";
+const dbName = (argv.prod) ? prodDbName : devDbName;
+const dbFullUrl = f('mongodb://%s:%s@conucourseplanner.online:27017/%s?authSource=admin', username, password, dbName);
+
+const courseSequencesColName = "courseSequences";
+const courseInfoColName = "courseInfo";
 
 let displayMissingCourses = (() => {
     MongoClient.connect(dbFullUrl, (err, db) => {

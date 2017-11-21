@@ -31,15 +31,10 @@ export class IOPanel extends React.Component {
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
         this.handleSequenceSelection = this.handleSequenceSelection.bind(this);
-        this.onClickSearchButton = this.onClickSearchButton.bind(this);
     }
 
     handleSequenceSelection(event){
         this.props.onChangeChosenProgram(event.currentTarget.value);
-    }
-
-    onClickSearchButton(event){
-        this.props.onSearchCourse($(".courseSearch .searchBox")[0].value.toUpperCase());
     }
 
     renderSelectionBox(){
@@ -90,14 +85,7 @@ export class IOPanel extends React.Component {
                         {!this.props.showingGarbage ? <div>{UI_STRINGS.SITE_NAME}</div> : <GarbageCan onRemoveCourse={this.props.onRemoveCourse}/>}
                     </div>
                 </div>
-                <div className="courseSearch input-group">
-                    <SearchBox onConfirmSearch={this.props.onSearchCourse}/>
-                    <span className="input-group-btn">
-                        <button className="btn btn-default" type="button" onClick={this.onClickSearchButton}>
-                            <span className="glyphicon glyphicon-search"></span>
-                        </button>
-                    </span>
-                </div>
+                <SearchBox onConfirmSearch={this.props.onSearchCourse}/>
                 <div className="courseInfoPanel panel panel-default">
                     <div className="panel-heading">{UI_STRINGS.COURSE_INFO_HEADER}</div>
                     <div className="panel-body">

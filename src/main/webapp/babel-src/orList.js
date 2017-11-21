@@ -1,6 +1,6 @@
 import React from "react";
 import { DragSource } from 'react-dnd';
-import { UI_STRINGS, ITEM_TYPES, renderCourseDiv, dragSource, collectSource } from "./util";
+import { UI_STRINGS, ITEM_TYPES, renderOrListDiv, orListDragSource, collectSource } from "./util";
 
 /*
  *  Box which represents a list of courses where one may be selected;  can be made draggable vis isDraggable.
@@ -27,22 +27,6 @@ class OrList extends React.Component {
         super(props);
     }
 
-    renderSelectedOrCourse(){
-
-        let selectedCourse = undefined;
-        let selectedIndex = -1;
-
-        this.props.courseList.forEach((courseObj, orListIndex) => {
-            if(courseObj.isSelected){
-                selectedCourse = courseObj;
-                selectedIndex = orListIndex;
-            }
-        });
-
-        return (!selectedCourse) ? <div title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP}>{UI_STRINGS.LIST_NONE_SELECTED}</div> :
-                                   renderCourseDiv(selectedCourse, "", () => this.props.onCourseClick(selectedCourse.code));
-    }
-
     render() {
 
         let extraClassNames = " ";
@@ -56,33 +40,8 @@ class OrList extends React.Component {
         let courseList = this.props.courseList;
         let position = this.props.position;
 
-        return this.props.connectDragSource(
-            <div className={"orList input-group" + extraClassNames}>
-                <div className="input-group-btn">
-                    <button className="btn btn-default dropdown-toggle" title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP} type="button"  data-toggle="dropdown">
-                        <span className="caret"></span>
-                    </button>
-                    <ul className="dropdown-menu">
-                        {courseList.map((courseObj, courseIndex) =>
-                            <li key={courseObj.id}>
-                                {renderCourseDiv(courseObj, "", () => {
-                                    this.props.onOrListSelection({
-                                        "yearIndex": position.yearIndex,
-                                        "season": position.season,
-                                        "courseListIndex": position.courseListIndex,
-                                        "orListIndex": courseIndex
-                                    });
-                                })}
-                            </li>
-                        )}
-                    </ul>
-                </div>
-                <div className="input-group-addon">
-                    {this.renderSelectedOrCourse()}
-                </div>
-            </div>
-        );
+        return this.props.connectDragSource(renderOrListDiv(courseList, extraClassNames, position, this.props.onCourseClick, this.props.onOrListSelection));
     }
 }
 
-export default DragSource(ITEM_TYPES.OR_LIST, dragSource, collectSource)(OrList);
+export default DragSource(ITEM_TYPES.OR_LIST, orListDragSource, collectSource)(OrList);
