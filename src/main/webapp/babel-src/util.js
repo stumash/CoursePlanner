@@ -18,36 +18,102 @@ export const AUTO_SCROLL_DELAY = 20;
 
 // Item types used for DND
 export const ITEM_TYPES = {
-    "COURSE": "Course",
-    "OR_LIST": "OrList"
+    COURSE: "Course",
+    OR_LIST: "OrList"
 };
 
 // All hardcoded pieces of text which are directly displayed to the user
 export const UI_STRINGS = {
 
-    "SITE_NAME": "ConU Course Planner",
+    SITE_NAME: "ConU Course Planner",
 
-    "WORK_TERM": "Work Term",
-    "IS_WORK_TERM": " is work term?",
-    "NO_COURSES": "No Courses",
+    PROGRAM_SELECTION_LOADING: "Loading list of recommended sequences",
+    PROGRAM_SELECTION_TITLE: "Welcome to ConU Course Planner!",
+    PROGRAM_SELECTION_PROGRAM_TITLE: "Select your program",
+    PROGRAM_SELECTION_OPTION_TITLE: "Select your option",
+    PROGRAM_SELECTION_ENTRY_TYPE_TITLE: "Select your entry type",
+    PROGRAM_SELECTION_FINAL_MESSAGE: "Your selected program is:",
 
-    "COURSE_SEARCH_BUTTON": "Display info for course",
-    "COURSE_SEARCH_FOUND_NONE": "Search returned no results",
+    PROGRAM_SELECTION_CONFIRM_LABEL: "Confirm",
+    PROGRAM_SELECTION_BACK_LABEL: "Back",
+    PROGRAM_SELECTION_FINISH_LABEL: "Finish",
+    PROGRAM_SELECTION_NEXT_LABEL: "Next",
 
-    "COURSE_INFO_HEADER": "Course Info",
-    "COURSE_INFO_HINT": "Click on or search for a course to display its info",
+    WORK_TERM: "Work Term",
+    IS_WORK_TERM: "is work term?",
+    NO_COURSES: "No Courses",
 
-    "VALIDATION_HEADER": "Validation Results",
-    "VALIDATION_SUCCESS_MSG": "Sequence is valid",
+    DEFAULT_SEARCH_LABEL: "Course search",
+    COURSE_SEARCH_HINT: "Search for a course code",
+    COURSE_SEARCH_FOUND_NONE: "Search returned no results",
 
-    "EXPORT_BTN_TEXT": "Export",
+    COURSE_INFO_LOADING: "Getting course info",
 
-    "ORLIST_CHOICE_TOOLTIP": "Choose course from list of options",
+    COURSE_INFO_HEADING_DESCRIPTION: "Description",
+    COURSE_INFO_HEADING_PREREQUISITES: "Pre-requisites",
+    COURSE_INFO_HEADING_COREQUISITES: "Co-requisites",
 
-    "LIST_LOADING": "Loading...",
-    "LIST_NONE_SELECTED": "None Selected"
+    COURSE_INFO_HINT: "Click on or search for a course to display its info",
+    VALIDATION_RESULTS_HINT: "Make changes to your schedule to trigger a validation",
+
+    VALIDATION_FAILURE_MSG: "Sequence contains issues",
+    VALIDATION_SUCCESS_MSG: "Sequence is valid",
+
+    EXPORT_TEXT: "Export",
+    EXPORTING_SEQUENCE: "Exporting sequence",
+
+    SELECT_NEW_PROGRAM: "Select a new program",
+
+    ELECTIVE_COURSE_TOOLTIP: "Replace me with a real course!",
+    ORLIST_CHOICE_TOOLTIP: "Choose course from list of options",
+
+    LIST_LOADING: "Loading...",
+    LIST_NONE_SELECTED: "None Selected",
 
 };
+export const PROGRAM_NAMES = {
+    SOEN: "Software Engineering",
+    COMP: "Computer Science",
+    BLDG: "Building Engineering",
+    CIVI: "Civil Engineering",
+    INDU: "Industrial Engineering",
+    MECH: "Mechanical Engineering",
+    COEN: "Computer Engineering",
+    ELEC: "Electrical Engineering"
+};
+
+export const PROGRAM_OPTIONS = {
+    General: "General Program",
+    Games: "Computer Games",
+    Realtime: "Real-time, Embedded and Avionics Software ",
+    Web: "Web Services and Applications",
+    Apps: "Computer Applications",
+    CompSys: "Computer Systems",
+    InfoSys: "Information Systems",
+    Stats: "Mathematics and Statistics",
+    SoftSys: "Software Systems",
+    CompArts: "Computation Arts",
+    NoOption: "None",
+    Tele: "Telecommunications",
+    Electronics: "Electronics/VLSI",
+    Avionics: "Avionics and Control Systems",
+    Power: "Power and Renewable Energy"
+};
+
+export const PROGRAM_ENTRY_TYPES = {
+    Sept: "September",
+    Jan: "January",
+    Coop: "Coop September"
+};
+
+export function generatePrettyProgramName(program, option, entryType, minTotalCredits){
+    return (
+        PROGRAM_NAMES[program] + ", " +
+        ((option !== "NoOption") ? PROGRAM_OPTIONS[option] + " Option, " : "") +
+        PROGRAM_ENTRY_TYPES[entryType] + " Entry" +
+        (minTotalCredits ?  " (" + minTotalCredits + " credits)" : "")
+    );
+}
 
 /*
  *  Special object used by react-dnd to register a drag source
@@ -192,7 +258,7 @@ export function renderOrListDiv(courseList, extraClassNames, position, clickHand
  */
 export function renderCourseDiv(courseObj, extraClassNames, clickHandler){
     return (
-        <div className={"course" + extraClassNames} title={courseObj.name} onClick={clickHandler}>
+        <div className={"course" + extraClassNames} title={courseObj.name || UI_STRINGS.ELECTIVE_COURSE_TOOLTIP} onClick={clickHandler || (() => {})}>
             <div className="courseCode">
                 { (courseObj.isElective === "true") ? (courseObj.electiveType + " Elective") : courseObj.code}
             </div>
@@ -212,6 +278,10 @@ function renderSelectedOrCourse(courseList, clickHandler){
         if(courseObj.isSelected){
             selectedCourse = courseObj;
             selectedIndex = orListIndex;
+
+            if(selectedCourse.isElective === "true"){
+                clickHandler = () => {};
+            }
         }
     });
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { DragSource } from 'react-dnd';
+
 import { ITEM_TYPES, renderCourseDiv, courseDragSource, collectSource } from "./util";
 
 /*

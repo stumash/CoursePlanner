@@ -1,4 +1,6 @@
 import React from "react";
+import CircularProgress from 'material-ui/CircularProgress';
+
 import SemesterBox from "./semesterBox";
 import { SEASON_NAMES } from "./util";
 import { SEASON_NAMES_PRETTY } from "./util";
@@ -23,7 +25,7 @@ export class SemesterTable extends React.Component {
     generateTableBody(){
 
         if(this.props.courseSequenceObject.isLoading){
-            return <tr><td className="text-center" colSpan="4"><span className="bigLoadingSpinner glyphicon glyphicon-refresh glyphicon-spin"></span></td></tr>;
+            return <tr><td className="text-center" colSpan="4"><CircularProgress size={80} thickness={7}/></td></tr>;
         }
 
         const yearList = this.props.courseSequenceObject.yearList;
