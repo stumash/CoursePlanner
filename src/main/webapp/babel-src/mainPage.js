@@ -76,7 +76,7 @@ class MainPage extends React.Component {
 
     componentDidUpdate(prevProps, prevState){
         if(!_.isEqual(prevState.courseSequenceObject, this.state.courseSequenceObject) && !this.state.courseSequenceObject.isLoading){
-            
+
             // save change to local storage
             localStorage.setItem("savedSequence", JSON.stringify(this.state.courseSequenceObject));
 
@@ -91,6 +91,19 @@ class MainPage extends React.Component {
                 }
             }
             this.preventHistoryUpdate = false;
+        }
+        if(!this.state.courseSequenceObject.isLoading && !_.isEqual(prevState.courseSequenceObject.yearList, this.state.courseSequenceObject.yearList)){
+            console.group("Year list changed - sending new sequence to server: ");
+            console.log("courseSequenceObject:\n", this.state.courseSequenceObject);
+            $.ajax({
+                type: "POST",
+                url: "api/validate",
+                data: JSON.stringify({"courseSequenceObject" : this.state.courseSequenceObject}),
+                success: (response) => {
+                    console.log("server response:\n", JSON.parse(response));
+                    console.groupEnd();
+                }
+            });
         }
     }
 
@@ -267,11 +280,11 @@ class MainPage extends React.Component {
             };
         });
     }
-    
+
     handleTouchMove(touchMoveEvent){
         this.performAutoScroll(touchMoveEvent.changedTouches[0].clientY, touchMoveEvent.view.innerHeight);
     }
-    
+
     handleMouseMove(mouseMoveEvent){
         this.performAutoScroll(mouseMoveEvent.clientY, mouseMoveEvent.view.innerHeight);
     }
