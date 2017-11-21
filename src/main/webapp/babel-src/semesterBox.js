@@ -69,7 +69,7 @@ class SemesterBox extends React.Component {
                     <Course courseObj={courseObj}
                                 position={position}
                                 isDraggable={true}
-                                onCourseClick={this.props.onSelectCourse}
+                                onCourseClick={courseObj.isElective === "false" ? this.props.onSelectCourse : (() => {})}
                                 onChangeDragState={this.props.onChangeDragState}
                                 key={courseObj.id}/>
                 );

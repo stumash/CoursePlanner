@@ -150,8 +150,9 @@
 
 .orList {
     width: 160px;
-    border: none;
     margin: 6px auto;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
 }
 
 .orList .course {
@@ -166,6 +167,7 @@
     width: 100%;
     background-color: transparent;
     color: #333333;
+    border: none;
 }
 
 .orList .input-group-addon > div {
@@ -179,6 +181,8 @@
 .orList button {
     padding: 1px 8px;
     background-color: transparent;
+    border: none;
+    border-right: 1px solid #DDDDDD;
 }
 
 .orList button:hover, .orList button:active {
