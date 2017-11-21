@@ -2,6 +2,6 @@ Adding the following line to the crontab would result in the production database
 
 0 0 * * * sh /opt/cp-webscraping/scrapeTheWeb.sh "$(< /home/david/tranzoneAdminPass.txt)" --prod
 
-Adding the following line to the crontab would result in the production exports folder getting cleaned (delete files older than 2h) every 2h
+Adding the following line to the crontab would result in the production exports folder getting cleaned (delete files older than 2h) every hour
 
-0 */2 * * * find /opt/tomcat/webapps/ROOT/exports/* -mmin +120 -exec rm -f {} \;
+0 * * * * find /opt/tomcat/webapps/ROOT/exports/* -mmin +120 -exec rm -f {} \;
