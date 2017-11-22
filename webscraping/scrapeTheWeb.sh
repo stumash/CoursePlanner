@@ -13,6 +13,7 @@ popd > /dev/null
 rm -r $webscrapedir/courseSequences/scrapedJson; mkdir $webscrapedir/courseSequences/scrapedJson
 
 # Make sure any new dependencies are installed
+cd $webscrapedir
 npm install
 
 # run scraper for course sequences
