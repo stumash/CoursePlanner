@@ -75,7 +75,9 @@ public class SequenceValidator extends CPServlet {
         boolean sequenceIsValid = true;
         JSONArray issues = new JSONArray();
 
-        int creditCount = 0; // sum up all credits to check if total credits in valid range
+        Double minTotalCredits = Double.parseDouble((String)cso.get("minTotalCredits"));
+        double creditCount = 0.0; // sum up all credits to check if total credits in valid range
+
         HashMap<String, Integer> cc2si = new HashMap<>(); // map course code to semester id
 
         JSONArray yearList = cso.getJSONArray("yearList");
@@ -130,7 +132,7 @@ public class SequenceValidator extends CPServlet {
 
                             // CREDIT COUNT
 
-                            creditCount += Float.parseFloat((String)course.get("credits"));
+                            creditCount += Double.parseDouble((String)course.get("credits"));
                         }
                         else if (loopCount == 1)
                         {
@@ -197,7 +199,6 @@ public class SequenceValidator extends CPServlet {
 
         // CREDIT COUNT
 
-        Float minTotalCredits = Float.parseFloat((String)cso.get("minTotalCredits"));
         if (creditCount < minTotalCredits) {
             sequenceIsValid = false;
 
@@ -206,7 +207,7 @@ public class SequenceValidator extends CPServlet {
 
             JSONObject issueData = new JSONObject();
             issueData.put("required", minTotalCredits.toString());
-            issueData.put("actual", new Integer(creditCount).toString());
+            issueData.put("actual", new Double(creditCount).toString());
 
             issue.put("data", issueData);
             issues.put(issue);
