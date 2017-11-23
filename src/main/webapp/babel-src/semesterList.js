@@ -1,4 +1,6 @@
 import React from "react";
+import CircularProgress from 'material-ui/CircularProgress';
+
 import SemesterBox from "./semesterBox";
 import {SEASON_NAMES} from "./util";
 import {SEASON_NAMES_PRETTY} from "./util";
@@ -23,7 +25,7 @@ export class SemesterList extends React.Component {
     generateListBody(){
 
         if(this.props.courseSequenceObject.isLoading){
-            return <span className="bigLoadingSpinner glyphicon glyphicon-refresh glyphicon-spin"></span>;
+            return <CircularProgress size={80} thickness={7}/>;
         }
 
         const yearList = this.props.courseSequenceObject.yearList;

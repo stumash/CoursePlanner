@@ -2,18 +2,30 @@ import React from "react";
 
 import { default as TouchBackend } from 'react-dnd-touch-backend';
 import { DragDropContext } from 'react-dnd';
-let _ = require("underscore");
 
+import AppBar from 'material-ui/AppBar';
+import Dialog from 'material-ui/Dialog';
+import CircularProgress from 'material-ui/CircularProgress';
+
+import {CourseInfoCard} from "./courseInfoCard";
+import {SequenceValidationCard} from "./sequenceValidationCard";
 import {SemesterTable} from "./semesterTable";
 import {SemesterList} from "./semesterList";
-import {IOPanel} from "./ioPanel";
 import DragPreview from "./dragPreview";
+import {UI_STRINGS, generatePrettyProgramName} from "./util";
+import GarbageCan from "./garbageCan";
+import {AppBarMenu} from "./appBarMenu";
+import {SearchBox} from "./searchBox";
+import {ProgramSelectionDialog} from "./programSelectionDialog";
+
+let _ = require("underscore");
 
 import { DEFAULT_PROGRAM,
          MAX_UNDO_HISTORY_LENGTH,
          AUTO_SCROLL_PAGE_PORTION,
          AUTO_SCROLL_DELAY,
          AUTO_SCROLL_STEP,
+         EXPORT_TYPES,
          generateUniqueKey,
          generateUniqueKeys,
          saveAs } from "./util";
@@ -34,7 +46,7 @@ class MainPage extends React.Component {
             "courseSequenceObject" : {
                 "isLoading" : true
             },
-            "chosenProgram" : localStorage.getItem("chosenProgram") || DEFAULT_PROGRAM,
+            "chosenProgram" : localStorage.getItem("chosenProgram"),
             "allSequences" : [],
             "selectedCourseInfo" : {},
             "loadingExport": false,
@@ -44,6 +56,7 @@ class MainPage extends React.Component {
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
         this.updateChosenProgram = this.updateChosenProgram.bind(this);
+        this.resetProgram = this.resetProgram.bind(this);
         this.loadCourseInfo = this.loadCourseInfo.bind(this);
         this.setOrListCourseSelected = this.setOrListCourseSelected.bind(this);
         this.toggleWorkTerm = this.toggleWorkTerm.bind(this);
@@ -146,13 +159,21 @@ class MainPage extends React.Component {
     updateChosenProgram(newChosenProgram){
 
         // remember the program selected by the user
-        localStorage.setItem("chosenProgram", newChosenProgram);
+        newChosenProgram ? localStorage.setItem("chosenProgram", newChosenProgram) :
+                           localStorage.removeItem("chosenProgram");
         // clear the saved sequence to force a reloading of the user's chosen program
-        // TODO: (INSERT CONFIRM BOX HERE - MAKE SURE USER DOESN'T LOSE THEIR WORK BY ACCIDENTALLY CHANGING PROGRAMS)
         localStorage.removeItem("savedSequence");
 
         // Must use the callback param of setState to ensure the chosenProgram is changed in time
         this.setState({"chosenProgram": newChosenProgram}, this.loadCourseSequenceObject);
+    }
+
+    /*
+     *  function to call in the event that the user wishes to select a different program of study
+     *  TODO: (INSERT CONFIRM BOX HERE - MAKE SURE USER DOESN'T LOSE THEIR WORK BY ACCIDENTALLY CHANGING PROGRAMS)
+     */
+    resetProgram(){
+        this.updateChosenProgram(undefined);
     }
 
     /*
@@ -366,44 +387,67 @@ class MainPage extends React.Component {
     }
 
     render() {
+        let sourceUrl = this.state.courseSequenceObject.sourceUrl;
+        let minTotalCredits = this.state.courseSequenceObject.minTotalCredits;
+        let sequenceInfo = this.state.courseSequenceObject.sequenceInfo;
+        let programPrettyName = (sequenceInfo && !this.state.courseSequenceObject.isLoading) ? generatePrettyProgramName(sequenceInfo.program, sequenceInfo.option, sequenceInfo.entryType, minTotalCredits)
+                                                                           : "";
         return (
             <div tabIndex="1"
-                 className={"mainPage row" + (this.state.allowingTextSelection ? "" : " textSelectionOff")}
+                 className={"mainPage" + (this.state.allowingTextSelection ? "" : " textSelectionOff")}
                  onMouseMove={this.handleMouseMove}
                  onTouchMove={this.handleTouchMove}
                  onKeyDown={this.handleKeyPress}>
-                <div className="col-md-3 col-sm-12">
-                    <IOPanel courseInfo={this.state.selectedCourseInfo}
-                             allSequences={this.state.allSequences}
-                             chosenProgram={this.state.chosenProgram}
-                             loadingExport={this.state.loadingExport}
-                             showingGarbage={this.state.showingGarbage}
-                             onChangeChosenProgram={this.updateChosenProgram}
-                             exportSequence={this.exportSequence}
-                             onSearchCourse={this.loadCourseInfo}
-                             onRemoveCourse={this.removeCourse}/>
+                <AppBar title={UI_STRINGS.SITE_NAME}
+                        showMenuIconButton={false}
+                        className="appBar"
+                        style={{zIndex: "0"}}
+                        iconElementRight={this.state.showingGarbage ? <GarbageCan onRemoveCourse={this.removeCourse}/> : <AppBarMenu onSelectExport={this.exportSequence}
+                                                                                                                                     onSelectProgramChange={this.resetProgram}/>}/>
+                <div className="pageContent">
+                    <div className="ioPanelContainer">
+                        <div className="ioPanel">
+                            <SearchBox onConfirmSearch={this.loadCourseInfo}/>
+                            <div className="outputPanel">
+                                <CourseInfoCard courseInfo={this.state.selectedCourseInfo}/>
+                                <SequenceValidationCard/>
+                            </div>
+                        </div>
+                    </div>
+                    {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
+                    <div className="semesterTableContainer hidden-xs hidden-sm">
+                        <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
+                        <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
+                                       onSelectCourse={this.loadCourseInfo}
+                                       onOrListSelection={this.setOrListCourseSelected}
+                                       onToggleWorkTerm={this.toggleWorkTerm}
+                                       onMoveCourse={this.moveCourse}
+                                       onAddCourse={this.addCourse}
+                                       onChangeDragState={this.changeDragState}/>
+                    </div>
+                    <div className="semesterListContainer col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
+                        <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
+                        <SemesterList courseSequenceObject={this.state.courseSequenceObject}
+                                      onSelectCourse={this.loadCourseInfo}
+                                      onOrListSelection={this.setOrListCourseSelected}
+                                      onToggleWorkTerm={this.toggleWorkTerm}
+                                      onMoveCourse={this.moveCourse}
+                                      onAddCourse={this.addCourse}
+                                      onChangeDragState={this.changeDragState}/>
+                    </div>
+                    {/* Drag Preview will become visible when dragging occurs */}
+                    <DragPreview/>
+                    <Dialog title={UI_STRINGS.EXPORTING_SEQUENCE}
+                            modal={true}
+                            open={this.state.loadingExport}
+                            contentStyle={{width: "300px"}}
+                            titleStyle={{textAlign: "center"}}>
+                        <CircularProgress size={80} thickness={7} style={{width: "100%", textAlign: "center"}}/>
+                    </Dialog>
+                    <ProgramSelectionDialog isOpen={!this.state.chosenProgram}
+                                            allSequences={this.state.allSequences}
+                                            onChangeChosenProgram={this.updateChosenProgram}/>
                 </div>
-                {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
-                <div className="col-sm-9 hidden-xs hidden-sm">
-                    <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
-                                   onSelectCourse={this.loadCourseInfo}
-                                   onOrListSelection={this.setOrListCourseSelected}
-                                   onToggleWorkTerm={this.toggleWorkTerm}
-                                   onMoveCourse={this.moveCourse}
-                                   onAddCourse={this.addCourse}
-                                   onChangeDragState={this.changeDragState}/>
-                </div>
-                <div className="col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
-                    <SemesterList courseSequenceObject={this.state.courseSequenceObject}
-                                  onSelectCourse={this.loadCourseInfo}
-                                  onOrListSelection={this.setOrListCourseSelected}
-                                  onToggleWorkTerm={this.toggleWorkTerm}
-                                  onMoveCourse={this.moveCourse}
-                                  onAddCourse={this.addCourse}
-                                  onChangeDragState={this.changeDragState}/>
-                </div>
-                {/* Drag Preview will become visible when dragging occurs */}
-                <DragPreview/>
             </div>
         );
     }
@@ -414,6 +458,10 @@ class MainPage extends React.Component {
 
     // Load chosen sequence via backend request if we don't find one that's already saved
     loadCourseSequenceObject(){
+
+        if(!this.state.chosenProgram){
+            return;
+        }
 
         // set the courseSequenceObject to loading state then load its data
         this.setState({"courseSequenceObject" : {

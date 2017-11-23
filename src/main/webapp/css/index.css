@@ -1,20 +1,74 @@
-@import url('https://fonts.googleapis.com/css?family=Orbitron');
-
 /* Root styling */
 
 #react-root {
-    padding-top: 15px;
     font-size: 14px;
+    font-family: Roboto;
 }
 
 .mainPage:focus {
     outline: none;
 }
 
+.pageContent {
+    padding-top: 15px;
+}
+
+.garbageCan {
+    font-size: 20px;
+    color: white;
+    padding: 10px 20px;
+}
+
+.exportSpinner {
+    text-align: center;
+}
+
+.programPrettyName {
+    padding: 0px 12px 12px 12px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
 /* Styling for SemesterTable */
+
+.semesterTableContainer {
+    min-width: 760px;
+    width: 70%;
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    padding: 0px 15px;
+}
+
+.semesterTable {
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+}
+
+.semesterTable th {
+    font-weight: 500;
+}
 
 .semesterTable tr > td:first-of-type {
     vertical-align: middle;
+}
+
+/* Remove default border from table so we can add a box-shadow instead */
+
+.semesterTable tr > th:first-of-type,
+.semesterTable tr > td:first-of-type {
+    border-left: none;
+}
+
+.semesterTable tr > th:last-of-type,
+.semesterTable tr > td:last-of-type {
+    border-right: none;
+}
+
+.semesterTable tr:last-of-type > td {
+    border-bottom: none;
 }
 
 /* Styling for SemesterList */
@@ -68,7 +122,11 @@
     width: 160px;
     margin: 6px auto;
     border-radius: 5px;
-    border: 1px solid #CCCCCC;
+    border: 1px solid #DDDDDD;
+    background-color: white;
+    font-size: 14px;
+    padding-top: 2px;
+    color: #333333;
 }
 
 .course:hover {
@@ -92,8 +150,9 @@
 
 .orList {
     width: 160px;
-    border: none;
     margin: 6px auto;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
 }
 
 .orList .course {
@@ -108,25 +167,29 @@
     width: 100%;
     background-color: transparent;
     color: #333333;
+    border: none;
 }
 
-.orList .input-group-addon .course {
-    height: 20px;
-    padding-top: 3px;
+.orList .input-group-addon > div {
+    height: 22px;
+    padding-top: 5px;
+    border-radius: 4px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .orList button {
-    padding: 0px 8px;
+    padding: 1px 8px;
     background-color: transparent;
+    border: none;
+    border-right: 1px solid #DDDDDD;
 }
 
 .orList button:hover, .orList button:active {
     background-color: inherit;
 }
 
-.orList .caret {
-    margin-bottom: 2px;
-}
+.orList .caret {}
 
 
 .courseCode {
@@ -137,8 +200,8 @@
 
 /* Styling for IOPanel */
 
-.ioPanel > div {
-    margin-bottom: 20px;
+.ioPanel {
+    height: 100%;
 }
 
 .ioPanel pre {
@@ -148,16 +211,55 @@
     margin-top: 20px;
 }
 
-.logoContainer {
-    font: bold 20px orbitron;
+.outputPanel {
+    height: calc(100% - 80px);
+    padding: 3px 15px 3px 3px;
+    overflow-y: auto;
+    overflow-x: visible;
 }
 
-.logoContainer .panel-body {
+.ioPanelContainer {
+    display: inline-block;
+    position: absolute;
+    right: 760px;
+    left: 0px;
+    padding-left: 15px;
+    max-width: 30%;
+    height: calc(100% - 94px);
+    overflow-y: auto;
+    overflow-x: visible;
+}
+
+.courseInfoCard {
+    margin-bottom: 20px;
+}
+
+.courseInfoCard .smallLoadingSpinner {
     padding: 0;
 }
 
-.logoContainer .panel-body > div {
-    padding: 15px;
+.courseInfoCard .course {
+    margin-left: 0;
+    font-weight: normal;
+}
+
+.courseInfoHeading {
+    font-weight: 500;
+    font-size: 15px;
+    padding: 8px 0;
+}
+
+.courseDescription {
+    padding-bottom: 8px;
+}
+
+.courseDescription .courseInfoHeading {
+    padding-top: 0;
+}
+
+.prereqsList .courseInfoHeading,
+.coreqsList .courseInfoHeading {
+    padding-bottom: 0;
 }
 
 .ioPanel .programSelect select {
@@ -170,68 +272,14 @@
 
 /* Styling for SearchBox */
 
-ul.ui-autocomplete {
-    max-height: 250px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.ui-menu-item .ui-state-active {
-    background-color: #E6E6E6;
-    color: black;
-    border: none;
-    margin: 0px;
-}
-
-.filterLoading {
-    position: absolute;
-    z-index: 3;
-    right: 48px;
-    top: 8px;
-    font-size: 18px;
+.courseSearch {
+    height: 60px;
+    margin-bottom: 20px;
+    padding-right: 15px;
 }
 
 .noCourses {
     padding-left: 12px;
-}
-
-/* Styling for loading icon */
-
-.smallLoadingSpinner {
-    font-size: 22px;
-    padding: 4px 12px;
-}
-
-.bigLoadingSpinner {
-    font-size: 50px;
-    padding: 50px;
-}
-
-.glyphicon-spin {
-    -webkit-animation: spin 1000ms infinite linear;
-    animation: spin 1000ms infinite linear;
-}
-
-@-webkit-keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(359deg);
-        transform: rotate(359deg);
-    }
-}
-
-@keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(359deg);
-        transform: rotate(359deg);
-    }
 }
 
 /* Special styling for DND */
@@ -262,7 +310,6 @@ ul.ui-autocomplete {
     .ioPanel .programSelect select,
     .ioPanel .courseSearch input,
     .ioPanel .courseSearch button,
-    .logoContainer .panel-body > div,
     .ui-menu-item-wrapper {
         font-size: 30px;
     }
@@ -312,4 +359,29 @@ ul.ui-autocomplete {
         top: 10px;
         right: 70px;
     }
+    
+    .ioPanelContainer {
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px;
+        right: initial;
+    }
+    
 }
+
+/* Pretty useful to keep these tbh */
+
+.appBar {}
+
+.semesterListContainer {}
+
+.exportContainer {}
+
+.programSelect select {}
+
+.controls {}
+
+.prereqsList {}
+
+.coreqsList {}

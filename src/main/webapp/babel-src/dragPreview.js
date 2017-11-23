@@ -2,7 +2,6 @@ import React from 'react';
 import { DragLayer } from 'react-dnd';
 import { ITEM_TYPES, renderCourseDiv,renderOrListDiv } from "./util";
 
-
 function collect(monitor){
     return {
         item: monitor.getItem(),

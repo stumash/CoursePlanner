@@ -100,22 +100,23 @@ public class SequenceProvider extends DBServlet {
 
     // add in name and credits values from the DB
     public JSONObject fillMissingInfo(JSONObject courseObject) throws JSONException{
-
-        if(!courseObject.getBoolean("isElective")){
-
+        
+        if(courseObject.getBoolean("isElective")){
+            courseObject.put("credits", "3");
+        } else {
             Document filter = new Document();
             filter.put("_id", courseObject.getString("code"));
             Document dbResult = (Document) courseInfo.find(filter).first();
 
-	    if(dbResult == null){
-		logger.info("got null db result for course: " + courseObject.getString("code"));
-		courseObject.put("name", "UNKNOWN");
-		courseObject.put("credits", "0");
-	    } else {
-  		for (String courseKey : dbResult.keySet()) {
-			courseObject.put(courseKey, dbResult.get(courseKey));
-	    	}
-	    }
+            if(dbResult == null){
+                logger.info("got null db result for course: " + courseObject.getString("code"));
+                courseObject.put("name", "UNKNOWN");
+                courseObject.put("credits", "0");
+            } else {
+                for (String courseKey : dbResult.keySet()) {
+                    courseObject.put(courseKey, dbResult.get(courseKey));
+                }
+            }
         }
         return courseObject;
     }
