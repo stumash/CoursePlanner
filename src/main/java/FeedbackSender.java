@@ -27,7 +27,7 @@ public class FeedbackSender extends CPServlet {
         boolean success = true;
         try {
             Email email = new SimpleEmail();
-            email.setHostName("smtp.googlemail.com");
+            email.setHostName("smtp.gmail.com");
             email.setSmtpPort(465);
             email.setAuthenticator(new DefaultAuthenticator("concordiacourseplanner@gmail.com", "tranzone"));
             email.setSSLOnConnect(true);
