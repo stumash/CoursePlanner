@@ -137,8 +137,10 @@ public class SequenceValidator extends CPServlet {
                             // PREREQUISITE
 
                             boolean prereqsValid = true;
+
                             JSONObject issue = new JSONObject();
                             issue.put("type", VALIDATION_ISSUES.PREREQUISITE.toString());
+
                             JSONObject issueData = new JSONObject();
                             issueData.put("culpritCourseCode", courseCode);
                             JSONArray missingPrereqCourseCodes = new JSONArray();
@@ -163,8 +165,10 @@ public class SequenceValidator extends CPServlet {
                             // COREQUISITE
 
                             boolean coreqsValid = true;
+
                             issue = new JSONObject();
                             issue.put("type", VALIDATION_ISSUES.COREQUISITE.toString());
+
                             issueData = new JSONObject();
                             issueData.put("culpritCourseCode", courseCode);
                             JSONArray missingCoreqCourseCodes = new JSONArray();
@@ -196,11 +200,14 @@ public class SequenceValidator extends CPServlet {
         Integer minTotalCredits = (Integer) cso.get("minTotalCredits");
         if (creditCount < minTotalCredits) {
             sequenceIsValid = false;
+
             JSONObject issue = new JSONObject();
             issue.put("type", VALIDATION_ISSUES.CREDITCOUNT.toString());
+
             JSONObject issueData = new JSONObject();
             issueData.put("required", minTotalCredits.toString());
             issueData.put("actual", new Integer(creditCount).toString());
+
             issue.put("data", issueData);
             issues.put(issue);
         }
