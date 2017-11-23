@@ -130,7 +130,7 @@ public class SequenceValidator extends CPServlet {
 
                             // CREDIT COUNT
 
-                            creditCount += (Integer) course.get("credits");
+                            creditCount += Float.parseFloat((String)course.get("credits"));
                         }
                         else if (loopCount == 1)
                         {
@@ -197,7 +197,7 @@ public class SequenceValidator extends CPServlet {
 
         // CREDIT COUNT
 
-        Integer minTotalCredits = (Integer) cso.get("minTotalCredits");
+        Float minTotalCredits = Float.parseFloat((String)cso.get("minTotalCredits"));
         if (creditCount < minTotalCredits) {
             sequenceIsValid = false;
 
