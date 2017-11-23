@@ -58,22 +58,4 @@ public abstract class CPServlet extends HttpServlet {
 
         return  propertyValue;
     }
-
-    ArrayList<Semester> grabSemestersFromRequest(HttpServletRequest request) throws IOException {
-
-        ArrayList<Semester> semesters = new ArrayList<Semester>();
-
-        try {
-            JSONArray semestersAsJson = (JSONArray) grabPropertyFromRequest("semesterList", request);
-            for(int i = 0; i < semestersAsJson.length(); i++){
-                semesters.add(new Semester(semestersAsJson.getJSONObject(i)));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            // crash and burn
-            throw new IOException("Error parsing JSON request string");
-        }
-
-        return semesters;
-    }
 }

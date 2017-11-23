@@ -36,9 +36,6 @@ public class SequenceValidator extends CPServlet {
         }
     }
 
-
-    private static final int SEMESTERS_PER_YEAR = 3;
-
     public void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException
     {
@@ -219,5 +216,4 @@ public class SequenceValidator extends CPServlet {
 
         return sequenceValidationResults;
     }
-
 }
