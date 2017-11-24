@@ -269,9 +269,7 @@ export function renderCourseDiv(courseObj, extraClassNames, clickHandler){
             <div className="courseCode">
                 { (courseObj.isElective === "true") ? (courseObj.electiveType + " Elective") : courseObj.code}
             </div>
-            <div className="courseCredits">
-                { (courseObj.isElective === "true") ? "3": courseObj.credits }
-            </div>
+            <div className="courseCredits">{courseObj.credits}</div>
         </div>
     );
 }
