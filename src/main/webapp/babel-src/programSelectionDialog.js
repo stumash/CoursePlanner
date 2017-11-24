@@ -297,6 +297,7 @@ export class ProgramSelectionDialog extends React.Component {
                     actions={this.renderDialogActions()}
                     modal={true}
                     open={this.props.isOpen}
+                    className="programSelectionDialogContent"
                     contentStyle={{width: "40%"}}>
                 {dialogContent}
             </Dialog>
