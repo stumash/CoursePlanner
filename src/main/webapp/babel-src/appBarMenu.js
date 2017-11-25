@@ -22,11 +22,10 @@ export class AppBarMenu extends React.Component {
     }
     
     render() {
-
-        let exportSubMenu = EXPORT_TYPES.map(exportType =>
-            <MenuItem value={exportType}
-                      primaryText={"to " + exportType}
-                      onClick={() => this.props.onSelectExport(exportType)}/>);
+        let exportSubMenu = Object.keys(EXPORT_TYPES).map(exportType =>
+            <MenuItem value={EXPORT_TYPES[exportType]}
+                      primaryText={"to " + EXPORT_TYPES[exportType]}
+                      onClick={() => this.props.onSelectExport(EXPORT_TYPES[exportType])}/>);
 
         return (
             <IconMenu iconButtonElement={<IconButton  iconStyle={{color: "white"}}><MoreVertIcon/></IconButton>}

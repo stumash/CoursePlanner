@@ -71,7 +71,7 @@
         <servlet-name>FilterCourseCodes</servlet-name>
         <url-pattern>/api/filtercoursecodes</url-pattern>
     </servlet-mapping>
-
+    
     <servlet>
         <servlet-name>FeedbackSender</servlet-name>
         <servlet-class>FeedbackSender</servlet-class>
@@ -81,5 +81,5 @@
         <servlet-name>FeedbackSender</servlet-name>
         <url-pattern>/api/feedback</url-pattern>
     </servlet-mapping>
-
+    
 </web-app>
