@@ -1,3 +1,7 @@
 Adding the following line to the crontab would result in the production database getting updated once every 24 hours.
 
-0 0 * * * sh /opt/cp-webscraping/scrapeTheWeb.sh --prod
+0 0 * * * sh /opt/cp-webscraping/scrapeTheWeb.sh "$(< /home/david/tranzoneAdminPass.txt)" --prod
+
+Adding the following line to the crontab would result in the production exports folder getting cleaned (delete files older than 2h) every hour
+
+0 * * * * find /opt/tomcat/webapps/ROOT/exports/* -mmin +120 -exec rm -f {} \;
