@@ -116,7 +116,7 @@ public class SequenceValidator extends CPServlet {
         JSONArray yearList = cso.getJSONArray("yearList");
         if (yearList.length() == 0) throw new Exception("empty yearList");
 
-        int numLoops = 2; // for now only 2 loops needed for all validation
+        int numLoops = 2; // for now only 2 loops needed. first one to build some maps, second to use them
         for (int loopCount = 0; loopCount < numLoops; loopCount++)
         {
             // for each year
@@ -204,12 +204,88 @@ public class SequenceValidator extends CPServlet {
                             // TODO: PREREQUISITE
 
                             boolean prereqsValid = true;
+                            JSONArray requirements = new JSONArray();
+                            // for each orList of prereqs
+                            JSONArray orLists = course.getJSONArray("prereqs");
+                            for (int i = 0; i < orLists.length(); i++) {
+                                JSONArray orList = orLists.getJSONArray(i);
 
-                            // TODO: COREQUISITE
+                                boolean orListValid = true;
+                                // for each course in orList
+                                for (int j = 0; j < orList.length(); j++) {
+                                    String prereqCourseCode = orList.getString(j);
+                                    // prequnisemid = prereq's unique semester id (of first occurence in sequence)
+                                    Integer prequnisemid = null;
+                                    try { prequnisemid = (int) cc2ci.get(prereqCourseCode).get(0).getX(); }
+                                    catch(Exception e) { }
+
+                                    // if prequnisemid is not earlier than current course's unique semester id
+                                    if (prequnisemid == null || prequnisemid >= uniqueSemesterId) {
+                                        orListValid = false;
+                                    }
+                                }
+                                if (!orListValid) {
+                                    prereqsValid = false;
+                                    requirements.put(orList);
+                                }
+                            }
+
+                            if (!prereqsValid) {
+                                sequenceIsValid = false;
+                                issues
+                                .put(new JSONObject()
+                                    .put("type", ISSUES.PREREQUISITE.toString())
+                                    .put("data", new JSONObject()
+                                        .put("courseCode", courseCode)
+                                        .put("position", positionObject(uniqueSemesterId, coursesInSemIdx))
+                                        .put("requirements", requirements)
+                                    )
+                                );
+                            }
+
+
+                            // COREQUISITE
 
                             boolean coreqsValid = true;
-                            //
-                       }
+                            requirements = new JSONArray();
+                            // for each orList of coreqs
+                            orLists = course.getJSONArray("coreqs");
+                            for (int i = 0; i < orLists.length(); i++) {
+                                JSONArray orList = orLists.getJSONArray(i);
+
+                                boolean orListValid = true;
+                                // for each course in orList
+                                for (int j = 0; j < orList.length(); j++) {
+                                    String coreqCourseCode = orList.getString(j);
+                                    // corequnisemid = coreq's unique semester id
+                                    Integer corequnisemid = null;
+                                    try { corequnisemid = (int) cc2ci.get(coreqCourseCode).get(0).getX(); }
+                                    catch(Exception e) { }
+
+                                    // if corequnisemdid is any later than current course's unique semeseter id
+                                    if (corequnisemid == null || corequnisemid > uniqueSemesterId) {
+                                        orListValid = false;
+                                    }
+                                }
+                                if (!orListValid) {
+                                    coreqsValid = false;
+                                    requirements.put(orList);
+                                }
+                            }
+
+                            if (!coreqsValid) {
+                                sequenceIsValid = false;
+                                issues
+                                .put(new JSONObject()
+                                    .put("type", ISSUES.COREQUISITE.toString())
+                                    .put("data", new JSONObject()
+                                        .put("courseCode", courseCode)
+                                        .put("position", positionObject(uniqueSemesterId, coursesInSemIdx))
+                                        .put("requirements", requirements)
+                                    )
+                                );
+                            }
+                        }
                     }
                 }
             }
@@ -270,16 +346,24 @@ public class SequenceValidator extends CPServlet {
     }
 
     // helpers to create JSON object representing position of course in course sequence
-    private JSONObject positionObject(Integer yearIdx, Integer seasonIdx, Integer courseIdx) {
+    private JSONObject positionObject(Integer yearIdx, Integer seasonIdx, Integer courseIdx) throws JSONException {
         return new JSONObject()
             .put("yearIndex", yearIdx.toString())
             .put("season", SEASONS.values()[seasonIdx].toString())
             .put("courseIndex", courseIdx.toString());
     }
-    private JSONObject positionObject(Integer uniqueSemesterId, Integer courseIdx) {
+    private JSONObject positionObject(Integer uniqueSemesterId, Integer courseIdx) throws JSONException {
         return new JSONObject()
             .put("yearIndex", new Integer(uniqueSemesterId / SEASONS.values().length).toString())
             .put("season", SEASONS.values()[uniqueSemesterId % SEASONS.values().length].toString())
             .put("courseIndex", courseIdx.toString());
+    }
+    // helper to extract position from JSON position object
+    private Point getPosFromPosistionObject(JSONObject positionObject) throws JSONException {
+        int yearIndex = positionObject.getInt("yearIndex");
+        int seasonIndex = positionObject.getInt("season") ;
+        int courseIndex = positionObject.getInt("courseIndex");
+
+        return new Point(yearIndex * SEASONS.values().length + seasonIndex, courseIndex);
     }
 }
