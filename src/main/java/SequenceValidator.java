@@ -190,11 +190,14 @@ public class SequenceValidator extends CPServlet {
 
                         if (loopCount == 0)
                         {
-                            if (!cc2ci.containsKey(courseCode)) {
-                                ArrayList<Point> courseOccurences = new ArrayList<>();
-                                courseOccurences.add(new Point(uniqueSemesterId, coursesInSemIdx));
-                            } else {
-                                cc2ci.get(courseCode).add(new Point(uniqueSemesterId, coursesInSemIdx));
+                            if (!courseCode.equals("")) {
+                                if (!cc2ci.containsKey(courseCode)) {
+                                    ArrayList<Point> courseOccurences = new ArrayList<>();
+                                    courseOccurences.add(new Point(uniqueSemesterId, coursesInSemIdx));
+                                    cc2ci.put(courseCode, courseOccurences);
+                                } else {
+                                    cc2ci.get(courseCode).add(new Point(uniqueSemesterId, coursesInSemIdx));
+                                }
                             }
 
                             // CREDIT COUNT
@@ -209,15 +212,13 @@ public class SequenceValidator extends CPServlet {
                             JSONArray failedRequirements = new JSONArray();
                             // for each orList of prereqs
                             JSONArray orLists = null;
-                            logger.info("coursecode: "+courseCode);
                             try { orLists = course.getJSONObject("requirements").getJSONArray("prereqs");
                             } catch(Exception e) { continue; /* skip prereq validation if no prerqs */ }
-                            logger.info("coursecode: "+courseCode);
 
                             for (int i = 0; i < orLists.length(); i++) {
                                 JSONArray orList = orLists.getJSONArray(i);
 
-                                boolean orListValid = true;
+                                boolean orListValid = false;
                                 // for each course in orList
                                 for (int j = 0; j < orList.length(); j++) {
                                     String prereqCourseCode = orList.getString(j);
@@ -225,11 +226,10 @@ public class SequenceValidator extends CPServlet {
                                     Integer prequnisemid = null;
                                     try { prequnisemid = (int) cc2ci.get(prereqCourseCode).get(0).getX(); }
                                     catch(Exception e) { }
-                                    logger.info("CourseCode: "+courseCode+", prereq: "+prereqCourseCode+", prereqTime: "+prequnisemid);
 
-                                    // if prequnisemid is not earlier than current course's unique semester id
-                                    if (prequnisemid == null || prequnisemid >= uniqueSemesterId) {
-                                        orListValid = false;
+                                    // if prereq is earlier than current course in course sequence
+                                    if (prequnisemid != null && prequnisemid < uniqueSemesterId) {
+                                        orListValid = true;
                                     }
                                 }
                                 if (!orListValid) {
@@ -264,7 +264,7 @@ public class SequenceValidator extends CPServlet {
                             for (int i = 0; i < orLists.length(); i++) {
                                 JSONArray orList = orLists.getJSONArray(i);
 
-                                boolean orListValid = true;
+                                boolean orListValid = false;
                                 // for each course in orList
                                 for (int j = 0; j < orList.length(); j++) {
                                     String coreqCourseCode = orList.getString(j);
@@ -273,9 +273,9 @@ public class SequenceValidator extends CPServlet {
                                     try { corequnisemid = (int) cc2ci.get(coreqCourseCode).get(0).getX(); }
                                     catch(Exception e) { }
 
-                                    // if corequnisemdid is any later than current course's unique semeseter id
-                                    if (corequnisemid == null || corequnisemid > uniqueSemesterId) {
-                                        orListValid = false;
+                                    // if coreq is as early as current course in course sequence
+                                    if (corequnisemid != null && corequnisemid <= uniqueSemesterId) {
+                                        orListValid = true;
                                     }
                                 }
                                 if (!orListValid) {
