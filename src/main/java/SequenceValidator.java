@@ -20,14 +20,12 @@ public class SequenceValidator extends CPServlet {
     // Constants representing the types of issues that course sequences are validated against
     private static enum ISSUES {
 
-        REPEATED, CREDITCOUNT, PREREQUISITE, COREQUISITE;
+        CREDITCOUNT, PREREQUISITE, COREQUISITE;
 
         // JSON-friendly names for returning validation messages to client
         @Override
         public String toString() {
-            if (this == REPEATED) {
-                return "repeated";
-            } else if (this == CREDITCOUNT) {
+            if (this == CREDITCOUNT) {
                 return "creditCount";
             } else if (this == PREREQUISITE) {
                 return "prerequisite";
@@ -41,13 +39,15 @@ public class SequenceValidator extends CPServlet {
     // Constants representing the types of warnings that course sequences are validated against
     private static enum WARNINGS {
 
-        UNSELECTED_OPTION;
+        REPEATED, UNSELECTED_OPTION;
 
         // JSON-friendly names for returning validation messages to client
         @Override
         public String toString() {
             if (this == UNSELECTED_OPTION) {
                 return "unselectedOption";
+            } else if (this == REPEATED) {
+                return "repeated";
             }
             return null;
         }
@@ -316,9 +316,9 @@ public class SequenceValidator extends CPServlet {
                     positions.put(positionObject(uniqueSemesterId, courseIndex));
                 }
 
-                issues
+                warnings
                 .put(new JSONObject()
-                    .put("type", ISSUES.REPEATED.toString())
+                    .put("type", WARNINGS.REPEATED.toString())
                     .put("data", new JSONObject()
                         .put("courseCode", courseCode)
                         .put("positions", positions)

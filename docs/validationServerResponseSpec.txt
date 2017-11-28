@@ -20,11 +20,6 @@
 // data objects for each issue type
 //----------------------------------
 
-// data object for issue type: repeated
-{
-    "courseCode": course code,
-    "positions": array of position objects
-}
 // data object for issue type: creditCount
 {
     "requiredNumCredits": int,
@@ -49,6 +44,11 @@
 // data object for warning type: unselectedOption
 {
     "position": position object
+}
+// data object for warning type: repeated
+{
+    "courseCode": course code,
+    "positions": array of position objects
 }
 
 // other objects used but undefined above
