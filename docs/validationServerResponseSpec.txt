@@ -8,12 +8,12 @@
 
 // issue object
 {
-    "type": "repeated|creditCount|prerequisite|corequisite",
+    "type": "creditCount|prerequisite|corequisite",
     "data": object
 }
 // warning object
 {
-    "type": "unselectedOption"
+    "type": "repeated|unselectedOption"
     "data": object
 }
 
