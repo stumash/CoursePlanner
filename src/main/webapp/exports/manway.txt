@@ -8,4 +8,4 @@ manmanwei
 .
 .
 .
-For real though we need at least 1 file inside the exports folder otherwise the directory doesn't get created on the VM
+For real though we need at least 1 file inside the exports folder otherwise it doesn't get created on the VM

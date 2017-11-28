@@ -32,9 +32,6 @@ public abstract class CPServlet extends HttpServlet {
         JSONObject requestJson;
         String requestString = IOUtils.toString(request.getReader());
         try {
-            logger.info("raw request String:");
-            logger.info(requestString);
-            logger.info("end raw request String");
             requestJson =  new JSONObject(requestString);
         } catch (JSONException e) {
             e.printStackTrace();

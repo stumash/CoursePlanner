@@ -10,7 +10,6 @@ import React from "react";
 export const SEASON_NAMES_PRETTY = ["Fall", "Winter", "Summer"];
 export const SEASON_NAMES = SEASON_NAMES_PRETTY.map((season) => season.toLowerCase());
 export const DEFAULT_PROGRAM = "SOEN-General-Coop";
-export const EXPORT_TYPES = ["PDF", "MD", "TXT"];
 export const MAX_UNDO_HISTORY_LENGTH = 100;
 export const AUTO_SCROLL_PAGE_PORTION = 0.1; // auto scroll on the top and bottom 10% of screen
 export const AUTO_SCROLL_STEP = 10;
@@ -71,6 +70,7 @@ export const UI_STRINGS = {
     LIST_NONE_SELECTED: "None Selected",
 
 };
+
 export const PROGRAM_NAMES = {
     SOEN: "Software Engineering",
     COMP: "Computer Science",
@@ -106,6 +106,13 @@ export const PROGRAM_ENTRY_TYPES = {
     Coop: "Coop September"
 };
 
+export const EXPORT_TYPES = {
+    EXPORT_TYPE_TABLE_PDF: "PDF (table)",
+    EXPORT_TYPE_TABLE_HTML: "HTML (table)",
+    EXPORT_TYPE_LIST_PDF: "PDF (list)",
+    EXPORT_TYPE_LIST_MD: "TEXT (list)"
+};
+
 export function generatePrettyProgramName(program, option, entryType, minTotalCredits){
     return (
         PROGRAM_NAMES[program] + ", " +
@@ -113,7 +120,7 @@ export function generatePrettyProgramName(program, option, entryType, minTotalCr
         PROGRAM_ENTRY_TYPES[entryType] + " Entry" +
         (minTotalCredits ?  " (" + minTotalCredits + " credits)" : "")
     );
-}
+};
 
 /*
  *  Special object used by react-dnd to register a drag source

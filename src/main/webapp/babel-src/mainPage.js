@@ -528,21 +528,44 @@ class MainPage extends React.Component {
      *      param exportType - string which indicates what file type to export to
      */
     exportSequence(exportType){
+        
+        let requestExportType = "";
+        if(exportType === EXPORT_TYPES.EXPORT_TYPE_LIST_PDF || exportType === EXPORT_TYPES.EXPORT_TYPE_LIST_MD){
+            requestExportType = "list";
+        } else if(exportType === EXPORT_TYPES.EXPORT_TYPE_TABLE_PDF || exportType === EXPORT_TYPES.EXPORT_TYPE_TABLE_HTML){
+            requestExportType = "table";
+        }
+
+        let sequenceInfo = this.state.courseSequenceObject.sequenceInfo;
+        let minTotalCredits = this.state.courseSequenceObject.minTotalCredits;
+        let programName = generatePrettyProgramName(sequenceInfo.program, sequenceInfo.option, sequenceInfo.entryType, minTotalCredits);
+        
         this.setState({
             "loadingExport": true
         }, () =>{
             $.ajax({
                 type: "POST",
                 url: "api/export",
-                data: JSON.stringify({"courseSequenceObject" : this.state.courseSequenceObject}),
+                data: JSON.stringify({
+                    courseSequenceObject : this.state.courseSequenceObject, 
+                    exportType: requestExportType,
+                    programName: programName
+                }),
                 success: (response) => {
 
                     let downloadUrl = JSON.parse(response).exportPath;
-                    if(exportType === "MD" || exportType === "TXT"){
-                        downloadUrl = downloadUrl.replace("pdf", "md");
+
+                    let extension = "pdf";
+                    if(exportType === EXPORT_TYPES.EXPORT_TYPE_LIST_MD){
+                        extension = "md";
+                    }
+                    if(exportType === EXPORT_TYPES.EXPORT_TYPE_TABLE_HTML){
+                        extension = "html";
                     }
 
-                    saveAs(downloadUrl, "MySequence." + exportType.toLowerCase());
+                    downloadUrl = downloadUrl.replace("pdf", extension);
+
+                    saveAs(downloadUrl, "MySequence." + extension);
 
                     this.setState({"loadingExport" : false});
                 }
