@@ -168,7 +168,7 @@ public class SequenceValidator extends CPServlet {
 
                             if (optionsSelected < 1) {
                                 sequenceIsValid = false;
-                                errci.contains(new Point(uniqueSemesterId, coursesInSemIdx));
+                                errci.add(new Point(uniqueSemesterId, coursesInSemIdx));
 
                                 warnings
                                 .put(new JSONObject()
@@ -190,7 +190,7 @@ public class SequenceValidator extends CPServlet {
 
                         if (loopCount == 0)
                         {
-                            if (cc2ci.get(courseCode) == null) {
+                            if (!cc2ci.containsKey(courseCode)) {
                                 ArrayList<Point> courseOccurences = new ArrayList<>();
                                 courseOccurences.add(new Point(uniqueSemesterId, coursesInSemIdx));
                             } else {
@@ -203,14 +203,16 @@ public class SequenceValidator extends CPServlet {
                         }
                         else if (loopCount == 1)
                         {
-                            // TODO: PREREQUISITE
+                            // PREREQUISITE
 
                             boolean prereqsValid = true;
-                            JSONArray requirements = new JSONArray();
+                            JSONArray failedRequirements = new JSONArray();
                             // for each orList of prereqs
                             JSONArray orLists = null;
-                            try { orLists = course.getJSONArray("prereqs");
+                            logger.info("coursecode: "+courseCode);
+                            try { orLists = course.getJSONObject("requirements").getJSONArray("prereqs");
                             } catch(Exception e) { continue; /* skip prereq validation if no prerqs */ }
+                            logger.info("coursecode: "+courseCode);
 
                             for (int i = 0; i < orLists.length(); i++) {
                                 JSONArray orList = orLists.getJSONArray(i);
@@ -223,6 +225,7 @@ public class SequenceValidator extends CPServlet {
                                     Integer prequnisemid = null;
                                     try { prequnisemid = (int) cc2ci.get(prereqCourseCode).get(0).getX(); }
                                     catch(Exception e) { }
+                                    logger.info("CourseCode: "+courseCode+", prereq: "+prereqCourseCode+", prereqTime: "+prequnisemid);
 
                                     // if prequnisemid is not earlier than current course's unique semester id
                                     if (prequnisemid == null || prequnisemid >= uniqueSemesterId) {
@@ -231,7 +234,7 @@ public class SequenceValidator extends CPServlet {
                                 }
                                 if (!orListValid) {
                                     prereqsValid = false;
-                                    requirements.put(orList);
+                                    failedRequirements.put(orList);
                                 }
                             }
 
@@ -243,7 +246,7 @@ public class SequenceValidator extends CPServlet {
                                     .put("data", new JSONObject()
                                         .put("courseCode", courseCode)
                                         .put("position", positionObject(uniqueSemesterId, coursesInSemIdx))
-                                        .put("requirements", requirements)
+                                        .put("requirements", failedRequirements)
                                     )
                                 );
                             }
@@ -252,10 +255,10 @@ public class SequenceValidator extends CPServlet {
                             // COREQUISITE
 
                             boolean coreqsValid = true;
-                            requirements = new JSONArray();
+                            failedRequirements = new JSONArray();
                             // for each orList of coreqs
                             orLists = null;
-                            try { orLists = course.getJSONArray("coreqs");
+                            try { orLists = course.getJSONObject("requirements").getJSONArray("coreqs");
                             } catch(Exception e) { continue; /* skip coreqs validation if no coreqs */ }
 
                             for (int i = 0; i < orLists.length(); i++) {
@@ -277,7 +280,7 @@ public class SequenceValidator extends CPServlet {
                                 }
                                 if (!orListValid) {
                                     coreqsValid = false;
-                                    requirements.put(orList);
+                                    failedRequirements.put(orList);
                                 }
                             }
 
@@ -289,7 +292,7 @@ public class SequenceValidator extends CPServlet {
                                     .put("data", new JSONObject()
                                         .put("courseCode", courseCode)
                                         .put("position", positionObject(uniqueSemesterId, coursesInSemIdx))
-                                        .put("requirements", requirements)
+                                        .put("requirements", failedRequirements)
                                     )
                                 );
                             }
