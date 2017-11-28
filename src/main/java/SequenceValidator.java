@@ -142,7 +142,7 @@ public class SequenceValidator extends CPServlet {
                         // VALIDATE FATAL ISSUES/WARNINGS (THOSE THAT PREVENT FURTHER VALIDATION OF A COURSE)
                         //------------------------------------------------------------------------------------
 
-                        // no matter what loopCount, stop validating this course if it already has a fatal error
+                        // no matter the loopCount, stop validating this course if it already has a fatal error
                         if (errci.contains(new Point(uniqueSemesterId, coursesInSemIdx))) {
                             continue;
                         }
@@ -150,16 +150,18 @@ public class SequenceValidator extends CPServlet {
                         JSONObject course = null;
                         // course can be single course or orList of courses
                         try {
-                            course = (JSONObject) coursesInSem.get(coursesInSemIdx);
+                            course = coursesInSem.getJSONObject(coursesInSemIdx);
                         } catch(JSONException e) {
-                            JSONArray orList = (JSONArray) coursesInSem.get(coursesInSemIdx);
+                            JSONArray orList = coursesInSem.getJSONArray(coursesInSemIdx);
                             int optionsSelected = 0;
                             for (int orListIdx = 0; orListIdx < orList.length(); orListIdx++) {
-                                JSONObject courseInOrList = (JSONObject) orList.get(orListIdx);
-                                if (courseInOrList.getBoolean("isSelected")) {
-                                    optionsSelected += 1;
-                                    course = courseInOrList;
-                                }
+                                JSONObject courseInOrList = orList.getJSONObject(orListIdx);
+                                try {
+                                    if (courseInOrList.getBoolean("isSelected")) {
+                                        optionsSelected += 1;
+                                        course = courseInOrList;
+                                    }
+                                } catch (Exception ex) { }
                             }
 
                             // UNSELECTED OPTION
@@ -206,7 +208,10 @@ public class SequenceValidator extends CPServlet {
                             boolean prereqsValid = true;
                             JSONArray requirements = new JSONArray();
                             // for each orList of prereqs
-                            JSONArray orLists = course.getJSONArray("prereqs");
+                            JSONArray orLists = null;
+                            try { orLists = course.getJSONArray("prereqs");
+                            } catch(Exception e) { continue; /* skip prereq validation if no prerqs */ }
+
                             for (int i = 0; i < orLists.length(); i++) {
                                 JSONArray orList = orLists.getJSONArray(i);
 
@@ -249,7 +254,10 @@ public class SequenceValidator extends CPServlet {
                             boolean coreqsValid = true;
                             requirements = new JSONArray();
                             // for each orList of coreqs
-                            orLists = course.getJSONArray("coreqs");
+                            orLists = null;
+                            try { orLists = course.getJSONArray("coreqs");
+                            } catch(Exception e) { continue; /* skip coreqs validation if no coreqs */ }
+
                             for (int i = 0; i < orLists.length(); i++) {
                                 JSONArray orList = orLists.getJSONArray(i);
 
