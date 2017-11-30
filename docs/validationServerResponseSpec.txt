@@ -1,34 +1,62 @@
 // sequence validator server response
+//------------------------------------
 {
-	"isValid": boolean,
-	"issues": array
+    "isValid": boolean,
+    "issues": array of issue objects,
+    "warnings": array of warning objects
 }
 
 // issue object
 {
-	"type": "courseDuplicate|creditCount|prerequisite|corequisite|etc",
-	"data": object
+    "type": "creditCount|prerequisite|corequisite",
+    "data": object
+}
+// warning object
+{
+    "type": "repeated|unselectedOption"
+    "data": object
 }
 
-// courseDuplicate issue data object
+// data objects for each issue type
+//----------------------------------
+
+// data object for issue type: creditCount
 {
-	"courseCode": string
+    "requiredNumCredits": int,
+    "actualNumCredtis": int
+}
+// data object for issue type: prerequisite
+{
+    "courseCode": course code,
+    "position": position object,
+    "unmetRequirements", array of array of course codes
+}
+// data object for issue type: corequisite
+{
+    "courseCode": course code,
+    "position": position object,
+    "unmetRequirements", array of array of course codes
 }
 
-// creditCount issue data object
+// data objects for each warning type
+//------------------------------------
+
+// data object for warning type: unselectedOption
 {
-	"required": string,
-	"actual": string 
+    "position": position object
+}
+// data object for warning type: repeated
+{
+    "courseCode": course code,
+    "positions": array of position objects
 }
 
-// prerequisite issue data object
-{
-	"culpritCourseCode": string,
-	"missingCourseCodes": array
-}
+// other objects used but undefined above
+//---------------------------
 
-// corequisite issue data object
+// position object
 {
-	"culpritCourseCode": string,
-	"missingCourseCodes": array
+    "yearIndex": int,
+    "season": "fall|winter|summer",
+    "courseIndex": int
 }
