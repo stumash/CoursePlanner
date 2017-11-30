@@ -209,7 +209,7 @@ public class SequenceValidator extends CPServlet {
                             // PREREQUISITE
 
                             boolean prereqsValid = true;
-                            JSONArray failedRequirements = new JSONArray();
+                            JSONArray unmetRequirements = new JSONArray();
                             // for each orList of prereqs
                             JSONArray orLists = null;
                             try { orLists = course.getJSONObject("requirements").getJSONArray("prereqs");
@@ -222,19 +222,19 @@ public class SequenceValidator extends CPServlet {
                                 // for each course in orList
                                 for (int j = 0; j < orList.length(); j++) {
                                     String prereqCourseCode = orList.getString(j);
-                                    // prequnisemid = prereq's unique semester id (of first occurence in sequence)
-                                    Integer prequnisemid = null;
-                                    try { prequnisemid = (int) cc2ci.get(prereqCourseCode).get(0).getX(); }
+                                    // prereqsemid = prereq's unique semester id (of first occurence in sequence)
+                                    Integer prereqsemid = null;
+                                    try { prereqsemid = (int) cc2ci.get(prereqCourseCode).get(0).getX(); }
                                     catch(Exception e) { }
 
                                     // if prereq is earlier than current course in course sequence
-                                    if (prequnisemid != null && prequnisemid < uniqueSemesterId) {
+                                    if (prereqsemid != null && prereqsemid < uniqueSemesterId) {
                                         orListValid = true;
                                     }
                                 }
                                 if (!orListValid) {
                                     prereqsValid = false;
-                                    failedRequirements.put(orList);
+                                    unmetRequirements.put(orList);
                                 }
                             }
 
@@ -246,7 +246,7 @@ public class SequenceValidator extends CPServlet {
                                     .put("data", new JSONObject()
                                         .put("courseCode", courseCode)
                                         .put("position", positionObject(uniqueSemesterId, coursesInSemIdx))
-                                        .put("requirements", failedRequirements)
+                                        .put("unmetRequirements", unmetRequirements)
                                     )
                                 );
                             }
@@ -255,7 +255,7 @@ public class SequenceValidator extends CPServlet {
                             // COREQUISITE
 
                             boolean coreqsValid = true;
-                            failedRequirements = new JSONArray();
+                            unmetRequirements = new JSONArray();
                             // for each orList of coreqs
                             orLists = null;
                             try { orLists = course.getJSONObject("requirements").getJSONArray("coreqs");
@@ -268,19 +268,19 @@ public class SequenceValidator extends CPServlet {
                                 // for each course in orList
                                 for (int j = 0; j < orList.length(); j++) {
                                     String coreqCourseCode = orList.getString(j);
-                                    // corequnisemid = coreq's unique semester id
-                                    Integer corequnisemid = null;
-                                    try { corequnisemid = (int) cc2ci.get(coreqCourseCode).get(0).getX(); }
+                                    // coreqsemid = coreq's unique semester id
+                                    Integer coreqsemid = null;
+                                    try { coreqsemid = (int) cc2ci.get(coreqCourseCode).get(0).getX(); }
                                     catch(Exception e) { }
 
                                     // if coreq is as early as current course in course sequence
-                                    if (corequnisemid != null && corequnisemid <= uniqueSemesterId) {
+                                    if (coreqsemid != null && coreqsemid <= uniqueSemesterId) {
                                         orListValid = true;
                                     }
                                 }
                                 if (!orListValid) {
                                     coreqsValid = false;
-                                    failedRequirements.put(orList);
+                                    unmetRequirements.put(orList);
                                 }
                             }
 
@@ -292,7 +292,7 @@ public class SequenceValidator extends CPServlet {
                                     .put("data", new JSONObject()
                                         .put("courseCode", courseCode)
                                         .put("position", positionObject(uniqueSemesterId, coursesInSemIdx))
-                                        .put("requirements", failedRequirements)
+                                        .put("unmetRequirements", unmetRequirements)
                                     )
                                 );
                             }
@@ -368,13 +368,5 @@ public class SequenceValidator extends CPServlet {
             .put("yearIndex", new Integer(uniqueSemesterId / SEASONS.values().length).toString())
             .put("season", SEASONS.values()[uniqueSemesterId % SEASONS.values().length].toString())
             .put("courseIndex", courseIdx.toString());
-    }
-    // helper to extract position from JSON position object
-    private Point getPosFromPosistionObject(JSONObject positionObject) throws JSONException {
-        int yearIndex = positionObject.getInt("yearIndex");
-        int seasonIndex = positionObject.getInt("season") ;
-        int courseIndex = positionObject.getInt("courseIndex");
-
-        return new Point(yearIndex * SEASONS.values().length + seasonIndex, courseIndex);
     }
 }

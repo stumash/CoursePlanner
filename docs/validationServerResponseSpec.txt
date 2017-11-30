@@ -29,13 +29,13 @@
 {
     "courseCode": course code,
     "position": position object,
-    "requirements", array of array of course codes
+    "unmetRequirements", array of array of course codes
 }
 // data object for issue type: corequisite
 {
     "courseCode": course code,
     "position": position object,
-    "requirements", array of array of course codes
+    "unmetRequirements", array of array of course codes
 }
 
 // data objects for each warning type
