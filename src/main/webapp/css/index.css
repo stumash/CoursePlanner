@@ -215,7 +215,7 @@
     height: calc(100% - 80px);
     padding: 3px 15px 3px 3px;
     overflow-y: auto;
-    overflow-x: visible;
+    overflow-x: hidden;
 }
 
 .ioPanelContainer {
@@ -227,7 +227,7 @@
     max-width: 30%;
     height: calc(100% - 94px);
     overflow-y: auto;
-    overflow-x: visible;
+    overflow-x: hidden;
 }
 
 .courseInfoCard {
@@ -311,15 +311,30 @@
     .ioPanel .courseSearch input,
     .ioPanel .courseSearch button,
     .ui-menu-item-wrapper {
-        font-size: 30px;
+        /*font-size: 30px;*/
+    }
+    
+    *:not(text) {
+        font-size: 30px !important;
     }
 
-    .ioPanel .programSelect select,
-    .ioPanel .courseSearch input,
-    .ioPanel .courseSearch button {
-        height: 48px;
+    .programSelectionDialogContent > div > div {
+        width: 90% !important;
+    }
+    
+    .courseSearch {
+        height: 90px !important;
+    }
+    
+    .courseSearch > div {
+        width: 80% !important;
     }
 
+    .courseSearch > div > div {
+        height: 100px !important;
+        width: 100% !important;
+    }
+    
     .course,
     #react-root .orList,
     #react-root .orList .dropdown-menu .course,
@@ -344,28 +359,16 @@
         padding-top: 12px;
     }
 
-    #react-root .orList .input-group-addon .course {
+    #react-root .orList .input-group-addon .course,
+    #react-root .orList .input-group-addon > div {
         height: 64px;
         padding-top: 18px;
-    }
-
-    #react-root input[type="checkbox"] {
-        height: 30px;
-        width: 30px;
-    }
-
-    .filterLoading {
-        font-size: 28px;
-        top: 10px;
-        right: 70px;
     }
     
     .ioPanelContainer {
         position: relative;
-        min-height: 1px;
-        padding-right: 15px;
-        padding-left: 15px;
-        right: initial;
+        width: 100%;
+        max-width: initial;
     }
     
 }
