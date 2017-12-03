@@ -55,7 +55,9 @@ export const UI_STRINGS = {
     COURSE_INFO_HINT: "Click on or search for a course to display its info",
     VALIDATION_RESULTS_HINT: "Make changes to your schedule to trigger a validation",
 
-    VALIDATION_FAILURE_MSG: "Sequence contains issues",
+    VALIDATION_LOADING: "Validating course sequence",
+    
+    VALIDATION_FAILURE_MSG: "Sequence contains issues/warnings",
     VALIDATION_SUCCESS_MSG: "Sequence is valid",
 
     EXPORT_TEXT: "Export",
@@ -65,10 +67,8 @@ export const UI_STRINGS = {
 
     ELECTIVE_COURSE_TOOLTIP: "Replace me with a real course!",
     ORLIST_CHOICE_TOOLTIP: "Choose course from list of options",
-
-    LIST_LOADING: "Loading...",
-    LIST_NONE_SELECTED: "None Selected",
-
+    
+    LIST_NONE_SELECTED: "None Selected"
 };
 
 export const PROGRAM_NAMES = {
@@ -231,7 +231,7 @@ export function generateUniqueKey(courseObj, season, yearIndex, courseListIndex,
  */
 export function renderOrListDiv(courseList, extraClassNames, position, clickHandler, listClickHandler){
     return (
-        <div className={"orList input-group" + extraClassNames}>
+        <div className={"orList input-group " + extraClassNames}>
             <div className="input-group-btn">
                 <button className="btn btn-default dropdown-toggle" title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP} type="button"  data-toggle="dropdown">
                     <span className="caret"></span>
@@ -265,7 +265,7 @@ export function renderOrListDiv(courseList, extraClassNames, position, clickHand
  */
 export function renderCourseDiv(courseObj, extraClassNames, clickHandler){
     return (
-        <div className={"course" + extraClassNames} title={courseObj.name || UI_STRINGS.ELECTIVE_COURSE_TOOLTIP} onClick={clickHandler || (() => {})}>
+        <div className={"course " + extraClassNames} title={courseObj.name || UI_STRINGS.ELECTIVE_COURSE_TOOLTIP} onClick={clickHandler || (() => {})}>
             <div className="courseCode">
                 { (courseObj.isElective === "true") ? (courseObj.electiveType + " Elective") : courseObj.code}
             </div>

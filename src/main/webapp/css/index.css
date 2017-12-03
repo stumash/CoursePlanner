@@ -243,7 +243,7 @@
     font-weight: normal;
 }
 
-.courseInfoHeading {
+.cardHeading {
     font-weight: 500;
     font-size: 15px;
     padding: 8px 0;
@@ -253,12 +253,12 @@
     padding-bottom: 8px;
 }
 
-.courseDescription .courseInfoHeading {
+.courseDescription .cardHeading {
     padding-top: 0;
 }
 
-.prereqsList .courseInfoHeading,
-.coreqsList .courseInfoHeading {
+.prereqsList .cardHeading,
+.coreqsList .cardHeading {
     padding-bottom: 0;
 }
 
@@ -268,6 +268,18 @@
 
 .export a {
     cursor: pointer;
+}
+
+.validationListItem, .course {
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+}
+
+.validationListItem:hover, .course.highlighted {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.validationListItem > div {
+    display: inline-block;
 }
 
 /* Styling for SearchBox */

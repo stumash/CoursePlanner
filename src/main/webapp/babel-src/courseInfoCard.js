@@ -62,7 +62,7 @@ export class CourseInfoCard extends React.Component {
 
         description = (
             <div className="courseDescription">
-                <div className="courseInfoHeading">{UI_STRINGS.COURSE_INFO_HEADING_DESCRIPTION}</div>
+                <div className="cardHeading">{UI_STRINGS.COURSE_INFO_HEADING_DESCRIPTION}</div>
                 {courseInfo.description}
             </div>
         );
@@ -70,7 +70,7 @@ export class CourseInfoCard extends React.Component {
         if(courseInfo.requirements.prereqs.length > 0){
             prerequisites = (
                 <div className="prereqsList">
-                    <div className="courseInfoHeading">{UI_STRINGS.COURSE_INFO_HEADING_PREREQUISITES}</div>
+                    <div className="cardHeading">{UI_STRINGS.COURSE_INFO_HEADING_PREREQUISITES}</div>
                     <List>
                         {courseInfo.requirements.prereqs.map((prereqList, index) =>
                             <ListItem primaryText={prereqList.join(" or ")} innerDivStyle={listItemStyle} key={index} />
@@ -83,7 +83,7 @@ export class CourseInfoCard extends React.Component {
         if(courseInfo.requirements.coreqs.length > 0){
             corequisites = (
                 <div className="coreqsList">
-                    <div className="courseInfoHeading">{UI_STRINGS.COURSE_INFO_HEADING_COREQUISITES}</div>
+                    <div className="cardHeading">{UI_STRINGS.COURSE_INFO_HEADING_COREQUISITES}</div>
                     <List>
                         {courseInfo.requirements.coreqs.map((coreqList, index) =>
                             <ListItem primaryText={coreqList.join(" or ")} innerDivStyle={listItemStyle} key={index} />

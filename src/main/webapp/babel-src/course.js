@@ -34,15 +34,18 @@ class Course extends React.Component {
 
     render() {
 
-        let extraClassNames = " ";
+        let extraClassNames = [];
         if(this.props.isBeingDragged) {
-            extraClassNames += "beingDragged ";
+            extraClassNames.push("beingDragged");
         }
         if(this.props.isDraggable){
-            extraClassNames += "grabbable ";
+            extraClassNames.push("grabbable");
+        }
+        if(this.props.isHighlighted){
+            extraClassNames.push("highlighted");
         }
 
-        return this.props.connectDragSource(renderCourseDiv(this.props.courseObj, extraClassNames, this.handleCourseClick));
+        return this.props.connectDragSource(renderCourseDiv(this.props.courseObj, extraClassNames.join(" "), this.handleCourseClick));
     }
 }
 
