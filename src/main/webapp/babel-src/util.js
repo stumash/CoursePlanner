@@ -25,6 +25,7 @@ export const ITEM_TYPES = {
 export const UI_STRINGS = {
 
     SITE_NAME: "ConU Course Planner",
+    BETA_LABEL: "Beta",
 
     PROGRAM_SELECTION_LOADING: "Loading list of recommended sequences",
     PROGRAM_SELECTION_TITLE: "Welcome to ConU Course Planner!",
@@ -67,8 +68,12 @@ export const UI_STRINGS = {
 
     ELECTIVE_COURSE_TOOLTIP: "Replace me with a real course!",
     ORLIST_CHOICE_TOOLTIP: "Choose course from list of options",
-    
+    LIST_LOADING: "Loading...",
     LIST_NONE_SELECTED: "None Selected"
+};
+
+export const URLS = {
+    REPO: "https://github.com/stumash/CoursePlanner"
 };
 
 export const PROGRAM_NAMES = {

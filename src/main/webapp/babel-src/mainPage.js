@@ -427,13 +427,16 @@ class MainPage extends React.Component {
         let sequenceInfo = this.state.courseSequenceObject.sequenceInfo;
         let programPrettyName = (sequenceInfo && !this.state.courseSequenceObject.isLoading) ? generatePrettyProgramName(sequenceInfo.program, sequenceInfo.option, sequenceInfo.entryType, minTotalCredits)
                                                                            : "";
+        let siteName = <div style={{display: 'inline-block'}}>{UI_STRINGS.SITE_NAME}</div>;
+        let betaLabel = <div className="yellowText" style={{display: 'inline-block'}}>{UI_STRINGS.BETA_LABEL}</div>;
+        let appBarTitle = <div>{siteName} {betaLabel}</div>;
         return (
             <div tabIndex="1"
                  className={"mainPage" + (this.state.allowingTextSelection ? "" : " textSelectionOff")}
                  onMouseMove={this.handleMouseMove}
                  onTouchMove={this.handleTouchMove}
                  onKeyDown={this.handleKeyPress}>
-                <AppBar title={UI_STRINGS.SITE_NAME}
+                <AppBar title={appBarTitle}
                         showMenuIconButton={false}
                         className="appBar"
                         style={INLINE_STYLES.appBar}

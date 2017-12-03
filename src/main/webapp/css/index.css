@@ -341,6 +341,11 @@
     user-select: none;
 }
 
+
+.yellowText {
+    color: #f5bb2b;
+}
+
 /* Special styling for small screens */
 
 @media (max-width: 991px) {
@@ -356,7 +361,7 @@
     .ui-menu-item-wrapper {
         /*font-size: 30px;*/
     }
-    
+
     *:not(text) {
         font-size: 30px !important;
     }
@@ -364,11 +369,11 @@
     .programSelectionDialogContent > div > div {
         width: 90% !important;
     }
-    
+
     .courseSearch {
         height: 90px !important;
     }
-    
+
     .courseSearch > div {
         width: 80% !important;
     }
@@ -377,7 +382,7 @@
         height: 100px !important;
         width: 100% !important;
     }
-    
+
     .course,
     #react-root .orList,
     #react-root .orList .dropdown-menu .course,
@@ -407,13 +412,13 @@
         height: 64px;
         padding-top: 18px;
     }
-    
+
     .ioPanelContainer {
         position: relative !important;
         width: 100%;
         max-width: initial;
     }
-    
+
 }
 
 /* Pretty useful to keep these tbh */
