@@ -15,6 +15,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
  *  onSelectProgramChange - see MainPage.resetProgram
  *
  */
+//TODO: add feedback box ui component here (this is top menu bar)
 export class AppBarMenu extends React.Component {
 
     constructor(props){
@@ -35,6 +36,9 @@ export class AppBarMenu extends React.Component {
                          menuItems={exportSubMenu}/>
                 <MenuItem primaryText={UI_STRINGS.SELECT_NEW_PROGRAM}
                           onClick={() => this.props.onSelectProgramChange(undefined)}/>
+                <MenuItem primaryText="Feedback"/>
+                <MenuItem primaryText="View on GitHub"
+                        onClick={() => window.open("https://github.com/stumash/CoursePlanner")}/>
             </IconMenu>
         );
     }
