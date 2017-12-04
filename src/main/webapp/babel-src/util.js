@@ -5,11 +5,11 @@
  *
  */
 import React from "react";
+import CircularProgress from 'material-ui/CircularProgress';
 
 // Regular old constants
 export const SEASON_NAMES_PRETTY = ["Fall", "Winter", "Summer"];
 export const SEASON_NAMES = SEASON_NAMES_PRETTY.map((season) => season.toLowerCase());
-export const DEFAULT_PROGRAM = "SOEN-General-Coop";
 export const MAX_UNDO_HISTORY_LENGTH = 100;
 export const AUTO_SCROLL_PAGE_PORTION = 0.1; // auto scroll on the top and bottom 10% of screen
 export const AUTO_SCROLL_STEP = 10;
@@ -111,6 +111,68 @@ export const EXPORT_TYPES = {
     EXPORT_TYPE_TABLE_HTML: "HTML (table)",
     EXPORT_TYPE_LIST_PDF: "PDF (list)",
     EXPORT_TYPE_LIST_MD: "TEXT (list)"
+};
+
+export const INLINE_STYLES = {
+    appBar: {
+        zIndex: "0"
+    },
+    appBarVertIcon: {
+        color: "white"
+    },
+    exportLoadingDialogTitle: {
+        textAlign: "center"
+    },
+    exportLoadingDialogContent: {
+        width: "300px"
+    },
+    exportLoadingDialogIcon: {
+        width: "100%",
+        textAlign: "center"
+    },
+    autoCompleteContainer: {
+        marginLeft: "12px"
+    },
+    autoCompleteList: {
+        maxHeight: "250px",
+        overflow: "auto"
+    },
+    searchLoadingIcon: {
+        paddingLeft: "12px"
+    },
+    courseInfoLoadingIcon: {
+        marginLeft: "-8px",
+        marginTop: "-10px"
+    },
+    courseInfoListItem: {
+        padding: "8px 0",
+        height: "32px",
+        marginLeft: "16px",
+        fontSize: "14px"
+    },
+    courseInfoCardText: {
+        paddingTop: "0"
+    },
+    validationLoadingIcon: {
+        marginLeft: "-8px",
+        marginTop: "-10px"
+    },
+    allSequencesLoadingIcon: {
+        width: "100%",
+        textAlign: "center"
+    },
+    programSelectContent: {
+        width: "40%"
+    },
+    programSelectNextButton: {
+        marginRight: "12px"
+    }
+};
+
+export const LOADING_ICON_TYPES = {
+    big: <CircularProgress size={80} thickness={7}/>,
+    small: <CircularProgress size={25} thickness={2.5}/>,
+    export: <CircularProgress size={80} thickness={7} style={INLINE_STYLES.exportLoadingDialogIcon}/>
 };
 
 export function generatePrettyProgramName(program, option, entryType, minTotalCredits){

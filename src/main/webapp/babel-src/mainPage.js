@@ -5,7 +5,6 @@ import { DragDropContext } from 'react-dnd';
 
 import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
-import CircularProgress from 'material-ui/CircularProgress';
 
 import {CourseInfoCard} from "./courseInfoCard";
 import {SequenceValidationCard} from "./sequenceValidationCard";
@@ -20,12 +19,13 @@ import {ProgramSelectionDialog} from "./programSelectionDialog";
 
 let _ = require("underscore");
 
-import { DEFAULT_PROGRAM,
-         MAX_UNDO_HISTORY_LENGTH,
+import { MAX_UNDO_HISTORY_LENGTH,
          AUTO_SCROLL_PAGE_PORTION,
          AUTO_SCROLL_DELAY,
          AUTO_SCROLL_STEP,
          EXPORT_TYPES,
+         INLINE_STYLES,
+         LOADING_ICON_TYPES,
          generateUniqueKey,
          generateUniqueKeys,
          saveAs } from "./util";
@@ -420,7 +420,7 @@ class MainPage extends React.Component {
                 <AppBar title={UI_STRINGS.SITE_NAME}
                         showMenuIconButton={false}
                         className="appBar"
-                        style={{zIndex: "0"}}
+                        style={INLINE_STYLES.appBar}
                         iconElementRight={this.state.showingGarbage ? <GarbageCan onRemoveCourse={this.removeCourse}/> : <AppBarMenu onSelectExport={this.exportSequence}
                                                                                                                                      onSelectProgramChange={this.resetProgram}/>}/>
                 <div className="pageContent">
@@ -464,9 +464,9 @@ class MainPage extends React.Component {
                     <Dialog title={UI_STRINGS.EXPORTING_SEQUENCE}
                             modal={true}
                             open={this.state.loadingExport}
-                            contentStyle={{width: "300px"}}
-                            titleStyle={{textAlign: "center"}}>
-                        <CircularProgress size={80} thickness={7} style={{width: "100%", textAlign: "center"}}/>
+                            titleStyle={INLINE_STYLES.exportLoadingDialogTitle}
+                            contentStyle={INLINE_STYLES.exportLoadingDialogContent}>
+                        {LOADING_ICON_TYPES.export}
                     </Dialog>
                     <ProgramSelectionDialog isOpen={!this.state.chosenProgram}
                                             allSequences={this.state.allSequences}

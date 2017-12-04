@@ -308,6 +308,17 @@
     padding-left: 12px;
 }
 
+/* Styling for program selection*/
+
+.programSelectStepButton {
+    margin: 12px 0;
+}
+
+.programSelectConfirmMsg {
+    margin: 20px 0;
+    text-align: center;
+}
+
 /* Special styling for DND */
 
 .dragPreview {

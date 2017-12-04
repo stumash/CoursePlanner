@@ -2,9 +2,8 @@ import React from "react";
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import ErrorIcon from 'material-ui/svg-icons/alert/error';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
-import CircularProgress from 'material-ui/CircularProgress';
 
-import { UI_STRINGS } from "./util";
+import { UI_STRINGS, LOADING_ICON_TYPES } from "./util";
 
 const ListItem = ({type, message, onMouseEnter, onMouseLeave}) => {
     return (
@@ -39,7 +38,7 @@ export class SequenceValidationCard extends React.Component {
 
         if(isLoading){
             title = UI_STRINGS.VALIDATION_LOADING;
-            loadingIcon = <CircularProgress size={25} thickness={2.5} style={{marginLeft: "-8px", marginTop: "-10px"}}/>;
+            loadingIcon = LOADING_ICON_TYPES.small;
         } else if(isValid) {
             title = UI_STRINGS.VALIDATION_SUCCESS_MSG;
         } else {

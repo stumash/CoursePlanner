@@ -6,9 +6,14 @@ import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import {Step, Stepper, StepLabel, StepContent} from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
-import CircularProgress from 'material-ui/CircularProgress';
 
-import {UI_STRINGS, PROGRAM_NAMES, PROGRAM_OPTIONS, PROGRAM_ENTRY_TYPES, generatePrettyProgramName} from "./util";
+import {UI_STRINGS,
+        INLINE_STYLES,
+        LOADING_ICON_TYPES,
+        PROGRAM_NAMES,
+        PROGRAM_OPTIONS,
+        PROGRAM_ENTRY_TYPES,
+        generatePrettyProgramName} from "./util";
 
 let _ = require("underscore");
 
@@ -202,14 +207,14 @@ export class ProgramSelectionDialog extends React.Component {
 
     renderStepActions(step) {
         return (
-            <div style={{margin: '12px 0'}}>
+            <div className="programSelectStepButton">
                 <RaisedButton
                     label={this.state.stepIndex === 2 ? UI_STRINGS.PROGRAM_SELECTION_FINISH_LABEL : UI_STRINGS.PROGRAM_SELECTION_NEXT_LABEL}
                     disableTouchRipple={true}
                     disableFocusRipple={true}
                     primary={true}
                     onClick={this.handleNext}
-                    style={{marginRight: 12}}
+                    style={INLINE_STYLES.programSelectNextButton}
                 />
                 {step > 0 && (
                     <FlatButton
@@ -230,7 +235,7 @@ export class ProgramSelectionDialog extends React.Component {
 
         if(this.props.allSequences.length === 0){
             dialogTitle = UI_STRINGS.PROGRAM_SELECTION_LOADING;
-            dialogContent = <CircularProgress size={80} thickness={7} style={{width: "100%", textAlign: "center"}}/>
+            dialogContent = LOADING_ICON_TYPES.big;
         } else {
             dialogTitle = UI_STRINGS.PROGRAM_SELECTION_TITLE;
             dialogContent = (
@@ -283,10 +288,10 @@ export class ProgramSelectionDialog extends React.Component {
                         </Step>
                     </Stepper>
                     {this.state.finished && (
-                        <p style={{margin: '20px 0', textAlign: 'center'}}>
+                        <div className="programSelectConfirmMsg">
                             {UI_STRINGS.PROGRAM_SELECTION_FINAL_MESSAGE}<br/>
                             {generatePrettyProgramName(this.state.chosenProgram, this.state.chosenOption, this.state.chosenEntryType)}
-                        </p>
+                        </div>
                     )}
                 </div>
             );
@@ -298,7 +303,7 @@ export class ProgramSelectionDialog extends React.Component {
                     modal={true}
                     open={this.props.isOpen}
                     className="programSelectionDialogContent"
-                    contentStyle={{width: "40%"}}>
+                    contentStyle={INLINE_STYLES.programSelectContent}>
                 {dialogContent}
             </Dialog>
         );
