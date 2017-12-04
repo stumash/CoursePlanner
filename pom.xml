@@ -95,8 +95,7 @@
             <artifactId>commons-email</artifactId>
             <version>1.5</version>
         </dependency>
-
-
+        
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>

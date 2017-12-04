@@ -52,11 +52,20 @@ class SemesterBox extends React.Component {
                 "season": this.props.season,
                 "courseListIndex": courseIndex
             };
+            let isHighlighted = false;
+            this.props.highlightedCoursePositions.forEach((highlightedPosition) => {
+                if(highlightedPosition.yearIndex == position.yearIndex &&
+                   highlightedPosition.season === position.season &&
+                   highlightedPosition.courseIndex == courseIndex){
+                    isHighlighted = true;
+                }
+            });
             if(courseObj.length > 0){
                 let courseList = courseObj;
                 return (
                     <OrList courseList={courseList}
                             position={position}
+                            isHighlighted={isHighlighted}
                             isDraggable={true}
                             onOrListSelection={this.props.onOrListSelection}
                             onCourseClick={this.props.onSelectCourse}
@@ -67,11 +76,12 @@ class SemesterBox extends React.Component {
             } else {
                 return (
                     <Course courseObj={courseObj}
-                                position={position}
-                                isDraggable={true}
-                                onCourseClick={courseObj.isElective === "false" ? this.props.onSelectCourse : (() => {})}
-                                onChangeDragState={this.props.onChangeDragState}
-                                key={courseObj.id}/>
+                            position={position}
+                            isHighlighted={isHighlighted}
+                            isDraggable={true}
+                            onCourseClick={courseObj.isElective === "false" ? this.props.onSelectCourse : (() => {})}
+                            onChangeDragState={this.props.onChangeDragState}
+                            key={courseObj.id}/>
                 );
             }
         });

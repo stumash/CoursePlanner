@@ -1,9 +1,8 @@
 import React from "react";
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import {List, ListItem} from 'material-ui/List';
-import CircularProgress from 'material-ui/CircularProgress';
 
-import {UI_STRINGS} from "./util";
+import {UI_STRINGS, INLINE_STYLES, LOADING_ICON_TYPES} from "./util";
 import Course from "./course";
 
 
@@ -28,7 +27,7 @@ export class CourseInfoCard extends React.Component {
 
         if(courseInfo.isLoading){
             title = UI_STRINGS.COURSE_INFO_LOADING;
-            loadingIcon = <CircularProgress size={25} thickness={2.5} style={{marginLeft: "-8px", marginTop: "-10px"}}/>;
+            loadingIcon = LOADING_ICON_TYPES.small;
             showExpandableButton = true;
         } else if(!courseInfo.code){
             title = UI_STRINGS.COURSE_INFO_HINT;
@@ -58,11 +57,10 @@ export class CourseInfoCard extends React.Component {
         }
         
         let description, prerequisites, corequisites;
-        let listItemStyle = {padding: "8px 0", height: "32px", marginLeft: "16px", fontSize: "14px"};
 
         description = (
             <div className="courseDescription">
-                <div className="courseInfoHeading">{UI_STRINGS.COURSE_INFO_HEADING_DESCRIPTION}</div>
+                <div className="cardHeading">{UI_STRINGS.COURSE_INFO_HEADING_DESCRIPTION}</div>
                 {courseInfo.description}
             </div>
         );
@@ -70,10 +68,12 @@ export class CourseInfoCard extends React.Component {
         if(courseInfo.requirements.prereqs.length > 0){
             prerequisites = (
                 <div className="prereqsList">
-                    <div className="courseInfoHeading">{UI_STRINGS.COURSE_INFO_HEADING_PREREQUISITES}</div>
+                    <div className="cardHeading">{UI_STRINGS.COURSE_INFO_HEADING_PREREQUISITES}</div>
                     <List>
                         {courseInfo.requirements.prereqs.map((prereqList, index) =>
-                            <ListItem primaryText={prereqList.join(" or ")} innerDivStyle={listItemStyle} key={index} />
+                            <ListItem primaryText={prereqList.join(" or ")}
+                                      innerDivStyle={INLINE_STYLES.courseInfoListItem}
+                                      key={index} />
                         )}
                     </List>
                 </div>
@@ -83,10 +83,12 @@ export class CourseInfoCard extends React.Component {
         if(courseInfo.requirements.coreqs.length > 0){
             corequisites = (
                 <div className="coreqsList">
-                    <div className="courseInfoHeading">{UI_STRINGS.COURSE_INFO_HEADING_COREQUISITES}</div>
+                    <div className="cardHeading">{UI_STRINGS.COURSE_INFO_HEADING_COREQUISITES}</div>
                     <List>
                         {courseInfo.requirements.coreqs.map((coreqList, index) =>
-                            <ListItem primaryText={coreqList.join(" or ")} innerDivStyle={listItemStyle} key={index} />
+                            <ListItem primaryText={coreqList.join(" or ")}
+                                      innerDivStyle={INLINE_STYLES.courseInfoListItem}
+                                      key={index} />
                         )}
                     </List>
                 </div>
@@ -94,7 +96,7 @@ export class CourseInfoCard extends React.Component {
         }
         
         return (
-            <CardText className="cardText" style={{paddingTop: "0"}} expandable={true}>
+            <CardText className="cardText" style={INLINE_STYLES.courseInfoCardText} expandable={true}>
                 {description}
                 {prerequisites}
                 {corequisites}

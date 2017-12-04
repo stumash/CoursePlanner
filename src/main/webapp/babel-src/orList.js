@@ -29,18 +29,21 @@ class OrList extends React.Component {
 
     render() {
 
-        let extraClassNames = " ";
+        let extraClassNames = [];
         if(this.props.isBeingDragged) {
-            extraClassNames += "beingDragged ";
+            extraClassNames.push("beingDragged");
         }
         if(this.props.isDraggable){
-            extraClassNames += "grabbable ";
+            extraClassNames.push("grabbable");
+        }
+        if(this.props.isHighlighted){
+            extraClassNames.push("highlighted");
         }
 
         let courseList = this.props.courseList;
         let position = this.props.position;
 
-        return this.props.connectDragSource(renderOrListDiv(courseList, extraClassNames, position, this.props.onCourseClick, this.props.onOrListSelection));
+        return this.props.connectDragSource(renderOrListDiv(courseList, extraClassNames.join(" "), position, this.props.onCourseClick, this.props.onOrListSelection));
     }
 }
 

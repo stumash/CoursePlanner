@@ -1,8 +1,7 @@
 import React from "react";
 import AutoComplete from 'material-ui/AutoComplete';
-import CircularProgress from 'material-ui/CircularProgress';
 
-import {UI_STRINGS} from "./util";
+import {UI_STRINGS, INLINE_STYLES, LOADING_ICON_TYPES} from "./util";
 
 /*
  *  Text input which is used to filter/search through course codes in DB
@@ -44,16 +43,15 @@ export class SearchBox extends React.Component {
     render() {
         return (
             <div className="courseSearch">
-                <AutoComplete hintText={UI_STRINGS.COURSE_SEARCH_HINT}
-                              filter={AutoComplete.noFilter}
+                <AutoComplete filter={AutoComplete.noFilter}
+                              hintText={UI_STRINGS.COURSE_SEARCH_HINT}
                               dataSource={this.state.dataSource}
-                              onUpdateInput={this.handleInputChange}
-                              listStyle={{maxHeight: "250px", overflow: "auto"}}
-                              style={{marginLeft: "12px"}}
-                              onNewRequest={this.handleNewRequest}
                               floatingLabelText={this.state.floatingLabelText}
-                />
-                {this.state.isFiltering && <CircularProgress size={25} thickness={2.5} style={{paddingLeft: "12px"}}/>}
+                              style={INLINE_STYLES.autoCompleteContainer}
+                              listStyle={INLINE_STYLES.autoCompleteList}
+                              onUpdateInput={this.handleInputChange}
+                              onNewRequest={this.handleNewRequest}/>
+                {this.state.isFiltering && LOADING_ICON_TYPES.small}
             </div>
         );
     }

@@ -1,9 +1,7 @@
 import React from "react";
-import CircularProgress from 'material-ui/CircularProgress';
 
 import SemesterBox from "./semesterBox";
-import { SEASON_NAMES } from "./util";
-import { SEASON_NAMES_PRETTY } from "./util";
+import { SEASON_NAMES, SEASON_NAMES_PRETTY, LOADING_ICON_TYPES } from "./util";
 
 /*
  *  Table which contains all courses of current sequence
@@ -12,6 +10,7 @@ import { SEASON_NAMES_PRETTY } from "./util";
  *  Expects props:
  *
  *  courseSequenceObject - the json object which contains all necessary data for the sequence we want to display
+ *  highlightedCoursePositions - the list of sequence positions whose course should get highlighted
  *
  *  onSelectCourse - see MainPage.loadCourseInfo
  *  onOrListSelection - see MainPage.setOrListCourseSelected
@@ -25,7 +24,7 @@ export class SemesterTable extends React.Component {
     generateTableBody(){
 
         if(this.props.courseSequenceObject.isLoading){
-            return <tr><td className="text-center" colSpan="4"><CircularProgress size={80} thickness={7}/></td></tr>;
+            return <tr><td className="text-center" colSpan="4">{LOADING_ICON_TYPES.big}</td></tr>;
         }
 
         const yearList = this.props.courseSequenceObject.yearList;
@@ -38,6 +37,7 @@ export class SemesterTable extends React.Component {
                         <SemesterBox yearIndex={yearIndex}
                                      season={season}
                                      semester={yearList[yearIndex][season]}
+                                     highlightedCoursePositions={this.props.highlightedCoursePositions}
                                      onSelectCourse={this.props.onSelectCourse}
                                      onOrListSelection={this.props.onOrListSelection}
                                      onToggleWorkTerm={this.props.onToggleWorkTerm}

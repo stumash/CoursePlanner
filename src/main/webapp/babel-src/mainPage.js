@@ -5,7 +5,6 @@ import { DragDropContext } from 'react-dnd';
 
 import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
-import CircularProgress from 'material-ui/CircularProgress';
 
 import {CourseInfoCard} from "./courseInfoCard";
 import {SequenceValidationCard} from "./sequenceValidationCard";
@@ -20,12 +19,13 @@ import {ProgramSelectionDialog} from "./programSelectionDialog";
 
 let _ = require("underscore");
 
-import { DEFAULT_PROGRAM,
-         MAX_UNDO_HISTORY_LENGTH,
+import { MAX_UNDO_HISTORY_LENGTH,
          AUTO_SCROLL_PAGE_PORTION,
          AUTO_SCROLL_DELAY,
          AUTO_SCROLL_STEP,
          EXPORT_TYPES,
+         INLINE_STYLES,
+         LOADING_ICON_TYPES,
          generateUniqueKey,
          generateUniqueKeys,
          saveAs } from "./util";
@@ -43,15 +43,22 @@ class MainPage extends React.Component {
         super(props);
 
         this.state = {
-            "courseSequenceObject" : {
-                "isLoading" : true
+            courseSequenceObject: {
+                isLoading : true
             },
-            "chosenProgram" : localStorage.getItem("chosenProgram"),
-            "allSequences" : [],
-            "selectedCourseInfo" : {},
-            "loadingExport": false,
-            "showingGarbage": false,
-            "allowingTextSelection": true
+            validationResults: {
+                issues: [],
+                warnings: [],
+                isLoading: false
+            },
+            highlightedCoursePositions: [],
+            chosenProgram: localStorage.getItem("chosenProgram"),
+            allSequences: [],
+            selectedCourseInfo: {},
+            loadingExport: false,
+            showingGarbage: false,
+            allowingTextSelection: true,
+            detachIOPanel: false
         };
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
@@ -59,8 +66,11 @@ class MainPage extends React.Component {
         this.resetProgram = this.resetProgram.bind(this);
         this.loadCourseInfo = this.loadCourseInfo.bind(this);
         this.setOrListCourseSelected = this.setOrListCourseSelected.bind(this);
+        this.highlightCourses = this.highlightCourses.bind(this);
+        this.unhighlightCourses = this.unhighlightCourses.bind(this);
         this.toggleWorkTerm = this.toggleWorkTerm.bind(this);
         this.exportSequence = this.exportSequence.bind(this);
+        this.validateSequence = this.validateSequence.bind(this);
         this.enableGarbage = this.enableGarbage.bind(this);
         this.moveCourse = this.moveCourse.bind(this);
         this.addCourse = this.addCourse.bind(this);
@@ -72,6 +82,7 @@ class MainPage extends React.Component {
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleTouchMove = this.handleTouchMove.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
     }
 
     componentDidMount() {
@@ -85,16 +96,24 @@ class MainPage extends React.Component {
         this.isDragging = false;
         this.shouldScroll = false;
         this.scrollDirection = 0;
+        window.addEventListener('scroll', this.handleScroll);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
     }
 
     componentDidUpdate(prevProps, prevState){
         if(!_.isEqual(prevState.courseSequenceObject, this.state.courseSequenceObject) && !this.state.courseSequenceObject.isLoading){
 
+            // re-validate the sequence each time it changes
+            this.validateSequence();
+
             // save change to local storage
             localStorage.setItem("savedSequence", JSON.stringify(this.state.courseSequenceObject));
 
             if(!this.preventHistoryUpdate){
-                // add deep copy of item to history
+                // add deep copy of current sequence to history
                 this.courseSequenceHistory.currentPosition++;
                 this.courseSequenceHistory.history = this.courseSequenceHistory.history.slice(0, this.courseSequenceHistory.currentPosition);
                 this.courseSequenceHistory.history.push(JSON.parse(JSON.stringify(this.state.courseSequenceObject)));
@@ -104,19 +123,6 @@ class MainPage extends React.Component {
                 }
             }
             this.preventHistoryUpdate = false;
-        }
-        if(!this.state.courseSequenceObject.isLoading && !_.isEqual(prevState.courseSequenceObject.yearList, this.state.courseSequenceObject.yearList)){
-            console.group("Year list changed - sending new sequence to server: ");
-            console.log("courseSequenceObject:\n", this.state.courseSequenceObject);
-            $.ajax({
-                type: "POST",
-                url: "api/validate",
-                data: JSON.stringify({"courseSequenceObject" : this.state.courseSequenceObject}),
-                success: (response) => {
-                    console.log("server response:\n", JSON.parse(response));
-                    console.groupEnd();
-                }
-            });
         }
     }
 
@@ -198,6 +204,26 @@ class MainPage extends React.Component {
             return {
                 "courseSequenceObject": courseSequenceObjectCopy
             };
+        });
+    }
+
+    /*
+     *  function to call in the event that the user hovers over a sequence validation results item
+     *      param positions - array of objects indicating the absolute position of the course within the sequence
+     */
+    highlightCourses(positions){
+        this.setState({
+            highlightedCoursePositions: positions
+        });
+    }
+
+    /*
+     *  function to call in the event that the user hovers out of a sequence validation results item
+     *      param positions - array of objects indicating the absolute position of the course within the sequence
+     */
+    unhighlightCourses(){
+        this.setState({
+            highlightedCoursePositions: []
         });
     }
 
@@ -386,6 +412,15 @@ class MainPage extends React.Component {
         }
     }
 
+    /*
+     *  detatch the IOPanel if we scroll lower than 80px
+     */
+    handleScroll(){
+        this.setState({
+            detachIOPanel: window.scrollY > 80
+        });
+    }
+
     render() {
         let sourceUrl = this.state.courseSequenceObject.sourceUrl;
         let minTotalCredits = this.state.courseSequenceObject.minTotalCredits;
@@ -401,16 +436,19 @@ class MainPage extends React.Component {
                 <AppBar title={UI_STRINGS.SITE_NAME}
                         showMenuIconButton={false}
                         className="appBar"
-                        style={{zIndex: "0"}}
+                        style={INLINE_STYLES.appBar}
                         iconElementRight={this.state.showingGarbage ? <GarbageCan onRemoveCourse={this.removeCourse}/> : <AppBarMenu onSelectExport={this.exportSequence}
                                                                                                                                      onSelectProgramChange={this.resetProgram}/>}/>
                 <div className="pageContent">
-                    <div className="ioPanelContainer">
+                    <div className={"ioPanelContainer" + (this.state.detachIOPanel ? " detached" : "")}>
                         <div className="ioPanel">
                             <SearchBox onConfirmSearch={this.loadCourseInfo}/>
                             <div className="outputPanel">
                                 <CourseInfoCard courseInfo={this.state.selectedCourseInfo}/>
-                                <SequenceValidationCard/>
+                                <SequenceValidationCard validationResults={this.state.validationResults}
+                                                        onMouseEnterItem={this.highlightCourses}
+                                                        onMouseLeaveItem={this.unhighlightCourses}
+                                />
                             </div>
                         </div>
                     </div>
@@ -418,6 +456,7 @@ class MainPage extends React.Component {
                     <div className="semesterTableContainer hidden-xs hidden-sm">
                         <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
+                                       highlightedCoursePositions={this.state.highlightedCoursePositions}
                                        onSelectCourse={this.loadCourseInfo}
                                        onOrListSelection={this.setOrListCourseSelected}
                                        onToggleWorkTerm={this.toggleWorkTerm}
@@ -428,6 +467,7 @@ class MainPage extends React.Component {
                     <div className="semesterListContainer col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
                         <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterList courseSequenceObject={this.state.courseSequenceObject}
+                                      highlightedCoursePositions={this.state.highlightedCoursePositions}
                                       onSelectCourse={this.loadCourseInfo}
                                       onOrListSelection={this.setOrListCourseSelected}
                                       onToggleWorkTerm={this.toggleWorkTerm}
@@ -440,9 +480,9 @@ class MainPage extends React.Component {
                     <Dialog title={UI_STRINGS.EXPORTING_SEQUENCE}
                             modal={true}
                             open={this.state.loadingExport}
-                            contentStyle={{width: "300px"}}
-                            titleStyle={{textAlign: "center"}}>
-                        <CircularProgress size={80} thickness={7} style={{width: "100%", textAlign: "center"}}/>
+                            titleStyle={INLINE_STYLES.exportLoadingDialogTitle}
+                            contentStyle={INLINE_STYLES.exportLoadingDialogContent}>
+                        {LOADING_ICON_TYPES.export}
                     </Dialog>
                     <ProgramSelectionDialog isOpen={!this.state.chosenProgram}
                                             allSequences={this.state.allSequences}
@@ -570,6 +610,35 @@ class MainPage extends React.Component {
                     this.setState({"loadingExport" : false});
                 }
             });
+        });
+    }
+
+    /*
+     *  function to call in the event that the user changes their sequence. 
+     *  validates the sequence via backend API and update the page state accordingly
+     */
+    validateSequence(){
+        this.setState({
+            validationResults: {
+                issues: this.state.validationResults.issues,
+                warnings: this.state.validationResults.warnings,
+                isLoading: true
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "api/validate",
+            data: JSON.stringify({"courseSequenceObject" : this.state.courseSequenceObject}),
+            success: (res) => {
+                let response = JSON.parse(res);
+                this.setState({
+                    validationResults: {
+                        issues: response.issues,
+                        warnings: response.warnings,
+                        isLoading: false
+                    }
+                });
+            }
         });
     }
 }
