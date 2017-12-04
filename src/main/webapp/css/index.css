@@ -222,12 +222,18 @@
     display: inline-block;
     position: absolute;
     right: 760px;
-    left: 0px;
+    left: 0;
     padding-left: 15px;
     max-width: 30%;
     height: calc(100% - 94px);
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.ioPanelContainer.detached {
+    position: fixed;
+    top: 0;
+    height: calc(100% - 14px);
 }
 
 .courseInfoCard {
@@ -403,7 +409,7 @@
     }
     
     .ioPanelContainer {
-        position: relative;
+        position: relative !important;
         width: 100%;
         max-width: initial;
     }

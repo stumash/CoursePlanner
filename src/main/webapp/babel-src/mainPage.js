@@ -57,7 +57,8 @@ class MainPage extends React.Component {
             selectedCourseInfo: {},
             loadingExport: false,
             showingGarbage: false,
-            allowingTextSelection: true
+            allowingTextSelection: true,
+            detachIOPanel: false
         };
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
@@ -81,6 +82,7 @@ class MainPage extends React.Component {
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleTouchMove = this.handleTouchMove.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
     }
 
     componentDidMount() {
@@ -94,6 +96,11 @@ class MainPage extends React.Component {
         this.isDragging = false;
         this.shouldScroll = false;
         this.scrollDirection = 0;
+        window.addEventListener('scroll', this.handleScroll);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
     }
 
     componentDidUpdate(prevProps, prevState){
@@ -405,6 +412,15 @@ class MainPage extends React.Component {
         }
     }
 
+    /*
+     *  detatch the IOPanel if we scroll lower than 80px
+     */
+    handleScroll(){
+        this.setState({
+            detachIOPanel: window.scrollY > 80
+        });
+    }
+
     render() {
         let sourceUrl = this.state.courseSequenceObject.sourceUrl;
         let minTotalCredits = this.state.courseSequenceObject.minTotalCredits;
@@ -424,7 +440,7 @@ class MainPage extends React.Component {
                         iconElementRight={this.state.showingGarbage ? <GarbageCan onRemoveCourse={this.removeCourse}/> : <AppBarMenu onSelectExport={this.exportSequence}
                                                                                                                                      onSelectProgramChange={this.resetProgram}/>}/>
                 <div className="pageContent">
-                    <div className="ioPanelContainer">
+                    <div className={"ioPanelContainer" + (this.state.detachIOPanel ? " detached" : "")}>
                         <div className="ioPanel">
                             <SearchBox onConfirmSearch={this.loadCourseInfo}/>
                             <div className="outputPanel">
