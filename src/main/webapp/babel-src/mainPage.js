@@ -101,7 +101,7 @@ class MainPage extends React.Component {
 
             // re-validate the sequence each time it changes
             this.validateSequence();
-            
+
             // save change to local storage
             localStorage.setItem("savedSequence", JSON.stringify(this.state.courseSequenceObject));
 

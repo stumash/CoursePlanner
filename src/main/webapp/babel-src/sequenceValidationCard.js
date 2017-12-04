@@ -11,8 +11,8 @@ const ListItem = ({type, message, onMouseEnter, onMouseLeave}) => {
         <div className={"validationListItem " + (type === "issue" ? "issue" : "warning")}
              onMouseEnter={onMouseEnter}
              onMouseLeave={onMouseLeave}>
-            {type === "issue" ? <ErrorIcon color="#6c1540"/> : <WarningIcon color="#f5bb2b"/>}
-            <div>{message}</div>
+            <div className="validationListIcon">{type === "issue" ? <ErrorIcon color="#6c1540"/> : <WarningIcon color="#f5bb2b"/>}</div>
+            <div className="validationMessage">{message}</div>
         </div>
     );
 };
@@ -130,12 +130,8 @@ export class SequenceValidationCard extends React.Component {
                     <ListItem type={item.type}
                               message={item.message}
                               key={index}
-                              onMouseEnter={() => {
-                                  this.props.onMouseEnterItem(item.positionsToHighlight);
-                              }}
-                              onMouseLeave={() => {
-                                  this.props.onMouseLeaveItem();
-                              }}/>
+                              onMouseEnter={() => this.props.onMouseEnterItem(item.positionsToHighlight)}
+                              onMouseLeave={() => this.props.onMouseLeaveItem()}/>
                 ))}
             </CardText>
         );
