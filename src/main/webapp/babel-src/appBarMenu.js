@@ -1,8 +1,6 @@
 import React from "react";
 
-import {UI_STRINGS, EXPORT_TYPES, INLINE_STYLES} from "./util";
 import {UI_STRINGS, EXPORT_TYPES, URLS, INLINE_STYLES} from "./util";
-
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
