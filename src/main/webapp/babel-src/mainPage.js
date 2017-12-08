@@ -29,6 +29,7 @@ import { MAX_UNDO_HISTORY_LENGTH,
          generateUniqueKey,
          generateUniqueKeys,
          saveAs } from "./util";
+import {ExemptionListDialog} from "./exemptionListDialog";
 
 
 /*
@@ -41,8 +42,12 @@ class MainPage extends React.Component {
 
     constructor(props){
         super(props);
+        
+        let chosenProgramtring = localStorage.getItem("chosenProgram");
+        let courseExemptionListString = localStorage.getItem("courseExemptionList");
 
         this.state = {
+            chosenProgram: localStorage.getItem("chosenProgram"),
             courseSequenceObject: {
                 isLoading : true
             },
@@ -51,16 +56,17 @@ class MainPage extends React.Component {
                 warnings: [],
                 isLoading: false
             },
-            highlightedCoursePositions: [],
-            chosenProgram: localStorage.getItem("chosenProgram"),
-            allSequences: [],
             selectedCourseInfo: {},
+            courseExemptionList: courseExemptionListString ?  JSON.parse(courseExemptionListString) : [],
+            highlightedCoursePositions: [],
+            allSequences: [],
             loadingExport: false,
             showingGarbage: false,
+            showingExemptionList: false,
             allowingTextSelection: true,
             detachIOPanel: false
         };
-
+        
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
         this.updateChosenProgram = this.updateChosenProgram.bind(this);
         this.resetProgram = this.resetProgram.bind(this);
@@ -72,6 +78,7 @@ class MainPage extends React.Component {
         this.exportSequence = this.exportSequence.bind(this);
         this.validateSequence = this.validateSequence.bind(this);
         this.enableGarbage = this.enableGarbage.bind(this);
+        this.toggleExemptionList = this.toggleExemptionList.bind(this);
         this.moveCourse = this.moveCourse.bind(this);
         this.addCourse = this.addCourse.bind(this);
         this.removeCourse = this.removeCourse.bind(this);
@@ -124,6 +131,9 @@ class MainPage extends React.Component {
             }
             this.preventHistoryUpdate = false;
         }
+        if(!_.isEqual(prevState.courseExemptionList, this.state.courseExemptionList)){
+            localStorage.setItem("courseExemptionList", JSON.stringify(this.state.courseExemptionList));
+        }
     }
 
     /*
@@ -154,6 +164,15 @@ class MainPage extends React.Component {
     enableGarbage(enabled){
         this.setState({
             "showingGarbage": enabled
+        });
+    }
+
+    /*
+     *  function to call when 
+     */
+    toggleExemptionList(shouldShow){
+        this.setState({
+            showingExemptionList: shouldShow
         });
     }
 
@@ -438,7 +457,8 @@ class MainPage extends React.Component {
                         className="appBar"
                         style={INLINE_STYLES.appBar}
                         iconElementRight={this.state.showingGarbage ? <GarbageCan onRemoveCourse={this.removeCourse}/> : <AppBarMenu onSelectExport={this.exportSequence}
-                                                                                                                                     onSelectProgramChange={this.resetProgram}/>}/>
+                                                                                                                                     onSelectProgramChange={this.resetProgram}
+                                                                                                                                     onShowExemptionList={() => this.toggleExemptionList(true)}/>}/>
                 <div className="pageContent">
                     <div className={"ioPanelContainer" + (this.state.detachIOPanel ? " detached" : "")}>
                         <div className="ioPanel">
@@ -484,6 +504,8 @@ class MainPage extends React.Component {
                             contentStyle={INLINE_STYLES.exportLoadingDialogContent}>
                         {LOADING_ICON_TYPES.export}
                     </Dialog>
+                    <ExemptionListDialog isOpen={this.state.showingExemptionList}
+                                         onRequestClose={() => this.toggleExemptionList(false)}/>
                     <ProgramSelectionDialog isOpen={!this.state.chosenProgram}
                                             allSequences={this.state.allSequences}
                                             onChangeChosenProgram={this.updateChosenProgram}/>

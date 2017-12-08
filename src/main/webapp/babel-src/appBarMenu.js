@@ -13,6 +13,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
  *
  *  onSelectExport - see MainPage.exportSequence
  *  onSelectProgramChange - see MainPage.resetProgram
+ *  onShowExemptionList - called when the user wants to show the exemption list
  *
  */
 export class AppBarMenu extends React.Component {
@@ -35,6 +36,8 @@ export class AppBarMenu extends React.Component {
                          menuItems={exportSubMenu}/>
                 <MenuItem primaryText={UI_STRINGS.SELECT_NEW_PROGRAM}
                           onClick={() => this.props.onSelectProgramChange(undefined)}/>
+                <MenuItem primaryText="Show exemption list"
+                          onClick={this.props.onShowExemptionList}/>
             </IconMenu>
         );
     }
