@@ -141,7 +141,7 @@ export class SequenceValidationCard extends React.Component {
         let issues = this.props.validationResults.issues;
         let warnings = this.props.validationResults.warnings;
         let isLoading = this.props.validationResults.isLoading;
-        let isValid = this.props.validationResults.isValid;
+        let isValid = this.props.validationResults.isValid === "true";
         return (
             <Card>
                 {this.renderCardHeader(isValid, isLoading)}

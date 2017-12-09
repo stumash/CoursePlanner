@@ -622,6 +622,7 @@ class MainPage extends React.Component {
             validationResults: {
                 issues: this.state.validationResults.issues,
                 warnings: this.state.validationResults.warnings,
+                isValid: this.state.validationResults.isValid,
                 isLoading: true
             }
         });
@@ -635,6 +636,7 @@ class MainPage extends React.Component {
                     validationResults: {
                         issues: response.issues,
                         warnings: response.warnings,
+                        isValid: response.isValid,
                         isLoading: false
                     }
                 });
