@@ -31,43 +31,16 @@ export class SequenceValidationCard extends React.Component {
     constructor(props){
         super(props);
     }
-    
-    renderCardHeader(isValid, isLoading) {
-        
-        let title, loadingIcon;
 
-        if(isLoading){
-            title = UI_STRINGS.VALIDATION_LOADING;
-            loadingIcon = LOADING_ICON_TYPES.small;
-        } else if(isValid) {
-            title = UI_STRINGS.VALIDATION_SUCCESS_MSG;
-        } else {
-            title = UI_STRINGS.VALIDATION_FAILURE_MSG;
-        }
-        
-        return (
-            <CardHeader title={title}
-                        actAsExpander={true}
-                        showExpandableButton={true}
-                        closeIcon={loadingIcon}
-                        openIcon={loadingIcon}/>
-        );
-    }
-
-    renderCardText(isValid, isLoading, issues, warnings) {
-
-        if(isValid){
-            return undefined;
-        }
-
+    generateListItems(issues, warnings) {
         let listItems = [];
 
         // add all issues and warnings to listItems list
-        
+
         issues.forEach((issue) => {
 
             let itemType = "issue";
-            
+
             if(issue.type === "prerequisite" || issue.type === "corequisite"){
                 issue.data.unmetRequirements.forEach((requirement) => {
                     listItems.push({
@@ -92,7 +65,7 @@ export class SequenceValidationCard extends React.Component {
                 });
             }
         });
-        
+
         warnings.forEach((warning) => {
 
             let itemType = "warning";
@@ -120,9 +93,35 @@ export class SequenceValidationCard extends React.Component {
                     )
                 });
             }
-            
+
         });
 
+        return listItems;
+    }
+    
+    renderCardHeader(isValid, isLoading) {
+        
+        let title, loadingIcon;
+
+        if(isLoading){
+            title = UI_STRINGS.VALIDATION_LOADING;
+            loadingIcon = LOADING_ICON_TYPES.small;
+        } else if(isValid) {
+            title = UI_STRINGS.VALIDATION_SUCCESS_MSG;
+        } else {
+            title = UI_STRINGS.VALIDATION_FAILURE_MSG;
+        }
+        
+        return (
+            <CardHeader title={title}
+                        actAsExpander={!isValid}
+                        showExpandableButton={!isValid}
+                        closeIcon={loadingIcon}
+                        openIcon={loadingIcon}/>
+        );
+    }
+
+    renderCardText(listItems) {
         return (
             <CardText expandable={true}>
                 {listItems.map((item, index) => (
@@ -134,18 +133,18 @@ export class SequenceValidationCard extends React.Component {
                 ))}
             </CardText>
         );
-
     }
 
     render() {
         let issues = this.props.validationResults.issues;
         let warnings = this.props.validationResults.warnings;
+        let listItems = this.generateListItems(issues, warnings);
+        let isValid = this.props.validationResults.isValid === "true" || listItems.length === 0;
         let isLoading = this.props.validationResults.isLoading;
-        let isValid = this.props.validationResults.isValid === "true";
         return (
             <Card>
                 {this.renderCardHeader(isValid, isLoading)}
-                {this.renderCardText(isValid, isLoading, issues, warnings)}
+                {!isValid && this.renderCardText(listItems)}
             </Card>
         );
     }
