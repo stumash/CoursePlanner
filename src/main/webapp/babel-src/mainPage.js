@@ -87,6 +87,7 @@ class MainPage extends React.Component {
         this.handleScroll = this.handleScroll.bind(this);
         this.showFeedbackBox = this.showFeedbackBox.bind(this);
         this.closeFeedBackBox = this.closeFeedBackBox.bind(this);
+        this.handleCourseClick = this.handleCourseClick.bind(this);
     }
 
     componentDidMount() {
@@ -228,8 +229,10 @@ class MainPage extends React.Component {
      *      param positions - array of objects indicating the absolute position of the course within the sequence
      */
     highlightCourses(positions){
-        this.setState({
-            highlightedCoursePositions: positions
+        this.setState((prevState) => {
+            return {
+                highlightedCoursePositions: JSON.parse(JSON.stringify(prevState.highlightedCoursePositions)).concat(positions)
+            }
         });
     }
 
@@ -237,9 +240,17 @@ class MainPage extends React.Component {
      *  function to call in the event that the user hovers out of a sequence validation results item
      *      param positions - array of objects indicating the absolute position of the course within the sequence
      */
-    unhighlightCourses(){
-        this.setState({
-            highlightedCoursePositions: []
+    unhighlightCourses(positions){
+        this.setState((prevState) => {
+            let newHighlightedPositions = [];
+            prevState.highlightedCoursePositions.forEach((highlightedPosition) => {
+                if(positions.indexOf(highlightedPosition) === -1){
+                    newHighlightedPositions.push(highlightedPosition);
+                }
+            });
+            return {
+                highlightedCoursePositions: newHighlightedPositions
+            }
         });
     }
 
@@ -437,6 +448,14 @@ class MainPage extends React.Component {
         });
     }
 
+    /*
+     */
+    handleCourseClick(){
+        this.setState({
+            detachIOPanel: window.scrollY > 80
+        });
+    }
+
     renderAppBarTitle() {
         let siteName = <div className="siteNameLabel">{UI_STRINGS.SITE_NAME}</div>;
         let betaLabel = <div className="betaLabel">{UI_STRINGS.BETA_LABEL}</div>;
@@ -481,7 +500,7 @@ class MainPage extends React.Component {
                         <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
                                        highlightedCoursePositions={this.state.highlightedCoursePositions}
-                                       onSelectCourse={this.loadCourseInfo}
+                                       onSelectCourse={this.handleCourseClick}
                                        onOrListSelection={this.setOrListCourseSelected}
                                        onToggleWorkTerm={this.toggleWorkTerm}
                                        onMoveCourse={this.moveCourse}
@@ -492,7 +511,7 @@ class MainPage extends React.Component {
                         <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterList courseSequenceObject={this.state.courseSequenceObject}
                                       highlightedCoursePositions={this.state.highlightedCoursePositions}
-                                      onSelectCourse={this.loadCourseInfo}
+                                      onSelectCourse={this.handleCourseClick}
                                       onOrListSelection={this.setOrListCourseSelected}
                                       onToggleWorkTerm={this.toggleWorkTerm}
                                       onMoveCourse={this.moveCourse}
