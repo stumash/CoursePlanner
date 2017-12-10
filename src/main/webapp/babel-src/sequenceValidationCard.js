@@ -136,7 +136,7 @@ export class SequenceValidationCard extends React.Component {
                               message={item.message}
                               key={index}
                               onMouseEnter={() => this.props.onMouseEnterItem(item.positionsToHighlight)}
-                              onMouseLeave={() => this.props.onMouseLeaveItem()}/>
+                              onMouseLeave={() => this.props.onMouseLeaveItem(item.positionsToHighlight)}/>
                 ))}
             </CardText>
         );

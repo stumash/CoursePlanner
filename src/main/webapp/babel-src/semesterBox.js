@@ -32,10 +32,24 @@ class SemesterBox extends React.Component {
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
         this.handleWorkTermToggle = this.handleWorkTermToggle.bind(this);
+        this.isPositionHighlighted = this.isPositionHighlighted.bind(this);
     }
 
     handleWorkTermToggle(){
         this.props.onToggleWorkTerm(this.props.yearIndex, this.props.season);
+    }
+
+    isPositionHighlighted(position) {
+        let highlightedPositions = this.props.highlightedCoursePositions;
+        for(let i = 0; i < highlightedPositions.length; i++){
+            let highlightedPosition = highlightedPositions[i];
+            if(highlightedPosition.yearIndex == position.yearIndex &&
+                highlightedPosition.season === position.season &&
+                highlightedPosition.courseIndex == position.courseListIndex){
+                return true;
+            }
+        }
+        return false;
     }
 
     renderCourseList(){
@@ -52,20 +66,12 @@ class SemesterBox extends React.Component {
                 "season": this.props.season,
                 "courseListIndex": courseIndex
             };
-            let isHighlighted = false;
-            this.props.highlightedCoursePositions.forEach((highlightedPosition) => {
-                if(highlightedPosition.yearIndex == position.yearIndex &&
-                   highlightedPosition.season === position.season &&
-                   highlightedPosition.courseIndex == courseIndex){
-                    isHighlighted = true;
-                }
-            });
             if(courseObj.length > 0){
                 let courseList = courseObj;
                 return (
                     <OrList courseList={courseList}
                             position={position}
-                            isHighlighted={isHighlighted}
+                            isHighlighted={this.isPositionHighlighted(position)}
                             isDraggable={true}
                             onOrListSelection={this.props.onOrListSelection}
                             onCourseClick={this.props.onSelectCourse}
@@ -77,7 +83,7 @@ class SemesterBox extends React.Component {
                 return (
                     <Course courseObj={courseObj}
                             position={position}
-                            isHighlighted={isHighlighted}
+                            isHighlighted={this.isPositionHighlighted(position)}
                             isDraggable={true}
                             onCourseClick={courseObj.isElective === "false" ? this.props.onSelectCourse : (() => {})}
                             onChangeDragState={this.props.onChangeDragState}
