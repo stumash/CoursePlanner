@@ -113,6 +113,15 @@ export const EXPORT_TYPES = {
     EXPORT_TYPE_LIST_MD: "TEXT (list)"
 };
 
+export const COURSE_EXEMPTIONS = [
+    "MATH 203",
+    "MATH 204",
+    "MATH 205",
+    "CHEM 205",
+    "PHYS 204",
+    "PHYS 205"
+];
+
 export const INLINE_STYLES = {
     appBar: {
         zIndex: "0"

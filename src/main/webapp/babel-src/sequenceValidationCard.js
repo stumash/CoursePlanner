@@ -3,7 +3,7 @@ import {Card, CardHeader, CardText} from 'material-ui/Card';
 import ErrorIcon from 'material-ui/svg-icons/alert/error';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
 
-import { UI_STRINGS, LOADING_ICON_TYPES } from "./util";
+import {UI_STRINGS, LOADING_ICON_TYPES, COURSE_EXEMPTIONS} from "./util";
 
 const ListItem = ({type, message, onMouseEnter, onMouseLeave}) => {
     return (
@@ -43,14 +43,21 @@ export class SequenceValidationCard extends React.Component {
 
             if(issue.type === "prerequisite" || issue.type === "corequisite"){
                 issue.data.unmetRequirements.forEach((requirement) => {
-                    listItems.push({
-                        type: itemType,
-                        positionsToHighlight: [issue.data.position],
-                        message : (
-                            issue.data.courseCode + " is missing " +
-                            issue.type + ": " + requirement.join(" or ")
-                        )
+                    let shouldSkip = false;
+                    // skip issues that include an exempted courseCode requirement
+                    requirement.forEach((courseCode) => {
+                        COURSE_EXEMPTIONS.indexOf(courseCode) >= 0 && (shouldSkip = true);
                     });
+                    if(!shouldSkip){
+                        listItems.push({
+                            type: itemType,
+                            positionsToHighlight: [issue.data.position],
+                            message : (
+                                issue.data.courseCode + " is missing " +
+                                issue.type + ": " + requirement.join(" or ")
+                            )
+                        });
+                    }
                 });
             }
 
