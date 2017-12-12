@@ -29,7 +29,8 @@ class Course extends React.Component {
     }
 
     handleCourseClick(){
-        this.props.onCourseClick(this.props.courseObj.code);
+        let isElective = this.props.courseObj.isElective === "true";
+        this.props.onCourseClick(isElective ? "" : this.props.courseObj.code, this.props.position);
     }
 
     render() {
@@ -43,6 +44,9 @@ class Course extends React.Component {
         }
         if(this.props.isHighlighted){
             extraClassNames.push("highlighted");
+        }
+        if(this.props.isSelected){
+            extraClassNames.push("selected");
         }
 
         return this.props.connectDragSource(renderCourseDiv(this.props.courseObj, extraClassNames.join(" "), this.handleCourseClick));

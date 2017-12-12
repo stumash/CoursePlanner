@@ -39,6 +39,9 @@ class OrList extends React.Component {
         if(this.props.isHighlighted){
             extraClassNames.push("highlighted");
         }
+        if(this.props.isSelected){
+            extraClassNames.push("selected");
+        }
 
         let courseList = this.props.courseList;
         let position = this.props.position;
