@@ -12,7 +12,7 @@ import { SEASON_NAMES, SEASON_NAMES_PRETTY, LOADING_ICON_TYPES } from "./util";
  *  courseSequenceObject - the json object which contains all necessary data for the sequence we want to display
  *  highlightedCoursePositions - the list of sequence positions whose course should get highlighted
  *
- *  onSelectCourse - see MainPage.loadCourseInfo
+ *  onSelectCourse - see MainPage.handleCourseClick
  *  onOrListSelection - see MainPage.setOrListCourseSelected
  *  onToggleWorkTerm - see MainPage.toggleWorkTerm
  *  onMoveCourse - see MainPage.moveCourse
@@ -38,6 +38,7 @@ export class SemesterTable extends React.Component {
                                      season={season}
                                      semester={yearList[yearIndex][season]}
                                      highlightedCoursePositions={this.props.highlightedCoursePositions}
+                                     selectedCoursePositions={this.props.selectedCoursePositions}
                                      onSelectCourse={this.props.onSelectCourse}
                                      onOrListSelection={this.props.onOrListSelection}
                                      onToggleWorkTerm={this.props.onToggleWorkTerm}

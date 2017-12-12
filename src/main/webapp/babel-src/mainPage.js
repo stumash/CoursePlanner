@@ -52,6 +52,7 @@ class MainPage extends React.Component {
                 warnings: [],
                 isLoading: false
             },
+            selectedCoursePositions: [],
             highlightedCoursePositions: [],
             chosenProgram: localStorage.getItem("chosenProgram"),
             allSequences: [],
@@ -70,6 +71,8 @@ class MainPage extends React.Component {
         this.setOrListCourseSelected = this.setOrListCourseSelected.bind(this);
         this.highlightCourses = this.highlightCourses.bind(this);
         this.unhighlightCourses = this.unhighlightCourses.bind(this);
+        this.toggleCourseSelection = this.toggleCourseSelection.bind(this);
+        this.unselectCourses = this.unselectCourses.bind(this);
         this.toggleWorkTerm = this.toggleWorkTerm.bind(this);
         this.exportSequence = this.exportSequence.bind(this);
         this.validateSequence = this.validateSequence.bind(this);
@@ -202,7 +205,7 @@ class MainPage extends React.Component {
     /*
      *  function to call in the event that the user selects an item from a list of choice courses (AKA orList)
      *      param coursePosition - object indicating the absolute position of the course within the sequence
-     *                             required properties: yearIndex, season, courseListIndex, orListIndex
+     *                             required properties: yearIndex, season, courseIndex, orListIndex
      */
     setOrListCourseSelected(coursePosition){
         this.setState((prevState) => {
@@ -210,7 +213,7 @@ class MainPage extends React.Component {
             let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
 
             // update isSelected property of items in orList in question
-            let orList = courseSequenceObjectCopy.yearList[coursePosition.yearIndex][coursePosition.season].courseList[coursePosition.courseListIndex];
+            let orList = courseSequenceObjectCopy.yearList[coursePosition.yearIndex][coursePosition.season].courseList[coursePosition.courseIndex];
 
             orList = orList.map((courseObj, orListIndex) => {
                 courseObj.isSelected = (orListIndex === coursePosition.orListIndex);
@@ -255,6 +258,36 @@ class MainPage extends React.Component {
     }
 
     /*
+     *  function to call in the event that the user clicks on a course
+     *      param position - object indicating the absolute position of the course within the sequence
+     */
+    toggleCourseSelection(position){
+        this.setState((prevState) => {
+            let newSelectedPositions = [];
+            prevState.selectedCoursePositions.forEach((selectedPosition) => {
+                if(!_.isEqual(position, selectedPosition)){
+                    newSelectedPositions.push(selectedPosition);
+                }
+            });
+            if(newSelectedPositions.length === prevState.selectedCoursePositions.length){
+                newSelectedPositions.push(position);
+            }
+            return {
+                selectedCoursePositions: newSelectedPositions
+            }
+        });
+    }
+
+    /*
+     *  function to call in the event that the user clicks on something other than a course
+     */
+    unselectCourses(){
+        this.setState({
+            selectedCoursePositions: []
+        });
+    }
+
+    /*
      *  function to call in the event that the user toggles whether a semester is a work term or not
      *      param yearIndex - index of the year of the semester
      *      param season - the season of the semester
@@ -288,7 +321,7 @@ class MainPage extends React.Component {
     /*
      *  function to call in the event that the user drags an existing course into a new position
      *      param oldPosition - object indicating the absolute position of the course within the sequence
-     *                          required properties: yearIndex, season, courseListIndex
+     *                          required properties: yearIndex, season, courseIndex
      *      param newPosition - ''
      */
     moveCourse(oldPosition, newPosition){
@@ -296,11 +329,11 @@ class MainPage extends React.Component {
 
             let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
 
-            let courseToMove = courseSequenceObjectCopy.yearList[oldPosition.yearIndex][oldPosition.season].courseList[oldPosition.courseListIndex];
+            let courseToMove = courseSequenceObjectCopy.yearList[oldPosition.yearIndex][oldPosition.season].courseList[oldPosition.courseIndex];
 
             // remove course from old position and insert at new position
-            courseSequenceObjectCopy.yearList[oldPosition.yearIndex][oldPosition.season].courseList.splice(oldPosition.courseListIndex, 1);
-            courseSequenceObjectCopy.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseToMove);
+            courseSequenceObjectCopy.yearList[oldPosition.yearIndex][oldPosition.season].courseList.splice(oldPosition.courseIndex, 1);
+            courseSequenceObjectCopy.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseIndex, 0, courseToMove);
 
             // set new state based on changes
             return {
@@ -313,20 +346,20 @@ class MainPage extends React.Component {
      *  function to call in the event that the user drags a new course into a new position
      *      param courseObj - object representing the course to be added
      *      param newPosition - object indicating the new absolute position of the course within the sequence
-     *                          required properties: yearIndex, season, courseListIndex
+     *                          required properties: yearIndex, season, courseIndex
      */
     addCourse(courseObj, newPosition){
         this.setState((prevState) => {
 
             // generate a unique key for the course
-            courseObj.id = generateUniqueKey(courseObj, newPosition.season, newPosition.yearIndex, newPosition.courseListIndex, "");
+            courseObj.id = generateUniqueKey(courseObj, newPosition.season, newPosition.yearIndex, newPosition.courseIndex, "");
             courseObj.isElective = "false";
             courseObj.electiveType = "";
 
             let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
 
             // insert course at new position
-            courseSequenceObjectCopy.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseListIndex, 0, courseObj);
+            courseSequenceObjectCopy.yearList[newPosition.yearIndex][newPosition.season].courseList.splice(newPosition.courseIndex, 0, courseObj);
 
             // set new state based on changes
             return {
@@ -338,7 +371,7 @@ class MainPage extends React.Component {
     /*
      *  function to call in the event that the user wants to remove a course from the sequence
      *      param coursePosition - object indicating the new absolute position of the course within the sequence
-     *                             required properties: yearIndex, season, courseListIndex
+     *                             required properties: yearIndex, season, courseIndex
      */
     removeCourse(coursePosition){
         this.setState((prevState) => {
@@ -346,7 +379,7 @@ class MainPage extends React.Component {
             let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
 
             // remove course at coursePosition
-            courseSequenceObjectCopy.yearList[coursePosition.yearIndex][coursePosition.season].courseList.splice(coursePosition.courseListIndex, 1);
+            courseSequenceObjectCopy.yearList[coursePosition.yearIndex][coursePosition.season].courseList.splice(coursePosition.courseIndex, 1);
 
             // set new state based on changes
             return {
@@ -450,10 +483,11 @@ class MainPage extends React.Component {
 
     /*
      */
-    handleCourseClick(){
-        this.setState({
-            detachIOPanel: window.scrollY > 80
-        });
+    handleCourseClick(courseCode, coursePosition){
+        this.toggleCourseSelection(coursePosition);
+        if(courseCode){
+            this.loadCourseInfo(courseCode);
+        }
     }
 
     renderAppBarTitle() {
@@ -500,6 +534,7 @@ class MainPage extends React.Component {
                         <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
                                        highlightedCoursePositions={this.state.highlightedCoursePositions}
+                                       selectedCoursePositions={this.state.selectedCoursePositions}
                                        onSelectCourse={this.handleCourseClick}
                                        onOrListSelection={this.setOrListCourseSelected}
                                        onToggleWorkTerm={this.toggleWorkTerm}
@@ -511,6 +546,7 @@ class MainPage extends React.Component {
                         <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterList courseSequenceObject={this.state.courseSequenceObject}
                                       highlightedCoursePositions={this.state.highlightedCoursePositions}
+                                      selectedCoursePositions={this.state.selectedCoursePositions}
                                       onSelectCourse={this.handleCourseClick}
                                       onOrListSelection={this.setOrListCourseSelected}
                                       onToggleWorkTerm={this.toggleWorkTerm}

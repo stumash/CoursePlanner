@@ -32,24 +32,22 @@ class SemesterBox extends React.Component {
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
         this.handleWorkTermToggle = this.handleWorkTermToggle.bind(this);
-        this.isPositionHighlighted = this.isPositionHighlighted.bind(this);
     }
 
-    handleWorkTermToggle(){
-        this.props.onToggleWorkTerm(this.props.yearIndex, this.props.season);
-    }
-
-    isPositionHighlighted(position) {
-        let highlightedPositions = this.props.highlightedCoursePositions;
-        for(let i = 0; i < highlightedPositions.length; i++){
-            let highlightedPosition = highlightedPositions[i];
-            if(highlightedPosition.yearIndex == position.yearIndex &&
-                highlightedPosition.season === position.season &&
-                highlightedPosition.courseIndex == position.courseListIndex){
+    arrayContainsPosition(array, position){
+        for(let i = 0; i < array.length; i++){
+            let positionAtIndex = array[i];
+            if(positionAtIndex.yearIndex == position.yearIndex &&
+                positionAtIndex.season === position.season &&
+                positionAtIndex.courseIndex == position.courseIndex){
                 return true;
             }
         }
         return false;
+    }
+
+    handleWorkTermToggle(){
+        this.props.onToggleWorkTerm(this.props.yearIndex, this.props.season);
     }
 
     renderCourseList(){
@@ -64,14 +62,15 @@ class SemesterBox extends React.Component {
             let position = {
                 "yearIndex": this.props.yearIndex,
                 "season": this.props.season,
-                "courseListIndex": courseIndex
+                "courseIndex": courseIndex
             };
             if(courseObj.length > 0){
                 let courseList = courseObj;
                 return (
                     <OrList courseList={courseList}
                             position={position}
-                            isHighlighted={this.isPositionHighlighted(position)}
+                            isHighlighted={this.arrayContainsPosition(this.props.highlightedCoursePositions, position)}
+                            isSelected={this.arrayContainsPosition(this.props.selectedCoursePositions, position)}
                             isDraggable={true}
                             onOrListSelection={this.props.onOrListSelection}
                             onCourseClick={this.props.onSelectCourse}
@@ -83,9 +82,10 @@ class SemesterBox extends React.Component {
                 return (
                     <Course courseObj={courseObj}
                             position={position}
-                            isHighlighted={this.isPositionHighlighted(position)}
+                            isHighlighted={this.arrayContainsPosition(this.props.highlightedCoursePositions, position)}
+                            isSelected={this.arrayContainsPosition(this.props.selectedCoursePositions, position)}
                             isDraggable={true}
-                            onCourseClick={courseObj.isElective === "false" ? this.props.onSelectCourse : (() => {})}
+                            onCourseClick={this.props.onSelectCourse}
                             onChangeDragState={this.props.onChangeDragState}
                             key={courseObj.id}/>
                 );
@@ -151,7 +151,7 @@ let semesterTarget = {
         let newPosition = {
             "yearIndex": props.yearIndex,
             "season": props.season,
-            "courseListIndex": 0
+            "courseIndex": 0
         };
 
         // no course position means the course was dragged from the IOPanel

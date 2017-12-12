@@ -296,13 +296,13 @@ export function saveAs(uri, filename) {
 export function generateUniqueKeys(yearList){
     yearList.forEach((year, yearIndex) => {
         SEASON_NAMES.forEach((season) => {
-            year[season].courseList.forEach((courseObj, courseListIndex) => {
+            year[season].courseList.forEach((courseObj, courseIndex) => {
                 if(courseObj.length > 0){
                     courseObj.forEach((courseOrObj, orListIndex) => {
-                        courseOrObj.id = generateUniqueKey(courseOrObj, season, yearIndex, courseListIndex, orListIndex);
+                        courseOrObj.id = generateUniqueKey(courseOrObj, season, yearIndex, courseIndex, orListIndex);
                     });
                 } else {
-                    courseObj.id = generateUniqueKey(courseObj, season, yearIndex, courseListIndex, "");
+                    courseObj.id = generateUniqueKey(courseObj, season, yearIndex, courseIndex, "");
                 }
             });
         });
@@ -314,9 +314,9 @@ export function generateUniqueKeys(yearList){
  *  Form unique ID by combing course code/electiveType with its current position in the yearList
  *  If the course changes its position within the yearList, we do NOT want this id value to change, so we only call this once.
  */
-export function generateUniqueKey(courseObj, season, yearIndex, courseListIndex, orListIndex){
+export function generateUniqueKey(courseObj, season, yearIndex, courseIndex, orListIndex){
     let id = (courseObj.isElective === "true") ? courseObj.electiveType : courseObj.code;
-    id += season + yearIndex + courseListIndex + orListIndex;
+    id += season + yearIndex + courseIndex + orListIndex;
     return id;
 }
 
@@ -338,7 +338,7 @@ export function renderOrListDiv(courseList, extraClassNames, position, clickHand
                                 listClickHandler({
                                     "yearIndex": position.yearIndex,
                                     "season": position.season,
-                                    "courseListIndex": position.courseListIndex,
+                                    "courseIndex": position.courseIndex,
                                     "orListIndex": courseIndex
                                 });
                             })}
@@ -362,7 +362,7 @@ export function renderCourseDiv(courseObj, extraClassNames, clickHandler){
     return (
         <div className={"course " + extraClassNames} title={courseObj.name || UI_STRINGS.ELECTIVE_COURSE_TOOLTIP} onClick={clickHandler || (() => {})}>
             <div className="courseCode">
-                { (courseObj.isElective === "true") ? (courseObj.electiveType + " Elective") : courseObj.code}
+                { (courseObj.isElective === "true") ? (courseObj.electiveType + " Elective") : courseObj.code }
             </div>
             <div className="courseCredits">{courseObj.credits}</div>
         </div>
