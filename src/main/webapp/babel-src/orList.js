@@ -36,11 +36,13 @@ class OrList extends React.Component {
         if(this.props.isDraggable){
             extraClassNames.push("grabbable");
         }
-        if(this.props.isHighlighted){
-            extraClassNames.push("highlighted");
-        }
-        if(this.props.isSelected){
-            extraClassNames.push("selected");
+        if(this.props.courseObj){
+            if(this.props.courseObj.isHighlighted){
+                extraClassNames.push("highlighted");
+            }
+            if(this.props.courseObj.isSelected){
+                extraClassNames.push("selected");
+            }
         }
 
         let courseList = this.props.courseList;

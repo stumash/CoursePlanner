@@ -52,7 +52,6 @@ class MainPage extends React.Component {
                 isLoading: false
             },
             selectedCoursePositions: [],
-            highlightedCoursePositions: [],
             chosenProgram: localStorage.getItem("chosenProgram"),
             allSequences: [],
             selectedCourseInfo: {},
@@ -67,10 +66,11 @@ class MainPage extends React.Component {
         this.resetProgram = this.resetProgram.bind(this);
         this.loadCourseInfo = this.loadCourseInfo.bind(this);
         this.setOrListCourseSelected = this.setOrListCourseSelected.bind(this);
+        this.togglePropOnCourses = this.togglePropOnCourses.bind(this);
         this.highlightCourses = this.highlightCourses.bind(this);
         this.unhighlightCourses = this.unhighlightCourses.bind(this);
         this.toggleCourseSelection = this.toggleCourseSelection.bind(this);
-        this.unselectCourses = this.unselectCourses.bind(this);
+        this.unselectAllCourses = this.unselectAllCourses.bind(this);
         this.toggleWorkTerm = this.toggleWorkTerm.bind(this);
         this.exportSequence = this.exportSequence.bind(this);
         this.validateSequence = this.validateSequence.bind(this);
@@ -101,6 +101,7 @@ class MainPage extends React.Component {
         this.shouldScroll = false;
         this.scrollDirection = 0;
         window.addEventListener('scroll', this.handleScroll);
+        // TODO: unselect and unhighlight all courses on page load
     }
 
     componentWillUnmount() {
@@ -211,16 +212,25 @@ class MainPage extends React.Component {
         });
     }
 
+    // TODO: improve performance of this function
+    togglePropOnCourses(positions, propName, isOn){
+        this.setState((prevState) => {
+            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
+            positions.forEach((position) => {
+                courseSequenceObjectCopy.yearList[position.yearIndex][position.season].courseList[position.courseIndex][propName] = isOn;
+            });
+            return {
+                courseSequenceObject: courseSequenceObjectCopy
+            }
+        });
+    }
+
     /*
      *  function to call in the event that the user hovers over a sequence validation results item
      *      param positions - array of objects indicating the absolute position of the course within the sequence
      */
     highlightCourses(positions){
-        this.setState((prevState) => {
-            return {
-                highlightedCoursePositions: JSON.parse(JSON.stringify(prevState.highlightedCoursePositions)).concat(positions)
-            }
-        });
+        this.togglePropOnCourses(positions, "isHighlighted", true);
     }
 
     /*
@@ -228,29 +238,23 @@ class MainPage extends React.Component {
      *      param positions - array of objects indicating the absolute position of the course within the sequence
      */
     unhighlightCourses(positions){
-        this.setState((prevState) => {
-            let newHighlightedPositions = [];
-            prevState.highlightedCoursePositions.forEach((highlightedPosition) => {
-                if(positions.indexOf(highlightedPosition) === -1){
-                    newHighlightedPositions.push(highlightedPosition);
-                }
-            });
-            return {
-                highlightedCoursePositions: newHighlightedPositions
-            }
-        });
+        this.togglePropOnCourses(positions, "isHighlighted", false);
     }
+
 
     /*
      *  function to call in the event that the user clicks on a course
      *      param position - object indicating the absolute position of the course within the sequence
      */
     toggleCourseSelection(position){
+        let courseAlreadySelected = false;
         this.setState((prevState) => {
             let newSelectedPositions = [];
             prevState.selectedCoursePositions.forEach((selectedPosition) => {
                 if(!_.isEqual(position, selectedPosition)){
                     newSelectedPositions.push(selectedPosition);
+                } else {
+                    courseAlreadySelected = true;
                 }
             });
             if(newSelectedPositions.length === prevState.selectedCoursePositions.length){
@@ -259,15 +263,20 @@ class MainPage extends React.Component {
             return {
                 selectedCoursePositions: newSelectedPositions
             }
+        }, () => {
+            this.togglePropOnCourses([position], "isSelected", !courseAlreadySelected);
         });
     }
 
     /*
      *  function to call in the event that the user clicks on something other than a course
      */
-    unselectCourses(){
+    unselectAllCourses(){
+        let selectedCoursePositionsOld = this.state.selectedCoursePositions;
         this.setState({
             selectedCoursePositions: []
+        }, () => {
+            this.togglePropOnCourses(selectedCoursePositionsOld, "isSelected", false);
         });
     }
 
@@ -509,8 +518,6 @@ class MainPage extends React.Component {
                     <div className="semesterTableContainer hidden-xs hidden-sm">
                         <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
-                                       highlightedCoursePositions={this.state.highlightedCoursePositions}
-                                       selectedCoursePositions={this.state.selectedCoursePositions}
                                        onSelectCourse={this.handleCourseClick}
                                        onOrListSelection={this.setOrListCourseSelected}
                                        onToggleWorkTerm={this.toggleWorkTerm}
@@ -521,8 +528,6 @@ class MainPage extends React.Component {
                     <div className="semesterListContainer col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
                         <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterList courseSequenceObject={this.state.courseSequenceObject}
-                                      highlightedCoursePositions={this.state.highlightedCoursePositions}
-                                      selectedCoursePositions={this.state.selectedCoursePositions}
                                       onSelectCourse={this.handleCourseClick}
                                       onOrListSelection={this.setOrListCourseSelected}
                                       onToggleWorkTerm={this.toggleWorkTerm}
@@ -583,7 +588,7 @@ class MainPage extends React.Component {
                 });
 
             } else {
-                this.setState({"courseSequenceObject" : courseSequenceObject});
+                this.setState({courseSequenceObject : courseSequenceObject});
             }
         });
     }

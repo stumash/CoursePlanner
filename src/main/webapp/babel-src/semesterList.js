@@ -10,7 +10,6 @@ import {SEASON_NAMES, SEASON_NAMES_PRETTY, LOADING_ICON_TYPES} from "./util";
  *  Expects props:
  *
  *  courseSequenceObject - the json object which contains all necessary data for the sequence we want to display
- *  highlightedCoursePositions - the list of sequence positions whose course should get highlighted
  *
  *  onSelectCourse - see MainPage.handleCourseClick
  *  onOrListSelection - see MainPage.setOrListCourseSelected
@@ -38,8 +37,6 @@ export class SemesterList extends React.Component {
                     <SemesterBox yearIndex={yearIndex}
                                  season={season}
                                  semester={yearList[yearIndex][season]}
-                                 highlightedCoursePositions={this.props.highlightedCoursePositions}
-                                 selectedCoursePositions={this.props.selectedCoursePositions}
                                  onSelectCourse={this.props.onSelectCourse}
                                  onOrListSelection={this.props.onOrListSelection}
                                  onToggleWorkTerm={this.props.onToggleWorkTerm}

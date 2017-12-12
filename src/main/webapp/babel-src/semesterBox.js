@@ -34,18 +34,6 @@ class SemesterBox extends React.Component {
         this.handleWorkTermToggle = this.handleWorkTermToggle.bind(this);
     }
 
-    arrayContainsPosition(array, position){
-        for(let i = 0; i < array.length; i++){
-            let positionAtIndex = array[i];
-            if(positionAtIndex.yearIndex == position.yearIndex &&
-                positionAtIndex.season === position.season &&
-                positionAtIndex.courseIndex == position.courseIndex){
-                return true;
-            }
-        }
-        return false;
-    }
-
     handleWorkTermToggle(){
         this.props.onToggleWorkTerm(this.props.yearIndex, this.props.season);
     }
@@ -69,8 +57,6 @@ class SemesterBox extends React.Component {
                 return (
                     <OrList courseList={courseList}
                             position={position}
-                            isHighlighted={this.arrayContainsPosition(this.props.highlightedCoursePositions, position)}
-                            isSelected={this.arrayContainsPosition(this.props.selectedCoursePositions, position)}
                             isDraggable={true}
                             onOrListSelection={this.props.onOrListSelection}
                             onCourseClick={this.props.onSelectCourse}
@@ -82,8 +68,6 @@ class SemesterBox extends React.Component {
                 return (
                     <Course courseObj={courseObj}
                             position={position}
-                            isHighlighted={this.arrayContainsPosition(this.props.highlightedCoursePositions, position)}
-                            isSelected={this.arrayContainsPosition(this.props.selectedCoursePositions, position)}
                             isDraggable={true}
                             onCourseClick={this.props.onSelectCourse}
                             onChangeDragState={this.props.onChangeDragState}
