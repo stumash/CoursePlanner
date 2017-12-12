@@ -36,6 +36,7 @@ class OrList extends React.Component {
         if(this.props.isDraggable){
             extraClassNames.push("grabbable");
         }
+        // TODO: fix issue where orLists can't get highlighted or selected since they have no courseObj
         if(this.props.courseObj){
             if(this.props.courseObj.isHighlighted){
                 extraClassNames.push("highlighted");
