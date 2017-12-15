@@ -24,6 +24,7 @@
     "browserify": "^14.4.0",
     "bundle-collapser": "^1.2.1",
     "envify": "^4.1.0",
+    "immutability-helper": "^2.6.0",
     "material-ui": "^0.19.4",
     "react": "^15.6.1",
     "react-dnd": "^2.4.0",

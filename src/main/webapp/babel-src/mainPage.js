@@ -17,6 +17,8 @@ import {AppBarMenu} from "./appBarMenu";
 import {SearchBox} from "./searchBox";
 import {ProgramSelectionDialog} from "./programSelectionDialog";
 
+import update from 'immutability-helper';
+
 let _ = require("underscore");
 
 import { MAX_UNDO_HISTORY_LENGTH,
@@ -214,15 +216,34 @@ class MainPage extends React.Component {
 
     // TODO: improve performance of this function
     togglePropOnCourses(positions, propName, isOn){
-        this.setState((prevState) => {
-            let courseSequenceObjectCopy = JSON.parse(JSON.stringify(prevState.courseSequenceObject));
-            positions.forEach((position) => {
-                courseSequenceObjectCopy.yearList[position.yearIndex][position.season].courseList[position.courseIndex][propName] = isOn;
+        positions.forEach((position) => {
+
+            let yearListsUpdates = [];
+
+            this.setState((prevState) => {
+                return {
+                    courseSequenceObject: update(prevState.courseSequenceObject, {
+                        yearList: {
+                            [position.yearIndex]: {
+                                [position.season]: {
+                                    courseList: {
+                                        [position.courseIndex]: {
+                                            [propName]: {$set: isOn}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    })
+                }
             });
-            return {
-                courseSequenceObject: courseSequenceObjectCopy
-            }
         });
+        // let commandSpec = {};
+        // this.setState((prevState) => {
+        //     return {
+        //         courseSequenceObject: update(prevState.courseSequenceObject, commandSpec);
+        //     }
+        // });
     }
 
     /*
