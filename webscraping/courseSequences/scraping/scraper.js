@@ -8,7 +8,7 @@ const assert = require('assert');
 const SEASON_NAMES = ["fall", "winter", "summer"];
 const outputDir = "../scrapedJson/";
 
-const courseCodeRegex = /\w{4}\s?\d{3}/;
+const courseCodeRegex = /\w{4}\s{0,2}\d{3}/;
 const minTotalCreditsRegex = /\S*\d+\S*/;
 const seasonRegex = /fall|winter|summer/i;
 const workTermRegex = /work term/i;
@@ -351,7 +351,7 @@ function extractCourseObject(text){
     }
     else if(courseMatch){
         return {
-            "code": addMiddleSpaceIfNeeded(courseMatch[0].toUpperCase()),
+            "code": fixCourseCodeSpacing(courseMatch[0].toUpperCase()),
             "isElective": "false",
             "electiveType": ""
         };
@@ -497,15 +497,18 @@ function correctWrongCourses(semesterList, courseCorrectionMap){
     return semesterList;
 }
 
-function addMiddleSpaceIfNeeded(courseCode){
-    let pattern = new RegExp(/^\w{4}\d{3}$/);
-    let res = pattern.test(courseCode.trim());
-    if(res){
-        // add space where it needs to go
-        return courseCode.substr(0, 4) + " " + courseCode.substr(4);
-    } else {
+function fixCourseCodeSpacing(courseCode){
+    if(courseCode.length === 8){
         return courseCode;
     }
+    courseCode = courseCode.replace(String.fromCharCode(160)," ");
+    let numSpaces = 0;
+    for(let i = 0; i < courseCode.length; i++){
+        if(courseCode.charAt(i) === " "){
+            numSpaces++;
+        }
+    }
+    return courseCode.substr(0, 4) + " " + courseCode.substr(4 + numSpaces);
 }
 
 function parseSequenceInfo(sequenceID){
