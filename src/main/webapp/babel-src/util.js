@@ -99,9 +99,9 @@ export const PROGRAM_OPTIONS = {
     Electronics: "Electronics/VLSI",
     Avionics: "Avionics and Control Systems",
     Power: "Power and Renewable Energy",
-    A: "Aerodynamics and Propulsion",
-    B: "Aerospace Structures and Materials",
-    C: "Avionics and Aerospace Systems"
+    Propulsion: "Aerodynamics and Propulsion",
+    Structures: "Aerospace Structures and Materials",
+    AeroSys: "Avionics and Aerospace Systems"
 };
 
 export const PROGRAM_ENTRY_TYPES = {

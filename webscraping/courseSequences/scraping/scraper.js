@@ -471,7 +471,7 @@ function performHardcodedPatches(semesterList, programID){
     }
     if(programID.includes("AERO")){
         let lastWinter = semesterList[semesterList.length-1];
-        if(programID.charAt(5) !== "C"){
+        if(!programID.includes("AeroSys")){
             semesterList.pop();
             semesterList.pop();
             semesterList.push(lastWinter);
