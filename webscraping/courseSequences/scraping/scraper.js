@@ -483,6 +483,9 @@ function performHardcodedPatches(semesterList, programID){
         } else if(!programID.includes("Coop")){
             lastWinter.courseList.pop();
         }
+        if(programID.includes("Coop")){
+            lastWinter.isWorkTerm = "false";
+        }
     }
 
     return semesterList;
