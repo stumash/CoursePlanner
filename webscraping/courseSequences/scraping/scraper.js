@@ -8,7 +8,7 @@ const assert = require('assert');
 const SEASON_NAMES = ["fall", "winter", "summer"];
 const outputDir = "../scrapedJson/";
 
-const courseCodeRegex = /\w{4}\s?\d{3}/;
+const courseCodeRegex = /\w{4}\s{0,2}\d{3}/;
 const minTotalCreditsRegex = /\S*\d+\S*/;
 const seasonRegex = /fall|winter|summer/i;
 const workTermRegex = /work term/i;
@@ -115,7 +115,7 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
 
             let semesterList = sequenceTextToSemesterList($(commonSequenceSelector).text());
 
-            semesterList = fixMechAndIndu(semesterList, plainFileName);
+            semesterList = performHardcodedPatches(semesterList, plainFileName);
             semesterList = correctWrongCourses(semesterList, courseCorrectionMap);
 
             let yearList = toYearList(semesterList);
@@ -351,7 +351,7 @@ function extractCourseObject(text){
     }
     else if(courseMatch){
         return {
-            "code": addMiddleSpaceIfNeeded(courseMatch[0].toUpperCase()),
+            "code": fixCourseCodeSpacing(courseMatch[0].toUpperCase()),
             "isElective": "false",
             "electiveType": ""
         };
@@ -407,9 +407,7 @@ function fillMissingSemesters(semesterList){
     return semesterList;
 }
 
-// perform fix for badly formatted INDU sequences
-function fixMechAndIndu(semesterList, programID){
-
+function performHardcodedPatches(semesterList, programID){
     let emptyWinter = {
         "season": "winter",
         "courseList": [],
@@ -427,6 +425,11 @@ function fixMechAndIndu(semesterList, programID){
     };
     let mech490 = {
         "code": "MECH 490",
+        "isElective": "false",
+        "electiveType": ""
+    };
+    let aero490 = {
+        "code": "AERO 490",
         "isElective": "false",
         "electiveType": ""
     };
@@ -466,6 +469,24 @@ function fixMechAndIndu(semesterList, programID){
         semesterList[semesterList.length-1].courseList.push(mech490);
         semesterList[semesterList.length-2].courseList.push(mech490);
     }
+    if(programID.includes("AERO")){
+        let lastWinter = semesterList[semesterList.length-1];
+        if(!programID.includes("AeroSys")){
+            semesterList.pop();
+            semesterList.pop();
+            semesterList.push(lastWinter);
+            if(!programID.includes("Coop")){
+                lastWinter.courseList.pop();
+            }
+            lastWinter.courseList.push(aero490);
+            semesterList[semesterList.length-2].courseList.push(aero490);
+        } else if(!programID.includes("Coop")){
+            lastWinter.courseList.pop();
+        }
+        if(programID.includes("Coop")){
+            lastWinter.isWorkTerm = "false";
+        }
+    }
 
     return semesterList;
 }
@@ -497,15 +518,18 @@ function correctWrongCourses(semesterList, courseCorrectionMap){
     return semesterList;
 }
 
-function addMiddleSpaceIfNeeded(courseCode){
-    let pattern = new RegExp(/^\w{4}\d{3}$/);
-    let res = pattern.test(courseCode.trim());
-    if(res){
-        // add space where it needs to go
-        return courseCode.substr(0, 4) + " " + courseCode.substr(4);
-    } else {
+function fixCourseCodeSpacing(courseCode){
+    if(courseCode.length === 8){
         return courseCode;
     }
+    courseCode = courseCode.replace(String.fromCharCode(160)," ");
+    let numSpaces = 0;
+    for(let i = 0; i < courseCode.length; i++){
+        if(courseCode.charAt(i) === " "){
+            numSpaces++;
+        }
+    }
+    return courseCode.substr(0, 4) + " " + courseCode.substr(4 + numSpaces);
 }
 
 function parseSequenceInfo(sequenceID){

@@ -88,5 +88,24 @@
     "Sept": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/sept-mech.html",
     "Jan": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/jan-mech.html",
     "Coop": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/co-op-mech.html"
+  },
+  "AERO": {
+    "Options": {
+      "Propulsion": {
+        "Sept": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/sept-aero-a.html",
+        "Jan": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/jan-aero-a.html",
+        "Coop": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/co-op-aero-a.html"
+      },
+      "Structures": {
+        "Sept": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/sept-aero-b.html",
+        "Jan": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/jan-aero-b.html",
+        "Coop": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/co-op-aero-b.html"
+      },
+      "AeroSys": {
+        "Sept": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/sept-aero-c.html",
+        "Jan": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/jan-aero-c.html",
+        "Coop": "https://www.concordia.ca/encs/mechanical-industrial/students/undergraduate/course-sequences/co-op-aero-c.html"
+      }
+    }
   }
 }
