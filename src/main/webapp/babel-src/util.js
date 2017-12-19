@@ -79,7 +79,8 @@ export const PROGRAM_NAMES = {
     INDU: "Industrial Engineering",
     MECH: "Mechanical Engineering",
     COEN: "Computer Engineering",
-    ELEC: "Electrical Engineering"
+    ELEC: "Electrical Engineering",
+    AERO: "Aerospace Engineering"
 };
 
 export const PROGRAM_OPTIONS = {
@@ -97,7 +98,10 @@ export const PROGRAM_OPTIONS = {
     Tele: "Telecommunications",
     Electronics: "Electronics/VLSI",
     Avionics: "Avionics and Control Systems",
-    Power: "Power and Renewable Energy"
+    Power: "Power and Renewable Energy",
+    A: "Aerodynamics and Propulsion",
+    B: "Aerospace Structures and Materials",
+    C: "Avionics and Aerospace Systems"
 };
 
 export const PROGRAM_ENTRY_TYPES = {

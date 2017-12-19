@@ -115,7 +115,7 @@ function scrapeEncsSequenceUrl(url, outPath, plainFileName, onComplete){
 
             let semesterList = sequenceTextToSemesterList($(commonSequenceSelector).text());
 
-            semesterList = fixMechAndIndu(semesterList, plainFileName);
+            semesterList = performHardcodedPatches(semesterList, plainFileName);
             semesterList = correctWrongCourses(semesterList, courseCorrectionMap);
 
             let yearList = toYearList(semesterList);
@@ -407,9 +407,7 @@ function fillMissingSemesters(semesterList){
     return semesterList;
 }
 
-// perform fix for badly formatted INDU sequences
-function fixMechAndIndu(semesterList, programID){
-
+function performHardcodedPatches(semesterList, programID){
     let emptyWinter = {
         "season": "winter",
         "courseList": [],
@@ -427,6 +425,11 @@ function fixMechAndIndu(semesterList, programID){
     };
     let mech490 = {
         "code": "MECH 490",
+        "isElective": "false",
+        "electiveType": ""
+    };
+    let aero490 = {
+        "code": "AERO 490",
         "isElective": "false",
         "electiveType": ""
     };
@@ -465,6 +468,21 @@ function fixMechAndIndu(semesterList, programID){
         // add MECH 490 in fall and winter
         semesterList[semesterList.length-1].courseList.push(mech490);
         semesterList[semesterList.length-2].courseList.push(mech490);
+    }
+    if(programID.includes("AERO")){
+        let lastWinter = semesterList[semesterList.length-1];
+        if(programID.charAt(5) !== "C"){
+            semesterList.pop();
+            semesterList.pop();
+            semesterList.push(lastWinter);
+            if(!programID.includes("Coop")){
+                lastWinter.courseList.pop();
+            }
+            lastWinter.courseList.push(aero490);
+            semesterList[semesterList.length-2].courseList.push(aero490);
+        } else if(!programID.includes("Coop")){
+            lastWinter.courseList.pop();
+        }
     }
 
     return semesterList;
