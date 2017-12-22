@@ -89,6 +89,7 @@ class MainPage extends React.Component {
         this.handleTouchMove = this.handleTouchMove.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
         this.handleCourseClick = this.handleCourseClick.bind(this);
+        this.handleSequenceChange = this.handleSequenceChange.bind(this);
     }
 
     componentDidMount() {
@@ -98,7 +99,6 @@ class MainPage extends React.Component {
             "history": [],
             "currentPosition": -1
         };
-        this.preventHistoryUpdate = false;
         this.isDragging = false;
         this.shouldScroll = false;
         this.scrollDirection = 0;
@@ -110,27 +110,20 @@ class MainPage extends React.Component {
         window.removeEventListener('scroll', this.handleScroll);
     }
 
-    componentDidUpdate(prevProps, prevState){
-        if(!_.isEqual(prevState.courseSequenceObject, this.state.courseSequenceObject) && !this.state.courseSequenceObject.isLoading){
+    handleSequenceChange(){
+        // save change to local storage
+        localStorage.setItem("savedSequence", JSON.stringify(this.state.courseSequenceObject));
 
-            // re-validate the sequence each time it changes
-            this.validateSequence();
-
-            // save change to local storage
-            localStorage.setItem("savedSequence", JSON.stringify(this.state.courseSequenceObject));
-
-            if(!this.preventHistoryUpdate){
-                // add deep copy of current sequence to history
-                this.courseSequenceHistory.currentPosition++;
-                this.courseSequenceHistory.history = this.courseSequenceHistory.history.slice(0, this.courseSequenceHistory.currentPosition);
-                this.courseSequenceHistory.history.push(JSON.parse(JSON.stringify(this.state.courseSequenceObject)));
-                if(this.courseSequenceHistory.history.length > MAX_UNDO_HISTORY_LENGTH){
-                    this.courseSequenceHistory.currentPosition--;
-                    this.courseSequenceHistory.history.shift();
-                }
-            }
-            this.preventHistoryUpdate = false;
+        // add deep copy of current sequence to history
+        this.courseSequenceHistory.currentPosition++;
+        this.courseSequenceHistory.history = this.courseSequenceHistory.history.slice(0, this.courseSequenceHistory.currentPosition);
+        this.courseSequenceHistory.history.push(JSON.parse(JSON.stringify(this.state.courseSequenceObject)));
+        if(this.courseSequenceHistory.history.length > MAX_UNDO_HISTORY_LENGTH){
+            this.courseSequenceHistory.currentPosition--;
+            this.courseSequenceHistory.history.shift();
         }
+
+        this.validateSequence();
     }
 
     /*
@@ -179,6 +172,8 @@ class MainPage extends React.Component {
 
         // Must use the callback param of setState to ensure the chosenProgram is changed in time
         this.setState({"chosenProgram": newChosenProgram}, this.loadCourseSequenceObject);
+
+        // TODO: CLEAR UNDO/REDO HISTORY
     }
 
     /*
@@ -211,15 +206,12 @@ class MainPage extends React.Component {
             return {
                 "courseSequenceObject": courseSequenceObjectCopy
             };
-        });
+        }, this.handleSequenceChange);
     }
 
-    // TODO: improve performance of this function
+    // TODO: improve performance of this function - maybe
     togglePropOnCourses(positions, propName, isOn){
         positions.forEach((position) => {
-
-            let yearListsUpdates = [];
-
             this.setState((prevState) => {
                 return {
                     courseSequenceObject: update(prevState.courseSequenceObject, {
@@ -238,12 +230,6 @@ class MainPage extends React.Component {
                 }
             });
         });
-        // let commandSpec = {};
-        // this.setState((prevState) => {
-        //     return {
-        //         courseSequenceObject: update(prevState.courseSequenceObject, commandSpec);
-        //     }
-        // });
     }
 
     /*
@@ -319,7 +305,7 @@ class MainPage extends React.Component {
             return {
                 "courseSequenceObject": courseSequenceObjectCopy
             };
-        });
+        }, this.handleSequenceChange);
     }
 
     /*
@@ -353,7 +339,7 @@ class MainPage extends React.Component {
             return {
                 "courseSequenceObject": courseSequenceObjectCopy
             };
-        });
+        }, this.handleSequenceChange);
     }
 
     /*
@@ -379,7 +365,7 @@ class MainPage extends React.Component {
             return {
                 "courseSequenceObject": courseSequenceObjectCopy
             };
-        });
+        }, this.handleSequenceChange);
     }
 
     /*
@@ -399,7 +385,7 @@ class MainPage extends React.Component {
             return {
                 "courseSequenceObject": courseSequenceObjectCopy
             };
-        });
+        }, this.handleSequenceChange);
     }
 
     handleTouchMove(touchMoveEvent){
@@ -476,8 +462,6 @@ class MainPage extends React.Component {
                 }
             }
             if(changedCurrentPosition){
-                // prevent the componentDidUpdate method from updating our undo history
-                this.preventHistoryUpdate = true;
                 // update state
                 this.setState({
                     "courseSequenceObject": this.courseSequenceHistory.history[this.courseSequenceHistory.currentPosition]
@@ -609,7 +593,7 @@ class MainPage extends React.Component {
                 });
 
             } else {
-                this.setState({courseSequenceObject : courseSequenceObject});
+                this.setState({courseSequenceObject : courseSequenceObject}, );
             }
         });
     }
