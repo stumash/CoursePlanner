@@ -36,7 +36,13 @@ export class FeedBackBox extends React.Component {
             <FlatButton
                 label="Cancel"
                 primary={true}
-                onClick={this.props.onSelectCancel}
+                onClick={() => {
+                    this.props.onSelectCancel();
+                    this.setState({
+                        charCtr : 0,
+                        errorMsg: ''
+                    })}
+                }
             />,
             <FlatButton
                 label="Submit"
@@ -50,7 +56,13 @@ export class FeedBackBox extends React.Component {
                 <Dialog
                     title={UI_STRINGS.FEEDBACK_BOX_TITLE}
                     actions={actions}
-                    onRequestClose={this.props.onSelectCancel}
+                    onRequestClose={() => {
+                        this.props.onSelectCancel();
+                        this.setState({
+                            charCtr : 0,
+                            errorMsg: ''
+                        })}
+                    }
                     open={this.props.open}
                 >
                     <TextField
