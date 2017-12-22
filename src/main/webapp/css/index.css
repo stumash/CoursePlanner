@@ -325,6 +325,11 @@
     text-align: center;
 }
 
+/* Styling for feedback box*/
+.right {
+    float: right;
+}
+
 /* Special styling for DND */
 
 .dragPreview {

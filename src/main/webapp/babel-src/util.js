@@ -14,6 +14,7 @@ export const MAX_UNDO_HISTORY_LENGTH = 100;
 export const AUTO_SCROLL_PAGE_PORTION = 0.1; // auto scroll on the top and bottom 10% of screen
 export const AUTO_SCROLL_STEP = 10;
 export const AUTO_SCROLL_DELAY = 20;
+export const FEEDBACK_CHAR_LIMIT = 1000;
 
 // Item types used for DND
 export const ITEM_TYPES = {
@@ -69,7 +70,11 @@ export const UI_STRINGS = {
     ELECTIVE_COURSE_TOOLTIP: "Replace me with a real course!",
     ORLIST_CHOICE_TOOLTIP: "Choose course from list of options",
     LIST_LOADING: "Loading...",
-    LIST_NONE_SELECTED: "None Selected"
+    LIST_NONE_SELECTED: "None Selected",
+
+    FEEDBACK_CHAR_LIMIT_ERROR_MSG: "Character limit reached",
+    FEEDBACK_PLACEHOLDER: "Insert Feedback here",
+    FEEDBACK_BOX_TITLE: "Feedback"
 };
 
 export const URLS = {
@@ -184,6 +189,9 @@ export const INLINE_STYLES = {
     },
     programSelectNextButton: {
         marginRight: "12px"
+    },
+    betterYellow: {
+        color: "#f5bb2b"
     }
 };
 
