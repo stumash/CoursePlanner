@@ -10,7 +10,8 @@ export class FeedBackBox extends React.Component {
 
         this.state = {
             charCtr : 0,
-            errorMsg : ''
+            errorMsg : '',
+            feedbackMsg: ''
         };
 
         // this.updateTextField = this.updateTextField.bind(this);
@@ -21,7 +22,8 @@ export class FeedBackBox extends React.Component {
         if (value.length < FEEDBACK_CHAR_LIMIT) {
             this.setState({
                charCtr : value.length,
-               errorMsg : ''
+               errorMsg : '',
+               feedbackMsg : value
             });
         } else {
             this.setState({
@@ -47,7 +49,18 @@ export class FeedBackBox extends React.Component {
             <FlatButton
                 label="Submit"
                 primary={true}
-                onClick={() => {console.log("submit");}}
+                onClick={() => {console.log("submit");
+                    if (this.state.feedbackMsg != "") {
+                        $.ajax({
+                            type: "POST",
+                            url: "api/feedback",
+                            data: JSON.stringify({"message": this.state.feedbackMsg}),
+                            success: (response) => {
+                                console.log(response);
+                            }
+                        });
+                    }
+                }}
             />,
         ];
 
