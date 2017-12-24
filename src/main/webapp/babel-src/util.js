@@ -74,7 +74,9 @@ export const UI_STRINGS = {
 
     FEEDBACK_CHAR_LIMIT_ERROR_MSG: "Character limit reached",
     FEEDBACK_PLACEHOLDER: "Insert Feedback here",
-    FEEDBACK_BOX_TITLE: "Feedback"
+    FEEDBACK_BOX_TITLE: "Feedback",
+    FEEDBACK_SEND_ERROR_MSG: "An error occurred, message not sent",
+    FEEDBACK_SEND_SUCCESS_MSG: "Message sent, thank you for your feedback!"
 };
 
 export const URLS = {

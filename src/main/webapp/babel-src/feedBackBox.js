@@ -2,6 +2,7 @@ import React from "react";
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import Snackbar from 'material-ui/Snackbar';
 import {FEEDBACK_CHAR_LIMIT, UI_STRINGS, INLINE_STYLES} from './util';
 
 export class FeedBackBox extends React.Component {
@@ -11,7 +12,9 @@ export class FeedBackBox extends React.Component {
         this.state = {
             charCtr : 0,
             errorMsg : '',
-            feedbackMsg: ''
+            feedbackMsg: '',
+            sendSuccess : false,
+            sendError : false
         };
 
         // this.updateTextField = this.updateTextField.bind(this);
@@ -32,6 +35,13 @@ export class FeedBackBox extends React.Component {
             })
         }
     }
+
+    handleRequestClose = () => {
+        this.setState({
+            sendSuccess : false,
+            sendError : false
+        });
+    };
 
     render() {
         const actions = [
@@ -56,7 +66,21 @@ export class FeedBackBox extends React.Component {
                             url: "api/feedback",
                             data: JSON.stringify({"message": this.state.feedbackMsg}),
                             success: (response) => {
-                                console.log(response);
+                                var responseObject = JSON.parse(response);
+                                if (responseObject.success === true) {
+                                    this.setState({
+                                        sendSuccess : true
+                                    });
+                                } else {
+                                    this.setState({
+                                        sendSuccess : false
+                                    })
+                                }
+                            },
+                            error: (response) => {
+                                this.setState({
+                                    sendSuccess: false
+                                })
                             }
                         });
                     }
@@ -90,6 +114,18 @@ export class FeedBackBox extends React.Component {
                     />
                     <p className="right">{this.state.charCtr}/{FEEDBACK_CHAR_LIMIT}</p>
                 </Dialog>
+                <Snackbar
+                    open={this.state.sendSuccess}
+                    message={UI_STRINGS.FEEDBACK_SEND_SUCCESS_MSG}
+                    autoHideDuration={4000}
+                    onRequestClose={this.handleRequestClose}
+                />
+                <Snackbar
+                    open={this.state.sendError}
+                    message={UI_STRINGS.FEEDBACK_SEND_ERROR_MSG}
+                    autoHideDuration={4000}
+                    onRequestClose={this.handleRequestClose}
+                />
             </div>
         );
     }
