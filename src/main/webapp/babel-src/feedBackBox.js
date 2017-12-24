@@ -3,7 +3,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
-import {FEEDBACK_CHAR_LIMIT, UI_STRINGS, INLINE_STYLES} from './util';
+import {FEEDBACK_CHAR_LIMIT, FEEDBACK_SNACKBAR_AUTO_HIDE_DURATION, UI_STRINGS, INLINE_STYLES} from './util';
 
 export class FeedBackBox extends React.Component {
     constructor(props) {
@@ -36,10 +36,46 @@ export class FeedBackBox extends React.Component {
         }
     }
 
-    handleRequestClose = () => {
+    sendFeedBackMsg() {
+        $.ajax({
+            type: "POST",
+            url: "api/feedback",
+            data: JSON.stringify({"message": this.state.feedbackMsg}),
+            success: (response) => {
+                var responseObject = JSON.parse(response);
+                if (responseObject.success === true) {
+                    this.setState({
+                        sendSuccess : true,
+                        sendError : false
+                    });
+                } else {
+                    this.setState({
+                        sendSuccess : false,
+                        sendError : true
+                    })
+                }
+            },
+            error: (response) => {
+                this.setState({
+                    sendSuccess: false,
+                    sendError : true
+                })
+            }
+        });
+    }
+
+    handleCloseSnackBar = () => {
         this.setState({
             sendSuccess : false,
             sendError : false
+        });
+    };
+
+    handleCloseFeedBackBox = () => {
+        this.props.onSelectCancel();
+        this.setState({
+            charCtr : 0,
+            errorMsg: ''
         });
     };
 
@@ -48,41 +84,14 @@ export class FeedBackBox extends React.Component {
             <FlatButton
                 label="Cancel"
                 primary={true}
-                onClick={() => {
-                    this.props.onSelectCancel();
-                    this.setState({
-                        charCtr : 0,
-                        errorMsg: ''
-                    })}
-                }
+                onClick={this.handleCloseFeedBackBox}
             />,
             <FlatButton
                 label="Submit"
                 primary={true}
-                onClick={() => {console.log("submit");
+                onClick={() => {
                     if (this.state.feedbackMsg != "") {
-                        $.ajax({
-                            type: "POST",
-                            url: "api/feedback",
-                            data: JSON.stringify({"message": this.state.feedbackMsg}),
-                            success: (response) => {
-                                var responseObject = JSON.parse(response);
-                                if (responseObject.success === true) {
-                                    this.setState({
-                                        sendSuccess : true
-                                    });
-                                } else {
-                                    this.setState({
-                                        sendSuccess : false
-                                    })
-                                }
-                            },
-                            error: (response) => {
-                                this.setState({
-                                    sendSuccess: false
-                                })
-                            }
-                        });
+                        this.sendFeedBackMsg();
                     }
                 }}
             />,
@@ -93,13 +102,7 @@ export class FeedBackBox extends React.Component {
                 <Dialog
                     title={UI_STRINGS.FEEDBACK_BOX_TITLE}
                     actions={actions}
-                    onRequestClose={() => {
-                        this.props.onSelectCancel();
-                        this.setState({
-                            charCtr : 0,
-                            errorMsg: ''
-                        })}
-                    }
+                    onRequestClose={this.handleCloseFeedBackBox}
                     open={this.props.open}
                 >
                     <TextField
@@ -117,14 +120,14 @@ export class FeedBackBox extends React.Component {
                 <Snackbar
                     open={this.state.sendSuccess}
                     message={UI_STRINGS.FEEDBACK_SEND_SUCCESS_MSG}
-                    autoHideDuration={4000}
-                    onRequestClose={this.handleRequestClose}
+                    autoHideDuration={FEEDBACK_SNACKBAR_AUTO_HIDE_DURATION}
+                    onRequestClose={this.handleCloseSnackBar}
                 />
                 <Snackbar
                     open={this.state.sendError}
                     message={UI_STRINGS.FEEDBACK_SEND_ERROR_MSG}
-                    autoHideDuration={4000}
-                    onRequestClose={this.handleRequestClose}
+                    autoHideDuration={FEEDBACK_SNACKBAR_AUTO_HIDE_DURATION}
+                    onRequestClose={this.handleCloseSnackBar}
                 />
             </div>
         );

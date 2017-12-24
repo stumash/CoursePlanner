@@ -15,6 +15,7 @@ export const AUTO_SCROLL_PAGE_PORTION = 0.1; // auto scroll on the top and botto
 export const AUTO_SCROLL_STEP = 10;
 export const AUTO_SCROLL_DELAY = 20;
 export const FEEDBACK_CHAR_LIMIT = 1000;
+export const FEEDBACK_SNACKBAR_AUTO_HIDE_DURATION = 4000; // in ms
 
 // Item types used for DND
 export const ITEM_TYPES = {
