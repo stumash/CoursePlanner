@@ -44,4 +44,4 @@ function collectTarget(connect, monitor) {
     };
 }
 
-export default DropTarget(ITEM_TYPES.COURSE, garbageCanTarget, collectTarget)(GarbageCan);
+export default DropTarget([ITEM_TYPES.COURSE, ITEM_TYPES.OR_LIST], garbageCanTarget, collectTarget)(GarbageCan);

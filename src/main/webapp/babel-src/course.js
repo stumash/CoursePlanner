@@ -28,7 +28,8 @@ class Course extends React.Component {
         this.handleCourseClick = this.handleCourseClick.bind(this);
     }
 
-    handleCourseClick(){
+    handleCourseClick(event){
+        event.stopPropagation();
         let isElective = this.props.courseObj.isElective === "true";
         this.props.onCourseClick(isElective ? "" : this.props.courseObj.code, this.props.position);
     }

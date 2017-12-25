@@ -25,6 +25,15 @@ class OrList extends React.Component {
 
     constructor(props){
         super(props);
+
+        // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
+        this.handleSelectedCourseClick = this.handleSelectedCourseClick.bind(this)
+    }
+
+    handleSelectedCourseClick(event, selectedCourseObj){
+        event.stopPropagation();
+        let isElective = selectedCourseObj.isElective === "true";
+        this.props.onCourseClick(isElective ? "" : selectedCourseObj.code, this.props.position);
     }
 
     render() {
@@ -46,7 +55,7 @@ class OrList extends React.Component {
         let courseList = this.props.courseList;
         let position = this.props.position;
 
-        return this.props.connectDragSource(renderOrListDiv(courseList, extraClassNames.join(" "), position, this.props.onCourseClick, this.props.onOrListSelection));
+        return this.props.connectDragSource(renderOrListDiv(courseList, extraClassNames.join(" "), position, this.handleSelectedCourseClick, this.props.onOrListSelection));
     }
 }
 

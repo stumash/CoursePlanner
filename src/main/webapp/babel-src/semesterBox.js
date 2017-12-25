@@ -1,7 +1,7 @@
 import React from "react";
 import Toggle from 'material-ui/Toggle';
 
-import { UI_STRINGS, ITEM_TYPES } from "./util";
+import { UI_STRINGS, ITEM_TYPES, positionToString } from "./util";
 import Course from "./course";
 import OrList from "./orList";
 import { DropTarget } from 'react-dnd';
@@ -64,13 +64,14 @@ class SemesterBox extends React.Component {
                 "season": this.props.season,
                 "courseIndex": courseIndex
             };
+            let positionStyles = this.props.positionStyleMap[positionToString(position)];
             if(courseObj.length > 0){
                 let courseList = courseObj;
                 return (
                     <OrList courseList={courseList}
                             position={position}
-                            isHighlighted={this.arrayContainsPosition(this.props.highlightedCoursePositions, position)}
-                            isSelected={this.arrayContainsPosition(this.props.selectedCoursePositions, position)}
+                            isHighlighted={positionStyles && positionStyles.isHighlighted}
+                            isSelected={positionStyles && positionStyles.isSelected}
                             isDraggable={true}
                             onOrListSelection={this.props.onOrListSelection}
                             onCourseClick={this.props.onSelectCourse}
@@ -82,8 +83,8 @@ class SemesterBox extends React.Component {
                 return (
                     <Course courseObj={courseObj}
                             position={position}
-                            isHighlighted={this.arrayContainsPosition(this.props.highlightedCoursePositions, position)}
-                            isSelected={this.arrayContainsPosition(this.props.selectedCoursePositions, position)}
+                            isHighlighted={positionStyles && positionStyles.isHighlighted}
+                            isSelected={positionStyles && positionStyles.isSelected}
                             isDraggable={true}
                             onCourseClick={this.props.onSelectCourse}
                             onChangeDragState={this.props.onChangeDragState}

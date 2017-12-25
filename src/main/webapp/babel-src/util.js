@@ -316,8 +316,21 @@ export function generateUniqueKeys(yearList){
  */
 export function generateUniqueKey(courseObj, season, yearIndex, courseIndex, orListIndex){
     let id = (courseObj.isElective === "true") ? courseObj.electiveType : courseObj.code;
-    id += season + yearIndex + courseIndex + orListIndex;
+    id += positionToString({
+        season: season,
+        yearIndex: yearIndex,
+        courseIndex: courseIndex,
+        orListIndex: orListIndex
+    });
     return id;
+}
+
+/*
+ * Generate a string from a position object
+ *     position: position of the course in the sequence, possibly within an orList
+ */
+export function positionToString(position){
+    return position.season + position.yearIndex + position.courseIndex + (position.orListIndex || "");
 }
 
 /*
@@ -369,22 +382,24 @@ export function renderCourseDiv(courseObj, extraClassNames, clickHandler){
     );
 }
 
+/*
+ *  Render a course div to the right of the drop down arrow within an orList item.
+ *  Represents the currently selected course of the orList.
+ *      courseList: the list of courses that the orList contains
+ *      clickHandler: function to call when the selected course div is clicked
+ */
 function renderSelectedOrCourse(courseList, clickHandler){
 
     let selectedCourse = undefined;
-    let selectedIndex = -1;
 
-    courseList.forEach((courseObj, orListIndex) => {
-        if(courseObj.isSelected){
-            selectedCourse = courseObj;
-            selectedIndex = orListIndex;
-
-            if(selectedCourse.isElective === "true"){
-                clickHandler = () => {};
-            }
-        }
+    courseList.forEach((courseObj) => {
+        (courseObj.isSelected) && (selectedCourse = courseObj);
     });
 
+    let handleSelectedCourseClick = (event) => {
+        clickHandler(event, selectedCourse);
+    };
+
     return (!selectedCourse) ? <div title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP}>{UI_STRINGS.LIST_NONE_SELECTED}</div> :
-                               renderCourseDiv(selectedCourse, "", () => clickHandler(selectedCourse.code));
+                               renderCourseDiv(selectedCourse, "", handleSelectedCourseClick);
 }
