@@ -40,6 +40,7 @@ import { MAX_UNDO_HISTORY_LENGTH,
          INLINE_STYLES,
          LOADING_ICON_TYPES,
          UI_STRINGS,
+         KEY_CODES,
          generatePrettyProgramName,
          generateUniqueKey,
          generateUniqueKeys,
@@ -88,6 +89,11 @@ class MainPage extends React.Component {
         this.isDragging = false;
         this.shouldScroll = false;
         this.scrollDirection = 0;
+        this.pressedKeyMap = {
+            [KEY_CODES.SHIFT]: false,
+            [KEY_CODES.CTRL]: false,
+            [KEY_CODES.Z]: false,
+        };
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
         this.updateChosenProgram = this.updateChosenProgram.bind(this);
@@ -109,7 +115,8 @@ class MainPage extends React.Component {
         this.enableTextSelection = this.enableTextSelection.bind(this);
         this.performAutoScroll = this.performAutoScroll.bind(this);
         this.scrollPage = this.scrollPage.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.handleKeyUp = this.handleKeyUp.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleTouchMove = this.handleTouchMove.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
@@ -119,6 +126,7 @@ class MainPage extends React.Component {
         this.enableStyleOnPositions = this.enableStyleOnPositions.bind(this);
         this.toggleStyleOnPositions = this.toggleStyleOnPositions.bind(this);
         this.disableStyleOnAllPositions = this.disableStyleOnAllPositions.bind(this);
+        this.performUndoRedo = this.performUndoRedo.bind(this);
     }
 
     /*
@@ -183,7 +191,8 @@ class MainPage extends React.Component {
                  className={"mainPage" + (this.state.allowingTextSelection ? "" : " textSelectionOff")}
                  onMouseMove={this.handleMouseMove}
                  onTouchMove={this.handleTouchMove}
-                 onKeyDown={this.handleKeyPress}
+                 onKeyDown={this.handleKeyDown}
+                 onKeyUp={this.handleKeyUp}
                  onClick={this.unselectAllCourses}>
                 <AppBar title={this.renderAppBarTitle()}
                         showMenuIconButton={false}
@@ -545,12 +554,26 @@ class MainPage extends React.Component {
         this.performAutoScroll(mouseMoveEvent.clientY, mouseMoveEvent.view.innerHeight);
     }
 
+
+
     /*
-     *  Event handler for key presses
+     *  Event handler for key down
      */
-    handleKeyPress(keyDownEvent){
-        if(keyDownEvent.keyCode === 90 && keyDownEvent.ctrlKey){
-            this.performUndoRedo(keyDownEvent.shiftKey);
+    handleKeyDown(keyDownEvent){
+        if(this.pressedKeyMap[keyDownEvent.keyCode] !== undefined){
+            this.pressedKeyMap[keyDownEvent.keyCode] = true;
+        }
+        if(this.pressedKeyMap[KEY_CODES.Z] && this.pressedKeyMap[KEY_CODES.CTRL]){
+            this.performUndoRedo(this.pressedKeyMap[KEY_CODES.SHIFT]);
+        }
+    }
+
+    /*
+     *  Event handler for key up
+     */
+    handleKeyUp(keyUpEvent){
+        if(this.pressedKeyMap[keyUpEvent.keyCode] !== undefined){
+            this.pressedKeyMap[keyUpEvent.keyCode] = false;
         }
     }
 
@@ -566,10 +589,13 @@ class MainPage extends React.Component {
 
     /*
      * Function to call in the event that a course item is clicked on
-     *     param courseCode - the code of the clicked course; will load it's info if defined
+     *     param courseCode - the code of the clicked course; will load its info if defined
      *     param coursePosition - the position in the sequence of the course or orList
      */
     handleCourseClick(courseCode, coursePosition){
+
+        // TODO: if ctrl is not currently pressed, unselect all courses
+        // toggle the course at coursePosition
         this.toggleCourseSelection(coursePosition);
         if(courseCode){
             this.loadCourseInfo(courseCode);

@@ -18,6 +18,12 @@ export const FEEDBACK_CHAR_LIMIT = 1000;
 export const FEEDBACK_SNACKBAR_AUTOHIDE_DURATION = 4000;
 export const FEEDBACK_ROWS_MAX = 10;
 
+export const KEY_CODES = {
+    SHIFT: 16,
+    CTRL: 17,
+    Z: 90
+};
+
 // Item types used for DND
 export const ITEM_TYPES = {
     COURSE: "Course",
