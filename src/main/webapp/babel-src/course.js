@@ -37,8 +37,8 @@ class Course extends React.Component {
     render() {
 
         let extraClassNames = [];
-        if(this.props.isBeingDragged) {
-            extraClassNames.push("beingDragged");
+        if(this.props.isHidden){
+            extraClassNames.push("isHidden");
         }
         if(this.props.isDraggable){
             extraClassNames.push("grabbable");

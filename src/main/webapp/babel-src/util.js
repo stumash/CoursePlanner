@@ -229,15 +229,15 @@ export function generatePrettyProgramName(program, option, entryType, minTotalCr
 export const courseDragSource = {
     beginDrag(props, monitor, component) {
 
-        props.onChangeDragState && props.onChangeDragState(true);
+        props.onChangeDragState && props.onChangeDragState(true, props.position, props.courseObj);
 
         return {
-            "courseObj": props.courseObj,
-            "position": props.position
+            courseObj: props.courseObj,
+            position: props.position
         };
     },
     endDrag(props, monitor, component){
-        props.onChangeDragState && props.onChangeDragState(false);
+        props.onChangeDragState && props.onChangeDragState(false, props.position);
     },
     canDrag(props, monitor){
         return props.isDraggable;
@@ -250,15 +250,15 @@ export const courseDragSource = {
 export const orListDragSource = {
     beginDrag(props, monitor, component) {
 
-        props.onChangeDragState && props.onChangeDragState(true);
+        props.onChangeDragState && props.onChangeDragState(true, props.position);
 
         return {
-            "courseList": props.courseList,
-            "position": props.position
+            courseList: props.courseList,
+            position: props.position
         };
     },
     endDrag(props, monitor, component){
-        props.onChangeDragState && props.onChangeDragState(false);
+        props.onChangeDragState && props.onChangeDragState(false, props.position);
     },
     canDrag(props, monitor){
         return props.isDraggable;
@@ -297,7 +297,6 @@ export function saveAs(uri, filename) {
  *  This is helpful for react to properly respond to changes and
  *  it is especially necessary for the react-dnd module to work properly
  *
- *  The unique ID is formed by appending the course code to the
  */
 export function generateUniqueKeys(yearList){
     yearList.forEach((year, yearIndex) => {
@@ -320,7 +319,7 @@ export function generateUniqueKeys(yearList){
  *  Form unique ID by combing course code/electiveType with its current position in the yearList
  *  If the course changes its position within the yearList, we do NOT want this id value to change, so we only call this once.
  */
-export function generateUniqueKey(courseObj, season, yearIndex, courseIndex, orListIndex){
+export function generateUniqueKey(courseObj, season, yearIndex, courseIndex, orListIndex, timestamp){
     let id = (courseObj.isElective === "true") ? courseObj.electiveType : courseObj.code;
     id += positionToString({
         season: season,
@@ -328,6 +327,7 @@ export function generateUniqueKey(courseObj, season, yearIndex, courseIndex, orL
         courseIndex: courseIndex,
         orListIndex: orListIndex
     });
+    (timestamp) && (id += (" " + timestamp));
     return id;
 }
 
@@ -336,7 +336,20 @@ export function generateUniqueKey(courseObj, season, yearIndex, courseIndex, orL
  *     position: position of the course in the sequence, possibly within an orList
  */
 export function positionToString(position){
-    return position.season + position.yearIndex + position.courseIndex + (position.orListIndex || "");
+    return [position.season, position.yearIndex, position.courseIndex].join(" ");
+}
+
+/*
+ * Generate a position from a position string
+ *     positionString: position of the course in the sequence, represented as a string
+ */
+export function parsePositionString(positionString){
+    let subStrings = positionString.split(" ");
+    return {
+        season: subStrings[0],
+        yearIndex: parseInt(subStrings[1]),
+        courseIndex: parseInt(subStrings[2])
+    };
 }
 
 /*

@@ -82,8 +82,8 @@
 /* Styling for SemesterList */
 
 .semesterList {
-    border: 1px solid #DDDDDD;
-    border-radius: 5px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
     display: inline-block;
     margin-bottom: 20px;
     width: 100%;
@@ -129,7 +129,7 @@
     cursor: pointer;
     width: 160px;
     margin: 6px auto;
-    border-radius: 5px;
+    border-radius: 12px;
     border: 1px solid #DDDDDD;
     background-color: white;
     font-size: 14px;
@@ -145,7 +145,7 @@
     background-color: #D3D3D3;
 }
 
-.beingDragged {
+.isHidden {
     opacity: 0;
 }
 
@@ -160,7 +160,7 @@
     width: 160px;
     margin: 6px auto;
     border: 1px solid #DDDDDD;
-    border-radius: 5px;
+    border-radius: 12px;
 }
 
 .orList .course {
@@ -181,20 +181,28 @@
 .orList .input-group-addon > div {
     height: 22px;
     padding-top: 5px;
-    border-radius: 4px;
+    border-radius: 12px;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
 
 .orList button {
     padding: 1px 8px;
-    background-color: transparent;
+    background-color: white;
     border: none;
     border-right: 1px solid #DDDDDD;
+    border-radius: 12px;
 }
 
-.orList button:hover, .orList button:active {
-    background-color: inherit;
+.orList > .input-group-btn > button.btn-default:hover,
+.orList > .input-group-btn > button.btn-default:focus,
+.orList > .open > button.btn-default {
+    border-color: #DDDDDD;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.orList button:active:focus {
+    outline: none;
 }
 
 .orList .caret {}
@@ -292,8 +300,12 @@
     transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 }
 
-.validationListItem:hover, .course.selected, .orList.selected {
+.validationListItem:hover {
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+.course.selected, .orList.selected {
+    border-color: #f5bb2b;
 }
 
 .course.highlighted, .orList.highlighted {
@@ -345,7 +357,7 @@
 /* Special styling for DND */
 
 .dragPreview {
-    margin: 0;
+    margin: 6px 0;
 }
 
 .textSelectionOff {

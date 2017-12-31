@@ -45,6 +45,7 @@ import { MAX_UNDO_HISTORY_LENGTH,
          generateUniqueKey,
          generateUniqueKeys,
          positionToString,
+         parsePositionString,
          saveAs } from "./util";
 
 
@@ -74,6 +75,8 @@ class MainPage extends React.Component {
             chosenProgram: localStorage.getItem("chosenProgram"),
             allSequences: [],
             selectedCourseInfo: {},
+            itemsBeingDragged: [],
+            positionsBeingDragged: [],
             loadingExport: false,
             showingGarbage: false,
             allowingTextSelection: true,
@@ -85,15 +88,14 @@ class MainPage extends React.Component {
             history: [],
             currentPosition: -1
         };
-        this.preventHistoryUpdate = false;
-        this.isDragging = false;
-        this.shouldScroll = false;
-        this.scrollDirection = 0;
         this.pressedKeyMap = {
             [KEY_CODES.SHIFT]: false,
             [KEY_CODES.CTRL]: false,
             [KEY_CODES.Z]: false,
         };
+        this.preventHistoryUpdate = false;
+        this.shouldScroll = false;
+        this.scrollDirection = 0;
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
         this.updateChosenProgram = this.updateChosenProgram.bind(this);
@@ -108,9 +110,9 @@ class MainPage extends React.Component {
         this.exportSequence = this.exportSequence.bind(this);
         this.validateSequence = this.validateSequence.bind(this);
         this.enableGarbage = this.enableGarbage.bind(this);
-        this.moveCourse = this.moveCourse.bind(this);
+        this.moveCourses = this.moveCourses.bind(this);
         this.addCourse = this.addCourse.bind(this);
-        this.removeCourse = this.removeCourse.bind(this);
+        this.removeCourses = this.removeCourses.bind(this);
         this.setDragState = this.setDragState.bind(this);
         this.enableTextSelection = this.enableTextSelection.bind(this);
         this.performAutoScroll = this.performAutoScroll.bind(this);
@@ -127,6 +129,8 @@ class MainPage extends React.Component {
         this.toggleStyleOnPositions = this.toggleStyleOnPositions.bind(this);
         this.disableStyleOnAllPositions = this.disableStyleOnAllPositions.bind(this);
         this.performUndoRedo = this.performUndoRedo.bind(this);
+        this.unhideAllCourses = this.unhideAllCourses.bind(this);
+        this.hideCourses = this.hideCourses.bind(this);
     }
 
     /*
@@ -198,7 +202,7 @@ class MainPage extends React.Component {
                         showMenuIconButton={false}
                         className="appBar"
                         style={INLINE_STYLES.appBar}
-                        iconElementRight={this.state.showingGarbage ? <GarbageCan onRemoveCourse={this.removeCourse}/> : <AppBarMenu onSelectExport={this.exportSequence}
+                        iconElementRight={this.state.showingGarbage ? <GarbageCan onRemoveCourses={this.removeCourses}/> : <AppBarMenu onSelectExport={this.exportSequence}
                                                                                                                                      onSelectProgramChange={this.resetProgram}
                                                                                                                                      onSelectFeedback={this.showFeedbackBox}/>}/>
                 <div className="pageContent">
@@ -206,7 +210,8 @@ class MainPage extends React.Component {
                         <div className="ioPanel">
                             <SearchBox onConfirmSearch={this.loadCourseInfo}/>
                             <div className="outputPanel">
-                                <CourseInfoCard courseInfo={this.state.selectedCourseInfo}/>
+                                <CourseInfoCard courseInfo={this.state.selectedCourseInfo}
+                                                onChangeDragState={this.setDragState}/>
                                 <SequenceValidationCard validationResults={this.state.validationResults}
                                                         onMouseEnterItem={this.highlightCourses}
                                                         onMouseLeaveItem={this.unhighlightCourses}
@@ -219,26 +224,28 @@ class MainPage extends React.Component {
                         <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
                                        positionStyleMap={this.state.positionStyleMap}
+                                       positionsBeingDragged={this.state.positionsBeingDragged}
                                        onSelectCourse={this.handleCourseClick}
                                        onOrListSelection={this.setOrListCourseSelected}
                                        onToggleWorkTerm={this.toggleWorkTerm}
-                                       onMoveCourse={this.moveCourse}
+                                       onMoveCourses={this.moveCourses}
                                        onAddCourse={this.addCourse}
-                                       onChangeDragState={this.changeDragState}/>
+                                       onChangeDragState={this.setDragState}/>
                     </div>
                     <div className="semesterListContainer col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
                         <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterList courseSequenceObject={this.state.courseSequenceObject}
                                       positionStyleMap={this.state.positionStyleMap}
+                                      positionsBeingDragged={this.state.positionsBeingDragged}
                                       onSelectCourse={this.handleCourseClick}
                                       onOrListSelection={this.setOrListCourseSelected}
                                       onToggleWorkTerm={this.toggleWorkTerm}
-                                      onMoveCourse={this.moveCourse}
+                                      onMoveCourses={this.moveCourses}
                                       onAddCourse={this.addCourse}
-                                      onChangeDragState={this.changeDragState}/>
+                                      onChangeDragState={this.setDragState}/>
                     </div>
                     {/* Drag Preview will become visible when dragging occurs */}
-                    <DragPreview/>
+                    <DragPreview draggedItems={this.state.itemsBeingDragged}/>
                     <Dialog title={UI_STRINGS.EXPORTING_SEQUENCE}
                             modal={true}
                             open={this.state.loadingExport}
@@ -261,61 +268,110 @@ class MainPage extends React.Component {
     */
 
     /*
-     *  Function to call in the event that the user drags an existing course into a new position
-     *      param oldPosition - object indicating the absolute position of the course within the sequence
-     *                          required properties: yearIndex, season, courseIndex
-     *      param newPosition - ''
+     *  Function to call in the event that the user drags existing course(s) into a new semester
+     *      param fromPositions - array of objects indicating the absolute position of the items to be moved
+     *                            required properties: yearIndex, season, courseIndex
+     *      param toSemester - object indicating the absolute position of the semester which the items are to be moved into
+     *                         required properties: yearIndex, season
      */
-    moveCourse(oldPosition, newPosition){
+    moveCourses(fromPositions, toSemester){
         this.setState((prevState) => {
-
-            let courseToMove = prevState.courseSequenceObject.yearList[oldPosition.yearIndex][oldPosition.season].courseList[oldPosition.courseIndex];
-
-            let removeCommand = {
-                yearList: {
-                    [oldPosition.yearIndex]: {
-                        [oldPosition.season]: {
-                            courseList: {$splice: [[oldPosition.courseIndex, 1]]}
-                        }
-                    }
-                }
-            };
-
+            let { yearListAfterRemovals, removedCourseObjects } = this.removePositionsFromCourseSequenceObject(fromPositions, prevState.courseSequenceObject);
             let addCommand = {
-                yearList: {
-                    [newPosition.yearIndex]: {
-                        [newPosition.season]: {
-                            courseList: {$splice: [[newPosition.courseIndex, 0, courseToMove]]}
-                        }
+                [toSemester.yearIndex]: {
+                    [toSemester.season]: {
+                        courseList: {$splice: removedCourseObjects.map((item) => ([0,0,item]))}
                     }
                 }
             };
-
-            // set new state based on changes
             return {
-                courseSequenceObject: update(update(prevState.courseSequenceObject, removeCommand), addCommand)
+                courseSequenceObject: update(prevState.courseSequenceObject, {
+                    yearList: {$set: update(yearListAfterRemovals, addCommand)}
+                })
             };
         });
     }
 
     /*
+     *  Function to call in the event that the user wants to remove a course from the sequence.
+     *  Infers which courses to remove by checking what's currently being dragged
+     */
+    removeCourses(){
+        // must make a copy of the dragged positions array since it may get cleared before the below state update actually gets performed
+        let positionsToRemove = JSON.parse(JSON.stringify(this.state.positionsBeingDragged));
+        this.setState((prevState) => {
+            return {
+                courseSequenceObject: update(prevState.courseSequenceObject, {
+                    yearList: {$set: this.removePositionsFromCourseSequenceObject(positionsToRemove, prevState.courseSequenceObject).yearListAfterRemovals}
+                })
+            };
+        });
+    }
+
+    /*
+     *  Convenience function used by moveCourses and removeCourses in order to remove a list of item positions from a courseSequenceObject's yearList
+     *      param positions - array of positions to be removed from the yearList
+     *      param courseSequenceObject - the courseSequenceObject to remove items from
+     *
+     *      returns an object containing two attributes
+     *          yearListAfterRemovals - the new yearList with the items removed
+     *          removedCourseObjects - an array containing the objects of the items which were removed
+     */
+    removePositionsFromCourseSequenceObject(positions, courseSequenceObject) {
+        let removeCommand = {}, semesterRemovalMap = {}, years = {}, removedItems = [];
+
+        //  mark list of indices to remove from each semester where applicable
+        positions.forEach((position) => {
+            if(!semesterRemovalMap[position.season + " " + position.yearIndex]){
+                semesterRemovalMap[position.season + " " + position.yearIndex] = [];
+            }
+            semesterRemovalMap[position.season + " " + position.yearIndex].push(position.courseIndex);
+            years[position.yearIndex] = true;
+            removedItems.push(courseSequenceObject.yearList[position.yearIndex][position.season].courseList[position.courseIndex]);
+        });
+
+        // prevent TypeError from occurring
+        Object.keys(years).forEach((year) => {
+            removeCommand[year] = {
+                fall: {courseList: {}},
+                winter: {courseList: {}},
+                summer: {courseList: {}}
+            };
+        });
+
+        // construct remove command
+        Object.keys(semesterRemovalMap).forEach((semester) => {
+            // sort list numerically. must be descending order for splice operations to work correctly
+            semesterRemovalMap[semester].sort((a,b)=>(b-a));
+            let semesterInfo = semester.split(" ");
+            let season = semesterInfo[0], yearIndex = semesterInfo[1];
+            let splices = semesterRemovalMap[semester].map((indexToRemove) => ([indexToRemove, 1]));
+            removeCommand[yearIndex][season].courseList = {$splice: splices};
+        });
+
+        return {
+            yearListAfterRemovals: update(courseSequenceObject.yearList, removeCommand),
+            removedCourseObjects: removedItems.reverse()
+        };
+    }
+
+    /*
      *  Function to call in the event that the user drags a new course into a new position
      *      param courseObj - object representing the course to be added
-     *      param newPosition - object indicating the new absolute position of the course within the sequence
-     *                          required properties: yearIndex, season, courseIndex
+     *      param toSemester - object indicating the absolute position of the semester which the course is to be added to
+     *                         required properties: yearIndex, season
      */
-    addCourse(courseObj, newPosition){
+    addCourse(courseObj, toSemester){
         this.setState((prevState) => {
-
-            courseObj.id = generateUniqueKey(courseObj, newPosition.season, newPosition.yearIndex, newPosition.courseIndex, "");
+            courseObj.id = generateUniqueKey(courseObj, toSemester.season, toSemester.yearIndex, 0, "", new Date().getTime());
             courseObj.isElective = "false";
             courseObj.electiveType = "";
 
             let addCommand = {
                 yearList: {
-                    [newPosition.yearIndex]: {
-                        [newPosition.season]: {
-                            courseList: {$splice: [[newPosition.courseIndex, 0, courseObj]]}
+                    [toSemester.yearIndex]: {
+                        [toSemester.season]: {
+                            courseList: {$splice: [[0, 0, courseObj]]}
                         }
                     }
                 }
@@ -325,59 +381,6 @@ class MainPage extends React.Component {
                 courseSequenceObject: update(prevState.courseSequenceObject, addCommand)
             };
         });
-    }
-
-    /*
-     *  Function to call in the event that the user wants to remove a course from the sequence
-     *      param coursePosition - object indicating the new absolute position of the course within the sequence
-     *                             required properties: yearIndex, season, courseIndex
-     */
-    removeCourse(coursePosition){
-        this.setState((prevState) => {
-
-            let removeCommand = {
-                yearList: {
-                    [coursePosition.yearIndex]: {
-                        [coursePosition.season]: {
-                            courseList: {$splice: [[coursePosition.courseIndex, 1]]}
-                        }
-                    }
-                }
-            };
-
-            return {
-                courseSequenceObject: update(prevState.courseSequenceObject, removeCommand)
-            };
-        });
-    }
-
-    /*
-     *  Performs an undo or redo operation
-     *      param isShiftKeyPressed - will do a redo op if shift is pressed, otherwise will do undo op
-     */
-    performUndoRedo(isShiftKeyPressed){
-        let changedCurrentPosition = false;
-        if(isShiftKeyPressed){
-            // do a redo op
-            if(this.courseSequenceHistory.currentPosition < this.courseSequenceHistory.history.length - 1){
-                this.courseSequenceHistory.currentPosition++;
-                changedCurrentPosition = true;
-            }
-        } else {
-            // do an undo op
-            if(this.courseSequenceHistory.currentPosition > 0){
-                this.courseSequenceHistory.currentPosition--;
-                changedCurrentPosition = true;
-            }
-        }
-        if(changedCurrentPosition){
-            // prevent the componentDidUpdate method from updating our undo history
-            this.preventHistoryUpdate = true;
-            // update state
-            this.setState({
-                courseSequenceObject: this.courseSequenceHistory.history[this.courseSequenceHistory.currentPosition]
-            });
-        }
     }
 
     /*
@@ -442,6 +445,35 @@ class MainPage extends React.Component {
     }
 
     /*
+     *  Performs an undo or redo operation
+     *      param isShiftKeyPressed - will do a redo op if shift is pressed, otherwise will do undo op
+     */
+    performUndoRedo(isShiftKeyPressed){
+        let changedCurrentPosition = false;
+        if(isShiftKeyPressed){
+            // do a redo op
+            if(this.courseSequenceHistory.currentPosition < this.courseSequenceHistory.history.length - 1){
+                this.courseSequenceHistory.currentPosition++;
+                changedCurrentPosition = true;
+            }
+        } else {
+            // do an undo op
+            if(this.courseSequenceHistory.currentPosition > 0){
+                this.courseSequenceHistory.currentPosition--;
+                changedCurrentPosition = true;
+            }
+        }
+        if(changedCurrentPosition){
+            // prevent the componentDidUpdate method from updating our undo history
+            this.preventHistoryUpdate = true;
+            // update state
+            this.setState({
+                courseSequenceObject: this.courseSequenceHistory.history[this.courseSequenceHistory.currentPosition]
+            });
+        }
+    }
+
+    /*
     *  Position style map mutators:
     */
 
@@ -470,10 +502,24 @@ class MainPage extends React.Component {
     }
 
     /*
-     *  function to call in the event that the user clicks on something other than a course
+     *  Function to call in the event that the user clicks on something other than a course
      */
     unselectAllCourses(){
         this.disableStyleOnAllPositions("isSelected");
+    }
+
+    /*
+     *  Function to call in the event that the user begins dragging a course/courses
+     */
+    hideCourses(positions){
+        this.enableStyleOnPositions(positions, "isHidden", true);
+    }
+
+    /*
+     *  Function to call in the event that the user stops dragging
+     */
+    unhideAllCourses(){
+        this.disableStyleOnAllPositions("isHidden");
     }
 
     /*
@@ -594,7 +640,9 @@ class MainPage extends React.Component {
      */
     handleCourseClick(courseCode, coursePosition){
 
-        // TODO: if ctrl is not currently pressed, unselect all courses
+        if(!this.pressedKeyMap[KEY_CODES.CTRL]){
+            this.unselectAllCourses();
+        }
         // toggle the course at coursePosition
         this.toggleCourseSelection(coursePosition);
         if(courseCode){
@@ -609,11 +657,55 @@ class MainPage extends React.Component {
     /*
      *  Function to call when the users starts or stops dragging any item
      *      param isDragging - true if the user is dragging something
+     *      param draggedPosition - the position of the course actually being dragged (not including selected courses)
+     *      param draggedItem - used to provide the courseInfo from course dragged from CourseInfoCard
      */
-    setDragState(isDragging){
+    setDragState(isDragging, draggedPosition, draggedItem){
         this.enableTextSelection(!isDragging);
-        this.enableGarbage(isDragging);
-        this.isDragging = isDragging;
+        this.enableGarbage(draggedPosition && isDragging);
+
+        if(isDragging){
+            if(draggedPosition){
+                let positionsBeingDragged = [], itemsBeingDragged = [];
+
+                // include currently dragged item to list of dragged items
+                positionsBeingDragged.push(draggedPosition);
+                itemsBeingDragged.push(this.state.courseSequenceObject.yearList[draggedPosition.yearIndex][draggedPosition.season].courseList[draggedPosition.courseIndex]);
+
+                // add other selected items to list of dragged items
+                Object.keys(this.state.positionStyleMap).forEach((positionString) => {
+                    if(this.state.positionStyleMap[positionString].isSelected){
+                        let position = parsePositionString(positionString);
+                        let item = this.state.courseSequenceObject.yearList[position.yearIndex][position.season].courseList[position.courseIndex];
+                        if(!_.isEqual(draggedPosition, position)){
+                            positionsBeingDragged.push(position);
+                            itemsBeingDragged.push(item);
+                        }
+                    }
+                });
+
+                this.hideCourses(positionsBeingDragged);
+                this.setState({
+                    positionsBeingDragged: positionsBeingDragged,
+                    itemsBeingDragged: itemsBeingDragged
+                });
+            } else {
+                // we are dragging a course from the courseInfoPanel
+                this.unselectAllCourses();
+                this.setState({
+                    positionsBeingDragged: [],
+                    itemsBeingDragged: [draggedItem]
+                });
+            }
+
+        } else {
+            this.unhideAllCourses();
+            this.unselectAllCourses();
+            this.setState({
+                positionsBeingDragged: [],
+                itemsBeingDragged: []
+            });
+        }
     }
 
     /*
@@ -663,23 +755,13 @@ class MainPage extends React.Component {
     }
 
     /*
-     *  Function to call when we want to display the garbage can and allow the user to delete a course
-     *      param enabled - should the garbage can be enabled
-     */
-    enableGarbage(enabled){
-        this.setState({
-            showingGarbage: enabled
-        });
-    }
-
-    /*
      *  Function which decides whether or not the page should scroll based on the position of the user's cursor
      *  and initiates automatic page scrolling accordingly
      *      param y - number indicating the y coordinate of the user's cursor, where the top of the page is y = 0
      *      param pageHeight - number indicating the total height of the page in pixels
      */
     performAutoScroll(y, pageHeight){
-        if(this.isDragging){
+        if(this.state.itemsBeingDragged.length > 0){
             let scrollAreaHeight = pageHeight * AUTO_SCROLL_PAGE_PORTION;
 
             if(y > scrollAreaHeight && y < pageHeight - scrollAreaHeight){

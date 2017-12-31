@@ -14,7 +14,7 @@ import {SEASON_NAMES, SEASON_NAMES_PRETTY, LOADING_ICON_TYPES} from "./util";
  *  onSelectCourse - see MainPage.handleCourseClick
  *  onOrListSelection - see MainPage.setOrListCourseSelected
  *  onToggleWorkTerm - see MainPage.toggleWorkTerm
- *  onMoveCourse - see MainPage.moveCourse
+ *  onMoveCourses - see MainPage.moveCourses
  *  onChangeDragState - see MainPage.enableGarbage
  *
  */
@@ -38,10 +38,11 @@ export class SemesterList extends React.Component {
                                  season={season}
                                  semester={yearList[yearIndex][season]}
                                  positionStyleMap={this.props.positionStyleMap}
+                                 positionsBeingDragged={this.props.positionsBeingDragged}
                                  onSelectCourse={this.props.onSelectCourse}
                                  onOrListSelection={this.props.onOrListSelection}
                                  onToggleWorkTerm={this.props.onToggleWorkTerm}
-                                 onMoveCourse={this.props.onMoveCourse}
+                                 onMoveCourses={this.props.onMoveCourses}
                                  onAddCourse={this.props.onAddCourse}
                                  onChangeDragState={this.props.onChangeDragState}/>
                 </div>
