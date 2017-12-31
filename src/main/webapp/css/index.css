@@ -137,11 +137,11 @@
     color: #333333;
 }
 
-.course:hover {
+.course:hover, .orListNoneSelected:hover {
     background-color: #E6E6E6;
 }
 
-.course:active {
+.course:active, .orListNoneSelected:active {
     background-color: #D3D3D3;
 }
 
@@ -203,6 +203,10 @@
 
 .orList button:active:focus {
     outline: none;
+}
+
+.orListNoneSelected {
+    background-color: white;
 }
 
 .orList .caret {}
