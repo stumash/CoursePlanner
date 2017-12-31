@@ -22,6 +22,9 @@ export class FeedBackBox extends React.Component {
         };
 
         this.updateTextField = this.updateTextField.bind(this);
+        this.handleRequestClose = this.handleRequestClose.bind(this);
+        this.handleCloseFeedBackBox = this.handleCloseFeedBackBox.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     updateTextField(event,value) {
@@ -40,20 +43,27 @@ export class FeedBackBox extends React.Component {
         }
     }
 
-    handleRequestClose = () => {
+    handleRequestClose() {
         this.setState({
             sendSuccess : false,
             sendError : false
         });
-    };
+    }
 
-    handleCloseFeedBackBox = () => {
+    handleCloseFeedBackBox() {
         this.props.onRequestClose();
         this.setState({
             charCtr : 0,
             errorMsg: ''
         });
-    };
+    }
+
+    handleSubmit() {
+        if (this.feedBackMsg != "") {
+            this.sendFeedBackMsg();
+            this.handleCloseFeedBackBox();
+        }
+    }
 
     render() {
         const actions = [
@@ -65,7 +75,7 @@ export class FeedBackBox extends React.Component {
             <FlatButton
                 label="Submit"
                 primary={true}
-                onClick={() => {(this.feedBackMsg != "") && this.sendFeedBackMsg()}}
+                onClick={() => {this.handleSubmit()}}
             />,
         ];
 
