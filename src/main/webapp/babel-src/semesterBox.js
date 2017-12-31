@@ -36,18 +36,6 @@ class SemesterBox extends React.Component {
         this.handleWorkTermToggle = this.handleWorkTermToggle.bind(this);
     }
 
-    arrayContainsPosition(array, position){
-        for(let i = 0; i < array.length; i++){
-            let positionAtIndex = array[i];
-            if(positionAtIndex.yearIndex == position.yearIndex &&
-                positionAtIndex.season === position.season &&
-                positionAtIndex.courseIndex == position.courseIndex){
-                return true;
-            }
-        }
-        return false;
-    }
-
     handleWorkTermToggle(){
         this.props.onToggleWorkTerm(this.props.yearIndex, this.props.season);
     }
