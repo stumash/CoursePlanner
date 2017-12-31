@@ -188,13 +188,13 @@ class MainPage extends React.Component {
 
     showFeedbackBox() {
         this.setState({
-            "showingFeedbackBox": true
+            showingFeedbackBox: true
         });
     }
 
     closeFeedBackBox() {
         this.setState({
-           "showingFeedbackBox": false
+           showingFeedbackBox: false
         });
     }
 
@@ -437,21 +437,27 @@ class MainPage extends React.Component {
         });
     }
 
+    renderAppBarTitle() {
+        let siteName = <div className="siteNameLabel">{UI_STRINGS.SITE_NAME}</div>;
+        let betaLabel = <div className="betaLabel">{UI_STRINGS.BETA_LABEL}</div>;
+        let appBarTitle = <div>{siteName} {betaLabel}</div>;
+
+        return appBarTitle;
+    }
+
     render() {
         let sourceUrl = this.state.courseSequenceObject.sourceUrl;
         let minTotalCredits = this.state.courseSequenceObject.minTotalCredits;
         let sequenceInfo = this.state.courseSequenceObject.sequenceInfo;
         let programPrettyName = (sequenceInfo && !this.state.courseSequenceObject.isLoading) ? generatePrettyProgramName(sequenceInfo.program, sequenceInfo.option, sequenceInfo.entryType, minTotalCredits) : "";
-        let siteName = <div className="siteNameLabel">{UI_STRINGS.SITE_NAME}</div>;
-        let betaLabel = <div className="betaLabel">{UI_STRINGS.BETA_LABEL}</div>;
-        let appBarTitle = <div>{siteName} {betaLabel}</div>;
+
         return (
             <div tabIndex="1"
                  className={"mainPage" + (this.state.allowingTextSelection ? "" : " textSelectionOff")}
                  onMouseMove={this.handleMouseMove}
                  onTouchMove={this.handleTouchMove}
                  onKeyDown={this.handleKeyPress}>
-                <AppBar title={appBarTitle}
+                <AppBar title={this.renderAppBarTitle()}
                         showMenuIconButton={false}
                         className="appBar"
                         style={INLINE_STYLES.appBar}
@@ -471,7 +477,8 @@ class MainPage extends React.Component {
                         </div>
                     </div>
                     {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
-                    <div className="semesterTableContainer hidden-xs hidden-sm">=
+                    <div className="semesterTableContainer hidden-xs hidden-sm">
+                        <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
                                        highlightedCoursePositions={this.state.highlightedCoursePositions}
                                        onSelectCourse={this.loadCourseInfo}
@@ -482,6 +489,7 @@ class MainPage extends React.Component {
                                        onChangeDragState={this.changeDragState}/>
                     </div>
                     <div className="semesterListContainer col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
+                        <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterList courseSequenceObject={this.state.courseSequenceObject}
                                       highlightedCoursePositions={this.state.highlightedCoursePositions}
                                       onSelectCourse={this.loadCourseInfo}

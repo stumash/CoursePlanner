@@ -15,16 +15,17 @@ export class FeedBackBox extends React.Component {
 
         this.feedBackMsg = "";
         this.state = {
-            charCtr : 0,
-            errorMsg : "",
-            sendSuccess : false,
-            sendError : false
+            charCtr: 0,
+            errorMsg: "",
+            sendSuccess: false,
+            sendError: false
         };
 
         this.updateTextField = this.updateTextField.bind(this);
-        this.handleRequestClose = this.handleRequestClose.bind(this);
+        this.handleCloseSnackBar = this.handleCloseSnackBar.bind(this);
         this.handleCloseFeedBackBox = this.handleCloseFeedBackBox.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.sendFeedBackMsg = this.sendFeedBackMsg.bind(this);
     }
 
     updateTextField(event,value) {
@@ -32,34 +33,34 @@ export class FeedBackBox extends React.Component {
         if (value.length < FEEDBACK_CHAR_LIMIT) {
             this.feedBackMsg = value;
             this.setState({
-               charCtr : value.length,
-               errorMsg : ""
+               charCtr: value.length,
+               errorMsg: ""
             });
         } else {
             this.setState({
-                charCtr : FEEDBACK_CHAR_LIMIT,
-                errorMsg : UI_STRINGS.FEEDBACK_CHAR_LIMIT_ERROR_MSG
+                charCtr: FEEDBACK_CHAR_LIMIT,
+                errorMsg: UI_STRINGS.FEEDBACK_CHAR_LIMIT_ERROR_MSG
             })
         }
     }
 
-    handleRequestClose() {
+    handleCloseSnackBar() {
         this.setState({
-            sendSuccess : false,
-            sendError : false
+            sendSuccess: false,
+            sendError: false
         });
     }
 
     handleCloseFeedBackBox() {
         this.props.onRequestClose();
         this.setState({
-            charCtr : 0,
+            charCtr: 0,
             errorMsg: ''
         });
     }
 
     handleSubmit() {
-        if (this.feedBackMsg != "") {
+        if (this.feedBackMsg !== "") {
             this.sendFeedBackMsg();
             this.handleCloseFeedBackBox();
         }
@@ -75,7 +76,7 @@ export class FeedBackBox extends React.Component {
             <FlatButton
                 label="Submit"
                 primary={true}
-                onClick={() => {this.handleSubmit()}}
+                onClick={this.handleSubmit}
             />,
         ];
 
@@ -103,13 +104,13 @@ export class FeedBackBox extends React.Component {
                     open={this.state.sendSuccess}
                     message={UI_STRINGS.FEEDBACK_SEND_SUCCESS_MSG}
                     autoHideDuration={FEEDBACK_SNACKBAR_AUTOHIDE_DURATION}
-                    onRequestClose={this.handleRequestClose}
+                    onRequestClose={this.handleCloseSnackBar}
                 />
                 <Snackbar
                     open={this.state.sendError}
                     message={UI_STRINGS.FEEDBACK_SEND_ERROR_MSG}
                     autoHideDuration={FEEDBACK_SNACKBAR_AUTOHIDE_DURATION}
-                    onRequestClose={this.handleRequestClose}
+                    onRequestClose={this.handleCloseSnackBar}
                 />
             </div>
         );
@@ -119,13 +120,13 @@ export class FeedBackBox extends React.Component {
      *  Backend API calls:
      */
 
-    sendFeedBackMsg = () => {
+    sendFeedBackMsg () {
         $.ajax({
             type: "POST",
             url: "api/feedback",
             data: JSON.stringify({message: this.feedBackMsg}),
             success: (response) => {
-                var responseObject = JSON.parse(response);
+                let responseObject = JSON.parse(response);
 
                 this.setState({
                     sendSuccess: responseObject.success,
@@ -138,5 +139,5 @@ export class FeedBackBox extends React.Component {
                 })
             }
         });
-    };
+    }
 }
