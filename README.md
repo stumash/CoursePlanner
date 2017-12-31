@@ -21,4 +21,4 @@ Visit the page at: http://conucourseplanner.online
 
 ## Credits:
 
-[Pandoc](http://pandoc.org/): Used to generate pdf files from sequence data.
+[Pandoc](http://pandoc.org/), [wkhtmltopdf](https://wkhtmltopdf.org/): Used to generate pdf files from sequence data.
