@@ -363,15 +363,18 @@ class MainPage extends React.Component {
      */
     addCourse(courseObj, toSemester){
         this.setState((prevState) => {
-            courseObj.id = generateUniqueKey(courseObj, toSemester.season, toSemester.yearIndex, 0, "", new Date().getTime());
-            courseObj.isElective = "false";
-            courseObj.electiveType = "";
+
+            let courseObjEditCommand = {
+                id: {$set: generateUniqueKey(courseObj, toSemester.season, toSemester.yearIndex, 0, "", new Date().getTime())},
+                isElective: {$set: "false"},
+                electiveType: {$set: ""}
+            };
 
             let addCommand = {
                 yearList: {
                     [toSemester.yearIndex]: {
                         [toSemester.season]: {
-                            courseList: {$splice: [[0, 0, courseObj]]}
+                            courseList: {$splice: [[0, 0, update(courseObj, courseObjEditCommand)]]}
                         }
                     }
                 }
