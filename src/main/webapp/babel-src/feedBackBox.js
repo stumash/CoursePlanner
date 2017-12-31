@@ -135,7 +135,8 @@ export class FeedBackBox extends React.Component {
             },
             error: (response) => {
                 this.setState({
-                    sendSuccess: false
+                    sendSuccess: false,
+                    sendError: true
                 })
             }
         });
