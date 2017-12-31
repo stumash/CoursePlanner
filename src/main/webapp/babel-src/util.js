@@ -46,8 +46,8 @@ export const UI_STRINGS = {
     IS_WORK_TERM: "is work term?",
     NO_COURSES: "No Courses",
 
-    DEFAULT_SEARCH_LABEL: "Course search",
-    COURSE_SEARCH_HINT: "Search for a course code",
+    DEFAULT_SEARCH_LABEL: "Course search by course code",
+    COURSE_SEARCH_HINT: "e.g. comp 248",
     COURSE_SEARCH_FOUND_NONE: "Search returned no results",
 
     COURSE_INFO_LOADING: "Getting course info",
