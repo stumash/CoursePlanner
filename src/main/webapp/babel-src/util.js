@@ -15,7 +15,8 @@ export const AUTO_SCROLL_PAGE_PORTION = 0.1; // auto scroll on the top and botto
 export const AUTO_SCROLL_STEP = 10;
 export const AUTO_SCROLL_DELAY = 20;
 export const FEEDBACK_CHAR_LIMIT = 1000;
-export const FEEDBACK_SNACKBAR_AUTO_HIDE_DURATION = 4000; // in ms
+export const FEEDBACK_SNACKBAR_AUTOHIDE_DURATION = 4000;
+export const FEEDBACK_ROWS_MAX = 10;
 
 // Item types used for DND
 export const ITEM_TYPES = {
@@ -73,9 +74,12 @@ export const UI_STRINGS = {
     LIST_LOADING: "Loading...",
     LIST_NONE_SELECTED: "None Selected",
 
+    REPO_LINK_TEXT: "View on Github",
+
+    FEEDBACK_TEXT: "Feedback",
     FEEDBACK_CHAR_LIMIT_ERROR_MSG: "Character limit reached",
     FEEDBACK_PLACEHOLDER: "Insert Feedback here",
-    FEEDBACK_BOX_TITLE: "Feedback",
+    FEEDBACK_BOX_TITLE: "Comments/Concerns? Let us know and we'll see what we can do",
     FEEDBACK_SEND_ERROR_MSG: "An error occurred, message not sent",
     FEEDBACK_SEND_SUCCESS_MSG: "Message sent, thank you for your feedback!"
 };

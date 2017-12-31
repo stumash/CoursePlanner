@@ -20,16 +20,16 @@ import {FeedBackBox} from "./feedBackBox";
 
 let _ = require("underscore");
 
-import {MAX_UNDO_HISTORY_LENGTH,
-        AUTO_SCROLL_PAGE_PORTION,
-        AUTO_SCROLL_DELAY,
-        AUTO_SCROLL_STEP,
-        EXPORT_TYPES,
-        INLINE_STYLES,
-        LOADING_ICON_TYPES,
-        generateUniqueKey,
-        generateUniqueKeys,
-        saveAs } from "./util";
+import { MAX_UNDO_HISTORY_LENGTH,
+         AUTO_SCROLL_PAGE_PORTION,
+         AUTO_SCROLL_DELAY,
+         AUTO_SCROLL_STEP,
+         EXPORT_TYPES,
+         INLINE_STYLES,
+         LOADING_ICON_TYPES,
+         generateUniqueKey,
+         generateUniqueKeys,
+         saveAs } from "./util";
 
 
 /*
@@ -442,8 +442,8 @@ class MainPage extends React.Component {
         let minTotalCredits = this.state.courseSequenceObject.minTotalCredits;
         let sequenceInfo = this.state.courseSequenceObject.sequenceInfo;
         let programPrettyName = (sequenceInfo && !this.state.courseSequenceObject.isLoading) ? generatePrettyProgramName(sequenceInfo.program, sequenceInfo.option, sequenceInfo.entryType, minTotalCredits) : "";
-        let siteName = <div style={{display: 'inline-block'}}>{UI_STRINGS.SITE_NAME}</div>;
-        let betaLabel = <div className="yellowText" style={{display: 'inline-block'}}>{UI_STRINGS.BETA_LABEL}</div>;
+        let siteName = <div className="siteNameLabel">{UI_STRINGS.SITE_NAME}</div>;
+        let betaLabel = <div className="betaLabel">{UI_STRINGS.BETA_LABEL}</div>;
         let appBarTitle = <div>{siteName} {betaLabel}</div>;
         return (
             <div tabIndex="1"
@@ -471,8 +471,7 @@ class MainPage extends React.Component {
                         </div>
                     </div>
                     {/* Show the SemesterTable for a normal screen and show the SemesterList for small screen */}
-                    <div className="semesterTableContainer hidden-xs hidden-sm">
-                        <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
+                    <div className="semesterTableContainer hidden-xs hidden-sm">=
                         <SemesterTable courseSequenceObject={this.state.courseSequenceObject}
                                        highlightedCoursePositions={this.state.highlightedCoursePositions}
                                        onSelectCourse={this.loadCourseInfo}
@@ -483,7 +482,6 @@ class MainPage extends React.Component {
                                        onChangeDragState={this.changeDragState}/>
                     </div>
                     <div className="semesterListContainer col-xs-8 col-xs-offset-2 hidden-md hidden-lg">
-                        <div className="programPrettyName"><a href={sourceUrl} target="_blank">{programPrettyName}</a></div>
                         <SemesterList courseSequenceObject={this.state.courseSequenceObject}
                                       highlightedCoursePositions={this.state.highlightedCoursePositions}
                                       onSelectCourse={this.loadCourseInfo}
@@ -506,7 +504,7 @@ class MainPage extends React.Component {
                                             allSequences={this.state.allSequences}
                                             onChangeChosenProgram={this.updateChosenProgram}/>
                     <FeedBackBox open={this.state.showingFeedbackBox}
-                                 onSelectCancel={this.closeFeedBackBox}>
+                                 onRequestClose={this.closeFeedBackBox}>
                     </FeedBackBox>
                 </div>
             </div>

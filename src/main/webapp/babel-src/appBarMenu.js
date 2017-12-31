@@ -37,9 +37,9 @@ export class AppBarMenu extends React.Component {
                          menuItems={exportSubMenu}/>
                 <MenuItem primaryText={UI_STRINGS.SELECT_NEW_PROGRAM}
                           onClick={() => this.props.onSelectProgramChange(undefined)}/>
-                <MenuItem primaryText="Feedback"
+                <MenuItem primaryText={UI_STRINGS.FEEDBACK_TEXT}
                           onClick={this.props.onSelectFeedback}/>
-                <MenuItem primaryText="View on GitHub"
+                <MenuItem primaryText={UI_STRINGS.REPO_LINK_TEXT}
                           onClick={() => {window.open(URLS.REPO)}}/>
             </IconMenu>
         );
