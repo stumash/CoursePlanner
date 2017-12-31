@@ -419,6 +419,6 @@ function renderSelectedOrCourse(courseList, clickHandler){
         clickHandler(event, selectedCourse);
     };
 
-    return (!selectedCourse) ? <div title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP}>{UI_STRINGS.LIST_NONE_SELECTED}</div> :
+    return (!selectedCourse) ? <div title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP} onClick={handleSelectedCourseClick}>{UI_STRINGS.LIST_NONE_SELECTED}</div> :
                                renderCourseDiv(selectedCourse, "", handleSelectedCourseClick);
 }

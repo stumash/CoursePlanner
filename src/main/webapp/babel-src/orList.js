@@ -32,8 +32,11 @@ class OrList extends React.Component {
 
     handleSelectedCourseClick(event, selectedCourseObj){
         event.stopPropagation();
-        let isElective = selectedCourseObj.isElective === "true";
-        this.props.onCourseClick(isElective ? "" : selectedCourseObj.code, this.props.position);
+        let code = undefined;
+        if(selectedCourseObj){
+            code = (selectedCourseObj.isElective === "true") ? "" : selectedCourseObj.code
+        }
+        this.props.onCourseClick(code, this.props.position);
     }
 
     render() {
