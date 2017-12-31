@@ -16,6 +16,7 @@ import GarbageCan from "./garbageCan";
 import {AppBarMenu} from "./appBarMenu";
 import {SearchBox} from "./searchBox";
 import {ProgramSelectionDialog} from "./programSelectionDialog";
+import {FeedBackBox} from "./feedBackBox";
 
 let _ = require("underscore");
 
@@ -58,7 +59,8 @@ class MainPage extends React.Component {
             loadingExport: false,
             showingGarbage: false,
             allowingTextSelection: true,
-            detachIOPanel: false
+            detachIOPanel: false,
+            showingFeedbackBox: false
         };
 
         // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
@@ -83,6 +85,8 @@ class MainPage extends React.Component {
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleTouchMove = this.handleTouchMove.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
+        this.showFeedbackBox = this.showFeedbackBox.bind(this);
+        this.closeFeedBackBox = this.closeFeedBackBox.bind(this);
     }
 
     componentDidMount() {
@@ -180,6 +184,18 @@ class MainPage extends React.Component {
      */
     resetProgram(){
         this.updateChosenProgram(undefined);
+    }
+
+    showFeedbackBox() {
+        this.setState({
+            showingFeedbackBox: true
+        });
+    }
+
+    closeFeedBackBox() {
+        this.setState({
+           showingFeedbackBox: false
+        });
     }
 
     /*
@@ -342,32 +358,32 @@ class MainPage extends React.Component {
      *      param pageHeight - number indicating the total height of the page in pixels
      */
     performAutoScroll(y, pageHeight){
-      if(this.isDragging) {
-        let scrollAreaHeight = pageHeight * AUTO_SCROLL_PAGE_PORTION;
+        if(this.isDragging) {
+            let scrollAreaHeight = pageHeight * AUTO_SCROLL_PAGE_PORTION;
 
-        if(y > scrollAreaHeight && y < pageHeight - scrollAreaHeight){
-          this.shouldScroll = false;
-          return;
-        }
+            if(y > scrollAreaHeight && y < pageHeight - scrollAreaHeight){
+                this.shouldScroll = false;
+                return;
+            }
 
-        // don't call scrollPage if it's already running
-        if(this.shouldScroll){
-          return;
-        }
+            // don't call scrollPage if it's already running
+            if(this.shouldScroll){
+                return;
+            }
 
-        if (y <= scrollAreaHeight) {
-          this.scrollDirection = -1;
-          this.shouldScroll = true;
-          this.scrollPage();
+            if (y <= scrollAreaHeight) {
+                this.scrollDirection = -1;
+                this.shouldScroll = true;
+                this.scrollPage();
+            }
+            if (y >= pageHeight - scrollAreaHeight) {
+                this.scrollDirection = 1;
+                this.shouldScroll = true;
+                this.scrollPage();
+            }
+        } else {
+            this.shouldScroll = false;
         }
-        if (y >= pageHeight - scrollAreaHeight) {
-          this.scrollDirection = 1;
-          this.shouldScroll = true;
-          this.scrollPage();
-        }
-      } else {
-        this.shouldScroll = false;
-      }
     }
 
     /*
@@ -421,24 +437,32 @@ class MainPage extends React.Component {
         });
     }
 
+    renderAppBarTitle() {
+        let siteName = <div className="siteNameLabel">{UI_STRINGS.SITE_NAME}</div>;
+        let betaLabel = <div className="betaLabel">{UI_STRINGS.BETA_LABEL}</div>;
+        let appBarTitle = <div>{siteName} {betaLabel}</div>;
+
+        return appBarTitle;
+    }
+
     render() {
         let sourceUrl = this.state.courseSequenceObject.sourceUrl;
         let minTotalCredits = this.state.courseSequenceObject.minTotalCredits;
         let sequenceInfo = this.state.courseSequenceObject.sequenceInfo;
-        let programPrettyName = (sequenceInfo && !this.state.courseSequenceObject.isLoading) ? generatePrettyProgramName(sequenceInfo.program, sequenceInfo.option, sequenceInfo.entryType, minTotalCredits)
-                                                                           : "";
+        let programPrettyName = (sequenceInfo && !this.state.courseSequenceObject.isLoading) ? generatePrettyProgramName(sequenceInfo.program, sequenceInfo.option, sequenceInfo.entryType, minTotalCredits) : "";
+
         return (
             <div tabIndex="1"
                  className={"mainPage" + (this.state.allowingTextSelection ? "" : " textSelectionOff")}
                  onMouseMove={this.handleMouseMove}
                  onTouchMove={this.handleTouchMove}
                  onKeyDown={this.handleKeyPress}>
-                <AppBar title={UI_STRINGS.SITE_NAME}
+                <AppBar title={this.renderAppBarTitle()}
                         showMenuIconButton={false}
                         className="appBar"
                         style={INLINE_STYLES.appBar}
                         iconElementRight={this.state.showingGarbage ? <GarbageCan onRemoveCourse={this.removeCourse}/> : <AppBarMenu onSelectExport={this.exportSequence}
-                                                                                                                                     onSelectProgramChange={this.resetProgram}/>}/>
+                                                                                                                                     onSelectProgramChange={this.resetProgram} onSelectFeedback={this.showFeedbackBox}/>}/>
                 <div className="pageContent">
                     <div className={"ioPanelContainer" + (this.state.detachIOPanel ? " detached" : "")}>
                         <div className="ioPanel">
@@ -487,14 +511,17 @@ class MainPage extends React.Component {
                     <ProgramSelectionDialog isOpen={!this.state.chosenProgram}
                                             allSequences={this.state.allSequences}
                                             onChangeChosenProgram={this.updateChosenProgram}/>
+                    <FeedBackBox open={this.state.showingFeedbackBox}
+                                 onRequestClose={this.closeFeedBackBox}>
+                    </FeedBackBox>
                 </div>
             </div>
         );
     }
 
     /*
-    *  Backend API calls:
-    */
+     *  Backend API calls:
+     */
 
     // Load chosen sequence via backend request if we don't find one that's already saved
     loadCourseSequenceObject(){
@@ -568,7 +595,7 @@ class MainPage extends React.Component {
      *      param exportType - string which indicates what file type to export to
      */
     exportSequence(exportType){
-        
+
         let requestExportType = "";
         if(exportType === EXPORT_TYPES.EXPORT_TYPE_LIST_PDF || exportType === EXPORT_TYPES.EXPORT_TYPE_LIST_MD){
             requestExportType = "list";
@@ -579,7 +606,7 @@ class MainPage extends React.Component {
         let sequenceInfo = this.state.courseSequenceObject.sequenceInfo;
         let minTotalCredits = this.state.courseSequenceObject.minTotalCredits;
         let programName = generatePrettyProgramName(sequenceInfo.program, sequenceInfo.option, sequenceInfo.entryType, minTotalCredits);
-        
+
         this.setState({
             "loadingExport": true
         }, () =>{
@@ -587,7 +614,7 @@ class MainPage extends React.Component {
                 type: "POST",
                 url: "api/export",
                 data: JSON.stringify({
-                    courseSequenceObject : this.state.courseSequenceObject, 
+                    courseSequenceObject : this.state.courseSequenceObject,
                     exportType: requestExportType,
                     programName: programName
                 }),

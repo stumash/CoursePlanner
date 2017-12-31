@@ -1,5 +1,6 @@
 import React from "react";
-import {UI_STRINGS, EXPORT_TYPES, INLINE_STYLES} from "./util";
+
+import {UI_STRINGS, EXPORT_TYPES, URLS, INLINE_STYLES} from "./util";
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -15,6 +16,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
  *  onSelectProgramChange - see MainPage.resetProgram
  *
  */
+//TODO: add feedback box ui component here (this is top menu bar)
 export class AppBarMenu extends React.Component {
 
     constructor(props){
@@ -35,6 +37,10 @@ export class AppBarMenu extends React.Component {
                          menuItems={exportSubMenu}/>
                 <MenuItem primaryText={UI_STRINGS.SELECT_NEW_PROGRAM}
                           onClick={() => this.props.onSelectProgramChange(undefined)}/>
+                <MenuItem primaryText={UI_STRINGS.FEEDBACK_TEXT}
+                          onClick={this.props.onSelectFeedback}/>
+                <MenuItem primaryText={UI_STRINGS.REPO_LINK_TEXT}
+                          onClick={() => {window.open(URLS.REPO)}}/>
             </IconMenu>
         );
     }

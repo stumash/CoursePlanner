@@ -14,6 +14,9 @@ export const MAX_UNDO_HISTORY_LENGTH = 100;
 export const AUTO_SCROLL_PAGE_PORTION = 0.1; // auto scroll on the top and bottom 10% of screen
 export const AUTO_SCROLL_STEP = 10;
 export const AUTO_SCROLL_DELAY = 20;
+export const FEEDBACK_CHAR_LIMIT = 1000;
+export const FEEDBACK_SNACKBAR_AUTOHIDE_DURATION = 4000;
+export const FEEDBACK_ROWS_MAX = 10;
 
 // Item types used for DND
 export const ITEM_TYPES = {
@@ -25,6 +28,7 @@ export const ITEM_TYPES = {
 export const UI_STRINGS = {
 
     SITE_NAME: "ConU Course Planner",
+    BETA_LABEL: "Beta",
 
     PROGRAM_SELECTION_LOADING: "Loading list of recommended sequences",
     PROGRAM_SELECTION_TITLE: "Welcome to ConU Course Planner!",
@@ -42,8 +46,8 @@ export const UI_STRINGS = {
     IS_WORK_TERM: "is work term?",
     NO_COURSES: "No Courses",
 
-    DEFAULT_SEARCH_LABEL: "Course search",
-    COURSE_SEARCH_HINT: "Search for a course code",
+    DEFAULT_SEARCH_LABEL: "Course search by course code",
+    COURSE_SEARCH_HINT: "e.g. comp 248",
     COURSE_SEARCH_FOUND_NONE: "Search returned no results",
 
     COURSE_INFO_LOADING: "Getting course info",
@@ -67,8 +71,21 @@ export const UI_STRINGS = {
 
     ELECTIVE_COURSE_TOOLTIP: "Replace me with a real course!",
     ORLIST_CHOICE_TOOLTIP: "Choose course from list of options",
-    
-    LIST_NONE_SELECTED: "None Selected"
+    LIST_LOADING: "Loading...",
+    LIST_NONE_SELECTED: "None Selected",
+
+    REPO_LINK_TEXT: "View on Github",
+
+    FEEDBACK_TEXT: "Feedback",
+    FEEDBACK_CHAR_LIMIT_ERROR_MSG: "Character limit reached",
+    FEEDBACK_PLACEHOLDER: "Insert Feedback here",
+    FEEDBACK_BOX_TITLE: "Comments/Concerns? Let us know and we'll see what we can do",
+    FEEDBACK_SEND_ERROR_MSG: "An error occurred, message not sent",
+    FEEDBACK_SEND_SUCCESS_MSG: "Message sent, thank you for your feedback!"
+};
+
+export const URLS = {
+    REPO: "https://github.com/stumash/CoursePlanner"
 };
 
 export const PROGRAM_NAMES = {
@@ -179,6 +196,9 @@ export const INLINE_STYLES = {
     },
     programSelectNextButton: {
         marginRight: "12px"
+    },
+    betterYellow: {
+        color: "#f5bb2b"
     }
 };
 
