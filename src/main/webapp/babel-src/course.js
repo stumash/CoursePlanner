@@ -28,21 +28,26 @@ class Course extends React.Component {
         this.handleCourseClick = this.handleCourseClick.bind(this);
     }
 
-    handleCourseClick(){
-        this.props.onCourseClick(this.props.courseObj.code);
+    handleCourseClick(event){
+        event.stopPropagation();
+        let isElective = this.props.courseObj.isElective === "true";
+        this.props.onCourseClick(isElective ? "" : this.props.courseObj.code, this.props.position);
     }
 
     render() {
 
         let extraClassNames = [];
-        if(this.props.isBeingDragged) {
-            extraClassNames.push("beingDragged");
+        if(this.props.isHidden){
+            extraClassNames.push("isHidden");
         }
         if(this.props.isDraggable){
             extraClassNames.push("grabbable");
         }
         if(this.props.isHighlighted){
             extraClassNames.push("highlighted");
+        }
+        if(this.props.isSelected){
+            extraClassNames.push("selected");
         }
 
         return this.props.connectDragSource(renderCourseDiv(this.props.courseObj, extraClassNames.join(" "), this.handleCourseClick));

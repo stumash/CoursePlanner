@@ -1,6 +1,6 @@
 import React from 'react';
 import { DragLayer } from 'react-dnd';
-import { ITEM_TYPES, renderCourseDiv,renderOrListDiv } from "./util";
+import { renderCourseDiv, renderOrListDiv } from "./util";
 
 function collect(monitor){
     return {
@@ -40,22 +40,33 @@ function getItemStyles(props) {
 
 class DragPreview extends React.Component {
 
-    renderItem(type, item) {
-        switch (type) {
-            case ITEM_TYPES.COURSE:
-                return (
-                    renderCourseDiv(item.courseObj, " dragPreview")
-                );
-            case ITEM_TYPES.OR_LIST:
-                return (
-                    renderOrListDiv(item.courseList, " dragPreview")
-                );
-            default:
-                return "Default Drag Preview";
+    renderCourseList(courseList){
+
+        if(courseList.length === 0) {
+            return;
         }
+
+        return courseList.map((courseObj) => {
+            if(courseObj.length > 0){
+                let courseList = courseObj;
+                return (
+                    <div key={courseList.map(courseObj => courseObj.id).join()}>
+                        {renderOrListDiv(courseList, " dragPreview")}
+                    </div>
+                );
+            } else {
+                return (
+                    // course dragged from courseInfoCard will not have an id
+                    <div key={courseObj.id || courseObj.code}>
+                        {renderCourseDiv(courseObj, " dragPreview")}
+                    </div>
+                );
+            }
+        });
     }
 
     render() {
+
         if (!this.props.isDragging) {
             return null;
         }
@@ -63,7 +74,7 @@ class DragPreview extends React.Component {
         return (
             <div style={layerStyles}>
                 <div style={getItemStyles(this.props)}>
-                    {this.renderItem(this.props.itemType, this.props.item)}
+                    {this.renderCourseList(this.props.draggedItems)}
                 </div>
             </div>
         );

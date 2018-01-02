@@ -25,13 +25,25 @@ class OrList extends React.Component {
 
     constructor(props){
         super(props);
+
+        // functions that are passed as callbacks need to be bound to current class - see https://facebook.github.io/react/docs/handling-events.html
+        this.handleSelectedCourseClick = this.handleSelectedCourseClick.bind(this)
+    }
+
+    handleSelectedCourseClick(event, selectedCourseObj){
+        event.stopPropagation();
+        let code = undefined;
+        if(selectedCourseObj){
+            code = (selectedCourseObj.isElective === "true") ? "" : selectedCourseObj.code
+        }
+        this.props.onCourseClick(code, this.props.position);
     }
 
     render() {
 
         let extraClassNames = [];
-        if(this.props.isBeingDragged) {
-            extraClassNames.push("beingDragged");
+        if(this.props.isHidden){
+            extraClassNames.push("isHidden");
         }
         if(this.props.isDraggable){
             extraClassNames.push("grabbable");
@@ -39,11 +51,14 @@ class OrList extends React.Component {
         if(this.props.isHighlighted){
             extraClassNames.push("highlighted");
         }
+        if(this.props.isSelected){
+            extraClassNames.push("selected");
+        }
 
         let courseList = this.props.courseList;
         let position = this.props.position;
 
-        return this.props.connectDragSource(renderOrListDiv(courseList, extraClassNames.join(" "), position, this.props.onCourseClick, this.props.onOrListSelection));
+        return this.props.connectDragSource(renderOrListDiv(courseList, extraClassNames.join(" "), position, this.handleSelectedCourseClick, this.props.onOrListSelection));
     }
 }
 

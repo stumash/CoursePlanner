@@ -18,6 +18,12 @@ export const FEEDBACK_CHAR_LIMIT = 1000;
 export const FEEDBACK_SNACKBAR_AUTOHIDE_DURATION = 4000;
 export const FEEDBACK_ROWS_MAX = 10;
 
+export const KEY_CODES = {
+    SHIFT: 16,
+    CTRL: 17,
+    Z: 90
+};
+
 // Item types used for DND
 export const ITEM_TYPES = {
     COURSE: "Course",
@@ -223,15 +229,15 @@ export function generatePrettyProgramName(program, option, entryType, minTotalCr
 export const courseDragSource = {
     beginDrag(props, monitor, component) {
 
-        props.onChangeDragState && props.onChangeDragState(true);
+        props.onChangeDragState && props.onChangeDragState(true, props.position, props.courseObj);
 
         return {
-            "courseObj": props.courseObj,
-            "position": props.position
+            courseObj: props.courseObj,
+            position: props.position
         };
     },
     endDrag(props, monitor, component){
-        props.onChangeDragState && props.onChangeDragState(false);
+        props.onChangeDragState && props.onChangeDragState(false, props.position);
     },
     canDrag(props, monitor){
         return props.isDraggable;
@@ -244,15 +250,15 @@ export const courseDragSource = {
 export const orListDragSource = {
     beginDrag(props, monitor, component) {
 
-        props.onChangeDragState && props.onChangeDragState(true);
+        props.onChangeDragState && props.onChangeDragState(true, props.position);
 
         return {
-            "courseList": props.courseList,
-            "position": props.position
+            courseList: props.courseList,
+            position: props.position
         };
     },
     endDrag(props, monitor, component){
-        props.onChangeDragState && props.onChangeDragState(false);
+        props.onChangeDragState && props.onChangeDragState(false, props.position);
     },
     canDrag(props, monitor){
         return props.isDraggable;
@@ -291,18 +297,17 @@ export function saveAs(uri, filename) {
  *  This is helpful for react to properly respond to changes and
  *  it is especially necessary for the react-dnd module to work properly
  *
- *  The unique ID is formed by appending the course code to the
  */
 export function generateUniqueKeys(yearList){
     yearList.forEach((year, yearIndex) => {
         SEASON_NAMES.forEach((season) => {
-            year[season].courseList.forEach((courseObj, courseListIndex) => {
+            year[season].courseList.forEach((courseObj, courseIndex) => {
                 if(courseObj.length > 0){
                     courseObj.forEach((courseOrObj, orListIndex) => {
-                        courseOrObj.id = generateUniqueKey(courseOrObj, season, yearIndex, courseListIndex, orListIndex);
+                        courseOrObj.id = generateUniqueKey(courseOrObj, season, yearIndex, courseIndex, orListIndex);
                     });
                 } else {
-                    courseObj.id = generateUniqueKey(courseObj, season, yearIndex, courseListIndex, "");
+                    courseObj.id = generateUniqueKey(courseObj, season, yearIndex, courseIndex, "");
                 }
             });
         });
@@ -314,10 +319,37 @@ export function generateUniqueKeys(yearList){
  *  Form unique ID by combing course code/electiveType with its current position in the yearList
  *  If the course changes its position within the yearList, we do NOT want this id value to change, so we only call this once.
  */
-export function generateUniqueKey(courseObj, season, yearIndex, courseListIndex, orListIndex){
+export function generateUniqueKey(courseObj, season, yearIndex, courseIndex, orListIndex, timestamp){
     let id = (courseObj.isElective === "true") ? courseObj.electiveType : courseObj.code;
-    id += season + yearIndex + courseListIndex + orListIndex;
+    id += positionToString({
+        season: season,
+        yearIndex: yearIndex,
+        courseIndex: courseIndex,
+        orListIndex: orListIndex
+    });
+    (timestamp) && (id += (" " + timestamp));
     return id;
+}
+
+/*
+ * Generate a string from a position object
+ *     position: position of the course in the sequence, possibly within an orList
+ */
+export function positionToString(position){
+    return [position.season, position.yearIndex, position.courseIndex].join(" ");
+}
+
+/*
+ * Generate a position from a position string
+ *     positionString: position of the course in the sequence, represented as a string
+ */
+export function parsePositionString(positionString){
+    let subStrings = positionString.split(" ");
+    return {
+        season: subStrings[0],
+        yearIndex: parseInt(subStrings[1]),
+        courseIndex: parseInt(subStrings[2])
+    };
 }
 
 /*
@@ -338,7 +370,7 @@ export function renderOrListDiv(courseList, extraClassNames, position, clickHand
                                 listClickHandler({
                                     "yearIndex": position.yearIndex,
                                     "season": position.season,
-                                    "courseListIndex": position.courseListIndex,
+                                    "courseIndex": position.courseIndex,
                                     "orListIndex": courseIndex
                                 });
                             })}
@@ -362,29 +394,34 @@ export function renderCourseDiv(courseObj, extraClassNames, clickHandler){
     return (
         <div className={"course " + extraClassNames} title={courseObj.name || UI_STRINGS.ELECTIVE_COURSE_TOOLTIP} onClick={clickHandler || (() => {})}>
             <div className="courseCode">
-                { (courseObj.isElective === "true") ? (courseObj.electiveType + " Elective") : courseObj.code}
+                { (courseObj.isElective === "true") ? (courseObj.electiveType + " Elective") : courseObj.code }
             </div>
             <div className="courseCredits">{courseObj.credits}</div>
         </div>
     );
 }
 
+/*
+ *  Render a course div to the right of the drop down arrow within an orList item.
+ *  Represents the currently selected course of the orList.
+ *      courseList: the list of courses that the orList contains
+ *      clickHandler: function to call when the selected course div is clicked
+ */
 function renderSelectedOrCourse(courseList, clickHandler){
 
     let selectedCourse = undefined;
-    let selectedIndex = -1;
 
-    courseList.forEach((courseObj, orListIndex) => {
-        if(courseObj.isSelected){
-            selectedCourse = courseObj;
-            selectedIndex = orListIndex;
-
-            if(selectedCourse.isElective === "true"){
-                clickHandler = () => {};
-            }
-        }
+    courseList.forEach((courseObj) => {
+        (courseObj.isSelected) && (selectedCourse = courseObj);
     });
 
-    return (!selectedCourse) ? <div title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP}>{UI_STRINGS.LIST_NONE_SELECTED}</div> :
-                               renderCourseDiv(selectedCourse, "", () => clickHandler(selectedCourse.code));
+    let handleSelectedCourseClick = (event) => {
+        clickHandler(event, selectedCourse);
+    };
+
+    return (!selectedCourse) ? <div className="orListNoneSelected"
+                                    title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP}
+                                    onClick={handleSelectedCourseClick}>{UI_STRINGS.LIST_NONE_SELECTED}
+                               </div> :
+                               renderCourseDiv(selectedCourse, "", handleSelectedCourseClick);
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import Toggle from 'material-ui/Toggle';
 
-import { UI_STRINGS, ITEM_TYPES } from "./util";
+import { UI_STRINGS, ITEM_TYPES, positionToString } from "./util";
 import Course from "./course";
 import OrList from "./orList";
 import { DropTarget } from 'react-dnd';
@@ -17,10 +17,12 @@ import { DropTarget } from 'react-dnd';
  *
  *  season - string which represents the season during which the semester in question occurs
  *
+ *  positionsBeingDragged - the positions of the items that are currently being dragged by the user
+ *
  *  onSelectCourse - see MainPage.loadCourseInfo
  *  onOrListSelection - see MainPage.setOrListCourseSelected
  *  onToggleWorkTerm - see MainPage.toggleWorkTerm
- *  onMoveCourse - see MainPage.moveCourse
+ *  onMoveCourses - see MainPage.moveCourses
  *  onAddCourse - see MainPage.addCourse
  *  onChangeDragState - see MainPage.enableGarbage
  *
@@ -50,22 +52,17 @@ class SemesterBox extends React.Component {
             let position = {
                 "yearIndex": this.props.yearIndex,
                 "season": this.props.season,
-                "courseListIndex": courseIndex
+                "courseIndex": courseIndex
             };
-            let isHighlighted = false;
-            this.props.highlightedCoursePositions.forEach((highlightedPosition) => {
-                if(highlightedPosition.yearIndex == position.yearIndex &&
-                   highlightedPosition.season === position.season &&
-                   highlightedPosition.courseIndex == courseIndex){
-                    isHighlighted = true;
-                }
-            });
+            let itemStyles = this.props.positionStyleMap[positionToString(position)];
             if(courseObj.length > 0){
                 let courseList = courseObj;
                 return (
                     <OrList courseList={courseList}
                             position={position}
-                            isHighlighted={isHighlighted}
+                            isHighlighted={itemStyles && itemStyles.isHighlighted}
+                            isSelected={itemStyles && itemStyles.isSelected}
+                            isHidden={itemStyles && itemStyles.isHidden}
                             isDraggable={true}
                             onOrListSelection={this.props.onOrListSelection}
                             onCourseClick={this.props.onSelectCourse}
@@ -77,9 +74,11 @@ class SemesterBox extends React.Component {
                 return (
                     <Course courseObj={courseObj}
                             position={position}
-                            isHighlighted={isHighlighted}
+                            isHighlighted={itemStyles && itemStyles.isHighlighted}
+                            isSelected={itemStyles && itemStyles.isSelected}
+                            isHidden={itemStyles && itemStyles.isHidden}
                             isDraggable={true}
-                            onCourseClick={courseObj.isElective === "false" ? this.props.onSelectCourse : (() => {})}
+                            onCourseClick={this.props.onSelectCourse}
                             onChangeDragState={this.props.onChangeDragState}
                             key={courseObj.id}/>
                 );
@@ -118,41 +117,22 @@ let semesterTarget = {
     hover(props, monitor, component) {
     },
     canDrop(props, monitor){
-
-        if(monitor.getItem().position && monitor.getItem().position.season === props.season && monitor.getItem().position.yearIndex === props.yearIndex){
-            return false;
-        }
-
-        let canDrop = true;
-
-        if (monitor.getItemType() === ITEM_TYPES.COURSE) {
-
-            for(let i = 0; i < props.semester.courseList.length; i++){
-                let tCourse = props.semester.courseList[i];
-                if(tCourse.code && tCourse.code === monitor.getItem().courseObj.code){
-                    canDrop = false;
-                }
-            }
-
-        }
-
-        return canDrop;
+        return true;
     },
     drop(props, monitor, component){
 
         let draggedItem = monitor.getItem();
 
-        let newPosition = {
+        let toSemester = {
             "yearIndex": props.yearIndex,
-            "season": props.season,
-            "courseListIndex": 0
+            "season": props.season
         };
 
         // no course position means the course was dragged from the IOPanel
         if(!draggedItem.position){
-            props.onAddCourse(draggedItem.courseObj, newPosition);
+            props.onAddCourse(draggedItem.courseObj, toSemester);
         } else {
-            props.onMoveCourse(draggedItem.position, newPosition);
+            props.onMoveCourses(props.positionsBeingDragged, toSemester);
         }
     }
 };

@@ -16,7 +16,6 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
  *  onSelectProgramChange - see MainPage.resetProgram
  *
  */
-//TODO: add feedback box ui component here (this is top menu bar)
 export class AppBarMenu extends React.Component {
 
     constructor(props){

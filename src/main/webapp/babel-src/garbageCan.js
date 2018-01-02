@@ -7,7 +7,7 @@ import { DropTarget } from 'react-dnd';
  *
  *  Expects props:
  *
- *  onRemoveCourse - see MainPage.removeCourse
+ *  onRemoveCourses - see MainPage.removeCourses
  *
  */
 class GarbageCan extends React.Component {
@@ -33,7 +33,7 @@ let garbageCanTarget = {
     hover(props, monitor, component) {
     },
     drop(props, monitor, component){
-        props.onRemoveCourse(monitor.getItem().position);
+        props.onRemoveCourses();
     }
 };
 
@@ -44,4 +44,4 @@ function collectTarget(connect, monitor) {
     };
 }
 
-export default DropTarget(ITEM_TYPES.COURSE, garbageCanTarget, collectTarget)(GarbageCan);
+export default DropTarget([ITEM_TYPES.COURSE, ITEM_TYPES.OR_LIST], garbageCanTarget, collectTarget)(GarbageCan);

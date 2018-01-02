@@ -14,12 +14,26 @@ import Course from "./course";
  *  Expects props:
  *
  *  courseInfo - see MainPage.state.selectedCourseInfo
+ *  onChangeDragState - see MainPage.state.setDragState
  *
  */
 export class CourseInfoCard extends React.Component {
 
     constructor(props){
         super(props);
+
+        this.state = {
+            courseBeingDragged: false
+        };
+
+        this.handleChangeDragState = this.handleChangeDragState.bind(this);
+    }
+
+    handleChangeDragState(isDragging, draggedPosition, draggedItem) {
+        this.props.onChangeDragState(isDragging, draggedPosition, draggedItem);
+        this.setState({
+            courseBeingDragged: isDragging
+        });
     }
 
     renderCardHeader(courseInfo) {
@@ -34,7 +48,11 @@ export class CourseInfoCard extends React.Component {
             showExpandableButton = false;
         } else {
             title = courseInfo.name + " - " + courseInfo.credits + " credits";
-            subtitle = <Course courseObj={courseInfo} isDraggable={true} onCourseClick={() => undefined}/>;
+            subtitle = <Course courseObj={courseInfo}
+                               isHidden={this.state.courseBeingDragged}
+                               isDraggable={true}
+                               onChangeDragState={this.handleChangeDragState}
+                               onCourseClick={() => undefined}/>;
             showExpandableButton = true;
         }
         
