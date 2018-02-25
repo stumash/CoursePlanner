@@ -1,6 +1,6 @@
 import React from "react";
 import { DragSource } from 'react-dnd';
-import { UI_STRINGS, ITEM_TYPES, renderOrListDiv, orListDragSource, collectSource } from "./util";
+import { UI_STRINGS, ITEM_TYPES, renderOrListDiv, orListDragSource, collectSource } from "../util/util";
 
 /*
  *  Box which represents a list of courses where one may be selected;  can be made draggable vis isDraggable.

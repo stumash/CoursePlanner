@@ -21,16 +21,16 @@ update.extend('$autoArray', function(value, object) {
         update([], value);
 });
 
-import {CourseInfoCard} from "./courseInfoCard";
-import {SequenceValidationCard} from "./sequenceValidationCard";
-import {SemesterTable} from "./semesterTable";
-import {SemesterList} from "./semesterList";
-import DragPreview from "./dragPreview";
+import {CourseInfoCard} from "../courseInfo/courseInfoCard";
+import {SequenceValidationCard} from "../sequenceValidation/sequenceValidationCard";
+import {SemesterTable} from "../semester/semesterTable";
+import {SemesterList} from "../semester/semesterList";
+import DragPreview from "../semester/dragPreview";
 import GarbageCan from "./garbageCan";
 import {AppBarMenu} from "./appBarMenu";
-import {SearchBox} from "./searchBox";
-import {ProgramSelectionDialog} from "./programSelectionDialog";
-import {FeedBackBox} from "./feedBackBox";
+import {SearchBox} from "../search/searchBox";
+import {ProgramSelectionDialog} from "../dialogs/programSelectionDialog";
+import {FeedBackBox} from "../dialogs/feedBackBox";
 
 import { MAX_UNDO_HISTORY_LENGTH,
          AUTO_SCROLL_PAGE_PORTION,
@@ -46,7 +46,7 @@ import { MAX_UNDO_HISTORY_LENGTH,
          generateUniqueKeys,
          positionToString,
          parsePositionString,
-         saveAs } from "./util";
+         saveAs } from "../util/util";
 
 
 /*

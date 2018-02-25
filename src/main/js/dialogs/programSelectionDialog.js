@@ -13,7 +13,7 @@ import {UI_STRINGS,
         PROGRAM_NAMES,
         PROGRAM_OPTIONS,
         PROGRAM_ENTRY_TYPES,
-        generatePrettyProgramName} from "./util";
+        generatePrettyProgramName} from "../util/util";
 
 let _ = require("underscore");
 

@@ -3,7 +3,7 @@ import {Card, CardHeader, CardText} from 'material-ui/Card';
 import ErrorIcon from 'material-ui/svg-icons/alert/error';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
 
-import {UI_STRINGS, LOADING_ICON_TYPES, COURSE_EXEMPTIONS} from "./util";
+import {UI_STRINGS, LOADING_ICON_TYPES, COURSE_EXEMPTIONS} from "../util/util";
 
 const ListItem = ({type, message, onMouseEnter, onMouseLeave}) => {
     return (

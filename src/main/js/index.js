@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MainPage from "./mainPage";
+import MainPage from "./mainPage/mainPage";
 
 const muiTheme = getMuiTheme({
     palette: {

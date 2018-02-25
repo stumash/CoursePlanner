@@ -1,7 +1,7 @@
 import React from "react";
 import { DragSource } from 'react-dnd';
 
-import { ITEM_TYPES, renderCourseDiv, courseDragSource, collectSource } from "./util";
+import { ITEM_TYPES, renderCourseDiv, courseDragSource, collectSource } from "../util/util";
 
 /*
  *  Box which represents one single course;  can be made draggable vis isDraggable.

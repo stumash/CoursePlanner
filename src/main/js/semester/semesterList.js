@@ -1,7 +1,7 @@
 import React from "react";
 
 import SemesterBox from "./semesterBox";
-import {SEASON_NAMES, SEASON_NAMES_PRETTY, LOADING_ICON_TYPES} from "./util";
+import {SEASON_NAMES, SEASON_NAMES_PRETTY, LOADING_ICON_TYPES} from "../util/util";
 
 /*
  *  List which contains all courses of current sequence

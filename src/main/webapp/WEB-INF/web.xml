@@ -8,7 +8,7 @@
 
     <error-page>
         <error-code>404</error-code>
-        <location>/404.html</location>
+        <location>/src/main/frontend/404.html</location>
     </error-page>
 
     <listener>

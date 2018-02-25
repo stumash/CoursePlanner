@@ -1,5 +1,5 @@
 import React from "react";
-import { ITEM_TYPES } from "./util";
+import { ITEM_TYPES } from "../util/util";
 import { DropTarget } from 'react-dnd';
 
 /*
