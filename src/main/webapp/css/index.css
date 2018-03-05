@@ -194,8 +194,14 @@
     border-radius: 12px;
 }
 
-.orList > .input-group-btn > button.btn-default:hover,
-.orList > .input-group-btn > button.btn-default:focus,
+.orList > .btn-group > button.btn-default {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-right: -1px;
+}
+
+.orList > .btn-group > button.btn-default:hover,
+.orList > .btn-group > button.btn-default:focus,
 .orList > .open > button.btn-default {
     border-color: #DDDDDD;
     background-color: rgba(0, 0, 0, 0.1);
@@ -203,6 +209,10 @@
 
 .orList button:active:focus {
     outline: none;
+}
+
+.orList .dropdown-menu > li > a {
+    padding: 0;
 }
 
 .orListNoneSelected {

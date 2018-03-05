@@ -9,6 +9,8 @@ import { FEEDBACK_SNACKBAR_AUTOHIDE_DURATION,
          UI_STRINGS,
          INLINE_STYLES} from '../util/util';
 
+import $ from "jquery";
+
 export class FeedBackBox extends React.Component {
     constructor(props) {
         super(props);

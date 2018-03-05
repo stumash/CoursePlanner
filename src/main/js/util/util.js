@@ -7,6 +7,8 @@
 import React from "react";
 import CircularProgress from 'material-ui/CircularProgress';
 
+import { DropdownButton, MenuItem } from "react-bootstrap";
+
 // Regular old constants
 export const SEASON_NAMES_PRETTY = ["Fall", "Winter", "Summer"];
 export const SEASON_NAMES = SEASON_NAMES_PRETTY.map((season) => season.toLowerCase());
@@ -359,25 +361,21 @@ export function parsePositionString(positionString){
 export function renderOrListDiv(courseList, extraClassNames, position, clickHandler, listClickHandler){
     return (
         <div className={"orList input-group " + extraClassNames}>
-            <div className="input-group-btn">
-                <button className="btn btn-default dropdown-toggle" title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP} type="button"  data-toggle="dropdown">
-                    <span className="caret"></span>
-                </button>
-                <ul className="dropdown-menu">
-                    {courseList.map((courseObj, courseIndex) =>
-                        <li key={courseObj.id}>
-                            {renderCourseDiv(courseObj, "", () => {
-                                listClickHandler({
-                                    "yearIndex": position.yearIndex,
-                                    "season": position.season,
-                                    "courseIndex": position.courseIndex,
-                                    "orListIndex": courseIndex
-                                });
-                            })}
-                        </li>
-                    )}
-                </ul>
-            </div>
+            <DropdownButton title=""
+                            id="dropdown-basic">
+                {courseList.map((courseObj, courseIndex) =>
+                    <MenuItem key={courseObj.id}>
+                        {renderCourseDiv(courseObj, "", () => {
+                            listClickHandler({
+                                "yearIndex": position.yearIndex,
+                                "season": position.season,
+                                "courseIndex": position.courseIndex,
+                                "orListIndex": courseIndex
+                            });
+                        })}
+                    </MenuItem>
+                )}
+            </DropdownButton>
             <div className="input-group-addon">
                 {renderSelectedOrCourse(courseList, clickHandler)}
             </div>
@@ -424,4 +422,8 @@ function renderSelectedOrCourse(courseList, clickHandler){
                                     onClick={handleSelectedCourseClick}>{UI_STRINGS.LIST_NONE_SELECTED}
                                </div> :
                                renderCourseDiv(selectedCourse, "", handleSelectedCourseClick);
+}
+
+export function cloneObject(obj){
+    return JSON.parse(JSON.stringify(obj));
 }

@@ -8,6 +8,7 @@ import Dialog from 'material-ui/Dialog';
 
 let _ = require("underscore");
 
+import $ from "jquery";
 import update from 'immutability-helper';
 
 update.extend('$auto', function(value, object) {
