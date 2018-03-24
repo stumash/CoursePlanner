@@ -10,7 +10,7 @@ const password = encodeURIComponent("password");
 const devDbName = "courseplannerdb-dev";
 const prodDbName = "courseplannerdb";
 const dbName = (argv.prod) ? prodDbName : devDbName;
-const dbFullUrl = f('mongodb://%s:%s@conucourseplanner.online:27017/%s?authSource=admin', username, password, dbName);
+const dbFullUrl = f('mongodb://%s:%s@localhost:27017/%s?authSource=admin', username, password, dbName);
 
 const courseSequencesColName = "courseSequences";
 const courseInfoColName = "courseInfo";
