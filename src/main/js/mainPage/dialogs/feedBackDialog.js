@@ -11,7 +11,7 @@ import { FEEDBACK_SNACKBAR_AUTOHIDE_DURATION,
 
 import $ from "jquery";
 
-export class FeedBackBox extends React.Component {
+export class FeedBackDialog extends React.Component {
     constructor(props) {
         super(props);
 

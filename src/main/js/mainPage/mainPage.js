@@ -31,7 +31,7 @@ import GarbageCan from "./garbageCan";
 import {AppBarMenu} from "./appBarMenu";
 import {SearchBox} from "./searchBox/searchBox";
 import {ProgramSelectionDialog} from "./dialogs/programSelectionDialog";
-import {FeedBackBox} from "./dialogs/feedBackBox";
+import {FeedBackDialog} from "./dialogs/feedBackDialog";
 
 import { MAX_UNDO_HISTORY_LENGTH,
          AUTO_SCROLL_PAGE_PORTION,
@@ -257,8 +257,8 @@ class MainPage extends React.Component {
                     <ProgramSelectionDialog isOpen={!this.state.chosenProgram}
                                             allSequences={this.state.allSequences}
                                             onChangeChosenProgram={this.updateChosenProgram}/>
-                    <FeedBackBox open={this.state.showingFeedbackBox}
-                                 onRequestClose={this.closeFeedBackBox}/>
+                    <FeedBackDialog open={this.state.showingFeedbackBox}
+                                    onRequestClose={this.closeFeedBackBox}/>
                 </div>
             </div>
         );
