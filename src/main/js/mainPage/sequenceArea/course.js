@@ -1,7 +1,8 @@
 import React from "react";
 import { DragSource } from 'react-dnd';
 
-import { ITEM_TYPES, renderCourseDiv, courseDragSource, collectSource } from "../../util/util";
+import { UI_STRINGS, ITEM_TYPES, SEMESTER_ITEM_CLASS_MAP, collectSource, createDragSourceSpec } from "../../util/util";
+
 
 /*
  *  Box which represents one single course;  can be made draggable vis isDraggable.
@@ -14,6 +15,8 @@ import { ITEM_TYPES, renderCourseDiv, courseDragSource, collectSource } from "..
  *                   required properties: yearIndex, season, courseListIndex
  *
  *  isDraggable - boolean which denotes whether this course item can be dragged around the page
+ *
+ *  allowClickPropagation - boolean which indicates whether the click event on the course div should not have its propagation stopped
  *
  *  onCourseClick - see MainPage.loadCourseInfo
  *  onChangeDragState - see MainPage.enableGarbage
@@ -29,29 +32,31 @@ class Course extends React.Component {
     }
 
     handleCourseClick(event){
-        event.stopPropagation();
+        !this.props.allowClickPropagation && event.stopPropagation();
         let isElective = this.props.courseObj.isElective === "true";
         this.props.onCourseClick(isElective ? "" : this.props.courseObj.code, this.props.position);
     }
 
+    renderCourseDiv(courseObj, extraClassNames){
+        return (
+            <div className={"course " + extraClassNames.join(" ")} title={courseObj.name || UI_STRINGS.ELECTIVE_COURSE_TOOLTIP} onClick={this.handleCourseClick || (() => {})}>
+                <div className="courseCode">
+                    { (courseObj.isElective === "true") ? (courseObj.electiveType + " Elective") : courseObj.code }
+                </div>
+                <div className="courseCredits">{courseObj.credits}</div>
+            </div>
+        );
+    }
+
     render() {
-
-        let extraClassNames = [];
-        if(this.props.isHidden){
-            extraClassNames.push("isHidden");
-        }
-        if(this.props.isDraggable){
-            extraClassNames.push("grabbable");
-        }
-        if(this.props.isHighlighted){
-            extraClassNames.push("highlighted");
-        }
-        if(this.props.isSelected){
-            extraClassNames.push("selected");
-        }
-
-        return this.props.connectDragSource(renderCourseDiv(this.props.courseObj, extraClassNames.join(" "), this.handleCourseClick));
+        let extraClassNames = Object.keys(SEMESTER_ITEM_CLASS_MAP).map((key) =>
+            this.props[key] ? SEMESTER_ITEM_CLASS_MAP[key] : undefined
+        ).filter((element) => {
+            return element !== undefined;
+        });
+        let courseDiv = this.renderCourseDiv(this.props.courseObj, extraClassNames);
+        return this.props.isDraggable ? this.props.connectDragSource(courseDiv) : courseDiv;
     }
 }
 
-export default DragSource(ITEM_TYPES.COURSE, courseDragSource, collectSource)(Course);
+export default DragSource(ITEM_TYPES.COURSE, createDragSourceSpec(ITEM_TYPES.COURSE), collectSource)(Course);

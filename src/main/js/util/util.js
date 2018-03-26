@@ -8,8 +8,6 @@ import React from "react";
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import CircularProgress from 'material-ui/CircularProgress';
 
-import { DropdownButton, MenuItem } from "react-bootstrap";
-
 // App theme
 
 export const MUI_THEME = getMuiTheme({
@@ -20,7 +18,6 @@ export const MUI_THEME = getMuiTheme({
         pickerHeaderColor: "#6c1540",
     }
 });
-
 
 // Regular old constants
 export const SEASON_NAMES_PRETTY = ["Fall", "Winter", "Summer"];
@@ -37,12 +34,6 @@ export const KEY_CODES = {
     SHIFT: 16,
     CTRL: 17,
     Z: 90
-};
-
-// Item types used for DND
-export const ITEM_TYPES = {
-    COURSE: "Course",
-    OR_LIST: "OrList"
 };
 
 // All hardcoded pieces of text which are directly displayed to the user
@@ -223,6 +214,14 @@ export const INLINE_STYLES = {
     }
 };
 
+export const SEMESTER_ITEM_CLASS_MAP = {
+    isHidden: "isHidden",
+    isDraggable: "grabbable",
+    isHighlighted: "highlighted",
+    isSelected: "selected",
+    isDragPreview: "dragPreview"
+};
+
 export const LOADING_ICON_TYPES = {
     big: <CircularProgress size={80} thickness={7}/>,
     small: <CircularProgress size={25} thickness={2.5}/>,
@@ -237,58 +236,6 @@ export function generatePrettyProgramName(program, option, entryType, minTotalCr
         (minTotalCredits ?  " (" + minTotalCredits + " credits)" : "")
     );
 };
-
-/*
- *  Special object used by react-dnd to register a drag source
- */
-export const courseDragSource = {
-    beginDrag(props, monitor, component) {
-
-        props.onChangeDragState && props.onChangeDragState(true, props.position, props.courseObj);
-
-        return {
-            courseObj: props.courseObj,
-            position: props.position
-        };
-    },
-    endDrag(props, monitor, component){
-        props.onChangeDragState && props.onChangeDragState(false, props.position);
-    },
-    canDrag(props, monitor){
-        return props.isDraggable;
-    }
-};
-
-/*
- *  Special object used by react-dnd to register a drag source
- */
-export const orListDragSource = {
-    beginDrag(props, monitor, component) {
-
-        props.onChangeDragState && props.onChangeDragState(true, props.position);
-
-        return {
-            courseList: props.courseList,
-            position: props.position
-        };
-    },
-    endDrag(props, monitor, component){
-        props.onChangeDragState && props.onChangeDragState(false, props.position);
-    },
-    canDrag(props, monitor){
-        return props.isDraggable;
-    }
-};
-
-/*
- *  Collect function used by react-dnd to inject properties into a drag source
- */
-export function collectSource(connect, monitor) {
-    return {
-        connectDragSource: connect.dragSource(),
-        isBeingDragged: monitor.isDragging()
-    };
-}
 
 /*
  *  Convenience function that allows you to save the file contained at location uri to disk of client machine
@@ -367,76 +314,56 @@ export function parsePositionString(positionString){
     };
 }
 
-/*
- *  Render a div which represents an orList of courses.
- *      extraClassNames: string with a leading space which contains a list of class names separated by spaces
- */
-export function renderOrListDiv(courseList, extraClassNames, position, clickHandler, listClickHandler){
-    return (
-        <div className={"orList input-group " + extraClassNames}>
-            <DropdownButton title=""
-                            id="dropdown-basic">
-                {courseList.map((courseObj, courseIndex) =>
-                    <MenuItem key={courseObj.id}>
-                        {renderCourseDiv(courseObj, "", () => {
-                            listClickHandler({
-                                "yearIndex": position.yearIndex,
-                                "season": position.season,
-                                "courseIndex": position.courseIndex,
-                                "orListIndex": courseIndex
-                            });
-                        })}
-                    </MenuItem>
-                )}
-            </DropdownButton>
-            <div className="input-group-addon">
-                {renderSelectedOrCourse(courseList, clickHandler)}
-            </div>
-        </div>
-    );
-}
-
-
-/*
- *  Render a div which represents a course.
- *      extraClassNames: string which contains a list of class names separated by spaces
- */
-export function renderCourseDiv(courseObj, extraClassNames, clickHandler){
-    return (
-        <div className={"course " + extraClassNames} title={courseObj.name || UI_STRINGS.ELECTIVE_COURSE_TOOLTIP} onClick={clickHandler || (() => {})}>
-            <div className="courseCode">
-                { (courseObj.isElective === "true") ? (courseObj.electiveType + " Elective") : courseObj.code }
-            </div>
-            <div className="courseCredits">{courseObj.credits}</div>
-        </div>
-    );
-}
-
-/*
- *  Render a course div to the right of the drop down arrow within an orList item.
- *  Represents the currently selected course of the orList.
- *      courseList: the list of courses that the orList contains
- *      clickHandler: function to call when the selected course div is clicked
- */
-function renderSelectedOrCourse(courseList, clickHandler){
-
-    let selectedCourse = undefined;
-
-    courseList.forEach((courseObj) => {
-        (courseObj.isSelected) && (selectedCourse = courseObj);
-    });
-
-    let handleSelectedCourseClick = (event) => {
-        clickHandler(event, selectedCourse);
-    };
-
-    return (!selectedCourse) ? <div className="orListNoneSelected"
-                                    title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP}
-                                    onClick={handleSelectedCourseClick}>{UI_STRINGS.LIST_NONE_SELECTED}
-                               </div> :
-                               renderCourseDiv(selectedCourse, "", handleSelectedCourseClick);
-}
-
 export function cloneObject(obj){
     return JSON.parse(JSON.stringify(obj));
+}
+
+// Item types used for DND
+export const ITEM_TYPES = {
+    COURSE: "Course",
+    OR_LIST: "OrList"
+};
+
+/*
+ *  Special object used by react-dnd to register a drag source
+ */
+export function createDragSourceSpec(itemType) {
+    let beginDrag = undefined;
+    if(itemType === ITEM_TYPES.COURSE) {
+        beginDrag = (props, monitor, component) => {
+            props.onChangeDragState && props.onChangeDragState(true, props.position);
+            return {
+                courseList: props.courseList,
+                position: props.position
+            };
+        }
+    }
+    if(itemType === ITEM_TYPES.OR_LIST) {
+        beginDrag = (props, monitor, component) => {
+            props.onChangeDragState && props.onChangeDragState(true, props.position, props.courseObj);
+            return {
+                courseObj: props.courseObj,
+                position: props.position
+            };
+        }
+    }
+    return {
+        beginDrag: beginDrag,
+        endDrag(props, monitor, component){
+            props.onChangeDragState && props.onChangeDragState(false, props.position);
+        },
+        canDrag(props, monitor){
+            return props.isDraggable;
+        }
+    };
+}
+
+/*
+ *  Collect function used by react-dnd to inject properties into a drag source
+ */
+export function collectSource(connect, monitor) {
+    return {
+        connectDragSource: connect.dragSource(),
+        isBeingDragged: monitor.isDragging()
+    };
 }

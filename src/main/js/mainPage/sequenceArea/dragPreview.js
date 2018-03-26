@@ -1,6 +1,8 @@
 import React from 'react';
 import { DragLayer } from 'react-dnd';
-import { renderCourseDiv, renderOrListDiv } from "../../util/util";
+import Course from "./course";
+import OrList from "./orList";
+import { renderOrListDiv } from "../../util/util";
 
 function collect(monitor){
     return {
@@ -50,16 +52,19 @@ class DragPreview extends React.Component {
             if(courseObj.length > 0){
                 let courseList = courseObj;
                 return (
-                    <div key={courseList.map(courseObj => courseObj.id).join()}>
-                        {renderOrListDiv(courseList, " dragPreview")}
-                    </div>
+                    <OrList courseList={courseList}
+                            isDragPreview={true}
+                            onCourseClick={() => null}
+                            onOrListSelection={() => null}
+                            key={courseList.map(courseObj => courseObj.id).join()}/>
                 );
             } else {
                 return (
                     // course dragged from courseInfoCard will not have an id
-                    <div key={courseObj.id || courseObj.code}>
-                        {renderCourseDiv(courseObj, " dragPreview")}
-                    </div>
+                    <Course courseObj={courseObj}
+                            isDragPreview={true}
+                            onCourseClick={() => null}
+                            key={courseObj.id || courseObj.code}/>
                 );
             }
         });
