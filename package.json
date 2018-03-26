@@ -44,7 +44,7 @@
     "watch": "^1.0.2"
   },
   "jest": {
-    "setupFiles": [ "./src/main/js/util/jestsetup.js" ],
+    "setupFiles": [ "./src/main/js/util/jestSetup.js" ],
     "snapshotSerializers": [ "enzyme-to-json/serializer" ],
     "roots": [ "./src/main/js" ]
   }
