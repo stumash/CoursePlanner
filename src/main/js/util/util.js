@@ -5,9 +5,22 @@
  *
  */
 import React from "react";
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import CircularProgress from 'material-ui/CircularProgress';
 
 import { DropdownButton, MenuItem } from "react-bootstrap";
+
+// App theme
+
+export const MUI_THEME = getMuiTheme({
+    palette: {
+        primary1Color: "#6c1540",
+        primary2Color: "#3d001a",
+        accent1Color: "#f5bb2b",
+        pickerHeaderColor: "#6c1540",
+    }
+});
+
 
 // Regular old constants
 export const SEASON_NAMES_PRETTY = ["Fall", "Winter", "Summer"];
@@ -282,7 +295,7 @@ export function collectSource(connect, monitor) {
  *  currently used for downloading exported PDF file
  */
 export function saveAs(uri, filename) {
-    var link = document.createElement('a');
+    const link = document.createElement('a');
     if (typeof link.download === 'string') {
         document.body.appendChild(link); // Firefox requires the link to be in the body
         link.download = filename;

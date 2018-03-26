@@ -13,7 +13,8 @@
     "browserify-prod": "browserify frontBuild/babel-out/index.js -g [envify --NODE_ENV production] -g uglifyify -p bundle-collapser/plugin | uglifyjs --compress --mangle > src/main/webapp/bundle.js",
     "build-dev": "npm run babel && npm run browserify",
     "build-prod": "npm run babel && npm run browserify-prod",
-    "watch": "watch \"npm run build-dev\" src/main/js"
+    "watch": "watch \"npm run build-dev\" src/main/js",
+    "test": "jest"
   },
   "license": "ISC",
   "devDependencies": {
@@ -24,18 +25,27 @@
     "browserify": "^14.4.0",
     "bundle-collapser": "^1.2.1",
     "envify": "^4.1.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.3",
     "immutability-helper": "^2.6.2",
+    "jest": "^22.4.2",
     "jquery": "^3.3.1",
     "material-ui": "^0.19.4",
-    "react": "^15.6.1",
+    "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
-    "react-dnd": "^2.4.0",
-    "react-dnd-html5-backend": "^2.4.1",
-    "react-dnd-touch-backend": "^0.3.15",
-    "react-dom": "^15.6.1",
+    "react-dnd": "^2.6.0",
+    "react-dnd-html5-backend": "^2.6.0",
+    "react-dnd-touch-backend": "^0.3.21",
+    "react-dom": "^16.2.0",
     "uglify-js": "^3.0.25",
     "uglifyify": "3.0.4",
     "underscore": "^1.8.3",
     "watch": "^1.0.2"
+  },
+  "jest": {
+    "setupFiles": [ "./src/main/js/util/jestsetup.js" ],
+    "snapshotSerializers": [ "enzyme-to-json/serializer" ],
+    "roots": [ "./src/main/js" ]
   }
 }

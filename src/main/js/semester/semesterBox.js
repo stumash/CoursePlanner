@@ -69,7 +69,6 @@ class SemesterBox extends React.Component {
                             onChangeDragState={this.props.onChangeDragState}
                             key={courseList.map(courseObj => courseObj.id).join()}/>
                 );
-                return this.renderOrList(courseObj, courseIndex);
             } else {
                 return (
                     <Course courseObj={courseObj}
