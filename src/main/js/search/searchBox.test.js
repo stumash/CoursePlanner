@@ -95,7 +95,7 @@ describe("onFilterSuccess", () => {
 
     describe("if the response text is an empty array", () => {
         beforeEach(() => {
-            performTest([1]);
+            performTest([]);
         });
 
         test("should set the floating label text to UI_STRINGS.COURSE_SEARCH_FOUND_NONE", () => {
