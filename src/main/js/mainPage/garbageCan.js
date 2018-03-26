@@ -4,6 +4,7 @@ import { DropTarget } from 'react-dnd';
 
 /*
  *  Garbage can which allows the user to remove courses from the sequence
+ *  It exists as its own component as it is a react-dnd DropTarget
  *
  *  Expects props:
  *

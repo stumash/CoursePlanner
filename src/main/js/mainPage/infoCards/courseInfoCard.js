@@ -2,8 +2,8 @@ import React from "react";
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import {List, ListItem} from 'material-ui/List';
 
-import {UI_STRINGS, INLINE_STYLES, LOADING_ICON_TYPES} from "../util/util";
-import Course from "../semester/course";
+import {UI_STRINGS, INLINE_STYLES, LOADING_ICON_TYPES} from "../../util/util";
+import Course from "../sequenceArea/course";
 
 
 /*

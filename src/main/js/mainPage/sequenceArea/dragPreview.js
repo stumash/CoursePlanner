@@ -1,6 +1,6 @@
 import React from 'react';
 import { DragLayer } from 'react-dnd';
-import { renderCourseDiv, renderOrListDiv } from "../util/util";
+import { renderCourseDiv, renderOrListDiv } from "../../util/util";
 
 function collect(monitor){
     return {

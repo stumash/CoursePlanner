@@ -7,7 +7,7 @@ import { FEEDBACK_SNACKBAR_AUTOHIDE_DURATION,
          FEEDBACK_CHAR_LIMIT,
          FEEDBACK_ROWS_MAX,
          UI_STRINGS,
-         INLINE_STYLES} from '../util/util';
+         INLINE_STYLES} from '../../util/util';
 
 import $ from "jquery";
 

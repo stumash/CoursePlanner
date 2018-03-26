@@ -22,16 +22,16 @@ update.extend('$autoArray', function(value, object) {
         update([], value);
 });
 
-import {CourseInfoCard} from "../courseInfo/courseInfoCard";
-import {SequenceValidationCard} from "../sequenceValidation/sequenceValidationCard";
-import {SemesterTable} from "../semester/semesterTable";
-import {SemesterList} from "../semester/semesterList";
-import DragPreview from "../semester/dragPreview";
+import {CourseInfoCard} from "./infoCards/courseInfoCard";
+import {SequenceValidationCard} from "./infoCards/sequenceValidationCard";
+import {SemesterTable} from "./sequenceArea/semesterTable";
+import {SemesterList} from "./sequenceArea/semesterList";
+import DragPreview from "./sequenceArea/dragPreview";
 import GarbageCan from "./garbageCan";
 import {AppBarMenu} from "./appBarMenu";
-import {SearchBox} from "../search/searchBox";
-import {ProgramSelectionDialog} from "../dialogs/programSelectionDialog";
-import {FeedBackBox} from "../dialogs/feedBackBox";
+import {SearchBox} from "./searchBox/searchBox";
+import {ProgramSelectionDialog} from "./dialogs/programSelectionDialog";
+import {FeedBackBox} from "./dialogs/feedBackBox";
 
 import { MAX_UNDO_HISTORY_LENGTH,
          AUTO_SCROLL_PAGE_PORTION,
@@ -556,14 +556,9 @@ class MainPage extends React.Component {
         this.setState((prevState) => {
             let updateCommand = {};
             positions.forEach((position) => {
-                updateCommand[positionToString(position)] = {$auto: {
-                        $toggle: [styleName]
-                    }
-                };
+                updateCommand[positionToString(position)] = {$auto: {$toggle: [styleName]}};
             });
-            return {
-                positionStyleMap: update(prevState.positionStyleMap, updateCommand),
-            }
+            return { positionStyleMap: update(prevState.positionStyleMap, updateCommand) }
         });
     }
 
@@ -575,14 +570,9 @@ class MainPage extends React.Component {
         this.setState((prevState) => {
             let updateCommand = {};
             Object.keys(prevState.positionStyleMap).forEach((positionString) => {
-                updateCommand[positionString] = {$auto: {
-                        [styleName]: {$auto: {$set: false}}
-                    }
-                };
+                updateCommand[positionString] = {$auto: {[styleName]: {$auto: {$set: false}}}};
             });
-            return {
-                positionStyleMap: update(prevState.positionStyleMap, updateCommand),
-            }
+            return { positionStyleMap: update(prevState.positionStyleMap, updateCommand) }
         });
     }
 
@@ -643,7 +633,6 @@ class MainPage extends React.Component {
      *     param coursePosition - the position in the sequence of the course or orList
      */
     handleCourseClick(courseCode, coursePosition){
-
         if(!this.pressedKeyMap[KEY_CODES.CTRL]){
             this.unselectAllCourses();
         }
@@ -668,10 +657,10 @@ class MainPage extends React.Component {
         this.enableTextSelection(!isDragging);
         this.enableGarbage(draggedPosition && isDragging);
 
+        let positionsBeingDragged = [], itemsBeingDragged = [];
+
         if(isDragging){
             if(draggedPosition){
-                let positionsBeingDragged = [], itemsBeingDragged = [];
-
                 // include currently dragged item to list of dragged items
                 positionsBeingDragged.push(draggedPosition);
                 itemsBeingDragged.push(this.state.courseSequenceObject.yearList[draggedPosition.yearIndex][draggedPosition.season].courseList[draggedPosition.courseIndex]);
@@ -689,27 +678,21 @@ class MainPage extends React.Component {
                 });
 
                 this.hideCourses(positionsBeingDragged);
-                this.setState({
-                    positionsBeingDragged: positionsBeingDragged,
-                    itemsBeingDragged: itemsBeingDragged
-                });
             } else {
                 // we are dragging a course from the courseInfoPanel
                 this.unselectAllCourses();
-                this.setState({
-                    positionsBeingDragged: [],
-                    itemsBeingDragged: [draggedItem]
-                });
+                itemsBeingDragged = [ draggedItem ];
             }
 
         } else {
             this.unhideAllCourses();
             this.unselectAllCourses();
-            this.setState({
-                positionsBeingDragged: [],
-                itemsBeingDragged: []
-            });
         }
+
+        this.setState({
+            positionsBeingDragged: positionsBeingDragged,
+            itemsBeingDragged: itemsBeingDragged
+        });
     }
 
     /*
