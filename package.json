@@ -8,9 +8,9 @@
   },
   "engineStrict": true,
   "scripts": {
-    "babel": "babel src/main/js -d frontBuild/babel-out",
-    "browserify": "browserify frontBuild/babel-out/index.js -o src/main/webapp/bundle.js",
-    "browserify-prod": "browserify frontBuild/babel-out/index.js -g [envify --NODE_ENV production] -g uglifyify -p bundle-collapser/plugin | uglifyjs --compress --mangle > src/main/webapp/bundle.js",
+    "babel": "babel src/main/js -d frontBuild/",
+    "browserify": "browserify frontBuild/index.js -o src/main/webapp/bundle.js",
+    "browserify-prod": "browserify frontBuild/index.js -g [envify --NODE_ENV production] -g uglifyify -p bundle-collapser/plugin | uglifyjs --compress --mangle > src/main/webapp/bundle.js",
     "build-dev": "npm run babel && npm run browserify",
     "build-prod": "npm run babel && npm run browserify-prod",
     "watch": "watch \"npm run build-dev\" src/main/js",
