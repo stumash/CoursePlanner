@@ -1,7 +1,7 @@
 install:
 - npm install
 
-script: devname="" prod=true verbose="" ./scripts/buildApp.sh
+script: devname="" prod=true verbose="" ./scripts/runTests.sh && ./scripts/buildApp.sh
 
 addons:
   ssh_known_hosts: conucourseplanner.online
