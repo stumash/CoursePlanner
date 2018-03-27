@@ -130,7 +130,7 @@ describe("DOM", () => {
     beforeEach(() => {
         searchBoxWrapper = shallow(
             <MuiThemeProvider muiTheme={MUI_THEME}>
-                <SearchBox onConfirmSearch={mockOnConfirmSearch}/>
+                <SearchBox onConfirmSearch={jest.fn()}/>
             </MuiThemeProvider>
         ).dive();
         searchBoxInstance = searchBoxWrapper.instance();

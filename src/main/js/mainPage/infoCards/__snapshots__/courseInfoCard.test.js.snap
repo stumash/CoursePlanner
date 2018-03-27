@@ -1,0 +1,559 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DOM if the courseInfo prop has a code should display the course name and credits in the card header and the course description in the card body 1`] = `
+<Card
+  className="courseInfoCard"
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    showExpandableButton={true}
+    subtitle={
+      <DragSource(Course)
+        courseObj={
+          Object {
+            "_id": "ENGR 201",
+            "code": "ENGR 201",
+            "credits": "1.5",
+            "description": "Health and safety issues for engineering projects: Quebec and Canadian legislation; safe work practices; general laboratory safety common to all engineering disciplines, and specific laboratory safety pertaining to particular engineering disciplines. Review of the legal framework in Quebec, particularly the Professional Code and the Engineers Act, as well as professional ethics. ",
+            "lectureHours": "one and a half hours per week",
+            "name": "Professional Practice and Responsibility",
+            "requirements": Object {
+              "coreqs": Array [],
+              "prereqs": Array [],
+            },
+            "tutorialHours": "one hour per week, alternate weeks",
+          }
+        }
+        isDraggable={true}
+        isHidden={false}
+        onChangeDragState={[Function]}
+        onCourseClick={[Function]}
+      />
+    }
+    title="Professional Practice and Responsibility - 1.5 credits"
+  />
+  <CardText
+    className="cardText"
+    expandable={true}
+    style={
+      Object {
+        "paddingTop": "0",
+      }
+    }
+  >
+    <div
+      className="courseDescription"
+    >
+      <div
+        className="cardHeading"
+      >
+        Description
+      </div>
+      Health and safety issues for engineering projects: Quebec and Canadian legislation; safe work practices; general laboratory safety common to all engineering disciplines, and specific laboratory safety pertaining to particular engineering disciplines. Review of the legal framework in Quebec, particularly the Professional Code and the Engineers Act, as well as professional ethics. 
+    </div>
+  </CardText>
+</Card>
+`;
+
+exports[`DOM if the courseInfo prop has a code should not display prerequsites or corequisites sections if there are none COREQS_ONLY 1`] = `
+<Card
+  className="courseInfoCard"
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    showExpandableButton={true}
+    subtitle={
+      <DragSource(Course)
+        courseObj={
+          Object {
+            "_id": "COMP 248",
+            "code": "COMP 248",
+            "credits": "3.5",
+            "description": "Introduction to programming. Basic data types, variables, expressions, assignments, control flow. Classes, objects, methods. Information hiding, public vs. private visibility, data abstraction and encapsulation. References. Arrays. ",
+            "labHours": "one hour per week",
+            "lectureHours": "three hours per week",
+            "name": "Object-Oriented Programming I",
+            "requirements": Object {
+              "coreqs": Array [
+                Array [
+                  "MATH 204",
+                ],
+              ],
+              "prereqs": Array [],
+            },
+            "tutorialHours": "two hours per week",
+          }
+        }
+        isDraggable={true}
+        isHidden={false}
+        onChangeDragState={[Function]}
+        onCourseClick={[Function]}
+      />
+    }
+    title="Object-Oriented Programming I - 3.5 credits"
+  />
+  <CardText
+    className="cardText"
+    expandable={true}
+    style={
+      Object {
+        "paddingTop": "0",
+      }
+    }
+  >
+    <div
+      className="courseDescription"
+    >
+      <div
+        className="cardHeading"
+      >
+        Description
+      </div>
+      Introduction to programming. Basic data types, variables, expressions, assignments, control flow. Classes, objects, methods. Information hiding, public vs. private visibility, data abstraction and encapsulation. References. Arrays. 
+    </div>
+    <div
+      className="coreqsList"
+    >
+      <div
+        className="cardHeading"
+      >
+        Co-requisites
+      </div>
+      <List>
+        <ListItem
+          autoGenerateNestedIndicator={true}
+          containerElement="span"
+          disableKeyboardFocus={false}
+          disabled={false}
+          initiallyOpen={false}
+          innerDivStyle={
+            Object {
+              "fontSize": "14px",
+              "height": "32px",
+              "marginLeft": "16px",
+              "padding": "8px 0",
+            }
+          }
+          insetChildren={false}
+          key="0"
+          nestedItems={Array []}
+          nestedLevel={0}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onNestedListToggle={[Function]}
+          onTouchEnd={[Function]}
+          onTouchStart={[Function]}
+          open={null}
+          primaryText="MATH 204"
+          primaryTogglesNestedList={false}
+          secondaryTextLines={1}
+        />
+      </List>
+    </div>
+  </CardText>
+</Card>
+`;
+
+exports[`DOM if the courseInfo prop has a code should not display prerequsites or corequisites sections if there are none NO_PREREQS_NO_COREQS 1`] = `
+<Card
+  className="courseInfoCard"
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    showExpandableButton={true}
+    subtitle={
+      <DragSource(Course)
+        courseObj={
+          Object {
+            "_id": "ENGR 201",
+            "code": "ENGR 201",
+            "credits": "1.5",
+            "description": "Health and safety issues for engineering projects: Quebec and Canadian legislation; safe work practices; general laboratory safety common to all engineering disciplines, and specific laboratory safety pertaining to particular engineering disciplines. Review of the legal framework in Quebec, particularly the Professional Code and the Engineers Act, as well as professional ethics. ",
+            "lectureHours": "one and a half hours per week",
+            "name": "Professional Practice and Responsibility",
+            "requirements": Object {
+              "coreqs": Array [],
+              "prereqs": Array [],
+            },
+            "tutorialHours": "one hour per week, alternate weeks",
+          }
+        }
+        isDraggable={true}
+        isHidden={false}
+        onChangeDragState={[Function]}
+        onCourseClick={[Function]}
+      />
+    }
+    title="Professional Practice and Responsibility - 1.5 credits"
+  />
+  <CardText
+    className="cardText"
+    expandable={true}
+    style={
+      Object {
+        "paddingTop": "0",
+      }
+    }
+  >
+    <div
+      className="courseDescription"
+    >
+      <div
+        className="cardHeading"
+      >
+        Description
+      </div>
+      Health and safety issues for engineering projects: Quebec and Canadian legislation; safe work practices; general laboratory safety common to all engineering disciplines, and specific laboratory safety pertaining to particular engineering disciplines. Review of the legal framework in Quebec, particularly the Professional Code and the Engineers Act, as well as professional ethics. 
+    </div>
+  </CardText>
+</Card>
+`;
+
+exports[`DOM if the courseInfo prop has a code should not display prerequsites or corequisites sections if there are none PREREQS_AND_COREQS 1`] = `
+<Card
+  className="courseInfoCard"
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    showExpandableButton={true}
+    subtitle={
+      <DragSource(Course)
+        courseObj={
+          Object {
+            "_id": "ELEC 275",
+            "code": "ELEC 275",
+            "credits": "3.5",
+            "description": "Fundamentals of electric circuits: Kirchoff?s laws, voltage and current sources, Ohm?s law, series and parallel circuits. Nodal and mesh analysis of DC circuits. Superposition theorem, Thevenin and Norton Equivalents. Use of operational amplifiers. Transient analysis of simple RC, RL and RLC circuits. Steady state analysis: Phasors and impedances, power and power factor. Single and three phase circuits. Magnetic circuits and transformers. Power generation and distribution. ",
+            "labHours": "15 hours total",
+            "lectureHours": "three hours per week",
+            "name": "Principles of Electrical Engineering",
+            "requirements": Object {
+              "coreqs": Array [
+                Array [
+                  "ENGR 213",
+                ],
+              ],
+              "prereqs": Array [
+                Array [
+                  "PHYS 205",
+                ],
+              ],
+            },
+            "tutorialHours": "two hours per week",
+          }
+        }
+        isDraggable={true}
+        isHidden={false}
+        onChangeDragState={[Function]}
+        onCourseClick={[Function]}
+      />
+    }
+    title="Principles of Electrical Engineering - 3.5 credits"
+  />
+  <CardText
+    className="cardText"
+    expandable={true}
+    style={
+      Object {
+        "paddingTop": "0",
+      }
+    }
+  >
+    <div
+      className="courseDescription"
+    >
+      <div
+        className="cardHeading"
+      >
+        Description
+      </div>
+      Fundamentals of electric circuits: Kirchoff?s laws, voltage and current sources, Ohm?s law, series and parallel circuits. Nodal and mesh analysis of DC circuits. Superposition theorem, Thevenin and Norton Equivalents. Use of operational amplifiers. Transient analysis of simple RC, RL and RLC circuits. Steady state analysis: Phasors and impedances, power and power factor. Single and three phase circuits. Magnetic circuits and transformers. Power generation and distribution. 
+    </div>
+    <div
+      className="prereqsList"
+    >
+      <div
+        className="cardHeading"
+      >
+        Pre-requisites
+      </div>
+      <List>
+        <ListItem
+          autoGenerateNestedIndicator={true}
+          containerElement="span"
+          disableKeyboardFocus={false}
+          disabled={false}
+          initiallyOpen={false}
+          innerDivStyle={
+            Object {
+              "fontSize": "14px",
+              "height": "32px",
+              "marginLeft": "16px",
+              "padding": "8px 0",
+            }
+          }
+          insetChildren={false}
+          key="0"
+          nestedItems={Array []}
+          nestedLevel={0}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onNestedListToggle={[Function]}
+          onTouchEnd={[Function]}
+          onTouchStart={[Function]}
+          open={null}
+          primaryText="PHYS 205"
+          primaryTogglesNestedList={false}
+          secondaryTextLines={1}
+        />
+      </List>
+    </div>
+    <div
+      className="coreqsList"
+    >
+      <div
+        className="cardHeading"
+      >
+        Co-requisites
+      </div>
+      <List>
+        <ListItem
+          autoGenerateNestedIndicator={true}
+          containerElement="span"
+          disableKeyboardFocus={false}
+          disabled={false}
+          initiallyOpen={false}
+          innerDivStyle={
+            Object {
+              "fontSize": "14px",
+              "height": "32px",
+              "marginLeft": "16px",
+              "padding": "8px 0",
+            }
+          }
+          insetChildren={false}
+          key="0"
+          nestedItems={Array []}
+          nestedLevel={0}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onNestedListToggle={[Function]}
+          onTouchEnd={[Function]}
+          onTouchStart={[Function]}
+          open={null}
+          primaryText="ENGR 213"
+          primaryTogglesNestedList={false}
+          secondaryTextLines={1}
+        />
+      </List>
+    </div>
+  </CardText>
+</Card>
+`;
+
+exports[`DOM if the courseInfo prop has a code should not display prerequsites or corequisites sections if there are none PREREQS_ONLY 1`] = `
+<Card
+  className="courseInfoCard"
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    showExpandableButton={true}
+    subtitle={
+      <DragSource(Course)
+        courseObj={
+          Object {
+            "_id": "COMP 232",
+            "code": "COMP 232",
+            "credits": "3",
+            "description": "Sets. Propositional logic and predicate calculus. Functions and relations. Elements of number theory. Mathematical reasoning. Proof techniques: direct proof, indirect proof, proof by contradiction, proof by induction. ",
+            "lectureHours": "three hours per week",
+            "name": "Mathematics for Computer Science",
+            "note": "Students who have received credit for COMP 238 or COEN 231 may not take this course for credit.",
+            "requirements": Object {
+              "coreqs": Array [],
+              "prereqs": Array [
+                Array [
+                  "MATH 203",
+                ],
+                Array [
+                  "MATH 204",
+                ],
+              ],
+            },
+            "tutorialHours": "two hours per week",
+          }
+        }
+        isDraggable={true}
+        isHidden={false}
+        onChangeDragState={[Function]}
+        onCourseClick={[Function]}
+      />
+    }
+    title="Mathematics for Computer Science - 3 credits"
+  />
+  <CardText
+    className="cardText"
+    expandable={true}
+    style={
+      Object {
+        "paddingTop": "0",
+      }
+    }
+  >
+    <div
+      className="courseDescription"
+    >
+      <div
+        className="cardHeading"
+      >
+        Description
+      </div>
+      Sets. Propositional logic and predicate calculus. Functions and relations. Elements of number theory. Mathematical reasoning. Proof techniques: direct proof, indirect proof, proof by contradiction, proof by induction. 
+    </div>
+    <div
+      className="prereqsList"
+    >
+      <div
+        className="cardHeading"
+      >
+        Pre-requisites
+      </div>
+      <List>
+        <ListItem
+          autoGenerateNestedIndicator={true}
+          containerElement="span"
+          disableKeyboardFocus={false}
+          disabled={false}
+          initiallyOpen={false}
+          innerDivStyle={
+            Object {
+              "fontSize": "14px",
+              "height": "32px",
+              "marginLeft": "16px",
+              "padding": "8px 0",
+            }
+          }
+          insetChildren={false}
+          key="0"
+          nestedItems={Array []}
+          nestedLevel={0}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onNestedListToggle={[Function]}
+          onTouchEnd={[Function]}
+          onTouchStart={[Function]}
+          open={null}
+          primaryText="MATH 203"
+          primaryTogglesNestedList={false}
+          secondaryTextLines={1}
+        />
+        <ListItem
+          autoGenerateNestedIndicator={true}
+          containerElement="span"
+          disableKeyboardFocus={false}
+          disabled={false}
+          initiallyOpen={false}
+          innerDivStyle={
+            Object {
+              "fontSize": "14px",
+              "height": "32px",
+              "marginLeft": "16px",
+              "padding": "8px 0",
+            }
+          }
+          insetChildren={false}
+          key="1"
+          nestedItems={Array []}
+          nestedLevel={0}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onNestedListToggle={[Function]}
+          onTouchEnd={[Function]}
+          onTouchStart={[Function]}
+          open={null}
+          primaryText="MATH 204"
+          primaryTogglesNestedList={false}
+          secondaryTextLines={1}
+        />
+      </List>
+    </div>
+  </CardText>
+</Card>
+`;
+
+exports[`DOM if the courseInfo prop has isLoading=true, should display a loading heading text and icon 1`] = `
+<Card
+  className="courseInfoCard"
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    closeIcon={
+      <CircularProgress
+        max={100}
+        min={0}
+        mode="indeterminate"
+        size={25}
+        thickness={2.5}
+        value={0}
+      />
+    }
+    openIcon={
+      <CircularProgress
+        max={100}
+        min={0}
+        mode="indeterminate"
+        size={25}
+        thickness={2.5}
+        value={0}
+      />
+    }
+    showExpandableButton={true}
+    title="Getting course info"
+  />
+</Card>
+`;
+
+exports[`DOM if the courseInfo prop is an empty object, should display a hint heading text and nothing else 1`] = `
+<Card
+  className="courseInfoCard"
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    showExpandableButton={false}
+    title="Click on or search for a course to display its info"
+  />
+</Card>
+`;

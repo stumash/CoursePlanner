@@ -5,6 +5,17 @@ import {List, ListItem} from 'material-ui/List';
 import {UI_STRINGS, INLINE_STYLES, LOADING_ICON_TYPES} from "../../util/util";
 import Course from "../sequenceArea/course";
 
+const REQUISITE_TYPES = {
+    prerequisite: {
+        listClass: "prereqsList",
+        listHeading: UI_STRINGS.COURSE_INFO_HEADING_PREREQUISITES
+    },
+    corequisite: {
+        listClass: "coreqsList",
+        listHeading: UI_STRINGS.COURSE_INFO_HEADING_COREQUISITES
+    }
+};
+
 
 /*
  *  Material UI Card which displays the currently selected course info
@@ -82,43 +93,36 @@ export class CourseInfoCard extends React.Component {
                 {courseInfo.description}
             </div>
         );
-        
-        if(courseInfo.requirements.prereqs.length > 0){
-            prerequisites = (
-                <div className="prereqsList">
-                    <div className="cardHeading">{UI_STRINGS.COURSE_INFO_HEADING_PREREQUISITES}</div>
-                    <List>
-                        {courseInfo.requirements.prereqs.map((prereqList, index) =>
-                            <ListItem primaryText={prereqList.join(" or ")}
-                                      innerDivStyle={INLINE_STYLES.courseInfoListItem}
-                                      key={index} />
-                        )}
-                    </List>
-                </div>
-            );
+
+        let prereqData = courseInfo.requirements.prereqs;
+        if(prereqData.length > 0){
+            prerequisites = (this.renderRequisiteList(REQUISITE_TYPES.prerequisite, prereqData));
         }
 
-        if(courseInfo.requirements.coreqs.length > 0){
-            corequisites = (
-                <div className="coreqsList">
-                    <div className="cardHeading">{UI_STRINGS.COURSE_INFO_HEADING_COREQUISITES}</div>
-                    <List>
-                        {courseInfo.requirements.coreqs.map((coreqList, index) =>
-                            <ListItem primaryText={coreqList.join(" or ")}
-                                      innerDivStyle={INLINE_STYLES.courseInfoListItem}
-                                      key={index} />
-                        )}
-                    </List>
-                </div>
-            );
+        let coreqData = courseInfo.requirements.coreqs;
+        if(coreqData.length > 0){
+            corequisites = (this.renderRequisiteList(REQUISITE_TYPES.corequisite, coreqData));
         }
         
         return (
             <CardText className="cardText" style={INLINE_STYLES.courseInfoCardText} expandable={true}>
-                {description}
-                {prerequisites}
-                {corequisites}
+                {description}{prerequisites}{corequisites}
             </CardText>
+        );
+    }
+
+    renderRequisiteList(type, data) {
+        return (
+            <div className={type.listClass}>
+                <div className="cardHeading">{type.listHeading}</div>
+                <List>
+                    {data.map((items, index) =>
+                        <ListItem primaryText={items.join(" or ")}
+                                  innerDivStyle={INLINE_STYLES.courseInfoListItem}
+                                  key={index} />
+                    )}
+                </List>
+            </div>
         );
     }
 
