@@ -2,7 +2,7 @@
 
 echo ""
 
-testCommand="npm run test"
+testCommand="npm run test -- --verbose"
 
 if eval $testCommand
 then
