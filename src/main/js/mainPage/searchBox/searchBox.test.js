@@ -3,7 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import $ from "jquery";
 import { SearchBox } from "./searchBox";
 import { mockSearchBoxInput, mockSearchResults } from "../../util/mock";
-import { cloneObject, MUI_THEME, UI_STRINGS } from "../../util/util";
+import { MUI_THEME, UI_STRINGS } from "../../util/util";
 
 let searchBoxClass, mockOnConfirmSearch;
 
@@ -125,31 +125,31 @@ describe("onFilterSuccess", () => {
 });
 
 describe("DOM", () => {
-    let muiThemeWrapper, searchBoxWrapper;
+    let searchBoxWrapper, searchBoxInstance;
 
     beforeEach(() => {
-        muiThemeWrapper = mount(
+        searchBoxWrapper = shallow(
             <MuiThemeProvider muiTheme={MUI_THEME}>
-                <SearchBox onConfirmSearch={jest.fn()}/>
+                <SearchBox onConfirmSearch={mockOnConfirmSearch}/>
             </MuiThemeProvider>
-        );
-        searchBoxWrapper = muiThemeWrapper.childAt(0);
+        ).dive();
+        searchBoxInstance = searchBoxWrapper.instance();
     });
 
     test("should display a loading icon while filtering and display the results after filtering", () => {
         // make snapshot of inital DOM
-        expect(muiThemeWrapper).toMatchSnapshot();
+        expect(searchBoxWrapper).toMatchSnapshot();
 
         // make snapshot of DOM with loading animation
         let searchQuery = cloneObject(mockSearchBoxInput[0]);
-        searchBoxWrapper.instance().filterCourseCodes(searchQuery);
-        muiThemeWrapper.update();
-        expect(muiThemeWrapper).toMatchSnapshot();
+        searchBoxInstance.filterCourseCodes(searchQuery);
+        searchBoxWrapper.update();
+        expect(searchBoxWrapper).toMatchSnapshot();
 
         // make snapshot of DOM without loading animation
         let searchResults = cloneObject(mockSearchResults);
-        searchBoxWrapper.instance().onFilterSuccess(JSON.stringify(searchResults));
-        muiThemeWrapper.update();
-        expect(muiThemeWrapper).toMatchSnapshot();
+        searchBoxInstance.onFilterSuccess(JSON.stringify(searchResults));
+        searchBoxWrapper.update();
+        expect(searchBoxWrapper).toMatchSnapshot();
     });
 });

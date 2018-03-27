@@ -7,5 +7,9 @@ global.shallow = shallow;
 global.render = render;
 global.mount = mount;
 
+global.cloneObject = (obj) => {
+    return JSON.parse(JSON.stringify(obj));
+};
+
 // prevents ajax requests (and any other jquery functions) from actually firing
 jest.mock('jquery');

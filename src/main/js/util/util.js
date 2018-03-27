@@ -314,10 +314,6 @@ export function parsePositionString(positionString){
     };
 }
 
-export function cloneObject(obj){
-    return JSON.parse(JSON.stringify(obj));
-}
-
 // Item types used for DND
 export const ITEM_TYPES = {
     COURSE: "Course",
@@ -331,18 +327,18 @@ export function createDragSourceSpec(itemType) {
     let beginDrag = undefined;
     if(itemType === ITEM_TYPES.COURSE) {
         beginDrag = (props, monitor, component) => {
-            props.onChangeDragState && props.onChangeDragState(true, props.position);
+            props.onChangeDragState && props.onChangeDragState(true, props.position, props.courseObj);
             return {
-                courseList: props.courseList,
+                courseObj: props.courseObj,
                 position: props.position
             };
         }
     }
     if(itemType === ITEM_TYPES.OR_LIST) {
         beginDrag = (props, monitor, component) => {
-            props.onChangeDragState && props.onChangeDragState(true, props.position, props.courseObj);
+            props.onChangeDragState && props.onChangeDragState(true, props.position);
             return {
-                courseObj: props.courseObj,
+                courseList: props.courseList,
                 position: props.position
             };
         }
