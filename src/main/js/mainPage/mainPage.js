@@ -484,6 +484,8 @@ class MainPage extends React.Component {
     /*
      *  Function to call in the event that the user hovers over a sequence validation results item
      *      param positions - array of objects indicating the absolute position of the course within the sequence
+     *
+     *  TODO: performance is bad when this is called many times in a short period. Should limit the frequency at which enableStyleOnPositions is called from this method.
      */
     highlightCourses(positions){
         this.enableStyleOnPositions(positions, "isHighlighted", true);
@@ -492,6 +494,8 @@ class MainPage extends React.Component {
     /*
      *  Function to call in the event that the user hovers out of a sequence validation results item
      *      param positions - array of objects indicating the absolute position of the course within the sequence
+     *
+     *  TODO: performance is bad when this is called many times in a short period. Should limit the frequency at which enableStyleOnPositions is called from this method.
      */
     unhighlightCourses(positions){
         this.enableStyleOnPositions(positions, "isHighlighted", false);
