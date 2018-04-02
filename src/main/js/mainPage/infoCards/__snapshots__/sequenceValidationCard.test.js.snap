@@ -1,0 +1,466 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DOM if the sequence is not valid should display formatted text related to each issue/warning type ISSUE_TYPE_COREQ 1`] = `
+<Card
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    showExpandableButton={true}
+    title="Sequence contains issues/warnings"
+  />
+  <CardText
+    expandable={true}
+  >
+    <div
+      className="validationListItem issue"
+      key="0"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    >
+      <div
+        className="validationListIcon"
+      >
+        <AlertError
+          color="#6c1540"
+        />
+      </div>
+      <div
+        className="validationMessage"
+      >
+        COMP 352 is missing corequisite: COMP 232
+      </div>
+    </div>
+  </CardText>
+</Card>
+`;
+
+exports[`DOM if the sequence is not valid should display formatted text related to each issue/warning type ISSUE_TYPE_CREDITS 1`] = `
+<Card
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    showExpandableButton={true}
+    title="Sequence contains issues/warnings"
+  />
+  <CardText
+    expandable={true}
+  >
+    <div
+      className="validationListItem issue"
+      key="0"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    >
+      <div
+        className="validationListIcon"
+      >
+        <AlertError
+          color="#6c1540"
+        />
+      </div>
+      <div
+        className="validationMessage"
+      >
+        Sequence contains only 119.0 of 120.0 required credits
+      </div>
+    </div>
+  </CardText>
+</Card>
+`;
+
+exports[`DOM if the sequence is not valid should display formatted text related to each issue/warning type ISSUE_TYPE_PREREQ 1`] = `
+<Card
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    showExpandableButton={true}
+    title="Sequence contains issues/warnings"
+  />
+  <CardText
+    expandable={true}
+  >
+    <div
+      className="validationListItem issue"
+      key="0"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    >
+      <div
+        className="validationListIcon"
+      >
+        <AlertError
+          color="#6c1540"
+        />
+      </div>
+      <div
+        className="validationMessage"
+      >
+        COMP 249 is missing prerequisite: COMP 248
+      </div>
+    </div>
+  </CardText>
+</Card>
+`;
+
+exports[`DOM if the sequence is not valid should display formatted text related to each issue/warning type WARNING_TYPE_REPEATED 1`] = `
+<Card
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    showExpandableButton={true}
+    title="Sequence contains issues/warnings"
+  />
+  <CardText
+    expandable={true}
+  >
+    <div
+      className="validationListItem warning"
+      key="0"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    >
+      <div
+        className="validationListIcon"
+      >
+        <AlertWarning
+          color="#f5bb2b"
+        />
+      </div>
+      <div
+        className="validationMessage"
+      >
+        ENCS 393 is repeated 2 times in the sequence
+      </div>
+    </div>
+  </CardText>
+</Card>
+`;
+
+exports[`DOM if the sequence is not valid should display formatted text related to each issue/warning type WARNING_TYPE_UNSELECTED 1`] = `
+<Card
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    showExpandableButton={true}
+    title="Sequence contains issues/warnings"
+  />
+  <CardText
+    expandable={true}
+  >
+    <div
+      className="validationListItem warning"
+      key="0"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    >
+      <div
+        className="validationListIcon"
+      >
+        <AlertWarning
+          color="#f5bb2b"
+        />
+      </div>
+      <div
+        className="validationMessage"
+      >
+        No option selected in fall of year 4, entry number 5
+      </div>
+    </div>
+  </CardText>
+</Card>
+`;
+
+exports[`DOM if the sequence is not valid should not display issues or warnings if there are none ONE_ISSUE_ONE_WARNING 1`] = `
+<Card
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    showExpandableButton={true}
+    title="Sequence contains issues/warnings"
+  />
+  <CardText
+    expandable={true}
+  >
+    <div
+      className="validationListItem issue"
+      key="0"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    >
+      <div
+        className="validationListIcon"
+      >
+        <AlertError
+          color="#6c1540"
+        />
+      </div>
+      <div
+        className="validationMessage"
+      >
+        COMP 249 is missing prerequisite: COMP 248
+      </div>
+    </div>
+    <div
+      className="validationListItem warning"
+      key="1"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    >
+      <div
+        className="validationListIcon"
+      >
+        <AlertWarning
+          color="#f5bb2b"
+        />
+      </div>
+      <div
+        className="validationMessage"
+      >
+        SOEN 490 is repeated 2 times in the sequence
+      </div>
+    </div>
+  </CardText>
+</Card>
+`;
+
+exports[`DOM if the sequence is not valid should not display issues or warnings if there are none ONE_ISSUE_ONLY 1`] = `
+<Card
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    showExpandableButton={true}
+    title="Sequence contains issues/warnings"
+  />
+  <CardText
+    expandable={true}
+  >
+    <div
+      className="validationListItem issue"
+      key="0"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    >
+      <div
+        className="validationListIcon"
+      >
+        <AlertError
+          color="#6c1540"
+        />
+      </div>
+      <div
+        className="validationMessage"
+      >
+        Sequence contains only 119.0 of 120.0 required credits
+      </div>
+    </div>
+  </CardText>
+</Card>
+`;
+
+exports[`DOM if the sequence is not valid should not display issues or warnings if there are none ONE_WARNING_ONLY 1`] = `
+<Card
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    showExpandableButton={true}
+    title="Sequence contains issues/warnings"
+  />
+  <CardText
+    expandable={true}
+  >
+    <div
+      className="validationListItem warning"
+      key="0"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    >
+      <div
+        className="validationListIcon"
+      >
+        <AlertWarning
+          color="#f5bb2b"
+        />
+      </div>
+      <div
+        className="validationMessage"
+      >
+        ENCS 393 is repeated 2 times in the sequence
+      </div>
+    </div>
+  </CardText>
+</Card>
+`;
+
+exports[`DOM if the sequence is valid should display UI_STRINGS.VALIDATION_SUCCESS_MSG heading text and nothing else 1`] = `
+<Card
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={false}
+    avatar={null}
+    showExpandableButton={false}
+    title="Sequence is valid"
+  />
+</Card>
+`;
+
+exports[`DOM if the sequence is valid should ignore issues related to exempted courses 1`] = `
+<Card
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={false}
+    avatar={null}
+    showExpandableButton={false}
+    title="Sequence is valid"
+  />
+</Card>
+`;
+
+exports[`DOM if the validation is loading should continue to display issues/warnings while loading 1`] = `
+<Card
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={true}
+    avatar={null}
+    closeIcon={
+      <CircularProgress
+        max={100}
+        min={0}
+        mode="indeterminate"
+        size={25}
+        thickness={2.5}
+        value={0}
+      />
+    }
+    openIcon={
+      <CircularProgress
+        max={100}
+        min={0}
+        mode="indeterminate"
+        size={25}
+        thickness={2.5}
+        value={0}
+      />
+    }
+    showExpandableButton={true}
+    title="Validating course sequence"
+  />
+  <CardText
+    expandable={true}
+  >
+    <div
+      className="validationListItem issue"
+      key="0"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    >
+      <div
+        className="validationListIcon"
+      >
+        <AlertError
+          color="#6c1540"
+        />
+      </div>
+      <div
+        className="validationMessage"
+      >
+        COMP 249 is missing prerequisite: COMP 248
+      </div>
+    </div>
+    <div
+      className="validationListItem warning"
+      key="1"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    >
+      <div
+        className="validationListIcon"
+      >
+        <AlertWarning
+          color="#f5bb2b"
+        />
+      </div>
+      <div
+        className="validationMessage"
+      >
+        SOEN 490 is repeated 2 times in the sequence
+      </div>
+    </div>
+  </CardText>
+</Card>
+`;
+
+exports[`DOM if the validation is loading should display UI_STRINGS.VALIDATION_LOADING and a loading icon 1`] = `
+<Card
+  expandable={false}
+  expanded={null}
+  initiallyExpanded={false}
+>
+  <CardHeader
+    actAsExpander={false}
+    avatar={null}
+    closeIcon={
+      <CircularProgress
+        max={100}
+        min={0}
+        mode="indeterminate"
+        size={25}
+        thickness={2.5}
+        value={0}
+      />
+    }
+    openIcon={
+      <CircularProgress
+        max={100}
+        min={0}
+        mode="indeterminate"
+        size={25}
+        thickness={2.5}
+        value={0}
+      />
+    }
+    showExpandableButton={true}
+    title="Validating course sequence"
+  />
+</Card>
+`;

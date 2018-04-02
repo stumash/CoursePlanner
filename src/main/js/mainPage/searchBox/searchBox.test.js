@@ -2,7 +2,7 @@ import React from "react";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import $ from "jquery";
 import { SearchBox } from "./searchBox";
-import { mockSearchBoxInput, mockSearchResults } from "../../util/mock";
+import { MOCK_SEARCH_BOX_INPUT, MOCK_SEARCH_RESULTS } from "../../util/mock";
 import { MUI_THEME, UI_STRINGS } from "../../util/util";
 
 let searchBoxClass, mockOnConfirmSearch;
@@ -17,7 +17,7 @@ beforeEach(() => {
 
 describe("handleNewRequest", () => {
     test("if index is -1, should call onConfirmSearch with the chosenRequest in upper case", () => {
-        let chosenRequest = cloneObject(mockSearchBoxInput[0]);
+        let chosenRequest = cloneObject(MOCK_SEARCH_BOX_INPUT.INCOMPLETE_0);
         let index = -1;
         searchBoxClass.handleNewRequest(chosenRequest, index);
         expect(mockOnConfirmSearch.mock.calls[0][0]).toBe(chosenRequest.toUpperCase());
@@ -27,7 +27,7 @@ describe("handleNewRequest", () => {
         let index = 0;
 
         test("if the chosenRequest has a non-empty value, should call onConfirmSearch with the value in upper case", () => {
-            let chosenRequest = {value: cloneObject(mockSearchBoxInput[0])};
+            let chosenRequest = {value: cloneObject(MOCK_SEARCH_BOX_INPUT.INCOMPLETE_0)};
             searchBoxClass.handleNewRequest(chosenRequest, index);
             expect(mockOnConfirmSearch.mock.calls.length).toBe(1);
             expect(mockOnConfirmSearch.mock.calls[0][0]).toBe(chosenRequest.value.toUpperCase());
@@ -47,14 +47,14 @@ describe("filterCourseCodes", () => {
     });
 
     test("should set the isFiltering state variable to true", () => {
-        let searchQuery = cloneObject(mockSearchBoxInput[0]);
+        let searchQuery = cloneObject(MOCK_SEARCH_BOX_INPUT.INCOMPLETE_0);
         searchBoxClass.filterCourseCodes(searchQuery);
         expect(searchBoxClass.setState.mock.calls.length).toBe(1);
         expect(searchBoxClass.setState.mock.calls[0][0]).toEqual({ isFiltering: true });
     });
 
     test("should perform a POST request at api/filtercoursecodes", () => {
-        let searchQuery = cloneObject(mockSearchBoxInput[0]);
+        let searchQuery = cloneObject(MOCK_SEARCH_BOX_INPUT.INCOMPLETE_0);
         searchBoxClass.filterCourseCodes(searchQuery);
 
         let mockCalls = $.ajax.mock.calls;
@@ -80,7 +80,7 @@ describe("onFilterSuccess", () => {
 
     beforeEach(() => {
         searchBoxClass.setState = jest.fn();
-        mockSearchResultsClone = cloneObject(mockSearchResults);
+        mockSearchResultsClone = cloneObject(MOCK_SEARCH_RESULTS.com);
     });
 
     test("should update the isFiltering, filterResults, and floatingLabelText state variables", () => {
@@ -141,13 +141,13 @@ describe("DOM", () => {
         expect(searchBoxWrapper).toMatchSnapshot();
 
         // make snapshot of DOM with loading animation
-        let searchQuery = cloneObject(mockSearchBoxInput[0]);
+        let searchQuery = cloneObject(MOCK_SEARCH_BOX_INPUT.INCOMPLETE_0);
         searchBoxInstance.filterCourseCodes(searchQuery);
         searchBoxWrapper.update();
         expect(searchBoxWrapper).toMatchSnapshot();
 
         // make snapshot of DOM without loading animation
-        let searchResults = cloneObject(mockSearchResults);
+        let searchResults = cloneObject(MOCK_SEARCH_RESULTS.com);
         searchBoxInstance.onFilterSuccess(JSON.stringify(searchResults));
         searchBoxWrapper.update();
         expect(searchBoxWrapper).toMatchSnapshot();

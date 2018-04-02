@@ -1,15 +1,15 @@
 import React from "react";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { CourseInfoCard } from "./courseInfoCard";
-import { mockCourseInfoObjects, mockPositionObjects } from "../../util/mock";
+import { MOCK_COURSE_INFO_OBJECTS, MOCK_POSITION_OBJECTS } from "../../util/mock";
 import { MUI_THEME } from "../../util/util";
 
 let courseInfoCardClass, mockOnChangeDragState, mockCourseInfoClone, mockPositionClone;
 
 beforeEach(() => {
     mockOnChangeDragState = jest.fn();
-    mockCourseInfoClone = cloneObject(mockCourseInfoObjects[0]);
-    mockPositionClone = cloneObject(mockPositionObjects[0]);
+    mockCourseInfoClone = cloneObject(MOCK_COURSE_INFO_OBJECTS.NO_PREREQS_NO_COREQS);
+    mockPositionClone = cloneObject(MOCK_POSITION_OBJECTS.FALL_0_COURSE_0);
     courseInfoCardClass = new CourseInfoCard({
         courseInfo: mockCourseInfoClone,
         onChangeDragState: mockOnChangeDragState
@@ -69,19 +69,18 @@ describe("DOM", () => {
 
     describe("if the courseInfo prop has a code", () => {
         test("should display the course name and credits in the card header and the course description in the card body", () => {
-            testSnapshotFromCourseInfo(cloneObject(mockCourseInfoObjects[0]))
+            testSnapshotFromCourseInfo(cloneObject(MOCK_COURSE_INFO_OBJECTS.NO_PREREQS_NO_COREQS))
         });
 
         describe("should not display prerequsites or corequisites sections if there are none", () => {
-            let mockIndices = {
-                NO_PREREQS_NO_COREQS: 0,
-                PREREQS_ONLY: 1,
-                COREQS_ONLY: 2,
-                PREREQS_AND_COREQS: 3
-            };
-            Object.keys(mockIndices).forEach((key) => {
+            let configurations = ["NO_PREREQS_NO_COREQS",
+                                  "PREREQS_ONLY",
+                                  "COREQS_ONLY",
+                                  "PREREQS_AND_COREQS"];
+            // perform test for each configuration
+            configurations.forEach((key) => {
                 test(key, () => {
-                    testSnapshotFromCourseInfo(cloneObject(mockCourseInfoObjects[mockIndices[key]]))
+                    testSnapshotFromCourseInfo(cloneObject(MOCK_COURSE_INFO_OBJECTS[key]))
                 });
             });
         });

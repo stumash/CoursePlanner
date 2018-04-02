@@ -36,7 +36,10 @@ export const KEY_CODES = {
     Z: 90
 };
 
-// All hardcoded pieces of text which are directly displayed to the user
+/*
+ * All hardcoded pieces of text which are directly displayed to the user.
+ * Add '_T' suffix to property name if it uses sprintf template syntax
+ */
 export const UI_STRINGS = {
 
     SITE_NAME: "ConU Course Planner",
@@ -75,6 +78,11 @@ export const UI_STRINGS = {
     
     VALIDATION_FAILURE_MSG: "Sequence contains issues/warnings",
     VALIDATION_SUCCESS_MSG: "Sequence is valid",
+
+    VALIDATION_MISSING_REQUISITE_T: "%1$s is missing %2$s: %3$s",
+    VALIDATION_MISSING_CREDITS_T: "Sequence contains only %1$s of %2$s required credits",
+    VALIDATION_REPEATED_COURSE_T: "%1$s is repeated %2$s times in the sequence",
+    VALIDATION_NO_OPTION_SELECT_T: "No option selected in %1$s of year %2$s, entry number %3$s",
 
     EXPORT_TEXT: "Export",
     EXPORTING_SEQUENCE: "Exporting sequence",

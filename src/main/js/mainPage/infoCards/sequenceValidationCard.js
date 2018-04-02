@@ -2,18 +2,13 @@ import React from "react";
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import ErrorIcon from 'material-ui/svg-icons/alert/error';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
+import { sprintf } from "sprintf-js";
 
 import {UI_STRINGS, LOADING_ICON_TYPES, COURSE_EXEMPTIONS} from "../../util/util";
 
-const ListItem = ({type, message, onMouseEnter, onMouseLeave}) => {
-    return (
-        <div className={"validationListItem " + (type === "issue" ? "issue" : "warning")}
-             onMouseEnter={onMouseEnter}
-             onMouseLeave={onMouseLeave}>
-            <div className="validationListIcon">{type === "issue" ? <ErrorIcon color="#6c1540"/> : <WarningIcon color="#f5bb2b"/>}</div>
-            <div className="validationMessage">{message}</div>
-        </div>
-    );
+const ERROR_ICONS = {
+    "issue": <ErrorIcon color="#6c1540"/>,
+    "warning": <WarningIcon color="#f5bb2b"/>
 };
 
 /*
@@ -37,8 +32,7 @@ export class SequenceValidationCard extends React.Component {
 
         // add all issues and warnings to listItems list
 
-        issues.forEach((issue) => {
-
+        issues && issues.forEach((issue) => {
             let itemType = "issue";
 
             if(issue.type === "prerequisite" || issue.type === "corequisite"){
@@ -52,77 +46,63 @@ export class SequenceValidationCard extends React.Component {
                         listItems.push({
                             type: itemType,
                             positionsToHighlight: [issue.data.position],
-                            message : (
-                                issue.data.courseCode + " is missing " +
-                                issue.type + ": " + requirement.join(" or ")
-                            )
+                            message: sprintf(UI_STRINGS.VALIDATION_MISSING_REQUISITE_T, issue.data.courseCode, issue.type, requirement.join(" or "))
                         });
                     }
                 });
             }
-
             if(issue.type === "creditCount") {
                 listItems.push({
                     type: itemType,
                     positionsToHighlight: [],
-                    message: (
-                        "Sequence contains only " + issue.data.actual +
-                        " of " +  issue.data.required + " required credits"
-                    )
+                    message: sprintf(UI_STRINGS.VALIDATION_MISSING_CREDITS_T, issue.data.actual, issue.data.required)
                 });
             }
         });
 
-        warnings.forEach((warning) => {
-
+        warnings && warnings.forEach((warning) => {
             let itemType = "warning";
 
             if(warning.type === "repeated") {
                 listItems.push({
                     type: itemType,
                     positionsToHighlight: warning.data.positions,
-                    message: (
-                        warning.data.courseCode + " is repeated " +
-                        warning.data.positions.length + " times in the sequence"
-                    )
+                    message: sprintf(UI_STRINGS.VALIDATION_REPEATED_COURSE_T, warning.data.courseCode, warning.data.positions.length)
                 });
             }
-
-
             if(warning.type === "unselectedOption") {
                 listItems.push({
                     type: itemType,
                     positionsToHighlight: [warning.data.position],
-                    message: (
-                        "No option selected in " + warning.data.position.season +
-                        " of  year " +  (parseInt(warning.data.position.yearIndex) + 1) +
-                        ", entry number " + (parseInt(warning.data.position.courseIndex) + 1)
-                    )
+                    message: sprintf(UI_STRINGS.VALIDATION_NO_OPTION_SELECT_T, warning.data.position.season,
+                                                                               (parseInt(warning.data.position.yearIndex) + 1),
+                                                                               (parseInt(warning.data.position.courseIndex) + 1))
                 });
             }
-
         });
 
         return listItems;
     }
     
     renderCardHeader(isValid, isLoading) {
-        
-        let title, loadingIcon;
+        let title, loadingIcon, showExpandableButton;
 
         if(isLoading){
             title = UI_STRINGS.VALIDATION_LOADING;
             loadingIcon = LOADING_ICON_TYPES.small;
+            showExpandableButton = true;
         } else if(isValid) {
             title = UI_STRINGS.VALIDATION_SUCCESS_MSG;
+            showExpandableButton = false
         } else {
             title = UI_STRINGS.VALIDATION_FAILURE_MSG;
+            showExpandableButton = true;
         }
         
         return (
             <CardHeader title={title}
                         actAsExpander={!isValid}
-                        showExpandableButton={!isValid}
+                        showExpandableButton={showExpandableButton}
                         closeIcon={loadingIcon}
                         openIcon={loadingIcon}/>
         );
@@ -132,11 +112,13 @@ export class SequenceValidationCard extends React.Component {
         return (
             <CardText expandable={true}>
                 {listItems.map((item, index) => (
-                    <ListItem type={item.type}
-                              message={item.message}
-                              key={index}
-                              onMouseEnter={() => this.props.onMouseEnterItem(item.positionsToHighlight)}
-                              onMouseLeave={() => this.props.onMouseLeaveItem(item.positionsToHighlight)}/>
+                    <div className={"validationListItem " + item.type}
+                         key={index}
+                         onMouseEnter={() => this.props.onMouseEnterItem(item.positionsToHighlight)}
+                         onMouseLeave={() => this.props.onMouseLeaveItem(item.positionsToHighlight)}>
+                        <div className="validationListIcon">{ERROR_ICONS[item.type]}</div>
+                        <div className="validationMessage">{item.message}</div>
+                    </div>
                 ))}
             </CardText>
         );

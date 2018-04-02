@@ -38,6 +38,7 @@
     "react-dnd-html5-backend": "^2.6.0",
     "react-dnd-touch-backend": "^0.3.21",
     "react-dom": "^16.2.0",
+    "sprintf-js": "^1.1.1",
     "uglify-js": "^3.0.25",
     "uglifyify": "3.0.4",
     "underscore": "^1.8.3",
