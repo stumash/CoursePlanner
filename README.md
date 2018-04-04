@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/stumash/CoursePlanner.svg?branch=master)](https://travis-ci.org/stumash/CoursePlanner)
 
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/stumash/CoursePlanner.svg?columns=all)](https://waffle.io/stumash/CoursePlanner)
+
 # Curriculum Sequence Builder
 ConU Hacks Winter 2017 project.  Still under construction.
 
