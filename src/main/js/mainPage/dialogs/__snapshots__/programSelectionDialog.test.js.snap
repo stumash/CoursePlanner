@@ -1,0 +1,4777 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DOM should update the contents of the remaining dropdowns when a dropdown item is selected 1`] = `
+<Dialog
+  actions={
+    Array [
+      <FlatButton
+        disabled={true}
+        fullWidth={false}
+        label="Back"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={false}
+        secondary={false}
+      />,
+      <FlatButton
+        disabled={true}
+        fullWidth={false}
+        label="Confirm"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={true}
+        secondary={false}
+      />,
+    ]
+  }
+  autoDetectWindowHeight={true}
+  autoScrollBodyContent={false}
+  className="programSelectionDialogContent"
+  contentStyle={
+    Object {
+      "width": "40%",
+    }
+  }
+  modal={true}
+  open={false}
+  repositionOnUpdate={true}
+  title="Welcome to ConU Course Planner!"
+>
+  <div>
+    <Stepper
+      activeStep={0}
+      connector={<pure(StepConnector) />}
+      linear={true}
+      orientation="vertical"
+    >
+      <Step>
+        <StepLabel>
+          Select your program
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="SOEN"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Software Engineering"
+              primaryText="Software Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="SOEN"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Science"
+              primaryText="Computer Science"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="COMP"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Building Engineering"
+              primaryText="Building Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="BLDG"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Civil Engineering"
+              primaryText="Civil Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CIVI"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Industrial Engineering"
+              primaryText="Industrial Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="INDU"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Mechanical Engineering"
+              primaryText="Mechanical Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="MECH"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Engineering"
+              primaryText="Computer Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="COEN"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Electrical Engineering"
+              primaryText="Electrical Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="ELEC"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Aerospace Engineering"
+              primaryText="Aerospace Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="AERO"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+          </div>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepLabel>
+          Select your option
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="Games"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Games"
+              primaryText="Computer Games"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Games"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="General Program"
+              primaryText="General Program"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="General"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Real-time, Embedded and Avionics Software "
+              primaryText="Real-time, Embedded and Avionics Software "
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Realtime"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Web Services and Applications"
+              primaryText="Web Services and Applications"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Web"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+            <FlatButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={true}
+              fullWidth={false}
+              label="Previous"
+              labelPosition="after"
+              labelStyle={Object {}}
+              onClick={[Function]}
+              onKeyboardFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onTouchStart={[Function]}
+              primary={false}
+              secondary={false}
+            />
+          </div>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepLabel>
+          Select your entry type
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="Coop"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Coop September"
+              primaryText="Coop September"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Coop"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="January"
+              primaryText="January"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Jan"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="September"
+              primaryText="September"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Sept"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+            <FlatButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={true}
+              fullWidth={false}
+              label="Previous"
+              labelPosition="after"
+              labelStyle={Object {}}
+              onClick={[Function]}
+              onKeyboardFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onTouchStart={[Function]}
+              primary={false}
+              secondary={false}
+            />
+          </div>
+        </StepContent>
+      </Step>
+    </Stepper>
+  </div>
+</Dialog>
+`;
+
+exports[`DOM should update the contents of the remaining dropdowns when a dropdown item is selected 2`] = `
+<Dialog
+  actions={
+    Array [
+      <FlatButton
+        disabled={true}
+        fullWidth={false}
+        label="Back"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={false}
+        secondary={false}
+      />,
+      <FlatButton
+        disabled={true}
+        fullWidth={false}
+        label="Confirm"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={true}
+        secondary={false}
+      />,
+    ]
+  }
+  autoDetectWindowHeight={true}
+  autoScrollBodyContent={false}
+  className="programSelectionDialogContent"
+  contentStyle={
+    Object {
+      "width": "40%",
+    }
+  }
+  modal={true}
+  open={false}
+  repositionOnUpdate={true}
+  title="Welcome to ConU Course Planner!"
+>
+  <div>
+    <Stepper
+      activeStep={0}
+      connector={<pure(StepConnector) />}
+      linear={true}
+      orientation="vertical"
+    >
+      <Step>
+        <StepLabel>
+          Select your program
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="COMP"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Software Engineering"
+              primaryText="Software Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="SOEN"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Science"
+              primaryText="Computer Science"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="COMP"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Building Engineering"
+              primaryText="Building Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="BLDG"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Civil Engineering"
+              primaryText="Civil Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CIVI"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Industrial Engineering"
+              primaryText="Industrial Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="INDU"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Mechanical Engineering"
+              primaryText="Mechanical Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="MECH"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Engineering"
+              primaryText="Computer Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="COEN"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Electrical Engineering"
+              primaryText="Electrical Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="ELEC"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Aerospace Engineering"
+              primaryText="Aerospace Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="AERO"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+          </div>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepLabel>
+          Select your option
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="Apps"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Applications"
+              primaryText="Computer Applications"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Apps"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computation Arts"
+              primaryText="Computation Arts"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CompArts"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Systems"
+              primaryText="Computer Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CompSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Games"
+              primaryText="Computer Games"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Games"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="General Program"
+              primaryText="General Program"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="General"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Information Systems"
+              primaryText="Information Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="InfoSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Software Systems"
+              primaryText="Software Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="SoftSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Mathematics and Statistics"
+              primaryText="Mathematics and Statistics"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Stats"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Web Services and Applications"
+              primaryText="Web Services and Applications"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Web"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+            <FlatButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={true}
+              fullWidth={false}
+              label="Previous"
+              labelPosition="after"
+              labelStyle={Object {}}
+              onClick={[Function]}
+              onKeyboardFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onTouchStart={[Function]}
+              primary={false}
+              secondary={false}
+            />
+          </div>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepLabel>
+          Select your entry type
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="Coop"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Coop September"
+              primaryText="Coop September"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Coop"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="January"
+              primaryText="January"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Jan"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="September"
+              primaryText="September"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Sept"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+            <FlatButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={true}
+              fullWidth={false}
+              label="Previous"
+              labelPosition="after"
+              labelStyle={Object {}}
+              onClick={[Function]}
+              onKeyboardFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onTouchStart={[Function]}
+              primary={false}
+              secondary={false}
+            />
+          </div>
+        </StepContent>
+      </Step>
+    </Stepper>
+  </div>
+</Dialog>
+`;
+
+exports[`DOM should update the contents of the remaining dropdowns when a dropdown item is selected 3`] = `
+<Dialog
+  actions={
+    Array [
+      <FlatButton
+        disabled={true}
+        fullWidth={false}
+        label="Back"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={false}
+        secondary={false}
+      />,
+      <FlatButton
+        disabled={true}
+        fullWidth={false}
+        label="Confirm"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={true}
+        secondary={false}
+      />,
+    ]
+  }
+  autoDetectWindowHeight={true}
+  autoScrollBodyContent={false}
+  className="programSelectionDialogContent"
+  contentStyle={
+    Object {
+      "width": "40%",
+    }
+  }
+  modal={true}
+  open={false}
+  repositionOnUpdate={true}
+  title="Welcome to ConU Course Planner!"
+>
+  <div>
+    <Stepper
+      activeStep={1}
+      connector={<pure(StepConnector) />}
+      linear={true}
+      orientation="vertical"
+    >
+      <Step>
+        <StepLabel>
+          Select your program
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="COMP"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Software Engineering"
+              primaryText="Software Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="SOEN"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Science"
+              primaryText="Computer Science"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="COMP"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Building Engineering"
+              primaryText="Building Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="BLDG"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Civil Engineering"
+              primaryText="Civil Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CIVI"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Industrial Engineering"
+              primaryText="Industrial Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="INDU"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Mechanical Engineering"
+              primaryText="Mechanical Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="MECH"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Engineering"
+              primaryText="Computer Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="COEN"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Electrical Engineering"
+              primaryText="Electrical Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="ELEC"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Aerospace Engineering"
+              primaryText="Aerospace Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="AERO"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+          </div>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepLabel>
+          Select your option
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="Apps"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Applications"
+              primaryText="Computer Applications"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Apps"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computation Arts"
+              primaryText="Computation Arts"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CompArts"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Systems"
+              primaryText="Computer Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CompSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Games"
+              primaryText="Computer Games"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Games"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="General Program"
+              primaryText="General Program"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="General"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Information Systems"
+              primaryText="Information Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="InfoSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Software Systems"
+              primaryText="Software Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="SoftSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Mathematics and Statistics"
+              primaryText="Mathematics and Statistics"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Stats"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Web Services and Applications"
+              primaryText="Web Services and Applications"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Web"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+            <FlatButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Previous"
+              labelPosition="after"
+              labelStyle={Object {}}
+              onClick={[Function]}
+              onKeyboardFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onTouchStart={[Function]}
+              primary={false}
+              secondary={false}
+            />
+          </div>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepLabel>
+          Select your entry type
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="Coop"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Coop September"
+              primaryText="Coop September"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Coop"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="January"
+              primaryText="January"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Jan"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="September"
+              primaryText="September"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Sept"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+            <FlatButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Previous"
+              labelPosition="after"
+              labelStyle={Object {}}
+              onClick={[Function]}
+              onKeyboardFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onTouchStart={[Function]}
+              primary={false}
+              secondary={false}
+            />
+          </div>
+        </StepContent>
+      </Step>
+    </Stepper>
+  </div>
+</Dialog>
+`;
+
+exports[`DOM should update the contents of the remaining dropdowns when a dropdown item is selected 4`] = `
+<Dialog
+  actions={
+    Array [
+      <FlatButton
+        disabled={true}
+        fullWidth={false}
+        label="Back"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={false}
+        secondary={false}
+      />,
+      <FlatButton
+        disabled={true}
+        fullWidth={false}
+        label="Confirm"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={true}
+        secondary={false}
+      />,
+    ]
+  }
+  autoDetectWindowHeight={true}
+  autoScrollBodyContent={false}
+  className="programSelectionDialogContent"
+  contentStyle={
+    Object {
+      "width": "40%",
+    }
+  }
+  modal={true}
+  open={false}
+  repositionOnUpdate={true}
+  title="Welcome to ConU Course Planner!"
+>
+  <div>
+    <Stepper
+      activeStep={1}
+      connector={<pure(StepConnector) />}
+      linear={true}
+      orientation="vertical"
+    >
+      <Step>
+        <StepLabel>
+          Select your program
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="COMP"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Software Engineering"
+              primaryText="Software Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="SOEN"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Science"
+              primaryText="Computer Science"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="COMP"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Building Engineering"
+              primaryText="Building Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="BLDG"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Civil Engineering"
+              primaryText="Civil Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CIVI"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Industrial Engineering"
+              primaryText="Industrial Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="INDU"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Mechanical Engineering"
+              primaryText="Mechanical Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="MECH"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Engineering"
+              primaryText="Computer Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="COEN"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Electrical Engineering"
+              primaryText="Electrical Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="ELEC"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Aerospace Engineering"
+              primaryText="Aerospace Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="AERO"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+          </div>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepLabel>
+          Select your option
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="Games"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Applications"
+              primaryText="Computer Applications"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Apps"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computation Arts"
+              primaryText="Computation Arts"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CompArts"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Systems"
+              primaryText="Computer Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CompSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Games"
+              primaryText="Computer Games"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Games"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="General Program"
+              primaryText="General Program"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="General"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Information Systems"
+              primaryText="Information Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="InfoSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Software Systems"
+              primaryText="Software Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="SoftSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Mathematics and Statistics"
+              primaryText="Mathematics and Statistics"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Stats"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Web Services and Applications"
+              primaryText="Web Services and Applications"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Web"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+            <FlatButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Previous"
+              labelPosition="after"
+              labelStyle={Object {}}
+              onClick={[Function]}
+              onKeyboardFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onTouchStart={[Function]}
+              primary={false}
+              secondary={false}
+            />
+          </div>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepLabel>
+          Select your entry type
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="Coop"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Coop September"
+              primaryText="Coop September"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Coop"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="January"
+              primaryText="January"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Jan"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="September"
+              primaryText="September"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Sept"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+            <FlatButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Previous"
+              labelPosition="after"
+              labelStyle={Object {}}
+              onClick={[Function]}
+              onKeyboardFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onTouchStart={[Function]}
+              primary={false}
+              secondary={false}
+            />
+          </div>
+        </StepContent>
+      </Step>
+    </Stepper>
+  </div>
+</Dialog>
+`;
+
+exports[`DOM should update the contents of the remaining dropdowns when a dropdown item is selected 5`] = `
+<Dialog
+  actions={
+    Array [
+      <FlatButton
+        disabled={true}
+        fullWidth={false}
+        label="Back"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={false}
+        secondary={false}
+      />,
+      <FlatButton
+        disabled={true}
+        fullWidth={false}
+        label="Confirm"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={true}
+        secondary={false}
+      />,
+    ]
+  }
+  autoDetectWindowHeight={true}
+  autoScrollBodyContent={false}
+  className="programSelectionDialogContent"
+  contentStyle={
+    Object {
+      "width": "40%",
+    }
+  }
+  modal={true}
+  open={false}
+  repositionOnUpdate={true}
+  title="Welcome to ConU Course Planner!"
+>
+  <div>
+    <Stepper
+      activeStep={2}
+      connector={<pure(StepConnector) />}
+      linear={true}
+      orientation="vertical"
+    >
+      <Step>
+        <StepLabel>
+          Select your program
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="COMP"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Software Engineering"
+              primaryText="Software Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="SOEN"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Science"
+              primaryText="Computer Science"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="COMP"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Building Engineering"
+              primaryText="Building Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="BLDG"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Civil Engineering"
+              primaryText="Civil Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CIVI"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Industrial Engineering"
+              primaryText="Industrial Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="INDU"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Mechanical Engineering"
+              primaryText="Mechanical Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="MECH"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Engineering"
+              primaryText="Computer Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="COEN"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Electrical Engineering"
+              primaryText="Electrical Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="ELEC"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Aerospace Engineering"
+              primaryText="Aerospace Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="AERO"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Finish"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+          </div>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepLabel>
+          Select your option
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="Games"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Applications"
+              primaryText="Computer Applications"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Apps"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computation Arts"
+              primaryText="Computation Arts"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CompArts"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Systems"
+              primaryText="Computer Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CompSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Games"
+              primaryText="Computer Games"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Games"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="General Program"
+              primaryText="General Program"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="General"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Information Systems"
+              primaryText="Information Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="InfoSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Software Systems"
+              primaryText="Software Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="SoftSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Mathematics and Statistics"
+              primaryText="Mathematics and Statistics"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Stats"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Web Services and Applications"
+              primaryText="Web Services and Applications"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Web"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Finish"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+            <FlatButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Previous"
+              labelPosition="after"
+              labelStyle={Object {}}
+              onClick={[Function]}
+              onKeyboardFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onTouchStart={[Function]}
+              primary={false}
+              secondary={false}
+            />
+          </div>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepLabel>
+          Select your entry type
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="Coop"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Coop September"
+              primaryText="Coop September"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Coop"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="January"
+              primaryText="January"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Jan"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="September"
+              primaryText="September"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Sept"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Finish"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+            <FlatButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Previous"
+              labelPosition="after"
+              labelStyle={Object {}}
+              onClick={[Function]}
+              onKeyboardFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onTouchStart={[Function]}
+              primary={false}
+              secondary={false}
+            />
+          </div>
+        </StepContent>
+      </Step>
+    </Stepper>
+  </div>
+</Dialog>
+`;
+
+exports[`DOM should update the contents of the remaining dropdowns when a dropdown item is selected 6`] = `
+<Dialog
+  actions={
+    Array [
+      <FlatButton
+        disabled={true}
+        fullWidth={false}
+        label="Back"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={false}
+        secondary={false}
+      />,
+      <FlatButton
+        disabled={true}
+        fullWidth={false}
+        label="Confirm"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={true}
+        secondary={false}
+      />,
+    ]
+  }
+  autoDetectWindowHeight={true}
+  autoScrollBodyContent={false}
+  className="programSelectionDialogContent"
+  contentStyle={
+    Object {
+      "width": "40%",
+    }
+  }
+  modal={true}
+  open={false}
+  repositionOnUpdate={true}
+  title="Welcome to ConU Course Planner!"
+>
+  <div>
+    <Stepper
+      activeStep={2}
+      connector={<pure(StepConnector) />}
+      linear={true}
+      orientation="vertical"
+    >
+      <Step>
+        <StepLabel>
+          Select your program
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="COMP"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Software Engineering"
+              primaryText="Software Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="SOEN"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Science"
+              primaryText="Computer Science"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="COMP"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Building Engineering"
+              primaryText="Building Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="BLDG"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Civil Engineering"
+              primaryText="Civil Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CIVI"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Industrial Engineering"
+              primaryText="Industrial Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="INDU"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Mechanical Engineering"
+              primaryText="Mechanical Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="MECH"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Engineering"
+              primaryText="Computer Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="COEN"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Electrical Engineering"
+              primaryText="Electrical Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="ELEC"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Aerospace Engineering"
+              primaryText="Aerospace Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="AERO"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Finish"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+          </div>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepLabel>
+          Select your option
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="Games"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Applications"
+              primaryText="Computer Applications"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Apps"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computation Arts"
+              primaryText="Computation Arts"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CompArts"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Systems"
+              primaryText="Computer Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CompSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Games"
+              primaryText="Computer Games"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Games"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="General Program"
+              primaryText="General Program"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="General"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Information Systems"
+              primaryText="Information Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="InfoSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Software Systems"
+              primaryText="Software Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="SoftSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Mathematics and Statistics"
+              primaryText="Mathematics and Statistics"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Stats"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Web Services and Applications"
+              primaryText="Web Services and Applications"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Web"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Finish"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+            <FlatButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Previous"
+              labelPosition="after"
+              labelStyle={Object {}}
+              onClick={[Function]}
+              onKeyboardFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onTouchStart={[Function]}
+              primary={false}
+              secondary={false}
+            />
+          </div>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepLabel>
+          Select your entry type
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="Coop"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Coop September"
+              primaryText="Coop September"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Coop"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="January"
+              primaryText="January"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Jan"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="September"
+              primaryText="September"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Sept"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Finish"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+            <FlatButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Previous"
+              labelPosition="after"
+              labelStyle={Object {}}
+              onClick={[Function]}
+              onKeyboardFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onTouchStart={[Function]}
+              primary={false}
+              secondary={false}
+            />
+          </div>
+        </StepContent>
+      </Step>
+    </Stepper>
+  </div>
+</Dialog>
+`;
+
+exports[`DOM should update the contents of the remaining dropdowns when a dropdown item is selected 7`] = `
+<Dialog
+  actions={
+    Array [
+      <FlatButton
+        disabled={false}
+        fullWidth={false}
+        label="Back"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={false}
+        secondary={false}
+      />,
+      <FlatButton
+        disabled={false}
+        fullWidth={false}
+        label="Confirm"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={true}
+        secondary={false}
+      />,
+    ]
+  }
+  autoDetectWindowHeight={true}
+  autoScrollBodyContent={false}
+  className="programSelectionDialogContent"
+  contentStyle={
+    Object {
+      "width": "40%",
+    }
+  }
+  modal={true}
+  open={false}
+  repositionOnUpdate={true}
+  title="Welcome to ConU Course Planner!"
+>
+  <div>
+    <Stepper
+      activeStep={3}
+      connector={<pure(StepConnector) />}
+      linear={true}
+      orientation="vertical"
+    >
+      <Step>
+        <StepLabel>
+          Select your program
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="COMP"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Software Engineering"
+              primaryText="Software Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="SOEN"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Science"
+              primaryText="Computer Science"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="COMP"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Building Engineering"
+              primaryText="Building Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="BLDG"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Civil Engineering"
+              primaryText="Civil Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CIVI"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Industrial Engineering"
+              primaryText="Industrial Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="INDU"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Mechanical Engineering"
+              primaryText="Mechanical Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="MECH"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Engineering"
+              primaryText="Computer Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="COEN"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Electrical Engineering"
+              primaryText="Electrical Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="ELEC"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Aerospace Engineering"
+              primaryText="Aerospace Engineering"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="AERO"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+          </div>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepLabel>
+          Select your option
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="Games"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Applications"
+              primaryText="Computer Applications"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Apps"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computation Arts"
+              primaryText="Computation Arts"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CompArts"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Systems"
+              primaryText="Computer Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="CompSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Computer Games"
+              primaryText="Computer Games"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Games"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="General Program"
+              primaryText="General Program"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="General"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Information Systems"
+              primaryText="Information Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="InfoSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Software Systems"
+              primaryText="Software Systems"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="SoftSys"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Mathematics and Statistics"
+              primaryText="Mathematics and Statistics"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Stats"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Web Services and Applications"
+              primaryText="Web Services and Applications"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Web"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+            <FlatButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Previous"
+              labelPosition="after"
+              labelStyle={Object {}}
+              onClick={[Function]}
+              onKeyboardFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onTouchStart={[Function]}
+              primary={false}
+              secondary={false}
+            />
+          </div>
+        </StepContent>
+      </Step>
+      <Step>
+        <StepLabel>
+          Select your entry type
+        </StepLabel>
+        <StepContent
+          transition={[Function]}
+          transitionDuration={450}
+        >
+          <DropDownMenu
+            anchorOrigin={
+              Object {
+                "horizontal": "left",
+                "vertical": "top",
+              }
+            }
+            animated={true}
+            autoWidth={true}
+            disabled={false}
+            iconButton={<NavigationArrowDropDown />}
+            maxHeight={500}
+            multiple={false}
+            onChange={[Function]}
+            openImmediately={false}
+            value="Coop"
+          >
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="Coop September"
+              primaryText="Coop September"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Coop"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="January"
+              primaryText="January"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Jan"
+            />
+            <MenuItem
+              anchorOrigin={
+                Object {
+                  "horizontal": "right",
+                  "vertical": "top",
+                }
+              }
+              checked={false}
+              desktop={false}
+              disabled={false}
+              focusState="none"
+              insetChildren={false}
+              key="September"
+              primaryText="September"
+              targetOrigin={
+                Object {
+                  "horizontal": "left",
+                  "vertical": "top",
+                }
+              }
+              value="Sept"
+            />
+          </DropDownMenu>
+          <div
+            className="programSelectStepButton"
+          >
+            <RaisedButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Next"
+              labelPosition="after"
+              onClick={[Function]}
+              primary={true}
+              secondary={false}
+              style={
+                Object {
+                  "marginRight": "12px",
+                }
+              }
+            />
+            <FlatButton
+              disableFocusRipple={true}
+              disableTouchRipple={true}
+              disabled={false}
+              fullWidth={false}
+              label="Previous"
+              labelPosition="after"
+              labelStyle={Object {}}
+              onClick={[Function]}
+              onKeyboardFocus={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onTouchStart={[Function]}
+              primary={false}
+              secondary={false}
+            />
+          </div>
+        </StepContent>
+      </Step>
+    </Stepper>
+    <div
+      className="programSelectConfirmMsg"
+    >
+      Your selected program is:
+      <br />
+      Computer Science, Computer Games Option, Coop September Entry
+    </div>
+  </div>
+</Dialog>
+`;

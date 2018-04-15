@@ -54,8 +54,8 @@ export class ProgramSelectionDialog extends React.Component {
         this.handleProgramNameSelection = this.handleProgramNameSelection.bind(this);
         this.handleOptionSelection = this.handleOptionSelection.bind(this);
         this.handleEntryTypeSelection = this.handleEntryTypeSelection.bind(this);
-        this.handlePrev = this.handlePrev.bind(this);
-        this.handleNext = this.handleNext.bind(this);
+        this.handlePrevClick = this.handlePrevClick.bind(this);
+        this.handleNextClick = this.handleNextClick.bind(this);
         this.handleConfirmClick = this.handleConfirmClick.bind(this);
         this.handleBackClick = this.handleBackClick.bind(this);
         this.renderStepActions = this.renderStepActions.bind(this);
@@ -89,15 +89,15 @@ export class ProgramSelectionDialog extends React.Component {
         });
     }
 
-    handleNext() {
+    handleNextClick() {
         let shouldSkipOptionStep = this.state.stepIndex === 0 && this.state.dropdownItems.option.length === 1;
         this.setState({
             stepIndex: this.state.stepIndex + (shouldSkipOptionStep ? 2 : 1),
-            finished: this.state.stepIndex >= 2,
+            finished: this.state.stepIndex >= 2
         });
     }
 
-    handlePrev() {
+    handlePrevClick() {
         if (this.state.stepIndex > 0) {
             this.setState({stepIndex: this.state.stepIndex - 1});
         }
@@ -213,16 +213,16 @@ export class ProgramSelectionDialog extends React.Component {
                     disableTouchRipple={true}
                     disableFocusRipple={true}
                     primary={true}
-                    onClick={this.handleNext}
+                    onClick={this.handleNextClick}
                     style={INLINE_STYLES.programSelectNextButton}
                 />
                 {step > 0 && (
                     <FlatButton
-                        label={UI_STRINGS.PROGRAM_SELECTION_BACK_LABEL}
+                        label={UI_STRINGS.PROGRAM_SELECTION_PREVIOUS_LABEL}
                         disabled={this.state.stepIndex === 0}
                         disableTouchRipple={true}
                         disableFocusRipple={true}
-                        onClick={this.handlePrev}
+                        onClick={this.handlePrevClick}
                     />
                 )}
             </div>

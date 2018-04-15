@@ -4,49 +4,58 @@ import { CourseInfoCard } from "./courseInfoCard";
 import { MOCK_COURSE_INFO_OBJECTS, MOCK_POSITION_OBJECTS } from "../../util/mock";
 import { MUI_THEME } from "../../util/util";
 
-let courseInfoCardClass, mockOnChangeDragState, mockCourseInfoClone, mockPositionClone;
+describe("class functions", () => {
+    let courseInfoCardClass, mockOnChangeDragState, mockCourseInfoClone, mockPositionClone;
 
-beforeEach(() => {
-    mockOnChangeDragState = jest.fn();
-    mockCourseInfoClone = cloneObject(MOCK_COURSE_INFO_OBJECTS.NO_PREREQS_NO_COREQS);
-    mockPositionClone = cloneObject(MOCK_POSITION_OBJECTS.FALL_0_COURSE_0);
-    courseInfoCardClass = new CourseInfoCard({
-        courseInfo: mockCourseInfoClone,
-        onChangeDragState: mockOnChangeDragState
-    });
-});
-
-describe("handleChangeDragState", () => {
     beforeEach(() => {
-        courseInfoCardClass.setState = jest.fn();
-    });
-
-    test("should call props.onChangeDragState with passed params", () => {
-        let isDragging = true;
-        courseInfoCardClass.handleChangeDragState(isDragging, mockPositionClone, mockCourseInfoClone);
-        expect(mockOnChangeDragState.mock.calls.length).toBe(1);
-        expect(mockOnChangeDragState.mock.calls[0].length).toBe(3);
-        expect(mockOnChangeDragState.mock.calls[0][0]).toBe(isDragging);
-        expect(mockOnChangeDragState.mock.calls[0][1]).toBe(mockPositionClone);
-        expect(mockOnChangeDragState.mock.calls[0][2]).toBe(mockCourseInfoClone);
-    });
-
-    describe("should update the courseBeingDragged state variable to equal the isDragging argument", () => {
-        let performTest = (isDragging) => {
-            courseInfoCardClass.handleChangeDragState(isDragging, mockPositionClone, mockCourseInfoClone);
-            expect(courseInfoCardClass.setState.mock.calls.length).toBe(1);
-            expect(courseInfoCardClass.setState.mock.calls[0].length).toBe(1);
-            expect(courseInfoCardClass.setState.mock.calls[0][0].courseBeingDragged).toBe(isDragging);
-        };
-
-        test("isDragging is true", () => {
-            performTest(true);
+        mockOnChangeDragState = jest.fn();
+        mockCourseInfoClone = cloneObject(MOCK_COURSE_INFO_OBJECTS.NO_PREREQS_NO_COREQS);
+        mockPositionClone = cloneObject(MOCK_POSITION_OBJECTS.FALL_0_COURSE_0);
+        courseInfoCardClass = new CourseInfoCard({
+            courseInfo: mockCourseInfoClone,
+            onChangeDragState: mockOnChangeDragState
         });
-        test("isDragging is false", () => {
-            performTest(false);
+    });
+
+    describe("constructor", () => {
+        test("should initialize state variables", () => {
+            expect(courseInfoCardClass.state).toEqual({ courseBeingDragged: false });
+        });
+    });
+
+    describe("handleChangeDragState", () => {
+        beforeEach(() => {
+            courseInfoCardClass.setState = jest.fn();
+        });
+
+        test("should call props.onChangeDragState with passed params", () => {
+            let isDragging = true;
+            courseInfoCardClass.handleChangeDragState(isDragging, mockPositionClone, mockCourseInfoClone);
+            expect(mockOnChangeDragState.mock.calls.length).toBe(1);
+            expect(mockOnChangeDragState.mock.calls[0].length).toBe(3);
+            expect(mockOnChangeDragState.mock.calls[0][0]).toBe(isDragging);
+            expect(mockOnChangeDragState.mock.calls[0][1]).toBe(mockPositionClone);
+            expect(mockOnChangeDragState.mock.calls[0][2]).toBe(mockCourseInfoClone);
+        });
+
+        describe("should update the courseBeingDragged state variable to equal the isDragging argument", () => {
+            let performTest = (isDragging) => {
+                courseInfoCardClass.handleChangeDragState(isDragging, mockPositionClone, mockCourseInfoClone);
+                expect(courseInfoCardClass.setState.mock.calls.length).toBe(1);
+                expect(courseInfoCardClass.setState.mock.calls[0].length).toBe(1);
+                expect(courseInfoCardClass.setState.mock.calls[0][0].courseBeingDragged).toBe(isDragging);
+            };
+
+            test("isDragging is true", () => {
+                performTest(true);
+            });
+            test("isDragging is false", () => {
+                performTest(false);
+            });
         });
     });
 });
+
 
 describe("DOM", () => {
     let testSnapshotFromCourseInfo = (courseInfo) => {
