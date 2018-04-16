@@ -15,12 +15,13 @@ export class FeedBackDialog extends React.Component {
     constructor(props) {
         super(props);
 
-        this.feedBackMsg = "";
         this.state = {
-            charCtr: 0,
+            feedBackMsg: "",
             errorMsg: "",
-            sendSuccess: false,
-            sendError: false
+            snackBar: {
+                isShowing: false,
+                message: ""
+            }
         };
 
         this.updateTextField = this.updateTextField.bind(this);
@@ -28,41 +29,43 @@ export class FeedBackDialog extends React.Component {
         this.handleCloseFeedBackBox = this.handleCloseFeedBackBox.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.sendFeedBackMsg = this.sendFeedBackMsg.bind(this);
+        this.handleSendFeedBackSuccess = this.handleSendFeedBackSuccess.bind(this);
+        this.handleSendFeedBackError = this.handleSendFeedBackError.bind(this);
     }
 
-    updateTextField(event,value) {
+    updateTextField(event, value) {
+        let errorMsg = "";
 
-        if (value.length < FEEDBACK_CHAR_LIMIT) {
-            this.feedBackMsg = value;
-            this.setState({
-               charCtr: value.length,
-               errorMsg: ""
-            });
-        } else {
-            this.setState({
-                charCtr: FEEDBACK_CHAR_LIMIT,
-                errorMsg: UI_STRINGS.FEEDBACK_CHAR_LIMIT_ERROR_MSG
-            })
+        if(value.length >= FEEDBACK_CHAR_LIMIT) {
+            value = value.slice(0, FEEDBACK_CHAR_LIMIT);
+            errorMsg = UI_STRINGS.FEEDBACK_CHAR_LIMIT_ERROR_MSG;
         }
+
+        this.setState({
+            feedBackMsg: value,
+            errorMsg: errorMsg
+        });
     }
 
     handleCloseSnackBar() {
         this.setState({
-            sendSuccess: false,
-            sendError: false
+            snackBar: {
+                isShowing: false,
+                message: ""
+            }
         });
     }
 
     handleCloseFeedBackBox() {
         this.props.onRequestClose();
         this.setState({
-            charCtr: 0,
-            errorMsg: ''
+            feedBackMsg: "",
+            errorMsg: ""
         });
     }
 
     handleSubmit() {
-        if (this.feedBackMsg !== "") {
+        if (this.state.feedBackMsg !== "") {
             this.sendFeedBackMsg();
             this.handleCloseFeedBackBox();
         }
@@ -88,7 +91,7 @@ export class FeedBackDialog extends React.Component {
                     title={UI_STRINGS.FEEDBACK_BOX_TITLE}
                     actions={actions}
                     onRequestClose={this.handleCloseFeedBackBox}
-                    open={this.props.open}
+                    open={this.props.isOpen}
                 >
                     <TextField
                         fullWidth={true}
@@ -100,17 +103,11 @@ export class FeedBackDialog extends React.Component {
                         errorText={this.state.errorMsg}
                         errorStyle={INLINE_STYLES.betterYellow}
                     />
-                    <p className="charLimitIndicator">{this.state.charCtr}/{FEEDBACK_CHAR_LIMIT}</p>
+                    <p className="charLimitIndicator">{this.state.feedBackMsg.length}/{FEEDBACK_CHAR_LIMIT}</p>
                 </Dialog>
                 <Snackbar
-                    open={this.state.sendSuccess}
-                    message={UI_STRINGS.FEEDBACK_SEND_SUCCESS_MSG}
-                    autoHideDuration={FEEDBACK_SNACKBAR_AUTOHIDE_DURATION}
-                    onRequestClose={this.handleCloseSnackBar}
-                />
-                <Snackbar
-                    open={this.state.sendError}
-                    message={UI_STRINGS.FEEDBACK_SEND_ERROR_MSG}
+                    open={this.state.snackBar.isShowing}
+                    message={this.state.snackBar.message}
                     autoHideDuration={FEEDBACK_SNACKBAR_AUTOHIDE_DURATION}
                     onRequestClose={this.handleCloseSnackBar}
                 />
@@ -122,24 +119,35 @@ export class FeedBackDialog extends React.Component {
      *  Backend API calls:
      */
 
-    sendFeedBackMsg () {
+    sendFeedBackMsg() {
         $.ajax({
             type: "POST",
             url: "api/feedback",
-            data: JSON.stringify({message: this.feedBackMsg}),
-            success: (response) => {
-                let responseObject = JSON.parse(response);
+            data: JSON.stringify({ message: this.state.feedBackMsg }),
+            success: this.handleSendFeedBackSuccess,
+            error: this.handleSendFeedBackError
+        });
+    }
 
-                this.setState({
-                    sendSuccess: responseObject.success,
-                    sendError: !responseObject.success
-                });
-            },
-            error: (response) => {
-                this.setState({
-                    sendSuccess: false,
-                    sendError: true
-                })
+    handleSendFeedBackSuccess(response) {
+        let responseObject = JSON.parse(response);
+        if(responseObject.success) {
+            this.setState({
+                snackBar: {
+                    isShowing: true,
+                    message: UI_STRINGS.FEEDBACK_SEND_SUCCESS_MSG
+                }
+            });
+        } else {
+            this.handleSendFeedBackError(response);
+        }
+    }
+
+    handleSendFeedBackError(response) {
+        this.setState({
+            snackBar: {
+                isShowing: true,
+                message: UI_STRINGS.FEEDBACK_SEND_ERROR_MSG
             }
         });
     }

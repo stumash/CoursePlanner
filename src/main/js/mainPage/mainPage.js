@@ -257,7 +257,7 @@ class MainPage extends React.Component {
                     <ProgramSelectionDialog isOpen={!this.state.chosenProgram}
                                             allSequences={this.state.allSequences}
                                             onChangeChosenProgram={this.updateChosenProgram}/>
-                    <FeedBackDialog open={this.state.showingFeedbackBox}
+                    <FeedBackDialog isOpen={this.state.showingFeedbackBox}
                                     onRequestClose={this.closeFeedBackBox}/>
                 </div>
             </div>

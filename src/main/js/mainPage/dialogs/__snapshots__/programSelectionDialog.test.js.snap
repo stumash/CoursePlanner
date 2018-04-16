@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DOM should update the contents of the remaining dropdowns when a dropdown item is selected 1`] = `
+exports[`DOM select COMP-Games-Coop program and confirm selection 1`] = `
 <Dialog
   actions={
     Array [
@@ -43,7 +43,7 @@ exports[`DOM should update the contents of the remaining dropdowns when a dropdo
     }
   }
   modal={true}
-  open={false}
+  open={true}
   repositionOnUpdate={true}
   title="Welcome to ConU Course Planner!"
 >
@@ -587,7 +587,7 @@ exports[`DOM should update the contents of the remaining dropdowns when a dropdo
 </Dialog>
 `;
 
-exports[`DOM should update the contents of the remaining dropdowns when a dropdown item is selected 2`] = `
+exports[`DOM select COMP-Games-Coop program and confirm selection 2`] = `
 <Dialog
   actions={
     Array [
@@ -630,7 +630,7 @@ exports[`DOM should update the contents of the remaining dropdowns when a dropdo
     }
   }
   modal={true}
-  open={false}
+  open={true}
   repositionOnUpdate={true}
   title="Welcome to ConU Course Planner!"
 >
@@ -1284,7 +1284,7 @@ exports[`DOM should update the contents of the remaining dropdowns when a dropdo
 </Dialog>
 `;
 
-exports[`DOM should update the contents of the remaining dropdowns when a dropdown item is selected 3`] = `
+exports[`DOM select COMP-Games-Coop program and confirm selection 3`] = `
 <Dialog
   actions={
     Array [
@@ -1327,7 +1327,7 @@ exports[`DOM should update the contents of the remaining dropdowns when a dropdo
     }
   }
   modal={true}
-  open={false}
+  open={true}
   repositionOnUpdate={true}
   title="Welcome to ConU Course Planner!"
 >
@@ -1981,7 +1981,7 @@ exports[`DOM should update the contents of the remaining dropdowns when a dropdo
 </Dialog>
 `;
 
-exports[`DOM should update the contents of the remaining dropdowns when a dropdown item is selected 4`] = `
+exports[`DOM select COMP-Games-Coop program and confirm selection 4`] = `
 <Dialog
   actions={
     Array [
@@ -2024,7 +2024,7 @@ exports[`DOM should update the contents of the remaining dropdowns when a dropdo
     }
   }
   modal={true}
-  open={false}
+  open={true}
   repositionOnUpdate={true}
   title="Welcome to ConU Course Planner!"
 >
@@ -2678,7 +2678,7 @@ exports[`DOM should update the contents of the remaining dropdowns when a dropdo
 </Dialog>
 `;
 
-exports[`DOM should update the contents of the remaining dropdowns when a dropdown item is selected 5`] = `
+exports[`DOM select COMP-Games-Coop program and confirm selection 5`] = `
 <Dialog
   actions={
     Array [
@@ -2721,7 +2721,7 @@ exports[`DOM should update the contents of the remaining dropdowns when a dropdo
     }
   }
   modal={true}
-  open={false}
+  open={true}
   repositionOnUpdate={true}
   title="Welcome to ConU Course Planner!"
 >
@@ -3375,7 +3375,7 @@ exports[`DOM should update the contents of the remaining dropdowns when a dropdo
 </Dialog>
 `;
 
-exports[`DOM should update the contents of the remaining dropdowns when a dropdown item is selected 6`] = `
+exports[`DOM select COMP-Games-Coop program and confirm selection 6`] = `
 <Dialog
   actions={
     Array [
@@ -3418,7 +3418,7 @@ exports[`DOM should update the contents of the remaining dropdowns when a dropdo
     }
   }
   modal={true}
-  open={false}
+  open={true}
   repositionOnUpdate={true}
   title="Welcome to ConU Course Planner!"
 >
@@ -4072,7 +4072,7 @@ exports[`DOM should update the contents of the remaining dropdowns when a dropdo
 </Dialog>
 `;
 
-exports[`DOM should update the contents of the remaining dropdowns when a dropdown item is selected 7`] = `
+exports[`DOM select COMP-Games-Coop program and confirm selection 7`] = `
 <Dialog
   actions={
     Array [
@@ -4115,7 +4115,7 @@ exports[`DOM should update the contents of the remaining dropdowns when a dropdo
     }
   }
   modal={true}
-  open={false}
+  open={true}
   repositionOnUpdate={true}
   title="Welcome to ConU Course Planner!"
 >
@@ -4773,5 +4773,63 @@ exports[`DOM should update the contents of the remaining dropdowns when a dropdo
       Computer Science, Computer Games Option, Coop September Entry
     </div>
   </div>
+</Dialog>
+`;
+
+exports[`DOM show loading animation while sequences are loading 1`] = `
+<Dialog
+  actions={
+    Array [
+      <FlatButton
+        disabled={true}
+        fullWidth={false}
+        label="Back"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={false}
+        secondary={false}
+      />,
+      <FlatButton
+        disabled={true}
+        fullWidth={false}
+        label="Confirm"
+        labelPosition="after"
+        labelStyle={Object {}}
+        onClick={[Function]}
+        onKeyboardFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onTouchStart={[Function]}
+        primary={true}
+        secondary={false}
+      />,
+    ]
+  }
+  autoDetectWindowHeight={true}
+  autoScrollBodyContent={false}
+  className="programSelectionDialogContent"
+  contentStyle={
+    Object {
+      "width": "40%",
+    }
+  }
+  modal={true}
+  open={true}
+  repositionOnUpdate={true}
+  title="Loading list of recommended sequences"
+>
+  <CircularProgress
+    max={100}
+    min={0}
+    mode="indeterminate"
+    size={80}
+    thickness={7}
+    value={0}
+  />
 </Dialog>
 `;

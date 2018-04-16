@@ -300,11 +300,24 @@ describe("class functions", () => {
 });
 
 describe("DOM", () => {
-    test("should update the contents of the remaining dropdowns when a dropdown item is selected", () => {
+    test("show loading animation while sequences are loading", () => {
+        let programSelectionDialogWrapper = shallow(
+            <MuiThemeProvider muiTheme={MUI_THEME}>
+                <ProgramSelectionDialog allSequences={[]}
+                                        isOpen={true}
+                                        onChangeChosenProgram={jest.fn()}/>
+            </MuiThemeProvider>
+        ).dive();
+
+        // make snapshot of initial DOM
+        expect(programSelectionDialogWrapper).toMatchSnapshot();
+    });
+
+    test("select COMP-Games-Coop program and confirm selection", () => {
         let programSelectionDialogWrapper = shallow(
             <MuiThemeProvider muiTheme={MUI_THEME}>
                 <ProgramSelectionDialog allSequences={mockAllSequencesClone}
-                                        isOpen={false}
+                                        isOpen={true}
                                         onChangeChosenProgram={jest.fn()}/>
             </MuiThemeProvider>
         ).dive();

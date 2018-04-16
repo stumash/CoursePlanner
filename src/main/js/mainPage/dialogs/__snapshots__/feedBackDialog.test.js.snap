@@ -1,0 +1,396 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DOM type too many characters then submit the result 1`] = `
+<div>
+  <Dialog
+    actions={
+      Array [
+        <FlatButton
+          disabled={false}
+          fullWidth={false}
+          label="Cancel"
+          labelPosition="after"
+          labelStyle={Object {}}
+          onClick={[Function]}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
+          primary={false}
+          secondary={false}
+        />,
+        <FlatButton
+          disabled={false}
+          fullWidth={false}
+          label="Submit"
+          labelPosition="after"
+          labelStyle={Object {}}
+          onClick={[Function]}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
+          primary={true}
+          secondary={false}
+        />,
+      ]
+    }
+    autoDetectWindowHeight={true}
+    autoScrollBodyContent={false}
+    modal={false}
+    onRequestClose={[Function]}
+    open={true}
+    repositionOnUpdate={true}
+    title="Comments/Concerns? Let us know and we'll see what we can do"
+  >
+    <TextField
+      disabled={false}
+      errorStyle={
+        Object {
+          "color": "#f5bb2b",
+        }
+      }
+      errorText=""
+      floatingLabelFixed={false}
+      fullWidth={true}
+      hintText="Insert Feedback here"
+      maxLength={1000}
+      multiLine={true}
+      onChange={[Function]}
+      rows={1}
+      rowsMax={10}
+      type="text"
+      underlineShow={true}
+    />
+    <p
+      className="charLimitIndicator"
+    >
+      0
+      /
+      1000
+    </p>
+  </Dialog>
+  <Snackbar
+    autoHideDuration={4000}
+    message=""
+    onRequestClose={[Function]}
+    open={false}
+  />
+</div>
+`;
+
+exports[`DOM type too many characters then submit the result 2`] = `
+<div>
+  <Dialog
+    actions={
+      Array [
+        <FlatButton
+          disabled={false}
+          fullWidth={false}
+          label="Cancel"
+          labelPosition="after"
+          labelStyle={Object {}}
+          onClick={[Function]}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
+          primary={false}
+          secondary={false}
+        />,
+        <FlatButton
+          disabled={false}
+          fullWidth={false}
+          label="Submit"
+          labelPosition="after"
+          labelStyle={Object {}}
+          onClick={[Function]}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
+          primary={true}
+          secondary={false}
+        />,
+      ]
+    }
+    autoDetectWindowHeight={true}
+    autoScrollBodyContent={false}
+    modal={false}
+    onRequestClose={[Function]}
+    open={true}
+    repositionOnUpdate={true}
+    title="Comments/Concerns? Let us know and we'll see what we can do"
+  >
+    <TextField
+      disabled={false}
+      errorStyle={
+        Object {
+          "color": "#f5bb2b",
+        }
+      }
+      errorText=""
+      floatingLabelFixed={false}
+      fullWidth={true}
+      hintText="Insert Feedback here"
+      maxLength={1000}
+      multiLine={true}
+      onChange={[Function]}
+      rows={1}
+      rowsMax={10}
+      type="text"
+      underlineShow={true}
+    />
+    <p
+      className="charLimitIndicator"
+    >
+      18
+      /
+      1000
+    </p>
+  </Dialog>
+  <Snackbar
+    autoHideDuration={4000}
+    message=""
+    onRequestClose={[Function]}
+    open={false}
+  />
+</div>
+`;
+
+exports[`DOM type too many characters then submit the result 3`] = `
+<div>
+  <Dialog
+    actions={
+      Array [
+        <FlatButton
+          disabled={false}
+          fullWidth={false}
+          label="Cancel"
+          labelPosition="after"
+          labelStyle={Object {}}
+          onClick={[Function]}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
+          primary={false}
+          secondary={false}
+        />,
+        <FlatButton
+          disabled={false}
+          fullWidth={false}
+          label="Submit"
+          labelPosition="after"
+          labelStyle={Object {}}
+          onClick={[Function]}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
+          primary={true}
+          secondary={false}
+        />,
+      ]
+    }
+    autoDetectWindowHeight={true}
+    autoScrollBodyContent={false}
+    modal={false}
+    onRequestClose={[Function]}
+    open={true}
+    repositionOnUpdate={true}
+    title="Comments/Concerns? Let us know and we'll see what we can do"
+  >
+    <TextField
+      disabled={false}
+      errorStyle={
+        Object {
+          "color": "#f5bb2b",
+        }
+      }
+      errorText="Character limit reached"
+      floatingLabelFixed={false}
+      fullWidth={true}
+      hintText="Insert Feedback here"
+      maxLength={1000}
+      multiLine={true}
+      onChange={[Function]}
+      rows={1}
+      rowsMax={10}
+      type="text"
+      underlineShow={true}
+    />
+    <p
+      className="charLimitIndicator"
+    >
+      1000
+      /
+      1000
+    </p>
+  </Dialog>
+  <Snackbar
+    autoHideDuration={4000}
+    message=""
+    onRequestClose={[Function]}
+    open={false}
+  />
+</div>
+`;
+
+exports[`DOM type too many characters then submit the result 4`] = `
+<div>
+  <Dialog
+    actions={
+      Array [
+        <FlatButton
+          disabled={false}
+          fullWidth={false}
+          label="Cancel"
+          labelPosition="after"
+          labelStyle={Object {}}
+          onClick={[Function]}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
+          primary={false}
+          secondary={false}
+        />,
+        <FlatButton
+          disabled={false}
+          fullWidth={false}
+          label="Submit"
+          labelPosition="after"
+          labelStyle={Object {}}
+          onClick={[Function]}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
+          primary={true}
+          secondary={false}
+        />,
+      ]
+    }
+    autoDetectWindowHeight={true}
+    autoScrollBodyContent={false}
+    modal={false}
+    onRequestClose={[Function]}
+    open={true}
+    repositionOnUpdate={true}
+    title="Comments/Concerns? Let us know and we'll see what we can do"
+  >
+    <TextField
+      disabled={false}
+      errorStyle={
+        Object {
+          "color": "#f5bb2b",
+        }
+      }
+      errorText=""
+      floatingLabelFixed={false}
+      fullWidth={true}
+      hintText="Insert Feedback here"
+      maxLength={1000}
+      multiLine={true}
+      onChange={[Function]}
+      rows={1}
+      rowsMax={10}
+      type="text"
+      underlineShow={true}
+    />
+    <p
+      className="charLimitIndicator"
+    >
+      0
+      /
+      1000
+    </p>
+  </Dialog>
+  <Snackbar
+    autoHideDuration={4000}
+    message="Message sent, thank you for your feedback!"
+    onRequestClose={[Function]}
+    open={true}
+  />
+</div>
+`;
+
+exports[`DOM type too many characters then submit the result 5`] = `
+<div>
+  <Dialog
+    actions={
+      Array [
+        <FlatButton
+          disabled={false}
+          fullWidth={false}
+          label="Cancel"
+          labelPosition="after"
+          labelStyle={Object {}}
+          onClick={[Function]}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
+          primary={false}
+          secondary={false}
+        />,
+        <FlatButton
+          disabled={false}
+          fullWidth={false}
+          label="Submit"
+          labelPosition="after"
+          labelStyle={Object {}}
+          onClick={[Function]}
+          onKeyboardFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onTouchStart={[Function]}
+          primary={true}
+          secondary={false}
+        />,
+      ]
+    }
+    autoDetectWindowHeight={true}
+    autoScrollBodyContent={false}
+    modal={false}
+    onRequestClose={[Function]}
+    open={true}
+    repositionOnUpdate={true}
+    title="Comments/Concerns? Let us know and we'll see what we can do"
+  >
+    <TextField
+      disabled={false}
+      errorStyle={
+        Object {
+          "color": "#f5bb2b",
+        }
+      }
+      errorText=""
+      floatingLabelFixed={false}
+      fullWidth={true}
+      hintText="Insert Feedback here"
+      maxLength={1000}
+      multiLine={true}
+      onChange={[Function]}
+      rows={1}
+      rowsMax={10}
+      type="text"
+      underlineShow={true}
+    />
+    <p
+      className="charLimitIndicator"
+    >
+      0
+      /
+      1000
+    </p>
+  </Dialog>
+  <Snackbar
+    autoHideDuration={4000}
+    message="An error occurred, message not sent"
+    onRequestClose={[Function]}
+    open={true}
+  />
+</div>
+`;

@@ -4,6 +4,7 @@ import { SequenceValidationCard } from "./sequenceValidationCard";
 import { MOCK_VALIDATION_RESULTS } from "../../util/mock";
 import { MUI_THEME } from "../../util/util";
 
+// TODO: add test which simulates mouse hovers (should call onMouseEnterItem)
 describe("DOM", () => {
     let testSnapshotFromValidationResults = (validationResults) => {
         let sequenceValidationCardWrapper = shallow(
