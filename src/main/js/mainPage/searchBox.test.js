@@ -2,8 +2,8 @@ import React from "react";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import $ from "jquery";
 import { SearchBox } from "./searchBox";
-import { MOCK_SEARCH_BOX_INPUT, MOCK_SEARCH_RESULTS } from "../../util/mock";
-import { MUI_THEME, UI_STRINGS } from "../../util/util";
+import { MOCK_SEARCH_BOX_INPUT, MOCK_SEARCH_RESULTS } from "../util/mock";
+import { MUI_THEME, UI_STRINGS } from "../util/util";
 
 describe("class functions", () => {
     let searchBoxClass, mockOnConfirmSearch;

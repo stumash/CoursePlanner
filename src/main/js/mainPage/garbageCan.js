@@ -20,7 +20,7 @@ class GarbageCan extends React.Component {
     render(){
         return this.props.connectDropTarget(
             <div className="garbageCan">
-                <span className="glyphicon glyphicon-trash"></span>
+                <span className="glyphicon glyphicon-trash"/>
             </div>
         );
     }

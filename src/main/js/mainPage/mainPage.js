@@ -1,37 +1,22 @@
 import React from "react";
-
 import { default as TouchBackend } from 'react-dnd-touch-backend';
 import { DragDropContext } from 'react-dnd';
-
 import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
-
+import update from 'immutability-helper';
+import $ from "jquery";
 let _ = require("underscore");
 
-import $ from "jquery";
-import update from 'immutability-helper';
-
-update.extend('$auto', function(value, object) {
-    return object ?
-        update(object, value):
-        update({}, value);
-});
-update.extend('$autoArray', function(value, object) {
-    return object ?
-        update(object, value):
-        update([], value);
-});
-
-import {CourseInfoCard} from "./infoCards/courseInfoCard";
-import {SequenceValidationCard} from "./infoCards/sequenceValidationCard";
-import {SemesterTable} from "./sequenceArea/semesterTable";
-import {SemesterList} from "./sequenceArea/semesterList";
+import { CourseInfoCard } from "./infoCards/courseInfoCard";
+import { SequenceValidationCard } from "./infoCards/sequenceValidationCard";
+import { SemesterTable } from "./sequenceArea/semesterTable";
+import { SemesterList } from "./sequenceArea/semesterList";
+import { AppBarMenu } from "./appBarMenu";
+import { SearchBox } from "./searchBox";
+import { ProgramSelectionDialog } from "./dialogs/programSelectionDialog";
+import { FeedBackDialog } from "./dialogs/feedBackDialog";
 import DragPreview from "./sequenceArea/dragPreview";
 import GarbageCan from "./garbageCan";
-import {AppBarMenu} from "./appBarMenu";
-import {SearchBox} from "./searchBox/searchBox";
-import {ProgramSelectionDialog} from "./dialogs/programSelectionDialog";
-import {FeedBackDialog} from "./dialogs/feedBackDialog";
 
 import { MAX_UNDO_HISTORY_LENGTH,
          AUTO_SCROLL_PAGE_PORTION,
@@ -49,6 +34,17 @@ import { MAX_UNDO_HISTORY_LENGTH,
          parsePositionString,
          saveAs } from "../util/util";
 
+update.extend('$auto', function(value, object) {
+    return object ?
+        update(object, value):
+        update({}, value);
+});
+
+update.extend('$autoArray', function(value, object) {
+    return object ?
+        update(object, value):
+        update([], value);
+});
 
 /*
  *  Root component of main page

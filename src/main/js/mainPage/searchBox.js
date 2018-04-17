@@ -1,7 +1,7 @@
 import React from "react";
 import AutoComplete from 'material-ui/AutoComplete';
 
-import {UI_STRINGS, INLINE_STYLES, LOADING_ICON_TYPES} from "../../util/util";
+import {UI_STRINGS, INLINE_STYLES, LOADING_ICON_TYPES} from "../util/util";
 
 import $ from "jquery";
 
