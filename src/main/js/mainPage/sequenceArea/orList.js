@@ -97,6 +97,7 @@ class OrList extends React.Component {
     }
 
     render() {
+        // TODO: find a better alternative to this; perhaps npm 'classnames'
         let extraClassNames = Object.keys(SEMESTER_ITEM_CLASS_MAP).map((key) =>
             this.props[key] ? SEMESTER_ITEM_CLASS_MAP[key] : undefined
         ).filter((element) => {
