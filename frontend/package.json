@@ -1,0 +1,44 @@
+{
+  "name": "conucourseplanner",
+  "description": "Concordia Course Planner",
+  "version": "1.0.0",
+  "dependencies": {
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.4",
+    "immutability-helper": "^2.7.1",
+    "jest": "^23.4.0",
+    "jquery": "^3.3.1",
+    "material-ui": "^0.20.1",
+    "react": "^16.4.1",
+    "react-bootstrap": "^0.32.1",
+    "react-dnd": "^5.0.0",
+    "react-dnd-html5-backend": "^5.0.1",
+    "react-dnd-touch-backend": "^0.5.1",
+    "react-dom": "^16.4.1",
+    "react-scripts": "1.1.4",
+    "sprintf-js": "^1.1.1",
+    "underscore": "^1.9.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "proxy": {
+    "/api": {
+      "target": "http://conucourseplanner.online/courseplannerd/",
+      "pathRewrite": {
+        "^/proxy": ""
+      },
+      "changeOrigin": true
+    }
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
+  "homepage": "."
+}

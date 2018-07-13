@@ -76,7 +76,7 @@ export const UI_STRINGS = {
     VALIDATION_RESULTS_HINT: "Make changes to your schedule to trigger a validation",
 
     VALIDATION_LOADING: "Validating course sequence",
-    
+
     VALIDATION_FAILURE_MSG: "Sequence contains issues/warnings",
     VALIDATION_SUCCESS_MSG: "Sequence is valid",
 
@@ -259,6 +259,7 @@ export function saveAs(uri, filename) {
         link.click();
         document.body.removeChild(link); // remove the link when done
     } else {
+        // eslint-disable-next-line no-restricted-globals
         location.replace(uri);
     }
 }

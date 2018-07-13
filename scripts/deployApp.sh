@@ -6,7 +6,7 @@ echo ""
 
 # transfer the built project onto the VM
 # this will trigger Tomcat to reload the site content
-deployToServerCommand="scp ./target/courseplanner.war david@conucourseplanner.online:/opt/tomcat/webapps/"
+deployToServerCommand="scp ./backend/target/courseplanner.war david@conucourseplanner.online:/opt/tomcat/webapps/"
 if $prod
 then
     finalWarName="ROOT.war"

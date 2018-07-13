@@ -18,7 +18,7 @@ exports[`DOM type too many characters then submit the result 1`] = `
           onTouchStart={[Function]}
           primary={false}
           secondary={false}
-        />,
+      />,
         <FlatButton
           disabled={false}
           fullWidth={false}
@@ -32,7 +32,7 @@ exports[`DOM type too many characters then submit the result 1`] = `
           onTouchStart={[Function]}
           primary={true}
           secondary={false}
-        />,
+      />,
       ]
     }
     autoDetectWindowHeight={true}
@@ -97,7 +97,7 @@ exports[`DOM type too many characters then submit the result 2`] = `
           onTouchStart={[Function]}
           primary={false}
           secondary={false}
-        />,
+      />,
         <FlatButton
           disabled={false}
           fullWidth={false}
@@ -111,7 +111,7 @@ exports[`DOM type too many characters then submit the result 2`] = `
           onTouchStart={[Function]}
           primary={true}
           secondary={false}
-        />,
+      />,
       ]
     }
     autoDetectWindowHeight={true}
@@ -176,7 +176,7 @@ exports[`DOM type too many characters then submit the result 3`] = `
           onTouchStart={[Function]}
           primary={false}
           secondary={false}
-        />,
+      />,
         <FlatButton
           disabled={false}
           fullWidth={false}
@@ -190,7 +190,7 @@ exports[`DOM type too many characters then submit the result 3`] = `
           onTouchStart={[Function]}
           primary={true}
           secondary={false}
-        />,
+      />,
       ]
     }
     autoDetectWindowHeight={true}
@@ -255,7 +255,7 @@ exports[`DOM type too many characters then submit the result 4`] = `
           onTouchStart={[Function]}
           primary={false}
           secondary={false}
-        />,
+      />,
         <FlatButton
           disabled={false}
           fullWidth={false}
@@ -269,7 +269,7 @@ exports[`DOM type too many characters then submit the result 4`] = `
           onTouchStart={[Function]}
           primary={true}
           secondary={false}
-        />,
+      />,
       ]
     }
     autoDetectWindowHeight={true}
@@ -334,7 +334,7 @@ exports[`DOM type too many characters then submit the result 5`] = `
           onTouchStart={[Function]}
           primary={false}
           secondary={false}
-        />,
+      />,
         <FlatButton
           disabled={false}
           fullWidth={false}
@@ -348,7 +348,7 @@ exports[`DOM type too many characters then submit the result 5`] = `
           onTouchStart={[Function]}
           primary={true}
           secondary={false}
-        />,
+      />,
       ]
     }
     autoDetectWindowHeight={true}

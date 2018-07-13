@@ -1,6 +1,0 @@
-{
-    "root": "src/main/webapp",
-    "watch": "./",
-    "ignore": "./bundle.js.tmp*",
-    "proxy": "/api:http://conucourseplanner.online/courseplannerd/api"
-}

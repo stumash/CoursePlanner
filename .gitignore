@@ -2,12 +2,11 @@
 *.class
 .Rhistory
 .idea/
-/target/
 node_modules/
-package-lock.json
-
 scrapedJson/
-/src/main/webapp/bundle.js
-/frontBuild/
-
+frontend/build/
+backend/target/
+backend/src/main/webapp/*
+!backend/src/main/webapp/WEB-INF
 tranzoneAdminPass.txt
+package-lock.json

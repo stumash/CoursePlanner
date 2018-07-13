@@ -1,5 +1,7 @@
 install:
+- cd frontend
 - npm install
+- cd ..
 
 script: devname="" prod=true verbose="" ./scripts/runTests.sh && ./scripts/buildApp.sh
 

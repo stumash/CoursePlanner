@@ -6,14 +6,8 @@ echo ""
 
 # run frontend build tools
 echo "building frontend... (npm)"
-if $prod
-then
-    # build for production (no react dev tools, optimized performance)
-    npmCommand="npm run build-prod"
-else
-    # build for development (with react dev tools, bad performance)
-    npmCommand="npm run build-dev"
-fi
+cd frontend
+npmCommand="CI=false npm run build"
 if eval $npmCommand $verbose # run the npm command and react to exit code
 then
     echo "frontend build successful"
@@ -25,6 +19,8 @@ fi
 echo ""
 
 # compile backend sources and package frontend assets
+cp -r build/* ../backend/src/main/webapp/
+cd ../backend
 mvnCommand="mvn clean install"
 if $prod
 then
@@ -40,4 +36,3 @@ else
     echo "backend build failed"
     exit 1
 fi
-

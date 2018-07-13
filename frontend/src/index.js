@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MainPage from "./mainPage/mainPage";
 import { MUI_THEME } from "./util/util";
+import registerServiceWorker from './registerServiceWorker';
 
 //TODO: move css into an import statement here instead of in html
 
@@ -17,3 +18,4 @@ ReactDOM.render(
     <App/>,
     document.getElementById("react-root")
 );
+registerServiceWorker();

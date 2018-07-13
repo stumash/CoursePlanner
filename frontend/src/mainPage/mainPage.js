@@ -5,7 +5,6 @@ import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
 import update from 'immutability-helper';
 import $ from "jquery";
-let _ = require("underscore");
 
 import { CourseInfoCard } from "./infoCards/courseInfoCard";
 import { SequenceValidationCard } from "./infoCards/sequenceValidationCard";
@@ -34,6 +33,8 @@ import { MAX_UNDO_HISTORY_LENGTH,
          parsePositionString,
          saveAs } from "../util/util";
 
+let _ = require("underscore");
+
 update.extend('$auto', function(value, object) {
     return object ?
         update(object, value):
@@ -58,6 +59,8 @@ class MainPage extends React.Component {
 
     constructor(props){
         super(props);
+
+        console.log("yo");
 
         this.state = {
             courseSequenceObject: {
@@ -928,7 +931,7 @@ class MainPage extends React.Component {
     }
 
     /*
-     *  function to call in the event that the user changes their sequence. 
+     *  function to call in the event that the user changes their sequence.
      *  validates the sequence via backend API and update the page state accordingly
      */
     validateSequence(){

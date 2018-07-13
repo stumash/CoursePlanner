@@ -2,6 +2,8 @@
 
 echo ""
 
+cd frontend
+
 testCommand="npm run test -- --verbose"
 
 if eval $testCommand
