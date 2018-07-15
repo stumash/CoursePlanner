@@ -319,8 +319,8 @@ export function parsePositionString(positionString){
     let subStrings = positionString.split(" ");
     return {
         season: subStrings[0],
-        yearIndex: parseInt(subStrings[1]),
-        courseIndex: parseInt(subStrings[2])
+        yearIndex: parseInt(subStrings[1], 10),
+        courseIndex: parseInt(subStrings[2], 10)
     };
 }
 

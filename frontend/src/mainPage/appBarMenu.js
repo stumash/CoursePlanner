@@ -17,11 +17,6 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
  *
  */
 export class AppBarMenu extends React.Component {
-
-    constructor(props){
-        super(props);
-    }
-    
     render() {
         let exportSubMenu = Object.keys(EXPORT_TYPES).map(exportType =>
             <MenuItem value={EXPORT_TYPES[exportType]}

@@ -22,11 +22,6 @@ const ERROR_ICONS = {
  *
  */
 export class SequenceValidationCard extends React.Component {
-
-    constructor(props){
-        super(props);
-    }
-
     generateListItems(issues, warnings) {
         let listItems = [];
 
@@ -75,15 +70,15 @@ export class SequenceValidationCard extends React.Component {
                     type: itemType,
                     positionsToHighlight: [warning.data.position],
                     message: sprintf(UI_STRINGS.VALIDATION_NO_OPTION_SELECT_T, warning.data.position.season,
-                                                                               (parseInt(warning.data.position.yearIndex) + 1),
-                                                                               (parseInt(warning.data.position.courseIndex) + 1))
+                                                                               (parseInt(warning.data.position.yearIndex, 10) + 1),
+                                                                               (parseInt(warning.data.position.courseIndex, 10) + 1))
                 });
             }
         });
 
         return listItems;
     }
-    
+
     renderCardHeader(isValid, isLoading) {
         let title, loadingIcon, showExpandableButton;
 
@@ -98,7 +93,7 @@ export class SequenceValidationCard extends React.Component {
             title = UI_STRINGS.VALIDATION_FAILURE_MSG;
             showExpandableButton = true;
         }
-        
+
         return (
             <CardHeader title={title}
                         actAsExpander={!isValid}

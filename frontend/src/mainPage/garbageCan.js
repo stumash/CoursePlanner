@@ -12,11 +12,6 @@ import { DropTarget } from 'react-dnd';
  *
  */
 class GarbageCan extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
     render(){
         return this.props.connectDropTarget(
             <div className="garbageCan">

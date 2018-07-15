@@ -90,7 +90,7 @@ class OrList extends React.Component {
         return (!selectedCourse) ? <div className="orListNoneSelected"
                                         title={UI_STRINGS.ORLIST_CHOICE_TOOLTIP}
                                         onClick={onClickNoneSelected}>
-                                        {UI_STRINGS.LIST_NONE_SELECTED}
+                                            {UI_STRINGS.LIST_NONE_SELECTED}
                                     </div> :
                                     <Course courseObj={selectedCourse}
                                             onCourseClick={this.handleSelectedCourseClick}/>;

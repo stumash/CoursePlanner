@@ -2,7 +2,6 @@ import React from 'react';
 import { DragLayer } from 'react-dnd';
 import Course from "./course";
 import OrList from "./orList";
-import { renderOrListDiv } from "../../util/util";
 
 function collect(monitor){
     return {
