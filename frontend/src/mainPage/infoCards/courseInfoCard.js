@@ -1,6 +1,8 @@
 import React from "react";
-import {Card, CardHeader, CardText} from 'material-ui/Card';
-import {List, ListItem} from 'material-ui/List';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import {List, ListItem} from '@material-ui/core/List';
 
 import {UI_STRINGS, INLINE_STYLES, LOADING_ICON_TYPES} from "../../util/util";
 import Course from "../sequenceArea/course";
@@ -66,25 +68,21 @@ export class CourseInfoCard extends React.Component {
                                onCourseClick={() => undefined}/>;
             showExpandableButton = true;
         }
-        
+
         return (
                 <CardHeader
                     title={title}
                     subtitle={subtitle}
-                    actAsExpander={true}
-                    showExpandableButton={showExpandableButton}
-                    closeIcon={loadingIcon}
-                    openIcon={loadingIcon}
                 />
         );
     }
-    
+
     renderCardText(courseInfo) {
 
         if(courseInfo.isLoading || !courseInfo.code){
             return undefined;
         }
-        
+
         let description, prerequisites, corequisites;
 
         description = (
@@ -103,11 +101,11 @@ export class CourseInfoCard extends React.Component {
         if(coreqData.length > 0){
             corequisites = (this.renderRequisiteList(REQUISITE_TYPES.corequisite, coreqData));
         }
-        
+
         return (
-            <CardText className="cardText" style={INLINE_STYLES.courseInfoCardText} expandable={true}>
+            <CardContent className="cardText" style={INLINE_STYLES.courseInfoCardText} expandable={true}>
                 {description}{prerequisites}{corequisites}
-            </CardText>
+            </CardContent>
         );
     }
 

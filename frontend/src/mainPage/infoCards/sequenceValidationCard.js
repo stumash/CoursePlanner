@@ -1,10 +1,12 @@
 import React from "react";
-import {Card, CardHeader, CardText} from 'material-ui/Card';
-import ErrorIcon from 'material-ui/svg-icons/alert/error';
-import WarningIcon from 'material-ui/svg-icons/alert/warning';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import ErrorIcon from '@material-ui/icons/Error';
+import WarningIcon from '@material-ui/icons/Warning';
 import { sprintf } from "sprintf-js";
 
-import {UI_STRINGS, LOADING_ICON_TYPES, COURSE_EXEMPTIONS} from "../../util/util";
+import { UI_STRINGS, LOADING_ICON_TYPES, COURSE_EXEMPTIONS } from "../../util/util";
 
 const ERROR_ICONS = {
     "issue": <ErrorIcon color="#6c1540"/>,
@@ -95,17 +97,13 @@ export class SequenceValidationCard extends React.Component {
         }
 
         return (
-            <CardHeader title={title}
-                        actAsExpander={!isValid}
-                        showExpandableButton={showExpandableButton}
-                        closeIcon={loadingIcon}
-                        openIcon={loadingIcon}/>
+            <CardHeader title={title}/>
         );
     }
 
     renderCardText(listItems) {
         return (
-            <CardText expandable={true}>
+            <CardContent expandable={true}>
                 {listItems.map((item, index) => (
                     <div className={"validationListItem " + item.type}
                          key={index}
@@ -115,7 +113,7 @@ export class SequenceValidationCard extends React.Component {
                         <div className="validationMessage">{item.message}</div>
                     </div>
                 ))}
-            </CardText>
+            </CardContent>
         );
     }
 

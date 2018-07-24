@@ -1,11 +1,13 @@
 import React from "react";
 
-import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from "material-ui/DropDownMenu";
-import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
-import {Step, Stepper, StepLabel, StepContent} from 'material-ui/Stepper';
-import RaisedButton from 'material-ui/RaisedButton';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from "@material-ui/core/Select";
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import StepContent from '@material-ui/core/StepContent';
 
 import {UI_STRINGS,
         INLINE_STYLES,
@@ -191,16 +193,18 @@ export class ProgramSelectionDialog extends React.Component {
         let actions = [];
 
         actions.push(
-            <FlatButton label={UI_STRINGS.PROGRAM_SELECTION_BACK_LABEL}
-                        primary={false}
-                        onClick={this.handleBackClick}
-                        disabled={!this.state.finished}/>
+            <Button color="secondary"
+                    onClick={this.handleBackClick}
+                    disabled={!this.state.finished}>
+                {UI_STRINGS.PROGRAM_SELECTION_BACK_LABEL}
+            </Button>
         );
         actions.push(
-            <FlatButton label={UI_STRINGS.PROGRAM_SELECTION_CONFIRM_LABEL}
-                        primary={true}
-                        onClick={this.handleConfirmClick}
-                        disabled={!this.state.finished}/>
+            <Button color="primary"
+                    onClick={this.handleConfirmClick}
+                    disabled={!this.state.finished}>
+                {UI_STRINGS.PROGRAM_SELECTION_CONFIRM_LABEL}
+            </Button>
         );
         return actions;
     }
@@ -208,22 +212,35 @@ export class ProgramSelectionDialog extends React.Component {
     renderStepActions(step) {
         return (
             <div className="programSelectStepButton">
-                <RaisedButton
-                    label={this.state.stepIndex === 2 ? UI_STRINGS.PROGRAM_SELECTION_FINISH_LABEL : UI_STRINGS.PROGRAM_SELECTION_NEXT_LABEL}
-                    disableTouchRipple={true}
-                    disableFocusRipple={true}
-                    primary={true}
-                    onClick={this.handleNextClick}
-                    style={INLINE_STYLES.programSelectNextButton}
-                />
+                {/*
+                    // <RaisedButton
+                    //     label={this.state.stepIndex === 2 ? UI_STRINGS.PROGRAM_SELECTION_FINISH_LABEL : UI_STRINGS.PROGRAM_SELECTION_NEXT_LABEL}
+                    //     disableTouchRipple={true} TODO: check ripple
+                    //     disableFocusRipple={true} TODO: check ripple
+                    //     primary={true}
+                    //     onClick={this.handleNextClick}
+                    //     style={INLINE_STYLES.programSelectNextButton}
+                    // />
+                */}
+                <Button variant="contained"
+                        color="primary"
+                        style={INLINE_STYLES.programSelectNextButton}
+                        onClick={this.handleNextClick}>
+                    {this.state.stepIndex === 2 ? UI_STRINGS.PROGRAM_SELECTION_FINISH_LABEL : UI_STRINGS.PROGRAM_SELECTION_NEXT_LABEL}
+                </Button>
                 {step > 0 && (
-                    <FlatButton
-                        label={UI_STRINGS.PROGRAM_SELECTION_PREVIOUS_LABEL}
-                        disabled={this.state.stepIndex === 0}
-                        disableTouchRipple={true}
-                        disableFocusRipple={true}
-                        onClick={this.handlePrevClick}
-                    />
+                    // <FlatButton
+                    //     label={UI_STRINGS.PROGRAM_SELECTION_PREVIOUS_LABEL}
+                    //     disabled={this.state.stepIndex === 0}
+                    //     disableTouchRipple={true} TODO: check ripple
+                    //     disableFocusRipple={true} TODO: check ripple
+                    //     onClick={this.handlePrevClick}
+                    // />
+                    <Button color="primary"
+                            onClick={this.handlePrevClick}
+                            disabled={this.state.stepIndex === 0}>
+                        {UI_STRINGS.PROGRAM_SELECTION_PREVIOUS_LABEL}
+                    </Button>
                 )}
             </div>
         );
@@ -244,7 +261,7 @@ export class ProgramSelectionDialog extends React.Component {
                         <Step>
                             <StepLabel>{UI_STRINGS.PROGRAM_SELECTION_PROGRAM_TITLE}</StepLabel>
                             <StepContent>
-                                <DropDownMenu value={this.state.chosenProgram}
+                                <Select value={this.state.chosenProgram}
                                               onChange={this.handleProgramNameSelection}
                                               disabled={this.state.dropdownItems.program.length <= 1}>
                                     {this.state.dropdownItems.program.map((item) =>
@@ -252,14 +269,14 @@ export class ProgramSelectionDialog extends React.Component {
                                                   value={item.id}
                                                   primaryText={item.name} />
                                     )}
-                                </DropDownMenu>
+                                </Select>
                                 {this.renderStepActions(0)}
                             </StepContent>
                         </Step>
                         <Step>
                             <StepLabel>{UI_STRINGS.PROGRAM_SELECTION_OPTION_TITLE}</StepLabel>
                             <StepContent>
-                                <DropDownMenu value={this.state.chosenOption}
+                                <Select value={this.state.chosenOption}
                                               onChange={this.handleOptionSelection}
                                               disabled={this.state.dropdownItems.option.length <= 1}>
                                     {this.state.dropdownItems.option.map((item) =>
@@ -267,14 +284,14 @@ export class ProgramSelectionDialog extends React.Component {
                                                   value={item.id}
                                                   primaryText={item.name} />
                                     )}
-                                </DropDownMenu>
+                                </Select>
                                 {this.renderStepActions(1)}
                             </StepContent>
                         </Step>
                         <Step>
                             <StepLabel>{UI_STRINGS.PROGRAM_SELECTION_ENTRY_TYPE_TITLE}</StepLabel>
                             <StepContent>
-                                <DropDownMenu value={this.state.chosenEntryType}
+                                <Select value={this.state.chosenEntryType}
                                               onChange={this.handleEntryTypeSelection}
                                               disabled={this.state.dropdownItems.entryType.length <= 1}>
                                     {this.state.dropdownItems.entryType.map((item) =>
@@ -282,7 +299,7 @@ export class ProgramSelectionDialog extends React.Component {
                                                   value={item.id}
                                                   primaryText={item.name} />
                                     )}
-                                </DropDownMenu>
+                                </Select>
                                 {this.renderStepActions(2)}
                             </StepContent>
                         </Step>

@@ -1,5 +1,5 @@
 import React from "react";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { ProgramSelectionDialog } from "./programSelectionDialog";
 import { MOCK_ALL_SEQUENCES } from "../../util/mock";
 import { MUI_THEME, PROGRAM_NAMES, PROGRAM_OPTIONS, PROGRAM_ENTRY_TYPES } from "../../util/util";

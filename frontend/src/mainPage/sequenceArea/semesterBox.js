@@ -1,5 +1,5 @@
 import React from "react";
-import Toggle from 'material-ui/Toggle';
+import Switch from '@material-ui/core/Switch';
 
 import { UI_STRINGS, positionToString } from "../../util/util";
 import { ITEM_TYPES } from "../../util/util";
@@ -88,8 +88,9 @@ class SemesterBox extends React.Component {
 
 
     renderCheckBox(){
-        return <Toggle onToggle={this.handleWorkTermToggle}
-                       toggled={(this.props.semester.isWorkTerm === "true")}
+        return <Switch checked={(this.props.semester.isWorkTerm === "true")}
+                       onChange={this.handleWorkTermToggle}
+                       color="primary"
                        title={UI_STRINGS.IS_WORK_TERM}/>
     }
 

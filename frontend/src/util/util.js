@@ -5,17 +5,19 @@
  *
  */
 import React from "react";
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import CircularProgress from 'material-ui/CircularProgress';
+import { createMuiTheme } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // App theme
 
-export const MUI_THEME = getMuiTheme({
+export const MUI_THEME = createMuiTheme({
     palette: {
-        primary1Color: "#6c1540",
-        primary2Color: "#3d001a",
-        accent1Color: "#f5bb2b",
-        pickerHeaderColor: "#6c1540",
+        primary: {
+            main: "#6c1540"
+        },
+        secondary: {
+            main: "#f5bb2b"
+        }
     }
 });
 

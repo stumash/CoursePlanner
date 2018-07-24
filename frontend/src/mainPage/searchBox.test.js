@@ -1,5 +1,5 @@
 import React from "react";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import $ from "jquery";
 import { SearchBox } from "./searchBox";
 import { MOCK_SEARCH_BOX_INPUT, MOCK_SEARCH_RESULTS } from "../util/mock";

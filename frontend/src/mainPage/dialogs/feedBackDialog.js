@@ -1,8 +1,8 @@
 import React from "react";
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
-import Snackbar from 'material-ui/Snackbar';
+import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
 import { FEEDBACK_SNACKBAR_AUTOHIDE_DURATION,
          FEEDBACK_CHAR_LIMIT,
          FEEDBACK_ROWS_MAX,
@@ -73,16 +73,14 @@ export class FeedBackDialog extends React.Component {
 
     render() {
         const actions = [
-            <FlatButton
-                label="Cancel"
-                primary={false}
-                onClick={this.handleCloseFeedBackBox}
-            />,
-            <FlatButton
-                label="Submit"
-                primary={true}
-                onClick={this.handleSubmit}
-            />,
+            <Button color="secondary"
+                    onClick={this.handleCloseFeedBackBox}>
+                Submit
+            </Button>,
+            <Button color="primary"
+                    onClick={this.handleCloseFeedBackBox}>
+                Submit
+            </Button>
         ];
 
         return (

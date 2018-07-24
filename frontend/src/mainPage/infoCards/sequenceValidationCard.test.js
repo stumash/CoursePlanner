@@ -1,5 +1,5 @@
 import React from "react";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { SequenceValidationCard } from "./sequenceValidationCard";
 import { MOCK_VALIDATION_RESULTS } from "../../util/mock";
 import { MUI_THEME } from "../../util/util";

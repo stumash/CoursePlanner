@@ -1,8 +1,10 @@
 import React from "react";
 import { default as TouchBackend } from 'react-dnd-touch-backend';
 import { DragDropContext } from 'react-dnd';
-import AppBar from 'material-ui/AppBar';
-import Dialog from 'material-ui/Dialog';
+import AppBar from '@material-ui/core/AppBar';
+import Dialog from '@material-ui/core/Dialog';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import update from 'immutability-helper';
 import $ from "jquery";
 
@@ -196,13 +198,20 @@ class MainPage extends React.Component {
                  onKeyDown={this.handleKeyDown}
                  onKeyUp={this.handleKeyUp}
                  onClick={this.unselectAllCourses}>
-                <AppBar title={this.renderAppBarTitle()}
-                        showMenuIconButton={false}
-                        className="appBar"
-                        style={INLINE_STYLES.appBar}
-                        iconElementRight={this.state.showingGarbage ? <GarbageCan onRemoveCourses={this.removeCourses}/> : <AppBarMenu onSelectExport={this.exportSequence}
-                                                                                                                                     onSelectProgramChange={this.resetProgram}
-                                                                                                                                     onSelectFeedback={this.showFeedbackBox}/>}/>
+                <AppBar className="appBar"
+                        style={INLINE_STYLES.appBar}>
+                     <Toolbar>
+                       <Typography variant="title" color="inherit">
+                         {this.renderAppBarTitle()}
+                       </Typography>
+                       {this.state.showingGarbage ?
+                           <GarbageCan onRemoveCourses={this.removeCourses}/> :
+                           <AppBarMenu onSelectExport={this.exportSequence}
+                                       onSelectProgramChange={this.resetProgram}
+                                       onSelectFeedback={this.showFeedbackBox}/>
+                       }
+                     </Toolbar>
+                </AppBar>
                 <div className="pageContent">
                     <div className={"ioPanelContainer" + (this.state.detachIOPanel ? " detached" : "")}>
                         <div className="ioPanel">

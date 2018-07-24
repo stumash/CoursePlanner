@@ -1,5 +1,5 @@
 import React from "react";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { CourseInfoCard } from "./courseInfoCard";
 import { MOCK_COURSE_INFO_OBJECTS, MOCK_POSITION_OBJECTS } from "../../util/mock";
 import { MUI_THEME } from "../../util/util";

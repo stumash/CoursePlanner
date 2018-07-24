@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import MainPage from "./mainPage/mainPage";
 import { MUI_THEME } from "./util/util";
 import registerServiceWorker from './registerServiceWorker';
@@ -8,7 +8,7 @@ import registerServiceWorker from './registerServiceWorker';
 //TODO: move css into an import statement here instead of in html
 
 const App = () => (
-    <MuiThemeProvider muiTheme={MUI_THEME}>
+    <MuiThemeProvider theme={MUI_THEME}>
         <MainPage/>
     </MuiThemeProvider>
 );

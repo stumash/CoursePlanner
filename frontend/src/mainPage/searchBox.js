@@ -1,7 +1,7 @@
 import React from "react";
-import AutoComplete from 'material-ui/AutoComplete';
+// import AutoComplete from '@material-ui/core/AutoComplete';
 
-import {UI_STRINGS, INLINE_STYLES, LOADING_ICON_TYPES} from "../util/util";
+import {UI_STRINGS, LOADING_ICON_TYPES} from "../util/util";
 
 import $ from "jquery";
 
@@ -38,18 +38,19 @@ export class SearchBox extends React.Component {
         }
     }
 
+    // <AutoComplete id="courseSearch"
+    //               filter={AutoComplete.noFilter}
+    //               hintText={UI_STRINGS.COURSE_SEARCH_HINT}
+    //               dataSource={this.state.filterResults}
+    //               floatingLabelText={this.state.floatingLabelText}
+    //               style={INLINE_STYLES.autoCompleteContainer}
+    //               listStyle={INLINE_STYLES.autoCompleteList}
+    //               onUpdateInput={this.filterCourseCodes}
+    //               onNewRequest={this.handleNewRequest}/>
+
     render() {
         return (
             <div className="courseSearch">
-                <AutoComplete id="courseSearch"
-                              filter={AutoComplete.noFilter}
-                              hintText={UI_STRINGS.COURSE_SEARCH_HINT}
-                              dataSource={this.state.filterResults}
-                              floatingLabelText={this.state.floatingLabelText}
-                              style={INLINE_STYLES.autoCompleteContainer}
-                              listStyle={INLINE_STYLES.autoCompleteList}
-                              onUpdateInput={this.filterCourseCodes}
-                              onNewRequest={this.handleNewRequest}/>
                 {this.state.isFiltering && LOADING_ICON_TYPES.small}
             </div>
         );
