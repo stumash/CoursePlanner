@@ -826,13 +826,11 @@ class MainPage extends React.Component {
 
             if(courseSequenceObject === null){
 
-                let requestBody = {
-                    "sequenceID": this.state.chosenProgram
-                };
+            console.log("peep", this.state.choseProgram);
 
                 $.ajax({
                     type: "GET",
-                    url: "api/recommendedsequence?=" + JSON.stringify(requestBody),
+                    url: "api/recommendedsequence?sequenceID=" + this.state.chosenProgram,
                     success: (response) => {
                         let courseSequenceObject = JSON.parse(response).courseSequenceObject;
                         courseSequenceObject.yearList = generateUniqueKeys(courseSequenceObject.yearList);
@@ -868,7 +866,7 @@ class MainPage extends React.Component {
         }}, () => {
             $.ajax({
                 type: "GET",
-                url: "api/courseinfo?=" + JSON.stringify({"code" : courseCode}),
+                url: "api/courseinfo?code=" + courseCode,
                 success: (response) => {
                     this.setState({selectedCourseInfo : JSON.parse(response)});
                 }

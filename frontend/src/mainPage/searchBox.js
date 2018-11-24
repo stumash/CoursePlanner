@@ -63,7 +63,7 @@ export class SearchBox extends React.Component {
         this.setState({ isFiltering: true });
         $.ajax({
             type: "GET",
-            url: "api/filtercoursecodes" + JSON.stringify({ filter : query }),
+            url: "api/filtercoursecodes?filter=" + query,
             success: this.onFilterSuccess
         });
     }
