@@ -826,8 +826,6 @@ class MainPage extends React.Component {
 
             if(courseSequenceObject === null){
 
-            console.log("peep", this.state.choseProgram);
-
                 $.ajax({
                     type: "GET",
                     url: "api/recommendedsequence?sequenceID=" + this.state.chosenProgram,
