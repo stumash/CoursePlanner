@@ -62,9 +62,8 @@ export class SearchBox extends React.Component {
     filterCourseCodes(query){
         this.setState({ isFiltering: true });
         $.ajax({
-            type: "POST",
-            url: "api/filtercoursecodes",
-            data: JSON.stringify({ filter : query }),
+            type: "GET",
+            url: "api/filtercoursecodes" + JSON.stringify({ filter : query }),
             success: this.onFilterSuccess
         });
     }
