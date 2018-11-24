@@ -8,14 +8,14 @@ import java.io.PrintWriter;
 
 public class CourseInfoProvider extends DBServlet {
 
-    public void doPost(HttpServletRequest request,
+    public void doGet(HttpServletRequest request,
                       HttpServletResponse response)
             throws ServletException, IOException
     {
 
         logger.info("---------User requested info for a course---------");
 
-        String courseCode = (String) grabPropertyFromRequest("code", request);
+        String courseCode = (String) request.getParameter("code");
 
         logger.info("requested course code: " + courseCode);
 

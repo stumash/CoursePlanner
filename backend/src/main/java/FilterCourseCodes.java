@@ -13,14 +13,14 @@ public class FilterCourseCodes extends DBServlet {
 
     private final int MAX_RESULTS = 25;
 
-    public void doPost(HttpServletRequest request,
+    public void doGet(HttpServletRequest request,
                        HttpServletResponse response)
             throws ServletException, IOException
     {
 
         logger.info("---------User requested to filter course codes---------");
 
-        String courseCodeFilter = (String) grabPropertyFromRequest("filter", request);
+        String courseCodeFilter = (String) request.getParameter("filter");
 
         logger.info("requested course codes containing: " + courseCodeFilter);
 

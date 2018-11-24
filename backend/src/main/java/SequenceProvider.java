@@ -12,12 +12,12 @@ import java.util.Iterator;
 
 public class SequenceProvider extends DBServlet {
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         logger.info("---------Client app requested a course sequence---------");
 
-        String sequenceID = (String) grabPropertyFromRequest("sequenceID", request);
+        String sequenceID = (String) request.getParameter("sequenceID");
 
         logger.info("requested ID: " + sequenceID);
 
@@ -43,7 +43,7 @@ public class SequenceProvider extends DBServlet {
     public String fillAllMissingInfo(String sequenceJsonString) throws IOException{
 
         JSONObject sequenceJson = new JSONObject();
-        
+
         try{
 
             // convert to json object
