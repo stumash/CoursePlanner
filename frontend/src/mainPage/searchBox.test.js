@@ -64,7 +64,7 @@ describe("class functions", () => {
             expect(searchBoxClass.setState.mock.calls[0][0]).toEqual({ isFiltering: true });
         });
 
-        test("should perform a GET request at api/filtercoursecodes?filter=com", () => {
+        test("should perform a GET request at api/filtercoursecodes", () => {
             let searchQuery = cloneObject(MOCK_SEARCH_BOX_INPUT.INCOMPLETE_0);
             searchBoxClass.filterCourseCodes(searchQuery);
 
@@ -73,7 +73,7 @@ describe("class functions", () => {
 
             let ajaxArgs = mockCalls[0][0];
             expect(ajaxArgs.type).toBe("GET");
-            expect(ajaxArgs.url).toBe("api/filtercoursecodes?filter=com");
+            expect(ajaxArgs.url).toBe("api/filtercoursecodes?filter=" + searchQuery);
             expect(ajaxArgs.success).toBe(searchBoxClass.onFilterSuccess);
         });
     });
